@@ -1,0 +1,217 @@
+:root{
+  --bg:#f7f8fb;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#6b46c1;
+  --success:#10b981;
+  --warning:#f59e0b;
+  --danger:#ef4444;
+  --soft:#eef2ff;
+  --shadow: 0 6px 20px rgba(15,23,42,0.06);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.page{
+    height:auto;
+  padding:28px;
+  background:var(--bg);
+  min-height:100vh;
+  color:#111827;
+}
+
+/* Header */
+.header{
+  margin-bottom:18px;
+}
+.header h1{
+  margin:0;
+  font-size:28px;
+  color:rgba(104, 80, 190, 1);
+}
+.header .sub{
+  margin:6px 0 12px 0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* Filters */
+.filters{
+  display:flex;
+  gap:16px;
+  align-items:end;
+  margin-top:12px;
+}
+.control{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.control label{
+  font-size:12px;
+  color:var(--muted);
+}
+.control select{
+  min-width:200px;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid #e6e9ef;
+  background:white;
+  box-shadow:none;
+  font-size:14px;
+}
+
+/* Card */
+.card{
+  background:var(--card);
+ 
+  border-radius:10px;
+
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
+  border:1px solid #eef2ff;
+}
+.card1{
+  background:var(--card);
+  height:auto;
+  border-radius:10px;
+  padding:18px 18px 40px 18px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
+  border:1px solid #eef2ff;
+}
+.card h3{
+  margin:0 0 6px 0;
+  font-size:20px;
+}
+.cardSub{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+
+/* table */
+.tableWrap{
+  overflow:auto;
+}
+.table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  min-width:800px;
+}
+.tableHeader {
+  font-size: 22px;
+  font-weight: 700;
+}
+.headerdiv{
+  display:flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.tablesubHeader {
+  font-size: 14px;
+  font-weight: 400;
+  color:rgba(74, 85, 101, 1);
+ 
+}
+
+.table thead th{
+  text-align:left;
+  padding:12px 10px;
+  color:var(--muted);
+  font-weight:600;
+  font-size:13px;
+  border-bottom:1px solid #f1f5f9;
+}
+.table tbody td{
+  padding:12px 10px;
+  border-bottom:1px solid #f7fafc;
+  vertical-align:middle;
+}
+
+/* project cell */
+.projectCell{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.projectTitle{
+  font-weight:600;
+}
+.projectSub{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* completion */
+.completionRow{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.progressBar{
+  width:160px;
+  height:8px;
+  background:#eee;
+  border-radius:8px;
+  overflow:hidden;
+}
+.progressFill{
+  height:100%;
+  background: linear-gradient(90deg, #7c3aed, #6d28d9);
+  border-radius:8px;
+}
+
+/* percent */
+.percentText{
+  min-width:36px;
+  font-weight:600;
+  font-size:13px;
+  color:#374151;
+}
+
+/* budget */
+.budgetText{
+  display:flex;
+  flex-direction:column;
+}
+.budgetPercent{
+  font-weight:700;
+  color:var(--accent);
+}
+.budgetAmount{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* health */
+.healthRow{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.healthDot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  display:inline-block;
+}
+.healthy{ background:#10b981; }
+.warning{ background:#f59e0b; }
+.atRisk{ background:#ef4444; }
+
+/* chart empty */
+.empty{
+  color:var(--muted);
+  padding:24px;
+  text-align:center;
+}
+
+/* responsive tweaks */
+@media (max-width: 900px) {
+  .filters{
+    flex-wrap:wrap;
+  }
+  .progressBar{ width:100px; }
+  .table{ min-width:700px; }
+}

@@ -1,0 +1,194 @@
+.page {
+  padding: 28px 100px;
+  background: #f7f9fc;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  width:100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.headerfilters{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #6f4bd8;
+  margin-right: 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+}
+
+.filterBtn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  color: #374151;
+}
+
+.active {
+  background: #6f4bd8;
+  color: #fff;
+  border-color: #6f4bd8;
+}
+
+.unreadBadge {
+  margin-left: auto;
+}
+
+.unreadBadge span {
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: #fff3e6;
+  border: 1px solid #fb923c;
+  color: #fb923c;
+  font-size: 14px;
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* ICON */
+.iconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #e0ebff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.green {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+/* CONTENT */
+.content {
+  flex: 1;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topRow h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.date {
+  margin-left: auto;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.important {
+  background: #fee2e2;
+  color: #ef4444;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.acknowledged {
+  font-size: 14px;
+  color: #16a34a;
+  margin-left: 8px;
+}
+
+/* META */
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.orgTag {
+  background: #e0ebff;
+  color: #2563eb;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.teamTag {
+  background: #dcfce7;
+  color: #16a34a;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.by {
+  font-size: 14px;
+  color: #374151;
+}
+
+/* MESSAGE */
+.message {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+/* ACTIONS */
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.primaryBtn {
+  background: #6f4bd8;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.primaryBtn:disabled{
+  background-color: #e5e7eb;
+  color:black;
+}
+
+.linkBtn {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 14px;
+  cursor: pointer;
+}

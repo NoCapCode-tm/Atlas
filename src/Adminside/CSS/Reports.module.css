@@ -1,0 +1,106 @@
+.page {
+  padding: 24px;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 600;
+  color:rgba(104, 80, 190, 1);
+}
+
+.subheading {
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px #e5e7eb;
+  margin-bottom: 24px;
+}
+
+.card h4 {
+  margin-bottom: 12px;
+}
+
+label {
+  display: block;
+  margin-top: 14px;
+  font-size: 14px;
+  color: #374151;
+}
+
+select,
+input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  /* margin-top: 6px; */
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.dates {
+  display: flex;
+  gap: 10px;
+}
+
+.radioRow {
+  display: flex;
+  gap: 20px;
+  margin-top: 8px;
+}
+
+.checks label {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+.btn {
+  margin-top: 20px;
+  background: #6d28d9;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.ready {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.processing {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.link {
+  color: #2563eb;
+  text-decoration: none;
+}

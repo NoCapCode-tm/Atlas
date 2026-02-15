@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+.portal-wrapper {
+  min-height: 100vh;
+  padding: 80px 100px;
+  background: linear-gradient(180deg, #A296FF 0%, #6047BB 100%);
+
+  color: white;
+}
+
+.portal-wrapper h1 {
+  text-align: center;
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 16px;
+  opacity: 0.85;
+  margin-bottom: 60px;
+}
+
+/* GRID */
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* CARD */
+.portal-card {
+  position: relative;
+  padding: 28px;
+  border-radius: 18px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.18),
+    rgba(255, 255, 255, 0.06)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(14px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 220px;
+}
+
+.portal-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* ICON */
+.portal-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* ICON COLORS */
+.portal-icon.purple {
+  background: linear-gradient(135deg, #9333ea, #7e22ce);
+}
+.portal-icon.violet {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+}
+.portal-icon.pink {
+  background: linear-gradient(135deg, #ec4899, #db2777);
+}
+.portal-icon.indigo {
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+}
+.portal-icon.lavender {
+  background: linear-gradient(135deg, #c084fc, #a855f7);
+}
+
+.portal-icon svg {
+  color: white;
+}
+
+/* TEXT */
+.portal-card h3 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.portal-card p {
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+/* FOOTER */
+.portal-footer {
+  position: absolute;
+  bottom: 20px;
+  left: 28px;
+  right: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.portal-footer span {
+  letter-spacing: 1px;
+}

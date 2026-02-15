@@ -1,0 +1,210 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+.portalWrapper {
+  min-height: 100vh;
+  padding: 40px;
+  background: url('../Components/EntryPage_Background.png') no-repeat center/cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Secure Badge */
+.secureBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #5E40BE;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 40px;
+}
+
+.badgeDot {
+  width: 6px;
+  height: 6px;
+  background: rgb(229, 229, 229);
+  border-radius: 50%;
+}
+
+/* Welcome Header */
+.welcomeHeader {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.welcomeHeader span{
+  background-image: linear-gradient(90deg, #433AD8, #8A64FF);
+  
+  /* 2. Clip the background to the text */
+  -webkit-background-clip: text;
+  background-clip: text;
+  
+  /* 3. Make the actual text transparent */
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.welcomeHeader h1 {
+  font-size: 48px;
+  font-weight: 700;
+  color: #6439FF;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.prismLogo {
+  height: 48px;
+  width: auto;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: rgba(255, 255, 255);
+  font-weight: 400;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* GRID */
+.portalGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  max-width: 1200px;
+  width: 100%;
+  margin-bottom: 60px;
+}
+
+/* CARD */
+.portalCard {
+  padding: 24px 60px 0px 24px;
+  border-radius: 20px;
+  background: #4714FF20;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.166);
+}
+
+.portalCard:hover {
+  box-shadow: 0 0 40px #ffffff;
+  scale: calc(1.05);
+}
+
+/* ICON */
+.portalIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.281);
+  background: linear-gradient(135deg, #684EB9, #4F39F6);
+}
+
+/* ICON COLORS - Updated to match the design */
+/* .portalIcon.employee {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+.portalIcon.manager {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+.portalIcon.hrAdmin {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+.portalIcon.systemAdmin {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+} */
+
+.portalIcon svg {
+  color: white;
+}
+
+/* TEXT */
+.portalCard h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.portalCard p {
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+/* Footer Text */
+.footerText {
+  font-size: 14px;
+  color: rgba(255, 255, 255);
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .portalGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .welcomeHeader h1 {
+    font-size: 36px;
+  }
+  
+  .prismLogo {
+    height: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .portalWrapper {
+    padding: 40px 20px 20px;
+  }
+  
+  .portalGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .welcomeHeader h1 {
+    font-size: 28px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .prismLogo {
+    height: 32px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+  }
+  
+  .portalCard {
+    height: auto;
+    min-height: 200px;
+  }
+}
