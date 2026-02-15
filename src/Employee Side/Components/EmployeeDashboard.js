@@ -187,7 +187,7 @@ const punchIn = async () => {
   timerRef.current = setInterval(() => {
     setSeconds(Math.floor((Date.now() - startTime) / 1000));
   }, 1000);
-  
+  window.location.reload()
 };
 
 
@@ -208,7 +208,7 @@ const takeBreak = async () => {
   localStorage.setItem("prism_timer_status", "BREAK");
   localStorage.removeItem("prism_timer_start");
   setTimerStatus(localStorage.getItem("prism_timer_status"));
-  
+   window.location.reload()
 };
 
 
@@ -246,6 +246,7 @@ const punchOut = async () => {
     setShowDropdown(false);
 
     toast.success("Punched out successfully");
+     window.location.reload()
 
   } catch (err) {
     toast.error("Punch out failed");
