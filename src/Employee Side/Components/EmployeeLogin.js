@@ -16,7 +16,7 @@ const EmployeeLogin = () => {
     const handlelogin = async()=>{
         try {
             setloading(true)
-            const response  = await axios.post("https://prismbackend-27d920759150.herokuapp.com/api/v1/employee/login",{
+            const response  = await axios.post("https://atlasbackend-px53.onrender.com/api/v1/employee/login",{
                 userid:email,
                 password:pass
             },{withCredentials:true})

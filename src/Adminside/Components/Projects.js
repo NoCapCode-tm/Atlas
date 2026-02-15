@@ -65,7 +65,7 @@ const Projects = () => {
 useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/v1/admin/getallproject`);
+        const res = await axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getallproject`);
         setProjects(res.data.message || []);
       } catch (err) {
         console.log("Error fetching projects:", err);
@@ -77,7 +77,7 @@ useEffect(() => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/v1/admin/getalluser`);
+        const res = await axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser`);
         setEmployees(res.data.message || []);
       } catch (err) {
         console.log("Error fetching users:", err);
@@ -173,7 +173,7 @@ useEffect(() => {
       setLoadingUsers(true);
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/v1/admin/getalluser`,
+          `https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser`,
           { withCredentials: true }
         );
         setEmployees(res.data.message || []);
@@ -246,7 +246,7 @@ useEffect(() => {
       setLoadingUsers(true)
       console.log(payload)
       const res = await axios.post(
-        `http://localhost:5000/api/v1/admin/addproject`,
+        `https://atlasbackend-px53.onrender.com/api/v1/admin/addproject`,
         payload,
         { withCredentials: true }
       );

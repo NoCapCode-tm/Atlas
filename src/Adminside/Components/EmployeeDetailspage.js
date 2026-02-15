@@ -51,7 +51,7 @@ const [showModal, setShowModal] = useState(false);
     const fetchEmployee = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/v1/admin/getuserdetails/${id}`,
+          `https://atlasbackend-px53.onrender.com/api/v1/admin/getuserdetails/${id}`,
           { withCredentials: true }
         );
         setEmployee(res.data.message);
@@ -73,8 +73,8 @@ const [showModal, setShowModal] = useState(false);
   const loadDashboard = async () => {
     try {
       const [taskRes, reportRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/v1/admin/getalltask"),
-        axios.get("http://localhost:5000/api/v1/admin/getreports"),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getalltask"),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getreports"),
       ]);
 
       if (!mounted) return;
@@ -125,7 +125,7 @@ const [showModal, setShowModal] = useState(false);
   //       try {
   //         setSummaryLoading(true);
   //         const res = await axios.post(
-  //           `http://localhost:5000/api/v1/manager/getaisummary`,
+  //           `https://atlasbackend-px53.onrender.com/api/v1/manager/getaisummary`,
   //           { id: employee._id },
   //           { withCredentials: true }
   //         );
@@ -146,7 +146,7 @@ const [showModal, setShowModal] = useState(false);
       if (!employee?._id) return;
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/admin/getallproject",
+          "https://atlasbackend-px53.onrender.com/api/v1/admin/getallproject",
           { withCredentials: true }
         );
         const myProjects = response.data.message.filter((proj) =>
@@ -165,7 +165,7 @@ const [showModal, setShowModal] = useState(false);
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5000/api/v1/admin/getalluser',
+          'https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser',
           { withCredentials: true }
         );
         const allUsersData = response.data.message;
@@ -254,7 +254,7 @@ const [showModal, setShowModal] = useState(false);
 const updateTaskStatus = async (taskId, newStatus) => {
   try {
     await axios.put(
-      `http://localhost:5000/api/v1/employee/updatetask/${taskId}`,
+      `https://atlasbackend-px53.onrender.com/api/v1/employee/updatetask/${taskId}`,
       { status: newStatus },
       { withCredentials: true }
     );

@@ -48,8 +48,8 @@ useEffect(() => {
         userRes,
         taskRes,
       ] = await Promise.all([
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getuser", { withCredentials: true }),
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getalltask"),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getalltask"),
       ]);
 
       if (!mounted) return;
@@ -116,7 +116,7 @@ useEffect(() => {
   const fetchReports = async () => {
     try {
       const res = await axios.get(
-        "https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getreports",
+        "https://atlasbackend-px53.onrender.com/api/v1/admin/getreports",
         { withCredentials: true }
       );
 
@@ -186,7 +186,7 @@ const handleSubmitReport = async () => {
     setSubmitting(true);
      console.log(summary)
     await axios.post(
-      "https://prismbackend-27d920759150.herokuapp.com/api/v1/employee/submitreport",
+      "https://atlasbackend-px53.onrender.com/api/v1/employee/submitreport",
       {
         user: user._id,
         summary:summary,

@@ -99,10 +99,10 @@ useEffect(() => {
         projectRes,
         alluserRes,
       ] = await Promise.all([
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getuser", { withCredentials: true }),
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getalltask"),
-        axios.get(`https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getprojectdetails/${id}`),
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getalluser"),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getalltask"),
+        axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getprojectdetails/${id}`),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser"),
       ]);
 
       if (!mounted) return;

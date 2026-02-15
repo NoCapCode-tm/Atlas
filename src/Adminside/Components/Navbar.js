@@ -23,7 +23,7 @@ const getActive = (path) => {
 useEffect(()=>{
   (async()=>{
   try {
-    const response = await axios.get("http://localhost:5000/api/v1/admin/getuser",{withCredentials:true})
+    const response = await axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getuser",{withCredentials:true})
     console.log(response.data.message)
     setuser(response.data.message)
   } catch (error) {
@@ -35,7 +35,7 @@ useEffect(()=>{
 
 const handlelogout = async()=>{
   try {
-    const response = await axios.get("http://localhost:5000/api/v1/admin/logout",{withCredentials:true})
+    const response = await axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/logout",{withCredentials:true})
     toast.success("Logout Successfull")
     navigate("/login")
   } catch (error) {

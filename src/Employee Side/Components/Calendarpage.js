@@ -47,12 +47,12 @@ useEffect(() => {
         reportRes,
       
       ] = await Promise.all([
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getuser", { withCredentials: true }),
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getalltask"),
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getallproject"),
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getattendance"),
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getreports"),
-        // axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getannouncements")
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getalltask"),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getallproject"),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getattendance"),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getreports"),
+        // axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getannouncements")
       ]);
 
       if (!mounted) return;

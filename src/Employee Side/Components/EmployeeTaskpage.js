@@ -62,10 +62,10 @@ useEffect(() => {
         projectRes,
         subtaskRes
       ] = await Promise.all([
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getuser", { withCredentials: true }),
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getalltask"),
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getallproject"),
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/employee/getsubtask")
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getalltask"),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getallproject"),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/employee/getsubtask")
       ]);
 
       if (!mounted) return;
@@ -207,7 +207,7 @@ const uploadAttachment = async (file) => {
     formData.append("taskId", selectedTask._id);
 
     await axios.post(
-      "https://prismbackend-27d920759150.herokuapp.com/api/v1/employee/task/upload-attachment",
+      "https://atlasbackend-px53.onrender.com/api/v1/employee/task/upload-attachment",
       formData,
       {
         withCredentials: true,
@@ -230,7 +230,7 @@ const uploadAttachment = async (file) => {
 
 const handlecomment = async()=>{
  try {
-   const response = await axios.post("https://prismbackend-27d920759150.herokuapp.com/api/v1/employee/commentsend",{
+   const response = await axios.post("https://atlasbackend-px53.onrender.com/api/v1/employee/commentsend",{
      comment:comment,
      taskid:selectedTask._id,
      userid:user._id,
@@ -245,7 +245,7 @@ const handlecomment = async()=>{
 
 const handlecomplete = async() =>{
   try {
-    const response = await axios.post("https://prismbackend-27d920759150.herokuapp.com/api/v1/employee/complete-task",{
+    const response = await axios.post("https://atlasbackend-px53.onrender.com/api/v1/employee/complete-task",{
       taskid:selectedTask._id,
       userid:user._id
     })
@@ -258,7 +258,7 @@ const handlecomplete = async() =>{
 
 const handlereview = async() =>{
   try {
-    const response = await axios.post("https://prismbackend-27d920759150.herokuapp.com/api/v1/employee/review-task",{
+    const response = await axios.post("https://atlasbackend-px53.onrender.com/api/v1/employee/review-task",{
       taskid:selectedTask._id,
       userid:user._id
     })
@@ -342,7 +342,7 @@ if (pageLoading) {
 
     try {
       await axios.put(
-        `https://prismbackend-27d920759150.herokuapp.com/api/v1/employee/updatetask/${draggedTask._id}`,
+        `https://atlasbackend-px53.onrender.com/api/v1/employee/updatetask/${draggedTask._id}`,
         {
           status: col.key
         },

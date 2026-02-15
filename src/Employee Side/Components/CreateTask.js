@@ -27,7 +27,7 @@ const Createtask = ({ modal, setModal, user ,projects}) => {
     try {
       setLoading(true);
       await axios.post(
-        "https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/assigntask",
+        "https://atlasbackend-px53.onrender.com/api/v1/admin/assigntask",
         form,
         { withCredentials: true }
       );

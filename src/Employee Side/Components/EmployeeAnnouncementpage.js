@@ -39,8 +39,8 @@ useEffect(() => {
         userRes,
         announceres
       ] = await Promise.all([
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getuser", { withCredentials: true }),
-        axios.get("https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getannouncements")
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
+        axios.get("https://atlasbackend-px53.onrender.com/api/v1/admin/getannouncements")
       ]);
 
       if (!mounted) return;
@@ -75,7 +75,7 @@ useEffect(() => {
 
 const handleacknowledge = async(id)=>{
   try {
-    const response = await axios.post("https://prismbackend-27d920759150.herokuapp.com/api/v1/employee/acknowledged",{
+    const response = await axios.post("https://atlasbackend-px53.onrender.com/api/v1/employee/acknowledged",{
       user : user._id,
       id:id
     },{withCredentials:true})

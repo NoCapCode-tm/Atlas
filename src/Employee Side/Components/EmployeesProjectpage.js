@@ -66,7 +66,7 @@ const Projects = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getuser`,{withCredentials:true});
+        const res = await axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getuser`,{withCredentials:true});
         setUser(res.data.message || []);
       } catch (err) {
         console.log("Error fetching users:", err);
@@ -77,7 +77,7 @@ const Projects = () => {
 useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getallproject`);
+        const res = await axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getallproject`);
         const employeeprojects = res.data.message.filter(p => p.team.assignedMembers && p.team.assignedMembers.userId === user?._id)
         setProjects(employeeprojects)
       } catch (err) {
@@ -90,7 +90,7 @@ useEffect(() => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getalluser`);
+        const res = await axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser`);
         setEmployees(res.data.message || []);
       } catch (err) {
         console.log("Error fetching users:", err);
@@ -186,7 +186,7 @@ useEffect(() => {
       setLoadingUsers(true);
       try {
         const res = await axios.get(
-          `https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/getalluser`,
+          `https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser`,
           { withCredentials: true }
         );
         setEmployees(res.data.message || []);
@@ -259,7 +259,7 @@ useEffect(() => {
       setLoadingUsers(true)
       console.log(payload)
       const res = await axios.post(
-        `https://prismbackend-27d920759150.herokuapp.com/api/v1/admin/addproject`,
+        `https://atlasbackend-px53.onrender.com/api/v1/admin/addproject`,
         payload,
         { withCredentials: true }
       );

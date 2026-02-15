@@ -15,7 +15,7 @@ import {
 import {  ChartNoAxesCombined, CircleCheckBig, Clock, TriangleAlert } from "lucide-react";
 import { InfoTooltip } from "./InfoTooltip";
 
-const API = `http://localhost:5000/api/v1/admin`;
+const API = `https://atlasbackend-px53.onrender.com/api/v1/admin`;
 
 const severityColors = {
   High: "rgba(239,68,68,1)",

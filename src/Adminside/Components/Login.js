@@ -15,7 +15,7 @@ const Login = () => {
     const handlelogin = async()=>{
         try {
             setloading(true)
-            const response  = await axios.post("http://localhost:5000/api/v1/admin/adminlogin",{
+            const response  = await axios.post("https://atlasbackend-px53.onrender.com/api/v1/admin/adminlogin",{
                 userid:email,
                 password:pass
             },{withCredentials:true})

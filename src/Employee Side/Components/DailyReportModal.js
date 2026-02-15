@@ -39,7 +39,7 @@ export default function DailyReportModal({
     setSubmitting(true);
 
     await axios.post(
-      "https://prismbackend-27d920759150.herokuapp.com/api/v1/employee/submitreport",
+      "https://atlasbackend-px53.onrender.com/api/v1/employee/submitreport",
       {
         user: user._id,
         summary,

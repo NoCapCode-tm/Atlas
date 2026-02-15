@@ -98,7 +98,7 @@ useEffect(() => {
       try {
       
         const response = await axios.get(
-          `http://localhost:5000/api/v1/admin/getprojectdetails/${id}`,
+          `https://atlasbackend-px53.onrender.com/api/v1/admin/getprojectdetails/${id}`,
           { withCredentials: true }
         );
         console.log("Project Details",response.data.message)
@@ -113,7 +113,7 @@ useEffect(() => {
     const fetchemployees = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/admin/getalluser`,
+          `https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser`,
           { withCredentials: true }
         );
 
@@ -189,7 +189,7 @@ useEffect(() => {
       setLoadingUsers(true)
       console.log(payload)
       const res = await axios.put(
-        `http://localhost:5000/api/v1/admin/updateproject`,
+        `https://atlasbackend-px53.onrender.com/api/v1/admin/updateproject`,
         payload,
         { withCredentials: true }
       );
@@ -750,7 +750,7 @@ useEffect(() => {
             });
 
             try {
-              const response = await axios.post(`http://localhost:5000/api/v1/admin/createissue`,{
+              const response = await axios.post(`https://atlasbackend-px53.onrender.com/api/v1/admin/createissue`,{
                 title:issueTitle,
                 details:issueDescription,
                 category:issueCategory,

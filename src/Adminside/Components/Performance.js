@@ -62,11 +62,11 @@ export default function PerformanceSection() {
   useEffect(() => {
     (async () => {
       const empRes = await axios.get(
-        "http://localhost:5000/api/v1/admin/getalluser",
+        "https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser",
         { withCredentials: true }
       );
       const perfRes = await axios.get(
-        "http://localhost:5000/api/v1/admin/getscores",
+        "https://atlasbackend-px53.onrender.com/api/v1/admin/getscores",
         { withCredentials: true }
       );
 

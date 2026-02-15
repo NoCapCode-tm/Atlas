@@ -28,8 +28,8 @@ const PerformanceHeatmap = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const res1 = await axios.get(`http://localhost:5000/api/v1/admin/getreports`);
-      const res2 = await axios.get(`http://localhost:5000/api/v1/admin/getalluser`);
+      const res1 = await axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getreports`);
+      const res2 = await axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser`);
       setReports(res1.data.message);
       setEmployees(res2.data.message);
     }

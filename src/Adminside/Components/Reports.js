@@ -194,7 +194,7 @@ export default function Reports() {
                 <td>
                   {r.status === "ready" ? (
                     <a
-                      href={`http://localhost:5000${r.fileUrl}`}
+                      href={`https://atlasbackend-px53.onrender.com${r.fileUrl}`}
                       className={styles.link}
                     >
                       Download

@@ -143,7 +143,7 @@ const [creating, setCreating] = useState(false);
     setLoading(true);
 
     await axios.post(
-      `http://localhost:5000/api/v1/admin/createticket`,
+      `https://atlasbackend-px53.onrender.com/api/v1/admin/createticket`,
       {
         title: form.title,
         category: form.category,
@@ -176,7 +176,7 @@ const [creating, setCreating] = useState(false);
     const fetchemployees = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/admin/getalluser`,
+          `https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser`,
           { withCredentials: true }
         );
 
@@ -191,7 +191,7 @@ const [creating, setCreating] = useState(false);
     const fetchTickets = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/v1/admin/gettickets`
+      `https://atlasbackend-px53.onrender.com/api/v1/admin/gettickets`
     );
     setTickets(response.data.data);
   } catch (error) {
@@ -242,7 +242,7 @@ useEffect(() => {
   const handlestatus = async(status)=>{
         setactivestatus(status)
         try {
-            const response = await axios.post(`http://localhost:5000/api/v1/admin/updatestatus`,{
+            const response = await axios.post(`https://atlasbackend-px53.onrender.com/api/v1/admin/updatestatus`,{
                 id:ticket._id,
                 status:status
             },{withCredentials:true})
@@ -258,7 +258,7 @@ useEffect(() => {
 
     const sendMessage =async() =>{
         try {
-            const response = await axios.post(`http://localhost:5000/api/v1/admin/comment`,{
+            const response = await axios.post(`https://atlasbackend-px53.onrender.com/api/v1/admin/comment`,{
                 comment:comment,
                 id:ticket._id
             },{withCredentials:true})
@@ -276,7 +276,7 @@ useEffect(() => {
 
     useEffect(()=>{
         (async()=>{
-           const response = await axios.get(`http://localhost:5000/api/v1/admin/getroles`)
+           const response = await axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getroles`)
            console.log(response)
            setRole(response.data.message)
     
@@ -389,7 +389,7 @@ useEffect(() => {
     });
 
     const handledetails = async(id) =>{
-      const response = await axios.post(`http://localhost:5000/api/v1/admin/ticketdetail`,{
+      const response = await axios.post(`https://atlasbackend-px53.onrender.com/api/v1/admin/ticketdetail`,{
             id:id
            },{withCredentials:true})
            console.log(response.data.message)
@@ -702,7 +702,7 @@ useEffect(() => {
           onClick={async () => {
             try {
               const response = await axios.post(
-                `http://localhost:5000/api/v1/admin/assign`,
+                `https://atlasbackend-px53.onrender.com/api/v1/admin/assign`,
                 { id: ticket._id, assignedto: selectedEmployee },
                 { withCredentials: true }
               );

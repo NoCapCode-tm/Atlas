@@ -78,7 +78,7 @@ export default function DailyReport() {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/admin/getmetrics"
+        "https://atlasbackend-px53.onrender.com/api/v1/admin/getmetrics"
       );
       setMetrics(res.data.message || []);
     })();
@@ -89,7 +89,7 @@ export default function DailyReport() {
       try {
         setLoading(true);
         const res = await axios.get(
-          "http://localhost:5000/api/v1/admin/getalluser",
+          "https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser",
           { withCredentials: true }
         );
         setUsers(res.data.message || []);
@@ -102,7 +102,7 @@ export default function DailyReport() {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/admin/getreports",
+        "https://atlasbackend-px53.onrender.com/api/v1/admin/getreports",
         { withCredentials: true }
       );
       setReports(res.data.message || []);

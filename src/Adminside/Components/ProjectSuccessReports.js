@@ -41,8 +41,8 @@ export default function ProjectSuccessReports() {
     (async () => {
       try {
         const [pRes, uRes] = await Promise.all([
-          axios.get(`http://localhost:5000/${API_PROJECTS}`),
-          axios.get(`http://localhost:5000/${API_USERS}`),
+          axios.get(`https://atlasbackend-px53.onrender.com/${API_PROJECTS}`),
+          axios.get(`https://atlasbackend-px53.onrender.com/${API_USERS}`),
         ]);
         // assuming API returns { message: [...] } like your earlier responses
         console.log(pRes.data.message)

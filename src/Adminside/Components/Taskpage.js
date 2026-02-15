@@ -81,9 +81,9 @@ const [projectFilter, setProjectFilter] = useState("All");
       try {
         setLoading(true);
         const [tRes, uRes, pRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/v1/admin/getalltask`, { withCredentials: true }),
-          axios.get(`http://localhost:5000/api/v1/admin/getalluser`, { withCredentials: true }),
-          axios.get(`http://localhost:5000/api/v1/admin/getallproject`, { withCredentials: true }),
+          axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getalltask`, { withCredentials: true }),
+          axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getalluser`, { withCredentials: true }),
+          axios.get(`https://atlasbackend-px53.onrender.com/api/v1/admin/getallproject`, { withCredentials: true }),
         ]);
 
         if (!mounted) return;
@@ -206,7 +206,7 @@ const pageItems = useMemo(() => {
     if (!window.confirm(`Delete task "${task.title}" ?`)) return;
     try {
       // replace with real API if exists:
-      await axios.delete(`http://localhost:5000/api/v1/admin/deletetask/${task._id}`, { withCredentials: true });
+      await axios.delete(`https://atlasbackend-px53.onrender.com/api/v1/admin/deletetask/${task._id}`, { withCredentials: true });
       setTasks((prev) => prev.filter((t) => String(t._id) !== String(task._id)));
       toast.success("Task deleted");
       window.location.reload()
@@ -560,7 +560,7 @@ function InfoTooltip({ text }) {
         onClick={async () => {
           try {
             await axios.put(
-              `http://localhost:5000/api/v1/admin/updatetask/${selectedTask._id}`,
+              `https://atlasbackend-px53.onrender.com/api/v1/admin/updatetask/${selectedTask._id}`,
               form,
               { withCredentials: true }
             );
