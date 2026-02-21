@@ -1,82 +1,90 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from "../CSS/Login.module.css";
 import axios from "axios"
-import {useNavigate} from "react-router"
-import { User, Lock, ArrowRight } from "lucide-react";
-import prismLogo from './logo_withoutBack.svg';
+import { useNavigate } from "react-router"
+import { User, Lock, ArrowRight, Eye, EyeOff, UserCircle } from "lucide-react";
+import { IoSettingsOutline } from "react-icons/io5";
 
-import {toast} from "react-toastify"
+import { toast } from "react-toastify"
 const Login = () => {
-    const[email,setemail]=useState("")
-    const[pass,setpass]=useState("")
-    const navigate = useNavigate()
-    const[loading,setloading]=useState(false)
+  const [email, setemail] = useState("")
+  const [pass, setpass] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const navigate = useNavigate()
+  const [loading, setloading] = useState(false)
 
-    const handlelogin = async()=>{
-        try {
-            setloading(true)
-            const response  = await axios.post("https://atlasbackend-px53.onrender.com/api/v1/admin/adminlogin",{
-                userid:email,
-                password:pass
-            },{withCredentials:true})
-            console.log(response.data.message)
-            toast.success("Login Successfull")
-            navigate("/dashboard")
-        } catch (error) {
-             toast.error("Login Unsuccessfull")
-        }finally{
-            setloading(false)
-        }
+  const handlelogin = async () => {
+    try {
+      setloading(true)
+      const response = await axios.post("https://atlasbackend-px53.onrender.com/api/v1/admin/adminlogin", {
+        userid: email,
+        password: pass
+      }, { withCredentials: true })
+      console.log(response.data.message)
+      toast.success("Login Successfull")
+      navigate("/dashboard")
+    } catch (error) {
+      toast.error("Login Unsuccessfull")
+    } finally {
+      setloading(false)
     }
-  return(
+  }
+  return (
     <div className={styles.loginWrapper}>
       <div className={styles.loginContainer}>
         {/* Left Side - Content */}
         <div className={styles.loginLeft}>
-          <div className={styles.logoSection}>
-            <img src={prismLogo} alt="Prism Logo" className={styles.loginLogo} />
-          </div>
-          
+
           <div className={styles.contentSection}>
-            <h1 className={styles.mainTitle}>
-              Future of Work<br />
-              <span className={styles.highlight}>Is Here.</span>
-            </h1>
-            
-            <p className={styles.description}>
-              Experience a seamless, intelligent, and beautifully designed workspace portal built for modern teams.
-            </p>
-            
-            <div className={styles.trustSection}>
-              <div className={styles.trustCircles}>
-                <div className={`${styles.circle} ${styles.circle1}`}></div>
-                <div className={`${styles.circle} ${styles.circle2}`}></div>
-                <div className={`${styles.circle} ${styles.circle3}`}></div>
-                <div className={`${styles.circle} ${styles.circle4}`}></div>
-              </div>
-              <span className={styles.trustText}>Trusted by 10,000+ teams</span>
+            <div className={styles.userIcon}>
+              <IoSettingsOutline size={80} color="#8E96B2" />
+              <h1 className={styles.mainTitle}>
+                Future of Work<br />
+                <span className={styles.highlight}>is Here.</span>
+              </h1>
             </div>
+
+            <div >
+              <p className={styles.description}>
+                Experience a seamless, intelligent, and beautifully designed workspace portal built for modern teams.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className={styles.footerCopyright}>
+            © 2025-26 NoCapCode. All rights reserved. Secure connection established.
           </div>
         </div>
 
         {/* Right Side - Login Form */}
         <div className={styles.loginRight}>
           <div className={styles.loginFormContainer}>
+            <div className={styles.logo}>
+              <img
+                src={require("../../Adminside/Components/atlas.png")}
+                alt="Atlas Workspace Logo"
+              />
+              <span>Aτλας</span>
+            </div>
+
             <div className={styles.formHeader}>
               <h2>Welcome Back</h2>
               <p>Please enter your details to sign in.</p>
             </div>
 
-            <form  onSubmit={(e)=>
-              {e.preventDefault()
-              handlelogin()}} className={styles.loginForm}>
+            <form onSubmit={(e) => {
+              e.preventDefault()
+              handlelogin()
+            }} className={styles.loginForm}>
               <div className={styles.formGroup}>
                 <label>USERNAME</label>
                 <div className={styles.inputWrapper}>
-                  <User size={20} className={styles.inputIcon} />
+                  <User size={18} className={styles.inputIcon} />
                   <input
                     type="text"
-                    placeholder="name@company.com"
+                    placeholder="Username"
                     value={email}
                     onChange={(e) => setemail(e.target.value)}
                     required
@@ -87,15 +95,21 @@ const Login = () => {
               <div className={styles.formGroup}>
                 <label>PASSWORD</label>
                 <div className={styles.inputWrapper}>
-                  <Lock size={20} className={styles.inputIcon} />
+                  <Lock size={18} className={styles.inputIcon} />
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     value={pass}
                     onChange={(e) => setpass(e.target.value)}
                     required
                   />
-                  
+                  <button
+                    type="button"
+                    className={styles.passwordToggle}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
                 </div>
               </div>
 
@@ -104,8 +118,8 @@ const Login = () => {
               </div>
 
               <button type='submit' className={styles.signInBtn}>
-                {loading ? 'Logging In...' : 'Login'}
-                <ArrowRight size={20} />
+                {loading ? 'Signing In...' : 'Sign In'}
+                <ArrowRight size={18} />
               </button>
 
               <div className={styles.formFooter}>
@@ -115,10 +129,6 @@ const Login = () => {
             </form>
           </div>
         </div>
-      </div>
-
-      <div className={styles.footerCopyright}>
-        © 2025 Humanity Founders. All rights reserved.
       </div>
     </div>
   );

@@ -1,210 +1,340 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Inter", sans-serif;
-}
-
-.portalWrapper {
-  min-height: 100vh;
-  padding: 40px;
-  background: url('../Components/EntryPage_Background.png') no-repeat center/cover;
+.wrapper {
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(90deg, #000000 0%, #272727e3 100%);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 30px 40px;
 }
 
-/* Secure Badge */
-.secureBadge {
+.container {
+  background: transparent;
+  max-width: 1300px;
+  width: 100%;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logo {
+  margin-bottom: 30px;
+  width: max-content;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #5E40BE;
+  flex-direction: column;
+  animation: slideInDown 0.6s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logo img {
+  height: 40px;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+.logo span{
   color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font-size: 24px;
+  font-weight: 400;
+  margin-top: 3px;
+  letter-spacing: 2px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
   margin-bottom: 40px;
 }
 
-.badgeDot {
-  width: 6px;
-  height: 6px;
-  background: rgb(229, 229, 229);
-  border-radius: 50%;
-}
-
-/* Welcome Header */
-.welcomeHeader {
-  text-align: center;
-  margin-bottom: 60px;
-}
-.welcomeHeader span{
-  background-image: linear-gradient(90deg, #433AD8, #8A64FF);
-  
-  /* 2. Clip the background to the text */
-  -webkit-background-clip: text;
-  background-clip: text;
-  
-  /* 3. Make the actual text transparent */
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
-.welcomeHeader h1 {
-  font-size: 48px;
-  font-weight: 700;
-  color: #6439FF;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.prismLogo {
-  height: 48px;
-  width: auto;
-}
-
-.subtitle {
-  font-size: 18px;
-  color: rgba(255, 255, 255);
-  font-weight: 400;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* GRID */
-.portalGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-  max-width: 1200px;
-  width: 100%;
-  margin-bottom: 60px;
-}
-
-/* CARD */
-.portalCard {
-  padding: 24px 60px 0px 24px;
-  border-radius: 20px;
-  background: #4714FF20;
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  height: 320px;
+.leftSection {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.166);
+  justify-content: flex-start;
+  padding-top: 10px;
+  animation: slideInLeft 0.8s ease-out 0.2s both;
 }
 
-.portalCard:hover {
-  box-shadow: 0 0 40px #ffffff;
-  scale: calc(1.05);
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-/* ICON */
-.portalIcon {
-  width: 56px;
-  height: 56px;
+.heading {
+  color: white;
+  font-size: 48px;
+  font-weight: 600;
+  white-space: nowrap;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.subText {
+  color: #f2f2f2e5;
+  margin: 0 0 28px 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+  color: #f2f2f2e5;
+  font-size: 16px;
+}
+
+.list li {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.list li:nth-child(1) {
+  animation-delay: 0.4s;
+}
+
+.list li:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.list li:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.portalBtn {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #f2f2f2e5;
+  padding: 10px 22px;
   border-radius: 16px;
+  background: #3225bf06;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  width: fit-content;
+  text-transform: uppercase;
+  animation: fadeInUp 0.6s ease-out 0.7s both;
+}
+
+.portalBtn:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: #8b5cf6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  animation: slideInRight 0.8s ease-out 0.3s both;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.roleCard {
+  background: linear-gradient(160deg, #0E0F13, #21262D);
+  backdrop-filter: blur(10px);
+  border: 1px solid #f8fafc84;
+  padding: 36px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-height: 140px;
+}
+
+.roleCard:hover {
+  border-color: #6366f1;
+  background: rgba(30, 41, 59, 0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+}
+
+.roleCard h2 {
+  color: white;
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.roleCard:hover h2 {
+  color: #a78bfa;
+}
+
+.roleCard p {
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.iconBox {
+  background: #3225BF;
+  padding: 12px;
+  border-radius: 10px;
+  width: fit-content;
+  color: white;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
-  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.281);
-  background: linear-gradient(135deg, #684EB9, #4F39F6);
+  transition: all 0.3s ease;
 }
 
-/* ICON COLORS - Updated to match the design */
-/* .portalIcon.employee {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-}
-.portalIcon.manager {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-}
-.portalIcon.hrAdmin {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-}
-.portalIcon.systemAdmin {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-} */
-
-.portalIcon svg {
-  color: white;
-}
-
-/* TEXT */
-.portalCard h3 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 16px;
-}
-
-.portalCard p {
-  font-size: 16px;
-  color: #ffffff;
-  line-height: 1.5;
-  flex-grow: 1;
-}
-
-/* Footer Text */
-.footerText {
+.footer {
+  text-align: left;
+  color: #f2f2f2e5;
   font-size: 14px;
-  color: rgba(255, 255, 255);
-  text-align: center;
+  padding-top: 0;
+  border-top: none;
+  margin-top: 10px;
+  animation: fadeIn 1s ease-out 0.8s both;
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .content {
+    gap: 60px;
+  }
+  
+  .heading {
+    font-size: 42px;
+  }
+}
+
 @media (max-width: 1024px) {
-  .portalGrid {
-    grid-template-columns: repeat(2, 1fr);
+  .wrapper {
+    padding: 30px;
+  }
+  
+  .content {
+    gap: 40px;
+  }
+  
+  .heading {
+    font-size: 36px;
+    white-space: normal;
+  }
+  
+  .cardGrid {
     gap: 20px;
   }
   
-  .welcomeHeader h1 {
-    font-size: 36px;
-  }
-  
-  .prismLogo {
-    height: 36px;
+  .roleCard {
+    padding: 28px;
   }
 }
 
 @media (max-width: 768px) {
-  .portalWrapper {
-    padding: 40px 20px 20px;
+  .wrapper {
+    padding: 20px;
+    height: auto;
+    min-height: 100vh;
   }
   
-  .portalGrid {
+  .content {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 40px;
+  }
+
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heading {
+    font-size: 32px;
   }
   
-  .welcomeHeader h1 {
+  .subText {
+    font-size: 14px;
+  }
+  
+  .list {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 20px 16px;
+  }
+  
+  .heading {
     font-size: 28px;
-    flex-direction: column;
-    gap: 8px;
   }
   
-  .prismLogo {
-    height: 32px;
+  .logo span {
+    font-size: 20px;
   }
   
-  .subtitle {
+  .roleCard {
+    padding: 24px;
+    min-height: 120px;
+  }
+  
+  .roleCard h2 {
     font-size: 16px;
   }
   
-  .portalCard {
-    height: auto;
-    min-height: 200px;
+  .roleCard p {
+    font-size: 13px;
+  }
+  
+  .footer {
+    font-size: 12px;
   }
 }
