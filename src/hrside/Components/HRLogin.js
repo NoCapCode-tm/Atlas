@@ -95,7 +95,7 @@ const HRLogin = () => {
         </div>
       </div>
       <div className={styles.footerCopyright}>
-        Powered by NoCap
+        Powered by NoCapCode
       </div>
     </div>
   );
