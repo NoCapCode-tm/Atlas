@@ -1,0 +1,371 @@
+.container {
+  width: 100%;
+  padding: 25px 30px;
+  font-family: "Inter", sans-serif;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: rgba(104, 80, 190, 1);
+;
+  margin-bottom: 20px;
+}
+.titlesearch{
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+
+}
+.titlesearchhead{
+    display:flex;
+    width:100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+}
+
+/* Search box */
+.searchWrapper {
+  width: 320px;
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.searchInput {
+  width: 100%;
+  height: 38px;
+  background: var(--search-box, rgba(241, 245, 249, 1));
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  padding-left: 35px;
+  font-size: 14px;
+  outline: none;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #999;
+}
+
+/* Top buttons */
+.buttonRow {
+    background: var(--search-box, rgba(241, 245, 249, 1));
+  height:fit-content;
+  padding:10px;
+  border-radius:5px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.topBtn {
+    height:30px;
+  padding: 0px 14px;
+  align-items: center;
+  border-radius: 8px;
+  color:white;
+  border: 1px solid #c9c9c9;
+   background:  rgba(104, 80, 190, 1);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.createBtn {
+    height:30px;
+  padding: 0px 14px;
+  align-items: center;
+  background:  rgba(104, 80, 190, 1);;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 22px;
+}
+
+/* Role Card */
+.card {
+  width: 100%;
+  height: auto;
+  background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, #F9F5FF 100%);
+
+  border-radius: 12px;
+  padding: 18px 22px;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eee;
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+}
+
+.cardTopRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.roleInfo {
+  display: flex;
+  gap: 12px;
+}
+
+.roleIcon {
+  font-size: 30px;
+}
+
+.roleText h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.roleText p {
+  margin: 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.editIcon {
+  cursor: pointer;
+  color: #666;
+}
+
+/* Divider */
+.line {
+  margin-top: 12px;
+  opacity: 0.3;
+}
+
+/* Bottom row */
+.cardBottomRow {
+  display: flex;
+  gap: 18px;
+  margin-top: 10px;
+}
+
+.bottomItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #555;
+}
+
+/* Overlay Background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Modal Container */
+.modal {
+  width: 60%;
+  background: #fff;
+  border-radius: 10px;
+  padding: 30px 35px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.title1{
+  font-size: 24px;
+  font-weight: 600;
+  color: #000;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.horizontalLine {
+  width: 100%;
+  height: 1px;
+  background: #ccc;
+  margin: 10px 0 25px;
+}
+
+/* Labels */
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+  color: #333;
+}
+
+/* Dropdown */
+.dropdown {
+  width: 280px;
+  height: 38px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+  background: #f9f9f9;
+}
+
+.dropdownMenu {
+  width: 280px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 999;
+  margin-top: -10px;
+}
+
+.dropdownItem {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdownItem:hover {
+  background: #f1f1f1;
+}
+
+/* Textarea */
+.textarea {
+  width: 100%;
+  height: 140px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px 12px;
+  resize: none;
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+/* Buttons */
+.btnRow {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.cancelBtn {
+  padding: 8px 16px;
+  border: 1px solid #bbb;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.createBtn1 {
+  padding: 8px 22px;
+  background: rgba(104, 80, 190, 1);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.filterSelect {
+  height: 38px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  font-size: 13px;
+}
+
+/* Update Role Modal */
+.updateModal {
+  width: 590px;
+  background: linear-gradient(137.43deg, #FFFFFF 0%, #E0D8FF 100.75%);
+ overflow:auto;
+  border-radius: 16px;
+  padding: 24px;
+  max-height:500px;
+  height:auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 2px solid rgba(104, 78, 185, 1);
+  padding-bottom:10px;
+}
+.modalHeader h2{
+ 
+font-weight: 500;
+color:rgba(104, 80, 190, 1);
+font-size: 20px;
+
+}
+
+.deleteBtn {
+  background: white;
+  border: 1px solid #e5e5e5;
+  color: black;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.userList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.userCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  background: #fff;
+}
+
+.userCard p {
+  font-size: 12px;
+  color: #777;
+}
+
+
+.createBtn1:hover {
+  background: #6838e0;
+}
+.roleinput{
+    padding:7px;
+    width:300px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, rgba(226, 232, 240, 1));
+    margin-bottom:10px;
+
+}

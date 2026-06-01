@@ -1,0 +1,435 @@
+:root {
+  --purple: #6C59D1;
+  --border: #E5E7EB;
+  --muted: #6B7280;
+  --shadow: 0px 4px 18px rgba(0,0,0,0.06);
+}
+
+
+.page {
+  /* padding: 32px 40px; */
+  background: #F7F8FA;
+  min-height: 100vh;
+  font-family: Inter, sans-serif;
+}
+.bothdiv{
+  height:500px;
+  display:flex;
+  align-items: center;
+  padding:20px;
+  gap:20px;
+  
+}
+.chartCard1{
+  background-color: white;
+  width:50%;
+  height:100%;
+   border-radius: 14px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  padding:20px;
+}
+.titlefilter{
+  padding: 10px 40px;
+  display:flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 1);
+  border-bottom: 1px solid rgba(229, 231, 235, 1)
+
+}
+.bothfilter{
+  display:flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap:10px;
+  align-items: center;
+}
+
+.title {
+  margin-bottom:6px;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--purple);
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+/* FILTER ROW */
+.filtersRow {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.filterItem {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  gap: 6px;
+}
+.filterItem1 {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 6px;
+}
+
+.filterItem select,
+.filterItem input[type="date"] {
+  padding: 10px 12px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: white;
+}
+.filterItem1 select,
+.filterItem1 input[type="date"] {
+  padding: 10px 12px;
+  width: 200px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: white;
+}
+
+.dateRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* SUMMARY CARDS */
+/* Container */
+.overviewContainer {
+  background: #fff;
+  width:50%;
+  padding: 20px;
+  height:100%;
+  border-radius: 14px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  
+}
+
+/* Header Row */
+.overviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.overviewHeader1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 100px;
+}
+
+.overviewHeader h3 ,.overviewHeader1 h3 {
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom:5px;
+}
+
+.overviewHeader p {
+  font-size: 13px;
+  color: #6d6d6d;
+}
+
+/* Icon */
+.overviewIcon {
+  width: 32px;
+  height: 32px;
+}
+
+/* Grid for Cards */
+.overviewGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(200px, auto));
+  gap: 18px;
+}
+.alertIcon{
+  padding:10px;
+  background:rgb(255, 226, 226, 1);
+  border-radius: 10px;
+}
+.alertIcon1{
+  padding:10px;
+  background:rgba(219, 234, 254, 1);
+  border-radius: 10px;
+}
+
+/* TOTAL CARD (gradient) */
+.totalCard {
+  padding: 22px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #efe7ff, #d5c7ff);
+  border: 1px solid #d4c9ff;
+}
+
+.totalCard h4 {
+  color: rgba(74, 85, 101, 1);
+  font-size: 18px;
+  
+  font-weight: 600;
+}
+
+.bigNumber {
+  font-size: 35px;
+  font-weight: 400;
+  margin: 10px 0;
+}
+
+.smallText {
+  font-size: 12px;
+  color: #777;
+}
+
+/* SEVERITY CARD */
+.severityCard {
+  display:flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 22px;
+  border-radius: 12px;
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+}
+
+.severityCard h4 {
+ font-size: 18px;
+  
+  font-weight: 600;
+  margin-bottom: 10px;
+ 
+  color:rgba(74, 85, 101, 1);
+}
+.both{
+  display:flex;
+  align-items: center;
+  gap:10px;
+}
+
+.row {
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.dotRed {
+  width: 10px;
+  height: 10px;
+  background: #ef4444;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.dotOrange {
+  width: 10px;
+  height: 10px;
+  background: #f59e0b;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.dotBlue {
+  width: 10px;
+  height: 10px;
+  background: #3b82f6;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.count {
+  font-weight: 600;
+}
+
+/* STATUS CARD */
+.statusCard {
+  padding: 22px;
+  border-radius: 12px;
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+}
+.statusCard h4{
+   font-size: 18px;
+  
+  font-weight: 600;
+  margin-bottom: 10px;
+  
+  color:rgba(74, 85, 101, 1);
+}
+
+.statusRow {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+.statusRow span{
+  font-size: 12px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  border-radius: 10px;
+  background: #ddd;
+  margin: 6px 0 12px 0;
+}
+
+.redFill {
+  height: 100%;
+  background: #ef4444;
+  border-radius: 10px;
+}
+
+.greenFill {
+  height: 100%;
+  background: #10b981;
+  border-radius: 10px;
+}
+
+/* AVG CARD */
+.avgCard {
+  padding: 22px;
+  border-radius: 12px;
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+}
+
+.avgCard h4 {
+  font-size: 18px;
+  color:rgba(74, 85, 101, 1);
+  font-weight: 600;
+}
+
+
+
+/* CHART */
+.chartCard {
+  margin-top: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.chartTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 110px;
+}
+
+/* TABLE */
+.tableCard {
+  margin-top:0px;
+  margin-left:20px;
+  margin-right:20px;
+  margin-bottom: 10px;
+
+  background: white;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.tableHeader {
+  font-size: 20px;
+  font-weight: 400;
+}
+.headerdiv{
+  display:flex;
+  flex-direction: column;
+  padding: 20px;
+  gap:10px;
+}
+.tablesubHeader {
+  font-size: 14px;
+  font-weight: 400;
+  color:rgba(74, 85, 101, 1);
+ 
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead th {
+   background: var(--search-box, rgba(241, 245, 249, 1));
+  font-size: 13px;
+  padding: 12px 10px;
+  border-bottom: 1px solid #eef2f7;
+  border-bottom: 1px solid #eef2f7;
+  text-align: left;
+}
+
+.table tbody td {
+  padding: 12px 6px;
+  font-size: 14px;
+  border-bottom: 1px solid #F3F3F6;
+}
+
+.severityTag {
+  padding: 3px 9px;
+  font-size: 10px;
+  border-radius: 20px;
+  border:1px solid;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.icon {
+  cursor: pointer;
+  color: #555;
+}
+
+.iconDanger {
+  cursor: pointer;
+  color: #EF4444;
+}
+
+/* PAGINATION */
+.pagination {
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom:10px;
+  margin-top: 18px;
+}
+.status{
+  font-size:12px;
+  display:flex;
+  align-items: center;
+  gap:5px;
+}
+.resolved{
+  color:rgba(0, 130, 54, 1);
+}
+.raised{
+  color:rgba(193, 0, 7, 1);
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: white;
+}
+
+

@@ -1,0 +1,878 @@
+/* ================================================================
+   EmployeeTaskpage — Dark Kanban Board
+   Matches: black bg, colored column headers, dark task cards,
+   priority pill badges, purple avatar initials, due/time footer
+   ================================================================ */
+
+/* ── Page ── */
+.page {
+  padding: 28px 32px;
+  background: #0a0a0f;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+/* ── Page Header ── */
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.pageHeaderLeft h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #f0f2f8;
+  margin: 0 0 8px;
+}
+
+.headerMeta {
+  display: flex;
+  gap: 10px;
+}
+
+.metaBadge {
+  font-size: 12px;
+  color: #8b90a8;
+  background: #1a1d27;
+  border: 1px solid #252836;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.metaBadgeHigh {
+  font-size: 12px;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.headerActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.viewProjectsBtn {
+  padding: 9px 18px;
+  border-radius: 10px;
+  border: 1px solid #252836;
+  background: #13151e;
+  color: #8b90a8;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.viewProjectsBtn:hover {
+  border-color: #4f46e5;
+  color: #c0c4d8;
+}
+
+.newBtn {
+  padding: 9px 18px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6d5bd0, #4f46e5);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.newBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35);
+}
+
+/* ================================================================
+   KANBAN BOARD
+   ================================================================ */
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+/* ── Column ── */
+/* background is set via inline style in JS: rgba(hex, 0.20) */
+.column {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  /* DO NOT set background here — inline style from JS controls it */
+}
+
+/* ── Column Header — 100% opacity solid color, set via inline style in JS ── */
+.columnHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px 12px 0 0;
+  /* DO NOT set background here — inline style from JS controls it */
+}
+
+.colTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  flex: 1;
+  letter-spacing: 0.01em;
+}
+
+/* Count badge — white pill on the colored header */
+.colCount {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 999px;
+  min-width: 22px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.colActions {
+  display: flex;
+  gap: 4px;
+  margin-left: 4px;
+}
+
+.colIconBtn {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.colIconBtn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* ── Cards container ── */
+.cards {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 80px;
+}
+
+.emptyCol {
+  text-align: center;
+  font-size: 12px;
+  color: #3a3f55;
+  padding: 20px 0;
+}
+
+/* ── Task Card — dark like the image ── */
+.card {
+  background: #13151e;
+  border: 1px solid #1e2130;
+  border-radius: 10px;
+  padding: 13px 14px;
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  border-color: #2a2d3e;
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+/* ── Card top row: title + avatar ── */
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8eaf2;
+  line-height: 1.4;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Avatar circle with initials — purple like the image ── */
+.avatarCircle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6d5bd0, #4f46e5);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+  border: 2px solid #1e2130;
+}
+
+/* ── Priority badge pill ── */
+.priorityBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+/* ── Progress bar ── */
+.progressWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progressBar {
+  flex: 1;
+  height: 5px;
+  background: #1e2130;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.progressPct {
+  font-size: 11px;
+  color: #6e7491;
+  flex-shrink: 0;
+}
+
+/* ── Card footer: due date + time left ── */
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.dueLabel {
+  font-size: 11px;
+  color: #6e7491;
+}
+
+.overdueText {
+  color: #ef4444;
+}
+
+.soonText {
+  color: #f59e0b;
+}
+
+.timeLeft {
+  font-size: 11px;
+  color: #8b90a8;
+  background: #1a1d27;
+  border: 1px solid #252836;
+  padding: 2px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.overdueChip {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+/* ── Subtask ── */
+.subtaskToggle {
+  font-size: 11px;
+  color: #6e7491;
+  cursor: pointer;
+  padding: 4px 8px;
+  background: #1a1d27;
+  border-radius: 6px;
+  transition: all 0.15s;
+  width: fit-content;
+}
+
+.subtaskToggle:hover {
+  color: #c0c4d8;
+  background: #1e2130;
+}
+
+.subtaskList {
+  border-top: 1px solid #1e2130;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.subtaskCard {
+  background: #0d0f14;
+  border: 1px solid #1e2130;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.subtaskCard h5 {
+  font-size: 12px;
+  color: #c0c4d8;
+  margin: 0 0 3px;
+  font-weight: 600;
+}
+
+.subtaskCard p {
+  font-size: 11px;
+  color: #6e7491;
+  margin: 0;
+}
+
+.addsubtask {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #4a5068;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 6px;
+  transition: all 0.15s;
+  border: 1px dashed #1e2130;
+}
+
+.addsubtask:hover {
+  color: #8b90a8;
+  border-color: #2a2d3e;
+  background: #1a1d27;
+}
+
+/* ================================================================
+   TASK DETAIL PANEL (right slide-in)
+   ================================================================ */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.panel {
+  width: 560px;
+  max-width: 92vw;
+  background: #0f1117;
+  border-left: 1px solid #1e2130;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 28px 28px;
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.6);
+  animation: slideIn 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+.panel::-webkit-scrollbar { width: 5px; }
+.panel::-webkit-scrollbar-track { background: transparent; }
+.panel::-webkit-scrollbar-thumb { background: #1e2130; border-radius: 10px; }
+
+/* Panel header */
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panelBadges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.statusBadge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #1a1d27;
+  border: 1px solid #252836;
+  color: #8b90a8;
+}
+
+.closeBtn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #1a1d27;
+  border: 1px solid #1e2130;
+  color: #6e7491;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.closeBtn:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #fff;
+}
+
+.panelTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f0f2f8;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.panelMeta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  background: #13151e;
+  border: 1px solid #1e2130;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.panelMeta > div span {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #4a5068;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 5px;
+}
+
+.panelMeta > div p {
+  font-size: 13px;
+  color: #c0c4d8;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+}
+
+/* Panel tabs */
+.panelTabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #1e2130;
+}
+
+.tabBtn {
+  padding: 10px 18px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #4a5068;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.tabBtn:hover { color: #8b90a8; }
+
+.activeTab {
+  padding: 10px 18px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #6d5bd0;
+  color: #a89be0;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Panel content */
+.panelContent {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panelCard {
+  background: #13151e;
+  border: 1px solid #1e2130;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.panelCard h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #8b90a8;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.panelCard p {
+  font-size: 14px;
+  color: #c0c4d8;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.muted {
+  color: #3a3f55 !important;
+  font-style: italic;
+}
+
+.attachList {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.attachList li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: #c0c4d8;
+  background: #0d0f14;
+  border: 1px solid #1e2130;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.attachBtn {
+  margin-top: 10px;
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px dashed #4f46e5;
+  border-radius: 8px;
+  color: #6d5bd0;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.attachBtn:hover {
+  background: rgba(79, 70, 229, 0.08);
+}
+
+/* Panel footer buttons */
+.panelFooter {
+  display: flex;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.completeBtn {
+  flex: 1;
+  padding: 11px 16px;
+  background: #16a34a;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.completeBtn:hover:not(:disabled) {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+
+.completeBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.reviewBtn {
+  flex: 1;
+  padding: 11px 16px;
+  background: linear-gradient(135deg, #6d5bd0, #4f46e5);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.reviewBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.3);
+}
+
+.reviewBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Comments */
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.comments::-webkit-scrollbar { width: 4px; }
+.comments::-webkit-scrollbar-thumb { background: #1e2130; border-radius: 10px; }
+
+.commentCard {
+  background: #13151e;
+  border: 1px solid #1e2130;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.commentAuthor {
+  font-size: 12px;
+  font-weight: 600;
+  color: #c0c4d8;
+}
+
+.commentTime {
+  font-size: 11px;
+  color: #4a5068;
+}
+
+.commentCard p {
+  font-size: 13px;
+  color: #8b90a8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.commentBox {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.commentBox textarea {
+  flex: 1;
+  padding: 10px 12px;
+  background: #13151e;
+  border: 1px solid #1e2130;
+  border-radius: 10px;
+  color: #c0c4d8;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 70px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.commentBox textarea::placeholder { color: #3a3f55; }
+.commentBox textarea:focus { border-color: #4f46e5; }
+
+.sendBtn {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #6d5bd0, #4f46e5);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.sendBtn:hover { transform: scale(1.05); }
+
+/* History */
+.historySection h4 {
+  font-size: 11px;
+  font-weight: 700;
+  color: #4a5068;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin: 0 0 14px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 12px;
+  position: relative;
+}
+
+.timelineItem:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 18px;
+  bottom: -14px;
+  width: 2px;
+  background: #1e2130;
+}
+
+.timelineDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6d5bd0;
+  margin-top: 5px;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.timelineItem > div p {
+  font-size: 13px;
+  color: #8b90a8;
+  margin: 0 0 3px;
+}
+
+.timelineItem > div p strong {
+  color: #c0c4d8;
+  font-weight: 600;
+}
+
+.timelineItem > div span {
+  font-size: 11px;
+  color: #4a5068;
+}
+
+/* ================================================================
+   PAGE LOADER
+   ================================================================ */
+.pageLoader {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0f;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loaderCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 40px;
+  background: #0f1117;
+  border: 1px solid #1e2130;
+  border-radius: 16px;
+}
+
+.loaderCard p {
+  font-size: 14px;
+  color: #6e7491;
+  margin: 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid #1e2130;
+  border-top-color: #6d5bd0;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 1200px) {
+  .board { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .page { padding: 20px 16px; }
+  .board { grid-template-columns: 1fr; }
+  .pageHeader { flex-direction: column; align-items: flex-start; }
+  .panel { width: 100%; max-width: 100vw; padding: 22px 18px; }
+  .panelMeta { grid-template-columns: 1fr; }
+  .panelFooter { flex-direction: column; }
+  .completeBtn, .reviewBtn { width: 100%; }
+  .commentBox { flex-direction: column; }
+  .sendBtn { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .page { padding: 14px 12px; }
+  .pageHeaderLeft h1 { font-size: 20px; }
+  .columnHeader { padding: 10px 12px; }
+  .colTitle { font-size: 13px; }
+  .card { padding: 11px 12px; }
+  .cardTitle { font-size: 13px; }
+}

@@ -1,0 +1,769 @@
+/* Calendar Page - Dark Theme Design
+Color Scheme:
+Primary text: #ffffff
+Secondary text: #F1F3F8
+Tertiary text: #6E768F
+bg: #0E0F13
+bg card: #161A23
+Stroke: #232836
+button: #3225BF
+*/
+
+.page {
+  padding: 32px 48px;
+  background: #0E0F13;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+}
+
+/* CALENDAR CARD */
+.calendarCard {
+  background: #161A23;
+  border: 1px solid #232836;
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.monthInfo h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+}
+
+.monthInfo p {
+  font-size: 14px;
+  color: #6E768F;
+  font-weight: 400;
+}
+
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* WEEKDAYS */
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0 4px;
+}
+
+.weekdays span {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #6E768F;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 0;
+}
+
+/* CALENDAR GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.emptyCell {
+  height: 80px;
+}
+
+.dayCell {
+  height: 80px;
+  background: #0E0F13;
+  border: 1px solid #232836;
+  border-radius: 12px;
+  padding: 12px;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dayCell:hover {
+  background: #161A23;
+  border-color: #3225BF;
+}
+
+.dayCell.today {
+  background: rgba(50, 37, 191, 0.1);
+  border-color: #3225BF;
+}
+
+.dayCell span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #F1F3F8;
+}
+
+/* PERFORMANCE DOTS */
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.dot.strong {
+  background: #10b981; /* Green */
+}
+
+.dot.good {
+  background: #3b82f6; /* Blue */
+}
+
+.dot.needs {
+  background: #f59e0b; /* Yellow */
+}
+
+.dot.missed {
+  background: #ef4444; /* Red */
+}
+
+/* LEGEND */
+.legend {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid #232836;
+}
+
+.legend div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #6E768F;
+  font-weight: 500;
+}
+
+.legend span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend .strong {
+  background: #10b981;
+}
+
+.legend .good {
+  background: #3b82f6;
+}
+
+.legend .needs {
+  background: #f59e0b;
+}
+
+.legend .missed {
+  background: #ef4444;
+}
+
+/* SIDE PANEL */
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sideCard {
+  background: #161A23;
+  border: 1px solid #232836;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.sideHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sideHeader h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.addEventBtn {
+  padding: 8px 16px;
+  background: #3225BF;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addEventBtn:hover {
+  background: #2a1fa0;
+  scale: calc(1.07);
+  transform: translateY(-1px);
+}
+
+/* TODAY SECTION */
+.todaySection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #232836;
+}
+
+.todaySection h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.addEvent {
+  padding: 8px;
+  background: #3225BF;
+  border: 1px solid #232836;
+  border-radius: 6px;
+  color: #F1F3F8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addEvent:hover {
+  background: #261c90;
+  scale: calc(1.01);
+}
+
+/* EVENTS LIST */
+.eventsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  padding: 16px;
+  border-radius: 12px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.item:hover {
+  transform: translateY(-1px);
+}
+
+.item b {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.item p {
+  font-size: 13px;
+  margin: 0 0 8px 0;
+  opacity: 0.8;
+}
+
+.item span {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.item.purple {
+  background: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.item.yellow {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.item.blue {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+/* MEETINGS LIST */
+.meetingsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.meet {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px;
+  background: #0E0F13;
+  border: 1px solid #232836;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.meet:hover {
+  background: #161A23;
+  border-color: #3225BF;
+}
+
+.meet b {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.meet p {
+  font-size: 13px;
+  color: #6E768F;
+  margin: 0;
+}
+
+.meet span {
+  font-size: 12px;
+  color: #6E768F;
+  font-weight: 500;
+  white-space: nowrap;
+  margin-left: 16px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .page {
+    padding: 24px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 20px 16px;
+  }
+  
+  .calendarCard,
+  .sideCard {
+    padding: 20px;
+  }
+  
+  .calendarHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .calendarHeader h1 {
+    font-size: 24px;
+  }
+  
+  .grid {
+    gap: 4px;
+  }
+  
+  .dayCell {
+    height: 60px;
+    padding: 8px;
+  }
+  
+  .legend {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .todaySection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .meet {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .meet span {
+    margin-left: 0;
+  }
+}
+
+/* ================================================================
+   MOBILE CALENDAR — matches the image design
+   Dark card, circle day cells, 2-col legend
+   ================================================================ */
+
+.mobilePage {
+  min-height: 100vh;
+  background: #0a0a0f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 100px;
+  font-family: "Inter", sans-serif;
+}
+
+/* ── Top navbar ── */
+.mobileTopBar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid #1e2130;
+  background: #0a0a0f;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.mobileLogoWrap {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+}
+
+.mobileTopRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobileIconBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #13151e;
+  border: 1px solid #1e2130;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.mobileNotifDot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 1.5px solid #0a0a0f;
+}
+
+.mobileAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6d5bd0, #4f46e5);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 2px solid #1e2130;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.mobileAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Page title ── */
+.mobilePageTitle {
+  width: 100%;
+  padding: 20px 18px 12px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* ── Calendar card ── */
+.mobileCard {
+  width: calc(100% - 28px);
+  max-width: 420px;
+  background: #12141c;
+  border: 1px solid #1e2130;
+  border-radius: 20px;
+  padding: 20px 16px 24px;
+  margin: 0 14px;
+}
+
+/* Month label + nav row */
+.mobileHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.mobileMonthLabel {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.mobileNav {
+  display: flex;
+  gap: 4px;
+}
+
+.mobileNavBtn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #1a1d27;
+  border: 1px solid #1e2130;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.mobileNavBtn:hover { background: #252836; }
+
+/* Weekday header row */
+.mobileWeekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 8px;
+}
+
+.mobileWeekdays span {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6e7491;
+  padding: 4px 0;
+}
+
+/* Day grid */
+.mobileGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.mobileEmptyCell { /* offset placeholder */ }
+
+.mobileDayCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+}
+
+.mobileDayCircle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: default;
+}
+
+/* Legend — 2 columns */
+.mobileLegend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 10px;
+  padding-top: 18px;
+  border-top: 1px solid #1e2130;
+}
+
+.mobileLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #c0c4d8;
+  font-weight: 500;
+}
+
+.mobileLegendDot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Today's to-do section ── */
+.mobileTodoSection {
+  width: calc(100% - 28px);
+  max-width: 420px;
+  margin: 22px 14px 0;
+}
+
+.mobileTodoTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 14px;
+}
+
+/* Tab pills — "3 meetings" / "3 tasks" */
+.mobileTodoPills {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.mobileTodoPill {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid #1e2130;
+  background: #13151e;
+  color: #6e7491;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.mobileTodoPill:hover {
+  border-color: #2a2d3e;
+  color: #c0c4d8;
+}
+
+.mobileTodoPillActive {
+  background: #1e2130;
+  border-color: #4f46e5;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Task / meeting rows */
+.mobileTodoList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobileTodoRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #13151e;
+  border: 1px solid #1e2130;
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+/* Purple checkbox */
+.mobileTodoCheck {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: #4f46e5;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.mobileTodoChecked {
+  background: #16a34a;
+}
+
+.mobileTodoText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #e8eaf2;
+  flex: 1;
+}
+
+.mobileTodoDone {
+  text-decoration: line-through;
+  color: #6e7491;
+}
+
+.mobileTodoTime {
+  font-size: 12px;
+  color: #6e7491;
+  white-space: nowrap;
+}
+
+.mobileTodoEmpty {
+  font-size: 13px;
+  color: #4a5068;
+  text-align: center;
+  padding: 20px 0;
+  margin: 0;
+}
+
+/* ── Floating + button ── */
+.mobileFab {
+  position: fixed;
+  bottom: 28px;
+  right: 20px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6d5bd0, #4f46e5);
+  border: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 100;
+}
+
+.mobileFab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 32px rgba(79, 70, 229, 0.6);
+}

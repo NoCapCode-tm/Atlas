@@ -1,0 +1,342 @@
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.wrapper {
+  height: auto;
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+  background: url("../Components/entrybg.png")center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 0px 40px 30px 40px;
+}
+
+.container {
+  background: transparent;
+  max-width: 1300px;
+  width: 100%;
+}
+
+.logo {
+  width: max-content;
+  position: absolute;
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  bottom: 40px;
+  opacity: 0.5;
+  height: 24px;
+
+}
+
+/* .logo img {
+  height: 40px;
+  transition: transform 0.3s ease;
+} */
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+.leftSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading {
+  color: white;
+  font-size: 40px;
+  font-weight: 600;
+  white-space: nowrap;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+.heading span{
+  color: #7B72EF;
+}
+
+.subText {
+  color: #f2f2f2e5;
+  margin: 0 0 28px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 0px 80px;
+  font-family: "IBM Plex Mono", monospace;
+  text-align: center;
+}
+
+.list {
+  list-style: none;
+  font-family: "IBM Plex Mono", monospace;
+  padding: 0;
+  margin: 0 0 32px 0;
+  color: #f2f2f2e5;
+  font-size: 12px;
+  display: flex;
+  gap: 30px;
+}
+
+.list li {
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.roleCard {
+  background: transparent;
+  backdrop-filter: blur(10px);
+  border: 1px solid #f8fafc84;
+  padding: 24px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-height: 200px;
+  margin-bottom: 20px;
+}
+
+.roleCard:hover {
+  border-color: #2A2A5A;
+  background:#0F0F2A;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+}
+
+.roleCard h2 {
+  color: white;
+  margin: 18px 0 18px 0;
+  font-size: 18px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.roleCard p {
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.iconBox {
+  color: white;
+}
+
+.footer {
+  position: absolute;
+    text-align: center;
+    color: #f2f2f2e5;
+    font-size: 12px;
+    bottom: 10px;
+    display: flex;
+    align-self: flex-end;
+    justify-self: center;
+    animation: Entrypage_fadeIn__K\+YNS 1s ease-out 0.8s both;
+}
+
+/* ════════════════════════════════════════
+   Tab / Mobile layout  (isTab || isMobile)
+   ════════════════════════════════════════ */
+
+.tabContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  gap: 28px;
+  padding: 20px 0 10px;
+}
+
+/* Branding */
+.tabBrand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.tabLogoImg {
+  height: 56px;
+  margin-bottom: 4px;
+}
+
+.tabTitle {
+  color: #ffffff;
+  font-size: 38px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  margin: 0;
+}
+
+.tabSubtitle {
+  color: #c7d0e8;
+  font-size: 14px;
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 1px;
+  margin: 2px 0 6px;
+}
+
+.tabDivider {
+  width: 180px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 4px 0;
+}
+
+.tabRoleLabel {
+  color: #c7d0e8;
+  font-size: 13px;
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 1px;
+}
+
+/* 2×2 grid */
+.tabCardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.tabCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(20, 24, 60, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.tabCard:hover {
+  border-color: rgba(99, 102, 241, 0.5);
+  background: rgba(15, 15, 42, 0.75);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+}
+
+.tabIconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  flex-shrink: 0;
+  color: #a5b4fc;
+}
+
+.tabCardLabel {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.tabFooter {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 11px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  padding-bottom: 8px;
+}
+
+/* Tighten up on small phones */
+@media (max-width: 480px) {
+  .tabTitle {
+    font-size: 28px;
+  }
+
+  .tabCard {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .tabIconBox {
+    width: 36px;
+    height: 36px;
+  }
+
+  .tabCardLabel {
+    font-size: 13px;
+  }
+}
+
+/* ════════════════════════════════════════
+   Mobile layout  (isMobile — single column)
+   ════════════════════════════════════════ */
+
+.mobileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  gap: 24px;
+  padding: 32px 0 16px;
+}
+
+/* Full-width stacked card list */
+.mobileCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.mobileCard {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  background: rgba(20, 24, 60, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 18px 22px;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  color: white;
+}
+
+.mobileCard:hover {
+  border-color: rgba(99, 102, 241, 0.5);
+  background: rgba(15, 15, 42, 0.75);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+}
+
+.mobileIconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  flex-shrink: 0;
+  color: #a5b4fc;
+}
+
+.mobileCardLabel {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}

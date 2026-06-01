@@ -1,0 +1,118 @@
+.page {
+  width: 100%;
+  padding: 40px;
+  background: #ffffff;
+  font-family: "Inter", sans-serif;
+}
+
+/* Heading */
+.heading {
+  font-size: 32px;
+  font-weight: 700;
+  color: rgba(104, 78, 185, 1);
+  margin-bottom: 20px;
+}
+
+/* FILTERS SECTION */
+.filterRow {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.filterGroup {
+  display: flex;
+   background-color: white;
+  border: 1px solid #d7d7d7;
+  border-radius: 10px;
+  align-items: center;
+ 
+}
+
+.filterBtn {
+  background: rgba(104, 78, 185, 1);
+  color: white;
+  border: none;
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dropdown {
+  color:rgba(120, 120, 120, 1);
+  background-color: none;
+  border: none;
+ 
+  width: 260px;
+  font-size: 15px;
+}
+
+/* CHART GRID */
+.chartRow {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  
+  gap: 40px;
+  margin-bottom: 35px;
+}
+
+/* DONUT BOX EXACT SIZE */
+.donutBox {
+  width: 283px;
+  height: 278px;
+
+  border-radius: 10px;
+  position: relative;
+  padding: 5px;
+}
+
+.donutText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 34px;
+  font-weight: 700;
+}
+
+/* BAR BOX */
+.barBox {
+  height: 280px;
+  width:550px;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* TABLE SECTION */
+.tableContainer {
+  margin-top: 25px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th {
+  background: rgba(104, 78, 185, 1);
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+}
+
+.table td {
+  text-align: center;
+  padding: 16px;
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 15px;
+}
+
+.bold {
+  font-weight: 700;
+}
