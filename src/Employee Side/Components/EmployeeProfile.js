@@ -20,7 +20,7 @@ export default function EmployeeProfile() {
       setPageLoading(true);
       try {
         const res = await axios.get(
-          "https://atlasbackend-q7bl.onrender.com/api/v1/admin/getuser",
+          "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getuser",
           { withCredentials: true }
         );
         setUser(res.data.message);

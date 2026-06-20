@@ -19,7 +19,7 @@ const BulkAssignModal = ({ modal, setModal, roles }) => {
     const fetchemployees = async () => {
       try {
         const response = await axios.get(
-          `https://atlasbackend-q7bl.onrender.com/api/v1/admin/getalluser`,
+          `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`,
           { withCredentials: true }
         );
         setUsers(response.data.message);
@@ -89,7 +89,7 @@ const BulkAssignModal = ({ modal, setModal, roles }) => {
         console.log(selectedRole)
         console.log(selectedUsers)
       await axios.post(
-        `https://atlasbackend-q7bl.onrender.com/api/v1/admin/assignrole`,
+        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/assignrole`,
         { role: selectedRole, users: selectedUsers },
         { withCredentials: true }
       );

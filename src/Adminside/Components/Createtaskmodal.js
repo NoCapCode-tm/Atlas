@@ -29,7 +29,7 @@ const Createtaskmodal = ({ modal, setModal, projects, users }) => {
     try {
       setLoading(true);
       await axios.post(
-        "https://atlasbackend-q7bl.onrender.com/api/v1/admin/assigntask",
+        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/assigntask",
         form,
         { withCredentials: true }
       );
