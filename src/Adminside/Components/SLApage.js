@@ -28,7 +28,7 @@ export default function SLAComplianceDashboard() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`https://atlasbackend-q7bl.onrender.com/api/v1/admin/getsla`);
+        const res = await axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getsla`);
         setSla(res.data.message || []);
       } catch (err) {
         console.error("SLA fetch error:", err);
@@ -42,13 +42,13 @@ export default function SLAComplianceDashboard() {
     async function fetchAll() {
       try {
         const [tRes, uRes, pRes] = await Promise.all([
-          axios.get(`https://atlasbackend-q7bl.onrender.com/api/v1/admin/getalltask`, {
+          axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalltask`, {
             withCredentials: true,
           }),
-          axios.get(`https://atlasbackend-q7bl.onrender.com/api/v1/admin/getalluser`, {
+          axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`, {
             withCredentials: true,
           }),
-          axios.get(`https://atlasbackend-q7bl.onrender.com/api/v1/admin/getallproject`, {
+          axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getallproject`, {
             withCredentials: true,
           }),
         ]);

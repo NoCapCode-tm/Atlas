@@ -81,12 +81,12 @@ const fullName = `${firstName} ${lastName}`.trim();
   const itemsPerPage = 5;
   
   useEffect(() => {
-    axios.get(`https://atlasbackend-q7bl.onrender.com/api/v1/admin/getalluser`, { withCredentials: true })
+    axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`, { withCredentials: true })
       .then(res => setEmployees(res.data.message || []));
   }, []);
   useEffect(() => {
    (async()=>{
-    const response = await axios.get("https://atlasbackend-q7bl.onrender.com/api/v1/admin/getuser",{withCredentials:true})
+    const response = await axios.get("https://atlasbackend-1bt5.onrender.com/api/v1/admin/getuser",{withCredentials:true})
     console.log(response.data.message)
     setUser(response.data.message)
    })()
@@ -94,17 +94,17 @@ const fullName = `${firstName} ${lastName}`.trim();
   }, []);
 
   useEffect(() => {
-    axios.get(`https://atlasbackend-q7bl.onrender.com/api/v1/admin/getallproject`)
+    axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getallproject`)
       .then(res => setprojects(res.data.message || []));
   }, []);
 
   useEffect(() => {
-    axios.get(`https://atlasbackend-q7bl.onrender.com/api/v1/admin/getmetrics`)
+    axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getmetrics`)
       .then(res => setMetrics(res.data.message || []));
   }, []);
 
   useEffect(() => {
-    axios.get(`https://atlasbackend-q7bl.onrender.com/api/v1/admin/getredflags`)
+    axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getredflags`)
       .then(res => setredflags(res.data.message || []));
   }, [employees]);
 
@@ -190,7 +190,7 @@ const fullName = `${firstName} ${lastName}`.trim();
     setLoading(true);
 
     const response = await axios.post(
-      "https://atlasbackend-q7bl.onrender.com/api/v1/admin/addemployee",
+      "https://atlasbackend-1bt5.onrender.com/api/v1/admin/addemployee",
       {
         name: fullName,
         email: email,

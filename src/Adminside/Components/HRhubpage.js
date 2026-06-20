@@ -38,7 +38,7 @@ useEffect(() => {
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get(`https://atlasbackend-q7bl.onrender.com/api/v1/admin/getalluser`);
+      const res = await axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`);
       setEmployees(res.data.message);
     })();
   }, []);

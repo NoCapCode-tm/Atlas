@@ -35,7 +35,7 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://atlasbackend-q7bl.onrender.com/api/v1/admin/getmetrics"
+        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getmetrics"
       );
       setMetrics(res.data.message || []);
     })();
@@ -44,7 +44,7 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://atlasbackend-q7bl.onrender.com/api/v1/admin/getattendance"
+        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getattendance"
       );
       setAttendance(res.data.message || []);
     })();
@@ -53,7 +53,7 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://atlasbackend-q7bl.onrender.com/api/v1/admin/getalluser",
+        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser",
         { withCredentials: true }
       );
       setEmployees(res.data.message || []);
@@ -63,7 +63,7 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://atlasbackend-q7bl.onrender.com/api/v1/admin/getalltask",
+        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalltask",
         { withCredentials: true }
       );
       setTasks(res.data.message || []);

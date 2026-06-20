@@ -27,7 +27,7 @@ function Navbar() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get("https://atlasbackend-q7bl.onrender.com/api/v1/admin/getuser", { withCredentials: true })
+        const response = await axios.get("https://atlasbackend-1bt5.onrender.com/api/v1/admin/getuser", { withCredentials: true })
         console.log(response.data.message)
         setuser(response.data.message)
       } catch (error) {
@@ -66,7 +66,7 @@ function Navbar() {
 
   const handlelogout = async () => {
     try {
-      const response = await axios.get("https://atlasbackend-q7bl.onrender.com/api/v1/admin/logout", { withCredentials: true })
+      const response = await axios.get("https://atlasbackend-1bt5.onrender.com/api/v1/admin/logout", { withCredentials: true })
       toast.success("Logout Successfull")
       navigate("/login")
     } catch (error) {
@@ -102,7 +102,7 @@ function Navbar() {
     if (timerStatus === "PUNCH_IN") return;
 
     await axios.post(
-      "https://atlasbackend-q7bl.onrender.com/api/v1/employee/start-attendance",
+      "https://atlasbackend-1bt5.onrender.com/api/v1/employee/start-attendance",
       { userId: user._id },
       { withCredentials: true }
     );
@@ -129,7 +129,7 @@ function Navbar() {
     const workedSeconds = Math.floor((Date.now() - startTime) / 1000);
 
     await axios.post(
-      "https://atlasbackend-q7bl.onrender.com/api/v1/employee/save-time",
+      "https://atlasbackend-1bt5.onrender.com/api/v1/employee/save-time",
       { userId: user._id, seconds: workedSeconds },
       { withCredentials: true }
     );
@@ -153,7 +153,7 @@ function Navbar() {
       }
 
       await axios.post(
-        "https://atlasbackend-q7bl.onrender.com/api/v1/employee/punchout",
+        "https://atlasbackend-1bt5.onrender.com/api/v1/employee/punchout",
         {
           userId: user._id,
           seconds: workedSeconds || 0,

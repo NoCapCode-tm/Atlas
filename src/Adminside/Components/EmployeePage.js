@@ -169,7 +169,7 @@ const handleUpdate = async () => {
     setLoading(true);
   
     await axios.put(
-      `https://atlasbackend-q7bl.onrender.com/api/v1/admin/updateemployee`,
+      `https://atlasbackend-1bt5.onrender.com/api/v1/admin/updateemployee`,
       { id:selectedEmployee._id,manager,onboardingstatus, role, status ,workmode,start,end,department,designation },
       { withCredentials: true }
     );
@@ -187,7 +187,7 @@ const handleUpdate = async () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       const res = await axios.get(
-        `https://atlasbackend-q7bl.onrender.com/api/v1/admin/getalluser`,
+        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`,
         { withCredentials: true }
       );
       setEmployees(res.data.message || []);
@@ -226,7 +226,7 @@ const departmentOptions = [
     try {
       setLoading(true);
       await axios.post(
-        `https://atlasbackend-q7bl.onrender.com/api/v1/admin/addemployee`,
+        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/addemployee`,
         { name:fullName, email:email, password:password, dob:dob,gender:gender },
         { withCredentials: true }
       );
