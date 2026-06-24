@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../CSS/navbar.module.css'
-import { Menu, Bell, LayoutDashboard, Users, FolderKanban, SquareCheckBig, Heart, ChartNoAxesColumnIncreasing, Megaphone, Wrench, KeyRound, UserCircle, Settings, LogOut, ChevronDown, Pause, Play, User } from "lucide-react";
+import { Bell, Users, FolderKanban, SquareCheckBig, ChartNoAxesColumnIncreasing, Megaphone, KeyRound, UserCircle, Settings, LogOut, ChevronDown, Play, User, Activity, BarChart3, Shield, MessageSquare, Plus, Home, Wrench, Clock } from "lucide-react";
 import { useNavigate, useLocation } from 'react-router';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-
-function Navbar() {
+function Navbar({ onAddEmployee, onAssignTask }) {
   const [menuopen, setMenuopen] = useState(false);
   const [empmenu, setempmenuopen] = useState(false);
-  const [toggle, settoggle] = useState("dashboard")
   const [dropdown, setdropdown] = useState(false)
   const navigate = useNavigate()
   const location = useLocation();
@@ -31,8 +29,16 @@ function Navbar() {
         console.log(response.data.message)
         setuser(response.data.message)
       } catch (error) {
-        toast.error("Connection Timed Out")
-        navigate("/")
+
+         // (toast.error is the real as it show to out the session and render to ./  page )
+       // toast.error("Connection Timed Out")
+       // navigate("/")
+        //before push or pull changes krna hai isko.
+
+        console.log("API not reachable - using offline mode")
+        // Don't redirect - just show sidebar with placeholder data
+        //right now mene console pe error bej diya hai rather than toast use krna 
+       
       }
     })()
   }, [])
@@ -73,21 +79,17 @@ function Navbar() {
       toast.error("Logout Unsuccessfull")
     }
   }
-  const handlesidebar = () => {
-    if (user?.designation?.name === "Administrator") {
-      setMenuopen(!menuopen)
-    }
-    else if (user?.designation?.name === "Employee" || user?.designation?.name === "Intern") {
-      setempmenuopen(!empmenu)
-    }
-  }
 
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 18) return "Good afternoon";
-    return "Good evening";
-  };
+
+
+// as not want 
+
+  // const getGreeting = () => {
+  //   const hour = new Date().getHours();
+  //   if (hour < 12) return "Good morning";
+  //   if (hour < 18) return "Good afternoon";
+  //   return "Good evening";
+  // };
 
   const isEmployee = user?.designation?.name === "Employee" || user?.designation?.name === "Intern";
 
@@ -100,19 +102,15 @@ function Navbar() {
 
   const punchIn = async () => {
     if (timerStatus === "PUNCH_IN") return;
-
     await axios.post(
       "https://atlasbackend-1bt5.onrender.com/api/v1/employee/start-attendance",
       { userId: user._id },
       { withCredentials: true }
     );
-
     const startTime = Date.now();
     localStorage.setItem("prism_timer_status", "PUNCH_IN");
     localStorage.setItem("prism_timer_start", startTime);
-
     setTimerStatus("PUNCH_IN");
-
     timerRef.current = setInterval(() => {
       setSeconds(Math.floor((Date.now() - startTime) / 1000));
     }, 1000);
@@ -121,13 +119,10 @@ function Navbar() {
 
   const takeBreak = async () => {
     if (timerStatus !== "PUNCH_IN") return;
-
     clearInterval(timerRef.current);
     timerRef.current = null;
-
     const startTime = Number(localStorage.getItem("prism_timer_start"));
     const workedSeconds = Math.floor((Date.now() - startTime) / 1000);
-
     await axios.post(
       "https://atlasbackend-1bt5.onrender.com/api/v1/employee/save-time",
       { userId: user._id, seconds: workedSeconds },
@@ -142,85 +137,96 @@ function Navbar() {
   const punchOut = async () => {
     try {
       let workedSeconds = 0;
-
       const start = localStorage.getItem("prism_timer_start");
       const status = localStorage.getItem("prism_timer_status");
-
       if (status === "PUNCH_IN" && start) {
-        workedSeconds = Math.floor(
-          (Date.now() - Number(start)) / 1000
-        );
+        workedSeconds = Math.floor((Date.now() - Number(start)) / 1000);
       }
-
       await axios.post(
         "https://atlasbackend-1bt5.onrender.com/api/v1/employee/punchout",
-        {
-          userId: user._id,
-          seconds: workedSeconds || 0,
-        },
+        { userId: user._id, seconds: workedSeconds || 0 },
         { withCredentials: true }
       );
-
       clearInterval(timerRef.current);
       timerRef.current = null;
-
       localStorage.removeItem("prism_timer_status");
       localStorage.removeItem("prism_timer_start");
-
       setSeconds(0);
       setTimerStatus("PUNCH_OUT");
       setShowDropdown(false);
-
       toast.success("Punched out successfully");
       window.location.reload()
-
     } catch (err) {
       toast.error("Punch out failed");
     }
   };
 
-  const isOpen = menuopen || empmenu;
+  /* ========== OPEN/CLOSE STATE FOR SECTION HEADERS (People, Work, etc.) ========== */
+  const [expandedSections, setExpandedSections] = useState({
+    people: true,
+    work: false,
+    performance: false,
+    system: false
+  });
+
+  const toggleSection = (key) => {
+    setExpandedSections(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  /* ========== SIDEBAR NAV ITEMS — FLAT STRUCTURE ========== */
+  const navItems = [
+    { type: "main", icon: <Home size={18} />, label: "Home", path: "/dashboard", active: getActive("/dashboard"), onClick: () => { navigate("/dashboard"); } },
+    { type: "divider" },
+    { type: "section", key: "people", icon: <Users size={18} />, label: "People" },
+    { type: "sub", icon: <User size={14} />, label: "Employees", path: "/employees", active: getActive("/employees"), onClick: () => { navigate("/employees"); } },
+    { type: "sub", icon: <UserCircle size={14} />, label: "Managers", path: "/employees", active: false, onClick: () => { navigate("/employees"); } },
+    { type: "sub", icon: <Activity size={14} />, label: "Activity Logs", path: "/employees", active: false, onClick: () => { navigate("/employees"); } },
+    { type: "section", key: "work", icon: <FolderKanban size={18} />, label: "Work" },
+    { type: "sub", icon: <FolderKanban size={14} />, label: "Projects", path: "/projects", active: getActive("/projects"), onClick: () => { navigate("/projects"); } },
+    { type: "sub", icon: <SquareCheckBig size={14} />, label: "Tasks", path: "/tasks", active: getActive("/tasks"), onClick: () => { navigate("/tasks"); } },
+    { type: "section", key: "performance", icon: <BarChart3 size={18} />, label: "Performance" },
+    { type: "sub", icon: <ChartNoAxesColumnIncreasing size={14} />, label: "Overview", path: "/performance", active: getActive("/performance"), onClick: () => { navigate("/performance"); } },
+    { type: "sub", icon: <BarChart3 size={14} />, label: "Analysis", path: "/heatmap", active: getActive("/heatmap"), onClick: () => { navigate("/heatmap"); } },
+    { type: "section", key: "system", icon: <Shield size={18} />, label: "System" },
+    { type: "sub", icon: <KeyRound size={14} />, label: "Roles & Permissions", path: "/role", active: getActive("/role"), onClick: () => { navigate("/role"); } },
+    { type: "sub", icon: <Megaphone size={14} />, label: "Announcements", path: "/announcement", active: getActive("/announcement"), onClick: () => { navigate("/announcement"); } },
+    { type: "sub", icon: <MessageSquare size={14} />, label: "Support Tickets", path: "/support", active: getActive("/support"), onClick: () => { navigate("/support"); } },
+    { type: "divider" },
+    { type: "main", icon: <Wrench size={18} />, label: "Support", path: "/support", active: getActive("/support"), onClick: () => { navigate("/support"); } },
+    { type: "main", icon: <UserCircle size={18} />, label: "Admin Profile", onClick: () => { setinfo(!info); } },
+  ];
 
   return (
     <>
+      {/* ============ FIXED TOP NAVBAR (no search, no profile dropdown) ============ */}
       <div className={styles.container}>
-        <div className={styles.searchBar}>
-          <div className={styles.logo} onClick={handlesidebar}>
-            <img
-              src={require("./atlas.png")}
-              alt="Atlas"
-              className={`${styles.logoImg} ${isOpen ? styles.logoRotated : ""}`}
-            />
+        <div className={styles.navLeft}>
+          {/* Mobile hamburger */}
+          <div className={styles.logo} onClick={() => setMenuopen(!menuopen)}>
+            <img src={require("./atlas.png")} alt="Atlas" className={`${styles.logoImg} ${menuopen ? styles.logoRotated : ""}`} />
           </div>
-          {/* <Search /> */}
-          {/* <input
-          type="text"
-          placeholder={` Search employees,projects,tasks...`}
-          className={styles.searchInput}
-        /> */}
+          {/* 
+            ========================================
+            ANNOUNCEMENT / NOTIFICATION BELL:
+            Always visible. Add red badge logic when API integrated.
+            If unread announcements exist, show notifBadge div.
+            Example: {hasUnreadAnnouncements && <div className={styles.notifBadge} />}
+            ========================================
+          */}
         </div>
         <div className={styles.right}>
           {isEmployee && (
             <div className={styles.timerBoxWrapper}>
               <div className={styles.timerBox}>
                 <button className={styles.playPauseBtn}>
-                  {timerStatus === "PUNCH_IN" ? <Pause /> : <Play />}
+                  {timerStatus === "PUNCH_IN" ? <Clock size={14} /> : <Play size={14} />}
                 </button>
-
                 <div>
-                  <p className={styles.timerLabel}>
-                    {timerStatus === "PUNCH_IN"
-                      ? "WORKING"
-                      : timerStatus === "BREAK"
-                      ? "ON BREAK"
-                      : "PUNCH OUT"}
-                  </p>
+                  <p className={styles.timerLabel}>{timerStatus === "PUNCH_IN" ? "WORKING" : timerStatus === "BREAK" ? "ON BREAK" : "PUNCH OUT"}</p>
                   <b className={styles.timerValue}>{formatTimer(seconds)}</b>
                 </div>
-
-                <ChevronDown onClick={() => setShowDropdown(!showDropdown)} color='white'/>
+                <ChevronDown size={14} onClick={() => setShowDropdown(!showDropdown)} color='white'/>
               </div>
-
               {showDropdown && (
                 <div className={styles.timerDropdown}>
                   <button onClick={punchIn}>▶ Punch In</button>
@@ -230,280 +236,144 @@ function Navbar() {
               )}
             </div>
           )}
+          <div className={styles.separator} />
           <div className={styles.notification}>
-            <Bell />
+            <Bell size={18} />
+            <div className={styles.notifBadge} />
           </div>
-          <div className={styles.profile} onClick={() => { setinfo(!info) }}>
-            <div className={styles.profilepic}>{user.profilepicture ? (<img src={user?.profilepicture} height="100%" width="100%" alt="/" />) : "B"}</div>
-            <span >{user?.name?.split(" ")[0]}</span>
-            <ChevronDown size={12} />
-            {info && (
-              <div className={styles.info}>
-                <div className={styles.options}><UserCircle color="rgba(104, 80, 190, 1)" />Profile</div>
-                <div className={styles.options}><Settings color="rgba(104, 80, 190, 1)" />Settings</div>
-                <div className={styles.options} onClick={handlelogout}><LogOut color="rgba(104, 80, 190, 1)" />Log Out</div>
-              </div>
-            )}
+          <button className={styles.ctaButton} onClick={() => navigate("/announcement")}>
+            <Bell size={16} /><span>Announcement</span>
+          </button>
+          {/* Profile dropdown removed — kept only bell icon + CTA */}
+        </div>
+      </div>
+
+      {/* ============ FIXED LEFT SIDEBAR (favicon logo, click-to-open sections) ============ */}
+      <div className={styles.sidebar}>
+        <div className={styles.sidebarHeader}>
+          <img src="/favicon/favicon.svg" alt="Logo" className={styles.sidebarFavicon} />
+        </div>
+
+        <div className={styles.sidebarNav}>
+          {navItems.map((item, idx) => {
+            if (item.type === "divider") {
+              return <div key={`div-${idx}`} className={styles.sidebarDivider} />;
+            }
+            if (item.type === "main") {
+              return (
+                <div
+                  key={item.label}
+                  className={`${styles.sidebarItem} ${item.active ? styles.sidebarItemActive : ""}`}
+                  onClick={item.onClick}
+                >
+                  <span className={styles.sidebarItemIcon}>{item.icon}</span>
+                  <span className={styles.sidebarItemLabel}>{item.label}</span>
+                  {item.active && <div className={styles.sidebarActiveDot} />}
+                </div>
+              );
+            }
+            if (item.type === "section") {
+              const isOpen = expandedSections[item.key];
+              return (
+                <div key={`sec-${item.key}`}>
+                  <div
+                    className={styles.sidebarItem}
+                    onClick={() => toggleSection(item.key)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <span className={styles.sidebarItemIcon}>{item.icon}</span>
+                    <span className={styles.sidebarItemLabel}>{item.label}</span>
+                    <ChevronDown
+                      size={14}
+                      style={{
+                        transition: 'transform 0.3s ease',
+                        transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                        opacity: 0.4
+                      }}
+                    />
+                  </div>
+                  {isOpen && (
+                    <div>
+                      {/* sub items rendered below via type === "sub" */}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+            if (item.type === "sub") {
+              // Find the parent section key by looking backwards through items
+              let parentOpen = true;
+              for (let i = idx - 1; i >= 0; i--) {
+                if (navItems[i].type === "section") {
+                  parentOpen = expandedSections[navItems[i].key];
+                  break;
+                }
+              }
+              // Only render if parent section is open
+              if (!parentOpen) return null;
+              return (
+                <div
+                  key={`sub-${item.label}`}
+                  className={`${styles.sidebarSubItem} ${item.active ? styles.sidebarSubItemActive : ""}`}
+                  onClick={item.onClick}
+                >
+                  <span className={styles.sidebarSubItemIcon}>{item.icon}</span>
+                  <span className={styles.sidebarSubItemLabel}>{item.label}</span>
+                </div>
+              );
+            }
+            return null;
+          })}
+        </div>
+
+        <div className={styles.sidebarFooter}>
+          <div className={styles.sidebarFooterItem} onClick={handlelogout}>
+            <LogOut size={16} /><span>Sign Out</span>
           </div>
         </div>
       </div>
+
+      {/* ============ MOBILE OVERLAY ============ */}
       {menuopen && (
-        <div
-          className={styles.sidebarOverlay}
-          onClick={() => setMenuopen(false)}
-        >
-          <div className={styles.mobilemenu} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.logomenu}>
-              <Menu onClick={() => { setMenuopen(false) }} />
-              <div className={styles.logohumanity}>
-                <img src="/companylogo.png" alt="/" height="100%" width="100%" />
-              </div>
+        <div className={styles.sidebarOverlay} onClick={() => setMenuopen(false)}>
+          <div className={styles.sidebar} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.sidebarHeader}>
+              <img src="/favicon/favicon.svg" alt="Logo" className={styles.sidebarFavicon} />
             </div>
-            <div className={styles.menuScroll}>
-              <div className={
-                getActive("/dashboard")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/dashboard")
-                settoggle("dashboard")
-              }}>
-                <LayoutDashboard />
-                Dashboard
-              </div>
-              <div className={
-                getActive("/employees")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/employees")
-                settoggle("employees")
-              }}>
-                <Users />
-                Employees
-              </div>
-              <div className={
-                getActive("/projects")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/projects")
-                settoggle("projects")
-              }}>
-                <FolderKanban />
-                Projects
-              </div>
-              <div className={
-                getActive("/tasks")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/tasks")
-                settoggle("tasks")
-              }}>
-                <SquareCheckBig />
-                Tasks
-
-              </div>
-              <div className={
-                getActive("/hr")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/hr")
-                settoggle("hr")
-              }}>
-                <Heart />
-                HR Hub
-              </div>
-              {/* REPORTS MAIN MENU */}
-              <div
-                className={
-                  getActive("/reports")
-                    ? styles.dashboardmenucolor
-                    : styles.dashboardmenu
+            <div className={styles.sidebarNav}>
+              {navItems.map((item, idx) => {
+                if (item.type === "divider") return <div key={`div-${idx}`} className={styles.sidebarDivider} />;
+                if (item.type === "main") {
+                  return (
+                    <div key={item.label} className={`${styles.sidebarItem} ${item.active ? styles.sidebarItemActive : ""}`}
+                      onClick={() => { item.onClick(); setMenuopen(false); }}>
+                      <span className={styles.sidebarItemIcon}>{item.icon}</span>
+                      <span className={styles.sidebarItemLabel}>{item.label}</span>
+                    </div>
+                  );
                 }
-                onClick={() => {
-                  settoggle("reports");
-                  setdropdown(!dropdown);
-                }}
-              >
-                <LayoutDashboard />
-                Reports ▾
-              </div>
-
-              {/* DROPDOWN ITEMS */}
-              <div
-                className={`${styles.reportsDropdown} ${dropdown ? styles.showDropdown : ""}`}
-              >
-                <div className={styles.reportItem} onClick={() => navigate("/reports1")}>
-                  Productivity Reports
-                </div>
-                <div className={styles.reportItem} onClick={() => navigate("/heatmap")}>
-                  Performance Score Heatmap
-                </div>
-                <div className={styles.reportItem} onClick={() => navigate("/daily-report-submission")}>
-                  Daily Report Submission Chart
-                </div>
-                <div className={styles.reportItem} onClick={() => navigate("/task-analytics")}>
-                  Task Delivery Analytics
-                </div>
-                <div className={styles.reportItem} onClick={() => navigate("/redreport")}>
-                  Red Flags Report
-                </div>
-                <div className={styles.reportItem} onClick={() => navigate("/project-success")}>
-                  Project Success Reports
-                </div>
-                <div className={styles.reportItem} onClick={() => navigate("/data-export")}>
-                  Data Export
-                </div>
-              </div>
-
-              <div className={
-                getActive("/performance")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/performance")
-                settoggle("performance")
-              }}>
-                <ChartNoAxesColumnIncreasing />
-                Performance
-              </div>
-              <div className={
-                getActive("/announcement")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/announcement")
-                settoggle("announcement")
-              }}>
-                <Megaphone />
-                Announcements
-              </div>
-              <div className={
-                getActive("/support")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/support")
-                settoggle("support")
-              }}>
-                <Wrench />
-                Support/Tickets
-              </div>
-              <div className={
-                getActive("/role")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/role")
-                settoggle("role")
-              }}>
-                <KeyRound />
-                Role and Permissions
+                if (item.type === "section") {
+                  return null; // Simplified for mobile
+                }
+                if (item.type === "sub") {
+                  return (
+                    <div key={`sub-${item.label}`} className={`${styles.sidebarSubItem} ${item.active ? styles.sidebarSubItemActive : ""}`}
+                      onClick={() => { item.onClick(); setMenuopen(false); }}>
+                      <span className={styles.sidebarSubItemIcon}>{item.icon}</span>
+                      <span className={styles.sidebarSubItemLabel}>{item.label}</span>
+                    </div>
+                  );
+                }
+                return null;
+              })}
+            </div>
+            <div className={styles.sidebarFooter}>
+              <div className={styles.sidebarFooterItem} onClick={() => { handlelogout(); setMenuopen(false); }}>
+                <LogOut size={16} /><span>Sign Out</span>
               </div>
             </div>
           </div>
         </div>
-
-      )}
-
-      {empmenu && (
-        <div
-          className={styles.sidebarOverlay}
-          onClick={() => setempmenuopen(false)}
-        >
-          <div className={styles.mobilemenu} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.logomenu}>
-              <Menu onClick={() => { setempmenuopen(false) }} />
-              <div className={styles.logohumanity}>
-                <img src="./companylogo.png" alt="/" height="100%" width="100%" />
-              </div>
-            </div>
-            <div className={styles.menuScroll}>
-              <div className={
-                getActive("/employee/dashboard")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/employee/dashboard")
-                settoggle("dashboard")
-              }}>
-                <LayoutDashboard />
-                Dashboard
-              </div>
-              <div className={
-                getActive("/employees/tasks")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/employees/tasks")
-                settoggle("tasks")
-              }}>
-                <Users />
-                My Task
-              </div>
-              <div className={
-                getActive("/employee/reports")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/employee/reports")
-                settoggle("reports")
-              }}>
-                <FolderKanban />
-                Daily Reports
-              </div>
-              <div className={
-                getActive("/employee/Calendar")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/employee/Calendar")
-                settoggle("calendar")
-              }}>
-                <Heart />
-                Calendar
-              </div>
-
-              <div className={
-                getActive("/employee/announcement")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/employee/announcement")
-                settoggle("performance")
-              }}>
-                <ChartNoAxesColumnIncreasing />
-                Announcements
-              </div>
-              <div className={
-                getActive("/employee/support")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/employee/support")
-                settoggle("support")
-              }}>
-                <Wrench />
-                Support / Request
-              </div>
-              <div className={
-                getActive("/employee/profile")
-                  ? styles.dashboardmenucolor
-                  : styles.dashboardmenu
-              } onClick={() => {
-                navigate("/employee/profile")
-                settoggle("profile")
-              }}>
-                <User />
-                Profile
-              </div>
-            </div>
-          </div>
-        </div>
-
       )}
     </>
   )
