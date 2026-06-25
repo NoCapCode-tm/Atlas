@@ -2,28 +2,29 @@ import "./App.css";
 import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
 
-import Navbar from "../src/Adminside/Components/Navbar";
-import Login from "../src/Adminside/Components/Login";
-import Admindashboard from "../src/Adminside/Components/Admindashboard";
-import EmployeePage from "../src/Adminside/Components/EmployeePage";
-import Projects from "../src/Adminside/Components/Projects";
-import ProjectDetailspage from "../src/Adminside/Components/ProjectDetailspage";
-import Taskpage from "../src/Adminside/Components/Taskpage";
-import Rolepage from "../src/Adminside/Components/Rolepage";
-import Ticketpage from "../src/Adminside/Components/Ticketpage";
-import Announcementpage from "../src/Adminside/Components/Announcementpage";
-import HRhubpage from "../src/Adminside/Components/HRhubpage";
-import Performance from "../src/Adminside/Components/Performance";
-import ProductivityReport from "../src/Adminside/Components/ProductivityReport";
-import DailyReport from "../src/Adminside/Components/DailyReport";
-import PerformanceHeatmap from "../src/Adminside/Components/Performanceheatmap";
-import RedFlagsReport from "../src/Adminside/Components/RedFlagReports";
-import ProjectSuccessReports from "../src/Adminside/Components/ProjectSuccessReports";
-import SLAComplianceDashboard from "../src/Adminside/Components/SLApage";
-import Reports from "../src/Adminside/Components/Reports";
-import SelectPosition from "../src/Adminside/Components/Entrypage";
-import EmployeeLogin from "../src/Employee Side/Components/EmployeeLogin";
+import Navbar from "./Adminside/Components/Navbar";
+import Login from "./Adminside/Components/Login";
+import Admindashboard from "./Adminside/Components/Admindashboard";
+import EmployeePage from "./Adminside/Components/EmployeePage";
+import Projects from "./Adminside/Components/Projects";
+import ProjectDetailspage from "./Adminside/Components/ProjectDetailspage";
+import Taskpage from "./Adminside/Components/Taskpage";
+import Rolepage from "./Adminside/Components/Rolepage";
+import Ticketpage from "./Adminside/Components/Ticketpage";
+import Announcementpage from "./Adminside/Components/Announcementpage";
+import HRhubpage from "./Adminside/Components/HRhubpage";
+import Performance from "./Adminside/Components/Performance";
+import ProductivityReport from "./Adminside/Components/ProductivityReport";
+import DailyReport from "./Adminside/Components/DailyReport";
+import PerformanceHeatmap from "./Adminside/Components/Performanceheatmap";
+import RedFlagsReport from "./Adminside/Components/RedFlagReports";
+import ProjectSuccessReports from "./Adminside/Components/ProjectSuccessReports";
+import SLAComplianceDashboard from "./Adminside/Components/SLApage";
+import Reports from "./Adminside/Components/Reports";
+import SelectPosition from "./Adminside/Components/Entrypage";
+import EmployeeLogin from "./Employee Side/Components/EmployeeLogin";
 import EmployeeDashboard from "./Employee Side/Components/EmployeeDashboard";
 import EmployeeTaskpage from "./Employee Side/Components/EmployeeTaskpage";
 import DailyReports from "./Employee Side/Components/EmployeeReports";
@@ -36,32 +37,52 @@ import EmployeeDetails from "./Adminside/Components/EmployeeDetailspage";
 import EmployeeProfile from "./Employee Side/Components/EmployeeProfile";
 import ManagerLogin from "./Managerside/components/ManagerLogin";
 import HRLogin from "./hrside/Components/HRLogin";
+import navbarStyles from "./Adminside/CSS/navbar.module.css";
 
-/* ---------- LAYOUT (Navbar control yahin hoga) ---------- */
-function Layout({ children }) {
+/* ---------- LAYOUT (Navbar + sidebar offset) ---------- */
+function Layout({ children, onAddEmployee, onAssignTask }) {
   const location = useLocation();
 
-  const hideNavbarRoutes = ["/","/login","/employeelogin","/managerlogin","/hrlogin"];
+  // change before if you pull and push the code into github
+    // const hideNavbarRoutes = ["/","/login","/employeelogin","/managerlogin","/hrlogin"];
+  // const hideNavbar = hideNavbarRoutes.includes(location.pathname);
+
+  
+  const hideNavbarRoutes = ["/login","/employeelogin","/managerlogin","/hrlogin"];
   const hideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   return (
     <>
-      {!hideNavbar && <Navbar />}
-      {children}
+      {!hideNavbar && <Navbar onAddEmployee={onAddEmployee} onAssignTask={onAssignTask} />}
+      <div className={!hideNavbar ? navbarStyles.mainContent : ""}>
+        {children}
+      </div>
     </>
   );
 }
 
-
 function App() {
+  const [showAddEmployee, setShowAddEmployee] = useState(false);
+  const [showAssignTask, setShowAssignTask] = useState(false);
+
   return (
     <>
       <Router>
-        <Layout>
+        <Layout onAddEmployee={() => setShowAddEmployee(true)} onAssignTask={() => setShowAssignTask(true)}>
           <Routes>
-            <Route path="/" element={<SelectPosition/>} />
+            <Route path="/" element={<Admindashboard 
+                  showAddEmployee={showAddEmployee}
+                  setShowAddEmployee={setShowAddEmployee}
+                  showAssignTask={showAssignTask}
+                  setShowAssignTask={setShowAssignTask}
+                />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Admindashboard />} />
+            <Route path="/dashboard" element={<Admindashboard 
+                  showAddEmployee={showAddEmployee}
+                  setShowAddEmployee={setShowAddEmployee}
+                  showAssignTask={showAssignTask}
+                  setShowAssignTask={setShowAssignTask}
+                />} />
             <Route path="/employees/:id" element={<EmployeeDetails />} />
             <Route path="/employees" element={<EmployeePage />} />
             <Route path="/projects" element={<Projects />} />
@@ -107,7 +128,3 @@ function App() {
 }
 
 export default App;
-
-
-
- 
