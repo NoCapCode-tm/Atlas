@@ -6,6 +6,7 @@
     flex-direction:column;
     align-items:center;
     gap:10px;
+    font-family: "Poppins", "Inter", sans-serif;
 }
 .employee-details-name{
     width:98%;

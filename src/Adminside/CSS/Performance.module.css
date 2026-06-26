@@ -2,6 +2,7 @@
   padding: 28px 32px;
   background: #0B1220;
   min-height: 100vh;
+  font-family: "Poppins", "Inter", sans-serif;
   animation: pageEnter 0.5s ease-out both;
 }
 

@@ -13,6 +13,7 @@
   position: relative;
   overflow: hidden;
   padding: 0px 40px 30px 40px;
+  font-family: "Poppins", "Inter", sans-serif;
 }
 
 .container {

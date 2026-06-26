@@ -1,20 +1,16 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import styles from '../CSS/admindashboard.module.css'
 import {
-  UserPlus, Plus, Users, DollarSign,
-  GraduationCap, FolderKanban,
-  TriangleAlert, X, ChevronUp, ChevronDown,
-  Activity, CheckCircle, CalendarClock, TrendingUp,
-  AlertTriangle, Clock, UserCheck, FileText,
-  BarChart3, Search, Bell, Home, Target, PieChart,
-  Flame
+  Plus, CalendarClock, TriangleAlert, X,
+  Bell, Settings, PieChart, UserRound,
+  MoreHorizontal, Activity
 } from "lucide-react";
 import {
   AreaChart,
   Area,
   XAxis,
   YAxis,
-  CartesianGrid,
+  // CartesianGrid,
   ResponsiveContainer,
   PieChart as RePieChart,
   Pie,
@@ -30,13 +26,17 @@ import Createtaskmodal from './Createtaskmodal';
 const toISTDateKey = (date) =>
   new Date(date).toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
 
-const getYesterdayISTKey = () => {
-  const d = new Date(
-    new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-  );
-  d.setDate(d.getDate() - 1);
-  return toISTDateKey(d);
-};
+
+
+
+// const getYesterdayISTKey = () => {
+//   const d = new Date(
+//     new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+//   );
+//   d.setDate(d.getDate() - 1);
+//   return toISTDateKey(d);
+// };
+
 
 const getLast7DaysIST = () => {
   const days = [];
@@ -78,22 +78,25 @@ const getInitials = (name) => {
 
 /* ================= DONUT CHART DATA ================= */
 const donutData = [
-  { name: 'Submitted', value: 74, color: '#22C55E' },
-  { name: 'Missing', value: 8, color: '#EF4444' },
-  { name: 'Expected', value: 18, color: '#F59E0B' },
+  { name: 'Expected: 180', value: 180, color: '#FF574D' },
+  { name: 'Submitted: 160', value: 160, color: '#22C55E' },
+  { name: 'Missing: 20', value: 20, color: '#F59E0B' },
 ];
+// remove radian chart data 
 
-const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-  return (
-    <text x={x} y={y} fill="#fff" textAnchor="middle" dominantBaseline="central" fontSize={10} fontWeight={600}>
-      {`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
+
+// const RADIAN = Math.PI / 180;
+// const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name }) => {
+//   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+//   const x = cx + radius * Math.cos(-midAngle * RADIAN);
+//   const y = cy + radius * Math.sin(-midAngle * RADIAN);
+//   return (
+//     <text x={x} y={y} fill="#fff" textAnchor="middle" dominantBaseline="central" fontSize={10} fontWeight={600}>
+//       {`${(percent * 100).toFixed(0)}%`}
+//     </text>
+//   );
+// };
+
 
 /* ================= MOCK USER DATA ================= */
 const mockActiveUsers = [
@@ -105,17 +108,18 @@ const mockActiveUsers = [
 ];
 
 const mockRedFlags = [
-  { name: 'David Kim', desc: 'Missed Reports', severity: 'high' },
-  { name: 'Lisa Anderson', desc: 'Poor Performance', severity: 'medium' },
-  { name: 'John Doe', desc: 'Inactive', severity: 'low' },
+  { name: 'David Kim', desc: 'Missed Reports', severity: 'high', date: 'Jun 25, 2026' },
+  { name: 'Lisa Anderson', desc: 'Poor Performance', severity: 'medium', date: 'Jun 24, 2026' },
+  { name: 'John Doe', desc: 'Inactive', severity: 'low', date: 'Jun 23, 2026' },
 ];
 
 /* ================= MOCK HEATMAP ================= */
 const generateHeatmapData = () => {
   const cells = [];
-  const levels = [0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4];
-  for (let i = 0; i < 35; i++) {
-    cells.push({ level: levels[i % levels.length] || Math.floor(Math.random() * 6) });
+  // 7 rows x 26 cols = 182 cells project hemp
+  const pattern = [0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0];
+  for (let i = 0; i < 111; i++) {
+    cells.push({ level: pattern[i % pattern.length] || Math.floor(Math.random() * 3) });
   }
   return cells;
 };
@@ -127,7 +131,7 @@ const projectStatusData = [
   { label: 'Completed', count: 5, color: '#22C55E' },
   { label: 'In Progress', count: 10, color: '#3B82F6' },
   { label: 'On Hold', count: 5, color: '#F59E0B' },
-  { label: 'Pending', count: 4, color: '#64748b' },
+  { label: 'Pending', count: 4, color: '#5C5F6A' },
 ];
 
 function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, setShowAssignTask }) {
@@ -140,6 +144,19 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
   const [employees, setEmployees] = useState([]);
   const [metrics, setMetrics] = useState([]);
   const [redflags, setredflags] = useState([]);
+
+  // Demo employees for "Recent Employees" UI (never affects API logic)
+  const demoRecentEmployees = useMemo(
+    () => [
+      { _id: "demo-emp-1", name: "Rahul Kumar", role: "Frontend Developer", manager: "Anita", Projects: ["p1"], issues: 2, status: "Active & Paid", designation: { name: "Frontend Developer" } },
+      { _id: "demo-emp-2", name: "Priya Sharma", role: "Backend Developer", manager: "Vikram", Projects: ["p2", "p3"], issues: 1, status: "Active & Unpaid", designation: { name: "Backend Developer" } },
+      { _id: "demo-emp-3", name: "Arjun Mehta", role: "QA Engineer", manager: "Nidhi", Projects: [], issues: 3, status: "Onboarding", designation: { name: "QA" } },
+      { _id: "demo-emp-4", name: "Neha Patel", role: "UI/UX Designer", manager: "Rohit", Projects: ["p4"], issues: 0, status: "Inactive", designation: { name: "UI/UX Designer" } },
+      { _id: "demo-emp-5", name: "Sahil Verma", role: "DevOps", manager: "Kavya", Projects: ["p5"], issues: 2, status: "Active & Paid", designation: { name: "Devops" } },
+    ],
+    []
+  );
+
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -171,10 +188,7 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
   }, [showAssignTask]);
 
   
-  
-  
-  
-  // this term i use for not go to ./ that page rather to get the error in console only 
+   // this term i use for not go to ./ that page rather to get the error in console only 
   // before push and pull remove and replace with this
   
   {/*
@@ -207,14 +221,6 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
   }, [employees]); 
 
  */}
-
-
-
-
-
-
-
-
   useEffect(() => {
     axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`, { withCredentials: true })
       .then(res => setEmployees(res.data.message || []))
@@ -251,16 +257,6 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
       .catch(err => console.log("API offline - redflags"));
   }, [employees]);
 
-
-
-
-
-
-
-
-
-
-
   const weeklyDynamicData = useMemo(() => {
     const days = getLast7DaysIST();
     return days.map(d => {
@@ -276,13 +272,11 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
   // Generate chart data based on active tab
   const chartData = useMemo(() => {
     if (activegraph === "daily") {
-      // Generate hourly data for today
       return Array.from({ length: 8 }, (_, i) => ({
         name: `${(i + 8).toString().padStart(2, '0')}:00`,
         value: Math.floor(Math.random() * 15) + 5
       }));
     } else if (activegraph === "monthly") {
-      // Generate monthly data
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       return months.map(m => ({
         name: m,
@@ -298,8 +292,11 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
       : new Date(a.createdAt) - new Date(b.createdAt)
   );
 
-  const totalPages = Math.ceil(sortedEmployees.length / itemsPerPage);
-  const paginatedEmployees = sortedEmployees.slice(
+  // Recent Employees table uses demo list only when API list is empty
+  const effectiveEmployees = employees?.length ? sortedEmployees : demoRecentEmployees;
+
+  const totalPages = Math.ceil(effectiveEmployees.length / itemsPerPage);
+  const paginatedEmployees = effectiveEmployees.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -312,14 +309,14 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
     "Training": styles.training,
   };
 
-  const handleactivepaid = () => {
-    const ap = employees?.filter((e) => e.status === "Active & Paid")
-    return ap?.length
-  }
-  const handleactiveunpaid = () => {
-    const au = employees?.filter((e) => e.status === "Active & Unpaid")
-    return au?.length
-  }
+  // const handleactivepaid = () => {
+  //   const ap = employees?.filter((e) => e.status === "Active & Paid")
+  //   return ap?.length
+  // }
+  // const handleactiveunpaid = () => {
+  //   const au = employees?.filter((e) => e.status === "Active & Unpaid")
+  //   return au?.length
+  // }
 
   const handleaddu = async () => {
     try {
@@ -348,226 +345,276 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
     }
   };
 
+  /* ===== Severity Badge Helper ===== */
+  const getSeverityBadge = (severity) => {
+    if (severity === 'high') {
+      return <span className={`${styles.redFlagBadge} ${styles.redFlagBadgeHigh}`}>High</span>;
+    } else if (severity === 'medium') {
+      return <span className={`${styles.redFlagBadge} ${styles.redFlagBadgeMedium}`}>Medium</span>;
+    }
+    return <span className={`${styles.redFlagBadge} ${styles.redFlagBadgeLow}`}>Low</span>;
+  };
 
-  //as not want
-  // const getGreeting = () => {
-  //   const hour = new Date().getHours();
-  //   if (hour < 12) return "Good morning";
-  //   if (hour < 18) return "Good afternoon";
-  //   return "Good evening";
-  // };
-
-  /* ===== KPI DATA (4 cards only) ===== */
-  const kpiData = [
-    {
-      label: "Total Employees",
-      value: employees?.length || 124,
-      growth: "+12% from last month",
-      positive: true,
-      icon: <Users size={20} />,
-      iconClass: styles.kpiIconPrimary,
-      cardClass: styles.kpiPrimary,
-      onClick: () => navigate("/employees")
-    },
-    {
-      label: "Tasks Due Today",
-      value: projects?.reduce((acc, p) => acc + (p.Tasks?.filter(t => {
-        const due = new Date(t.deadline);
-        const today = new Date();
-        return due.toDateString() === today.toDateString();
-      })?.length || 0), 0) || 12,
-      growth: "5 overdue",
-      positive: false,
-      icon: <CalendarClock size={20} />,
-      iconClass: styles.kpiIconWarning,
-      cardClass: styles.kpiWarning,
-      onClick: () => navigate("/tasks")
-    },
-    {
-      label: "Task Completion Rate",
-      value: "80%",
-      growth: "+5% improvement",
-      positive: true,
-      icon: <CheckCircle size={20} />,
-      iconClass: styles.kpiIconSuccess,
-      cardClass: styles.kpiSuccess,
-      onClick: () => navigate("/performance")
-    },
-    {
-      label: "Adoption Score",
-      value: "75%",
-      growth: "↑ High Engagement",
-      positive: true,
-      icon: null,
-      iconClass: "",
-      cardClass: styles.kpiAccent,
-      onClick: () => navigate("/performance")
-    },
-  ];
-
+  /* ===== Tooltip Style (shared) ===== */
+  const tooltipStyle = {
+    background: '#111520',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 8,
+    fontSize: 12,
+    color: '#FFFFFF',
+    fontWeight: 500,
+    boxShadow: '0 8px 24px rgba(0,0,0,0.3)'
+  };
 
   return (
     <>
       <div className={styles.mainContainer}>
-        {/* HEADER */}
+        {/* ─── HEADER ─── */}
         <div className={styles.topcontainer}>
           <div className={styles.topleft}>
-            <div className={styles.topleft1}>{user?.name?.split(" ")[0] || 'Dashboard'}</div>
+            <div className={styles.topleft1}>
+              {user?.name?.split(" ")[0] || 'Dashboard'}
+            </div>
             <div className={styles.topleft2}>
-             Here’s what’s happening today
+              Here's what's happening today
             </div>
           </div>
           <div className={styles.topright}>
+            
             <div className={styles.topright2} onClick={() => navigate("/employees")}>
-              <Plus size={16} />Assign Task
+              <Plus size={16} />New Employee
             </div>
           </div>
         </div>
 
-        {/* ======== SECTION 1: KPI CARDS (4) ======== */}
+        {/* ─── ROW 1: PREMIUM KPI STATS CARDS (4 Columns) ─── */}
         <div className={styles.kpiStrip}>
-          {kpiData.map((kpi, idx) => (
-            <div
-              key={idx}
-              className={`${styles.kpiCard} ${kpi.cardClass}`}
-              style={{ "--i": idx }}
-              onClick={kpi.onClick}
-            >
-              <div className={styles.kpiLeft}>
-                <div className={styles.kpiLabel}>{kpi.label}</div>
-                <div className={styles.kpiValue}>{kpi.value}</div>
-                <div className={`${styles.kpiGrowth} ${kpi.positive ? styles.kpiGrowthPositive : styles.kpiGrowthNegative}`}>
-                  {kpi.positive ? "↑" : "↓"} {kpi.growth}
+          {/* Card 1: Total Employees */}
+          <div className={styles.kpiCard} onClick={() => navigate("/employees")}>
+            <div className={styles.kpiCardContent}>
+              <div className={styles.kpiTopRow}>
+                <div className={styles.kpiLabel}>Total Employees</div>
+                <div className={styles.kpiIconCircle}>
+                  <UserRound size={18} />
                 </div>
               </div>
-              <div className={`${styles.kpiIcon} ${kpi.iconClass}`}>
-                {kpi.label === "Adoption Score" ? (
-                  <div className={styles.adoptionRingWrap}>
-                    <svg className={styles.adoptionRingSvg} viewBox="0 0 48 48" aria-hidden="true">
-                      <circle className={styles.adoptionRingBg} cx="24" cy="24" r="18" />
-                      <circle
-                        className={styles.adoptionRingProgress}
-                        cx="24"
-                        cy="24"
-                        r="18"
-                        strokeDasharray="113.097"
-                        strokeDashoffset="26.774"
-                      />
-                    </svg>
-                    <div className={styles.adoptionRingText}>75%</div>
-                  </div>
-                ) : (
-                  kpi.icon
-                )}
-              </div>
-
-            </div>
-          ))}
-        </div>
-
-        {/* ======== SECTION 2: MIDDLE GRID (Chart + Project Status + Users Active) ======== */}
-        <div className={styles.middleGrid}>
-          {/* Chart: Task Completion Trend */}
-          <div className={styles.graphCard}>
-            <div className={styles.graphHeader}>
-              <div className={styles.graphTitle}>
-                <BarChart3 size={18} color="#3B82F6" />
-                Task Completion Trend
-              </div>
-              <div className={styles.graphTabs}>
-                <button
-                  className={`${styles.graphTab} ${activegraph === "daily" ? styles.graphTabActive : ""}`}
-                  onClick={() => setActivegraph("daily")}
-                >Daily</button>
-                <button
-                  className={`${styles.graphTab} ${activegraph === "weekly" ? styles.graphTabActive : ""}`}
-                  onClick={() => setActivegraph("weekly")}
-                >Weekly</button>
-                <button
-                  className={`${styles.graphTab} ${activegraph === "monthly" ? styles.graphTabActive : ""}`}
-                  onClick={() => setActivegraph("monthly")}
-                >Monthly</button>
-              </div>
-            </div>
-            <div className={styles.graphBody}>
-              <div style={{ width: "100%", height: 200 }}>
-                <ResponsiveContainer>
-                  <AreaChart data={chartData}>
-                    <defs>
-                      <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.35} />
-                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
-                    <XAxis
-                      dataKey="name"
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fill: "#64748b", fontSize: 11 }}
-                    />
-                    <YAxis
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fill: "#64748b", fontSize: 11 }}
-                      width={30}
-                    />
-                    <Tooltip
-                      contentStyle={{
-                        background: '#1E293B',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        borderRadius: 8,
-                        fontSize: 12,
-                        color: '#f8fafc'
-                      }}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="value"
-                      stroke="#3B82F6"
-                      strokeWidth={2}
-                      fill="url(#chartGradient)"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
+              <div className={styles.kpiValueRow}>
+                <div className={styles.kpiValue}>{employees?.length || 124}</div>
               </div>
             </div>
           </div>
+
+          {/* Card 2: Tasks Due Today */}
+          <div className={styles.kpiCard} onClick={() => navigate("/tasks")}>
+            <div className={styles.kpiCardContent}>
+              <div className={styles.kpiTopRow}>
+                <div className={styles.kpiLabel}>Tasks Due Today</div>
+                <div className={`${styles.kpiIconCircle} ${styles.kpiIconCircleRed}`}>
+                  <Bell size={16} />
+                </div>
+              </div>
+              <div className={styles.kpiValueRow}>
+                <div className={styles.kpiValue}>
+                  {projects?.reduce((acc, p) => acc + (p.Tasks?.filter(t => {
+                    const due = new Date(t.deadline);
+                    const today = new Date();
+                    return due.toDateString() === today.toDateString();
+                  })?.length || 0), 0) || 12}
+                </div>
+              </div>
+            </div>
+          </div>
+
+         {/* Card 3: Task Completion Rate */}
+<div
+  className={styles.kpiCard}
+  onClick={() => navigate("/performance")}
+>
+  <div className={styles.kpiCardContent}>
+
+    <div className={styles.kpiTopRow}>
+      <div className={styles.kpiLabel}>Task Completion Rate</div>
+    </div>
+
+    <div className={styles.kpiValueRow}>
+      
+      <div className={styles.kpiValue}>80%</div>
+
+      <div className={styles.kpiBarsRight}>
+        {[30, 55, 80, 45, 65].map((value, index) => (
+          <div
+            key={index}
+            className={styles.kpiPillBar}
+            // Make bars visually more distinct vs container padding by mapping to an easier range
+            style={{ height: `${Math.max(10, Math.min(100, value * 1.1))}%` }}
+            aria-hidden="true"
+          />
+        ))}
+      </div>
+
+    </div>
+  </div>
+</div>
+          {/* Card 4: Adoption Score */}
+          <div className={styles.kpiCard} onClick={() => navigate("/performance")}>
+            <div className={styles.kpiCardContent}>
+              <div className={styles.kpiTopRow}>
+                <div className={styles.kpiLabel}>Adoption Score</div>
+              </div>
+              <div className={styles.kpiValueRow}>
+                <div className={styles.kpiAdoptionWrap}>
+                  <div className={styles.adoptionRingWrapNew}>
+                    <svg className={styles.adoptionRingSvgNew} viewBox="0 0 100 100">
+                      <defs>
+                        <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#3B82F6" />
+                          <stop offset="100%" stopColor="#60A5FA" />
+                        </linearGradient>
+                      </defs>
+                      <circle className={styles.adoptionRingBgNew} cx="50" cy="50" r="34" />
+                      <circle
+                        className={styles.adoptionRingProgressNew}
+                        cx="50"
+                        cy="50"
+                        r="34"
+                        stroke="url(#blueGradient)"
+                        strokeDasharray="213.6"
+                        strokeDashoffset="53.4"
+                      />
+                    </svg>
+                    <div className={styles.adoptionRingCenterText}>75%</div>
+                  </div>
+                  <div className={styles.kpiAdoptionRight}>
+                    <div className={styles.kpiAdoptionHigh}>High</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ─── ROW 2: Task Completion Trend + Project Status Overview ─── */}
+        <div className={styles.row2}>
+          {/* Chart: Task Completion Trend */}
+
+<div className={styles.graphCard}>
+  
+  {/* Header */}
+  <div className={styles.graphHeader}>
+    <div className={styles.graphTitle}>
+      Task Completion Trend
+    </div>
+
+    {/* Tabs */}
+    <div className={styles.graphTabs}>
+      <div className={styles.graphTabsPill}>
+        
+        <span
+          className={`${styles.graphTabPillItem} ${
+            activegraph === "daily" ? styles.graphTabPillActive : ""
+          }`}
+          onClick={() => setActivegraph("daily")}
+        >
+          Daily
+        </span>
+
+        <span
+          className={`${styles.graphTabPillItem} ${
+            activegraph === "weekly" ? styles.graphTabPillActive : ""
+          }`}
+          onClick={() => setActivegraph("weekly")}
+        >
+          Weekly
+        </span>
+
+        <span
+          className={`${styles.graphTabPillItem} ${
+            activegraph === "monthly" ? styles.graphTabPillActive : ""
+          }`}
+          onClick={() => setActivegraph("monthly")}
+        >
+          Monthly
+        </span>
+
+      </div>
+    </div>
+  </div>
+
+  {/* Chart Body */}
+  <div className={styles.graphBody}>
+    <ResponsiveContainer width="100%" height={300}>
+      <AreaChart
+        data={chartData}
+        margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+      >
+
+        {/* Gradient */}
+        <defs>
+  <linearGradient id="splineGradient" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stopColor="#3B46FF" stopOpacity={0.95} />
+    <stop offset="45%" stopColor="#3B46FF" stopOpacity={0.55} />
+    <stop offset="100%" stopColor="#3B46FF" stopOpacity={0.10} />
+  </linearGradient>
+</defs>
+
+        {/* Axes (hidden for clean UI) */}
+        <XAxis dataKey="name" hide />
+        <YAxis hide domain={[0, "auto"]} />
+
+        {/* Subtle grid */}
+        {/* <CartesianGrid
+          stroke="rgba(255,255,255,0.03)"
+          vertical={false}
+        /> */}
+
+        {/* Tooltip */}
+        <Tooltip contentStyle={tooltipStyle} />
+
+        {/* Area Chart */}
+       <Area
+  type="natural"
+  dataKey="value"
+  stroke="#3F4DFF"
+  strokeWidth={3}
+  fill="url(#splineGradient)"
+  dot={false}
+  activeDot={false}
+/>
+      </AreaChart>
+    </ResponsiveContainer>
+  </div>
+
+</div>
 
           {/* Project Status Overview */}
           <div className={styles.projectStatusCard}>
             <div className={styles.projectStatusHeader}>
               <div className={styles.projectStatusTitle}>Project Status Overview</div>
             </div>
-
             <div className={styles.projectStatusTop}>
               <div className={styles.projectStatusBigNumber}>{projects?.length || 24}</div>
               <div className={styles.projectStatusTopSub}>Projects Active</div>
             </div>
-
             <div className={styles.projectStatusGrid}>
-              <div className={styles.projectStatusMetric}>
-                <div className={styles.projectStatusMetricLabel}>Completed</div>
-                <div className={styles.projectStatusMetricValue}>5</div>
-              </div>
-              <div className={styles.projectStatusMetric}>
-                <div className={styles.projectStatusMetricLabel}>In Progress</div>
-                <div className={styles.projectStatusMetricValue}>10</div>
-              </div>
-              <div className={styles.projectStatusMetric}>
-                <div className={styles.projectStatusMetricLabel}>On Hold</div>
-                <div className={styles.projectStatusMetricValue}>5</div>
-              </div>
-              <div className={styles.projectStatusMetric}>
-                <div className={styles.projectStatusMetricLabel}>Pending</div>
-                <div className={styles.projectStatusMetricValue}>4</div>
-              </div>
+              {projectStatusData.map((item, idx) => (
+               <div className={styles.projectStatusMetric}>
+  <span className={styles.projectStatusMetricLabel}>
+    {item.label}
+  </span>
+  <span className={styles.projectStatusMetricValue}>
+    {item.count}
+  </span>
+</div>
+              ))}
             </div>
           </div>
+        </div>
 
+        {/* ─── ROW 3: Users Active + Red Flags Panel ─── */}
+        <div className={styles.row3}>
           {/* Users Active Panel */}
           <div className={styles.usersActiveCard}>
-              <div className={styles.usersActiveHeader}>
+            <div className={styles.usersActiveHeader}>
               <div className={styles.usersActiveTitle}>
                 Users Active
               </div>
@@ -576,12 +623,11 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
             <div className={styles.usersActiveList}>
               {mockActiveUsers.map((u, idx) => (
                 <div key={idx} className={styles.usersActiveItem}>
-                  <div
-                    className={styles.usersActiveAvatar}
-                    style={{ background: u.color }}
-                  >
-                    {getInitials(u.name)}
-                  </div>
+                {/* TODO: If future “Users Active” avatar is needed again, re-introduce usersActiveAvatar here. For now, showing comment word instead. */}
+                  {/* <div className={styles.usersActiveAvatar} style={{ background: u.color }}>{getInitials(u.name)}</div> */}
+                  {/* <div className={styles.usersActiveAvatarComment}>
+                    comment
+                  </div> */}
                   <div className={styles.usersActiveInfo}>
                     <div className={styles.usersActiveName}>{u.name}</div>
                     <div className={styles.usersActiveRole}>{u.role}</div>
@@ -591,30 +637,29 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
               ))}
             </div>
           </div>
-        </div>
 
-        {/* ======== SECTION 3: BOTTOM GRID (Red Flags + Heatmap + Donut) ======== */}
-        <div className={styles.bottomGrid}>
           {/* Red Flags Panel */}
           <div className={styles.redFlagsCard}>
             <div className={styles.redFlagsHeader}>
-              <div className={styles.redFlagsTitle}>
-                <TriangleAlert size={18} color="#EF4444" />
-                Red Flags
+              <div className={styles.redFlagsTitleWrap}>
+                <div className={styles.redFlagsTitle}>
+                  <TriangleAlert size={18} color="#EF4444" />
+                  Red Flags
+                </div>
               </div>
-              <div className={styles.redFlagsLegend}>
-                <div className={styles.redFlagLegendItem}>
-                  <div className={styles.redFlagLegendDot} style={{ background: '#EF4444' }} />
-                  High
-                </div>
-                <div className={styles.redFlagLegendItem}>
-                  <div className={styles.redFlagLegendDot} style={{ background: '#F59E0B' }} />
-                  Medium
-                </div>
-                <div className={styles.redFlagLegendItem}>
-                  <div className={styles.redFlagLegendDot} style={{ background: '#64748b' }} />
-                  Low
-                </div>
+            </div>
+            <div className={styles.redFlagsLegendBar}>
+              <div className={styles.redFlagLegendItem}>
+                <div className={styles.redFlagLegendDot} style={{ background: '#EF4444' }} />
+                High
+              </div>
+              <div className={styles.redFlagLegendItem}>
+                <div className={styles.redFlagLegendDot} style={{ background: '#F59E0B' }} />
+                Medium
+              </div>
+              <div className={styles.redFlagLegendItem}>
+                <div className={styles.redFlagLegendDot} style={{ background: '#5C5F6A' }} />
+                Low
               </div>
             </div>
             <div className={styles.redFlagsList}>
@@ -629,20 +674,22 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
                 >
                   <div className={styles.redFlagInfo}>
                     <div className={styles.redFlagName}>{flag.name}</div>
-                    <div className={styles.redFlagDesc}>{flag.desc}</div>
+                    <div className={styles.redFlagDate}>{flag.date}</div>
                   </div>
-                  <div className={styles.redFlagAction}>View</div>
+                  {getSeverityBadge(flag.severity)}
                 </div>
               ))}
             </div>
           </div>
+        </div>
 
+        {/* ─── ROW 4: Performance Heatmap + Daily Report Submissions ─── */}
+        <div className={styles.row4}>
           {/* Performance Heatmap */}
           <div className={styles.heatmapCard}>
             <div className={styles.heatmapHeader}>
               <div className={styles.heatmapTitle}>Performance Heatmap</div>
             </div>
-
             <div className={styles.heatmapLegendRow}>
               <div className={styles.heatmapLegendItem}>
                 <span className={`${styles.heatmapLegendDot} ${styles.legendDotVeryLow}`} />
@@ -665,7 +712,6 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
                 <span>Exceptional</span>
               </div>
             </div>
-
             <div className={styles.heatmapGrid}>
               {heatmapData.map((cell, idx) => (
                 <div
@@ -682,7 +728,7 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
             <div className={styles.donutHeader}>
               <div className={styles.donutTitle}>
                 <PieChart size={18} color="#3B82F6" />
-                Daily Report Submissions
+                Daily Report
               </div>
             </div>
             <div className={styles.donutContainer}>
@@ -691,30 +737,21 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
                   data={donutData}
                   cx={80}
                   cy={80}
-                  innerRadius={50}
-                  outerRadius={72}
-                  paddingAngle={2}
+                  innerRadius={52}
+                  outerRadius={70}
+                  strokeWidth={0}
+                  paddingAngle={3}
                   dataKey="value"
-                  label={renderCustomizedLabel}
                   labelLine={false}
                 >
                   {donutData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip
-                  contentStyle={{
-                    background: '#1E293B',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    borderRadius: 8,
-                    fontSize: 12,
-                    color: '#f8fafc'
-                  }}
-                />
+                <Tooltip contentStyle={tooltipStyle} />
               </RePieChart>
               <div className={styles.donutCenterText}>
                 <div className={styles.donutCenterValue}>92%</div>
-                <div className={styles.donutCenterLabel}>Rate</div>
               </div>
             </div>
             <div className={styles.donutLegend}>
@@ -728,72 +765,82 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
           </div>
         </div>
 
-        {/* ======== SECTION 4: TABLE ======== */}
+        {/* ─── SECTION 4: TABLE ─── */}
         <div className={styles.tableContainer}>
           <div className={styles.tabletop}>
             <div className={styles.tabletitle}>Recent Employees</div>
           </div>
 
-          <table className={styles.employeeTable}>
-            <thead>
-              <tr>
-                <th
-                  onClick={() => setSortOrder(sortOrder === "desc" ? "asc" : "desc")}
-                  style={{ cursor: "pointer" }}
-                >
-                  Employee {sortOrder === "desc" ? "↓" : "↑"}
-                </th>
-                <th>Role</th>
-                <th>Manager</th>
-                <th>Projects</th>
-                <th>Issues</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedEmployees.map((row) => (
-                <tr key={row._id}>
-                  <td>
-                    <div className={styles.employeeCell}>
-                      <div
-                        className={styles.avatarCircle}
-                        style={{ background: getAvatarColor(row.name) }}
-                      >
-                        {getInitials(row.name)}
-                      </div>
-                      <span className={styles.employeeName}>{row.name}</span>
-                    </div>
-                  </td>
-                  <td>{row.role || '—'}</td>
-                  <td>{row.manager || '—'}</td>
-                  <td>{row.Projects?.length || 0}</td>
-                  <td>{row.issues || 0}</td>
-                  <td>
-                    <span className={`${styles.status} ${statusClassMap[row.status] || styles.onboarding}`}>
-                      {row.status || 'Onboarding'}
-                    </span>
-                  </td>
-                  <td>
-                    <span className={styles.status} style={{
-                      background: 'rgba(59, 130, 246, 0.08)',
-                      color: '#3B82F6',
-                      border: '1px solid rgba(59, 130, 246, 0.15)',
-                      cursor: 'pointer'
-                    }}>
-                      Edit
-                    </span>
-                  </td>
+          <div className={styles.tableWrapper}>
+            <table className={styles.employeeTable}>
+              <thead>
+                <tr>
+                  <th
+                    onClick={() => setSortOrder(sortOrder === "desc" ? "asc" : "desc")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Employee {sortOrder === "desc" ? "↓" : "↑"}
+                  </th>
+                  <th>Role</th>
+                  <th className={styles.hideMobile}>Manager</th>
+                  <th className={styles.hideTablet}>Projects</th>
+                  <th className={styles.hideTablet}>Issues</th>
+                  <th>Status</th>
+                  <th style={{ textAlign: 'center' }}>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {paginatedEmployees.length > 0 ? (
+                  paginatedEmployees.map((row) => (
+                    <tr key={row._id}>
+                      <td>
+                        <div
+                          className={styles.employeeCell}
+                          style={{ cursor: 'pointer' }}
+onClick={() => navigate(`/employees/${row._id}`)}
+                        >
+                          <div
+                            className={styles.avatarCircle}
+                            style={{ background: getAvatarColor(row.name) }}
+                          >
+                            {getInitials(row.name)}
+                          </div>
+                          <span className={styles.employeeName}>{row.name}</span>
+                        </div>
+                      </td>
+                      <td>{row.role || '—'}</td>
+                      <td className={styles.hideMobile}>{row.manager || '—'}</td>
+                      <td className={styles.hideTablet}>{row.Projects?.length || 0}</td>
+                      <td className={styles.hideTablet}>{row.issues || 0}</td>
+                      <td>
+                        <span className={`${styles.status} ${statusClassMap[row.status] || styles.onboarding}`}>
+                          {row.status || 'Onboarding'}
+                        </span>
+                      </td>
+                      <td style={{ textAlign: 'center' }}>
+                        <MoreHorizontal size={16} color="#8B8D97" style={{ cursor: 'pointer' }} />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={7} style={{ textAlign: 'center', padding: '32px 16px', color: '#5C5F6A', fontSize: 14 }}>
+                      No employees found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
 
           <div className={styles.pagination}>
-            <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            >
               Prev
             </button>
-            {[...Array(totalPages)].map((_, i) => (
+            {totalPages > 0 && [...Array(totalPages)].map((_, i) => (
               <button
                 key={i}
                 className={currentPage === i + 1 ? styles.activePage : ""}
@@ -802,7 +849,10 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
                 {i + 1}
               </button>
             ))}
-            <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>
+            <button
+              disabled={currentPage === totalPages || totalPages === 0}
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            >
               Next
             </button>
           </div>
@@ -814,7 +864,7 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
         <div className={styles.overlay} onClick={() => setoverlay(false)}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <button className={styles.closeBtn} onClick={() => setoverlay(false)}>
-              <X />
+              <X size={18} />
             </button>
             <div className={styles.titleRow}>
               <div className={styles.line}></div>
@@ -837,7 +887,7 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
               </div>
               <div className={styles.fieldFull}>
                 <span>Email ID</span>
-                <input value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
               <div className={styles.fieldFull}>
                 <span>Password</span>

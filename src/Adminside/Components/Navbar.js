@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../CSS/navbar.module.css'
-import { Bell, Users, FolderKanban, SquareCheckBig, ChartNoAxesColumnIncreasing, Megaphone, KeyRound, UserCircle, Settings, LogOut, ChevronDown, Play, User, Activity, BarChart3, Shield, MessageSquare, Plus, Home, Wrench, Clock } from "lucide-react";
+import { Bell,Volume2 , Users, FolderKanban, SquareCheckBig, ChartNoAxesColumnIncreasing, Megaphone, KeyRound, UserCircle, Settings, ChevronDown, Play, User, Activity, BarChart3, Shield, MessageSquare, Plus, Home, Wrench, Clock, Menu, X } from "lucide-react";
 import { useNavigate, useLocation } from 'react-router';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -191,28 +191,29 @@ function Navbar({ onAddEmployee, onAssignTask }) {
     { type: "sub", icon: <KeyRound size={14} />, label: "Roles & Permissions", path: "/role", active: getActive("/role"), onClick: () => { navigate("/role"); } },
     { type: "sub", icon: <Megaphone size={14} />, label: "Announcements", path: "/announcement", active: getActive("/announcement"), onClick: () => { navigate("/announcement"); } },
     { type: "sub", icon: <MessageSquare size={14} />, label: "Support Tickets", path: "/support", active: getActive("/support"), onClick: () => { navigate("/support"); } },
-    { type: "divider" },
+  ];
+
+  /* ========== BOTTOM NAV ITEMS — pinned to sidebar bottom ========== */
+  const bottomNavItems = [
     { type: "main", icon: <Wrench size={18} />, label: "Support", path: "/support", active: getActive("/support"), onClick: () => { navigate("/support"); } },
     { type: "main", icon: <UserCircle size={18} />, label: "Admin Profile", onClick: () => { setinfo(!info); } },
   ];
 
+  const closeSidebar = () => setMenuopen(false);
+
   return (
     <>
-      {/* ============ FIXED TOP NAVBAR (no search, no profile dropdown) ============ */}
+      {/* ============ FIXED TOP NAVBAR ============ */}
       <div className={styles.container}>
         <div className={styles.navLeft}>
-          {/* Mobile hamburger */}
+          {/* Hamburger menu icon for mobile */}
+          <div className={styles.hamburgerBtn} onClick={() => setMenuopen(true)}>
+            <Menu size={24} />
+          </div>
+          {/* Logo (visible on mobile) */}
           <div className={styles.logo} onClick={() => setMenuopen(!menuopen)}>
             <img src={require("./atlas.png")} alt="Atlas" className={`${styles.logoImg} ${menuopen ? styles.logoRotated : ""}`} />
           </div>
-          {/* 
-            ========================================
-            ANNOUNCEMENT / NOTIFICATION BELL:
-            Always visible. Add red badge logic when API integrated.
-            If unread announcements exist, show notifBadge div.
-            Example: {hasUnreadAnnouncements && <div className={styles.notifBadge} />}
-            ========================================
-          */}
         </div>
         <div className={styles.right}>
           {isEmployee && (
@@ -237,18 +238,19 @@ function Navbar({ onAddEmployee, onAssignTask }) {
             </div>
           )}
           <div className={styles.separator} />
-          <div className={styles.notification}>
-            <Bell size={18} />
-            <div className={styles.notifBadge} />
-          </div>
-          <button className={styles.ctaButton} onClick={() => navigate("/announcement")}>
-            <Bell size={16} /><span>Announcement</span>
+        <button
+  className={styles.announceIconBtn}
+  onClick={() => navigate("/announcement")}
+>
+  <Volume2 size={16} />
+</button>
+          <button className={styles.announceIconBtn} onClick={() => navigate("/announcement")}>
+            <Bell size={16} />
           </button>
-          {/* Profile dropdown removed — kept only bell icon + CTA */}
         </div>
       </div>
 
-      {/* ============ FIXED LEFT SIDEBAR (favicon logo, click-to-open sections) ============ */}
+      {/* ============ FIXED LEFT SIDEBAR (Desktop) ============ */}
       <div className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
           <img src="/favicon/favicon.svg" alt="Logo" className={styles.sidebarFavicon} />
@@ -327,18 +329,30 @@ function Navbar({ onAddEmployee, onAssignTask }) {
         </div>
 
         <div className={styles.sidebarFooter}>
-          <div className={styles.sidebarFooterItem} onClick={handlelogout}>
-            <LogOut size={16} /><span>Sign Out</span>
-          </div>
+          <div className={styles.sidebarDivider} />
+          {bottomNavItems.map((item, idx) => (
+            <div
+              key={item.label}
+              className={`${styles.sidebarItem} ${item.active ? styles.sidebarItemActive : ""}`}
+              onClick={item.onClick}
+            >
+              <span className={styles.sidebarItemIcon}>{item.icon}</span>
+              <span className={styles.sidebarItemLabel}>{item.label}</span>
+              {item.active && <div className={styles.sidebarActiveDot} />}
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* ============ MOBILE OVERLAY ============ */}
+      {/* ============ MOBILE SIDEBAR DRAWER ============ */}
       {menuopen && (
-        <div className={styles.sidebarOverlay} onClick={() => setMenuopen(false)}>
-          <div className={styles.sidebar} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.sidebarHeader}>
+        <div className={styles.mobileOverlay} onClick={closeSidebar}>
+          <div className={styles.mobileSidebar} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.mobileSidebarHeader}>
               <img src="/favicon/favicon.svg" alt="Logo" className={styles.sidebarFavicon} />
+              <button className={styles.mobileCloseBtn} onClick={closeSidebar}>
+                <X size={20} />
+              </button>
             </div>
             <div className={styles.sidebarNav}>
               {navItems.map((item, idx) => {
@@ -346,7 +360,7 @@ function Navbar({ onAddEmployee, onAssignTask }) {
                 if (item.type === "main") {
                   return (
                     <div key={item.label} className={`${styles.sidebarItem} ${item.active ? styles.sidebarItemActive : ""}`}
-                      onClick={() => { item.onClick(); setMenuopen(false); }}>
+                      onClick={() => { item.onClick(); closeSidebar(); }}>
                       <span className={styles.sidebarItemIcon}>{item.icon}</span>
                       <span className={styles.sidebarItemLabel}>{item.label}</span>
                     </div>
@@ -358,7 +372,7 @@ function Navbar({ onAddEmployee, onAssignTask }) {
                 if (item.type === "sub") {
                   return (
                     <div key={`sub-${item.label}`} className={`${styles.sidebarSubItem} ${item.active ? styles.sidebarSubItemActive : ""}`}
-                      onClick={() => { item.onClick(); setMenuopen(false); }}>
+                      onClick={() => { item.onClick(); closeSidebar(); }}>
                       <span className={styles.sidebarSubItemIcon}>{item.icon}</span>
                       <span className={styles.sidebarSubItemLabel}>{item.label}</span>
                     </div>
@@ -368,9 +382,17 @@ function Navbar({ onAddEmployee, onAssignTask }) {
               })}
             </div>
             <div className={styles.sidebarFooter}>
-              <div className={styles.sidebarFooterItem} onClick={() => { handlelogout(); setMenuopen(false); }}>
-                <LogOut size={16} /><span>Sign Out</span>
-              </div>
+              <div className={styles.sidebarDivider} />
+              {bottomNavItems.map((item, idx) => (
+                <div
+                  key={`mobile-${item.label}`}
+                  className={`${styles.sidebarItem} ${item.active ? styles.sidebarItemActive : ""}`}
+                  onClick={() => { item.onClick(); closeSidebar(); }}
+                >
+                  <span className={styles.sidebarItemIcon}>{item.icon}</span>
+                  <span className={styles.sidebarItemLabel}>{item.label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
