@@ -137,6 +137,20 @@ const projectStatusData = [
 function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, setShowAssignTask }) {
   const navigate = useNavigate();
 
+  // Responsive heatmap rendering (JSX logic, not CSS-only)
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1024
+  );
+
+  useEffect(() => {
+    const onResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  const isMobileOrTablet = windowWidth <= 1024;
+
+
   /* ================= STATES ================= */
   const [overlay, setoverlay] = useState(false);
   const [taskmodal, setTaskmodal] = useState(false);
@@ -550,11 +564,13 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
 
         {/* Gradient */}
         <defs>
-  <linearGradient id="splineGradient" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stopColor="#3B46FF" stopOpacity={0.95} />
-    <stop offset="45%" stopColor="#3B46FF" stopOpacity={0.55} />
-    <stop offset="100%" stopColor="#3B46FF" stopOpacity={0.10} />
-  </linearGradient>
+<linearGradient id="splineGradient" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0%" stopColor="#6678FF" stopOpacity={1} />
+  <stop offset="18%" stopColor="#5A6DFF" stopOpacity={0.95} />
+  <stop offset="45%" stopColor="#4458FF" stopOpacity={0.65} />
+  <stop offset="75%" stopColor="#2D3794" stopOpacity={0.25} />
+  <stop offset="100%" stopColor="#171B45" stopOpacity={0.06} />
+</linearGradient>
 </defs>
 
         {/* Axes (hidden for clean UI) */}
@@ -571,11 +587,11 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
         <Tooltip contentStyle={tooltipStyle} />
 
         {/* Area Chart */}
-       <Area
+     <Area
   type="natural"
   dataKey="value"
-  stroke="#3F4DFF"
-  strokeWidth={3}
+  stroke="none"
+  strokeWidth={0}
   fill="url(#splineGradient)"
   dot={false}
   activeDot={false}
@@ -713,14 +729,72 @@ function Admindashboard({ showAddEmployee, setShowAddEmployee, showAssignTask, s
               </div>
             </div>
             <div className={styles.heatmapGrid}>
-              {heatmapData.map((cell, idx) => (
-                <div
-                  key={idx}
-                  className={`${styles.heatmapCell} ${styles[`heatmapLevel${cell.level}`]}`}
-                  title={`Level: ${cell.level}`}
-                />
-              ))}
+              {(() => {
+                // Keep desktop detailed grid; simplify on tablet/mobile by grouping every 4 cells.
+                // NOTE: grid-template-columns/rows is still controlled by existing CSS.
+                const getLevelClass = (level) => styles[`heatmapLevel${level}`];
+
+                if (!isMobileOrTablet) {
+                  // Desktop: detailed grid with increased ROWS => we remap into a taller layout.
+                  const colsDesktop = 28; // matches .heatmapGrid base template
+                  const rowsDesktop = 9; // increase rows (taller/denser vertically)
+                  const total = colsDesktop * rowsDesktop;
+
+                  const levels = heatmapData.map((c) => c.level);
+                  const expanded = Array.from({ length: total }).map((_, i) => levels[i % levels.length]);
+
+                  return expanded.map((level, idx) => (
+                    <div
+                      key={idx}
+                      className={`${styles.heatmapCell} ${getLevelClass(level)}`}
+                      title={`Level: ${level}`}
+                    />
+                  ));
+                }
+
+                // Tablet/mobile: group every 4 cells => 1 block; aggregate by average.
+                // Aim: avoid empty space at the bottom by matching the *display* grid height.
+                const colsMobile = 20; // matches @media (max-width:1024px) grid-template-columns
+
+                // Existing CSS keeps 7 rows on tablet/mobile (base .heatmapGrid has 7 rows).
+                // Increase displayed rows visually (denser) while still preventing bottom whitespace.
+                // If CSS template remains 7 rows, more blocks will wrap and remain readable.
+                const displayRowsMobile = 9;
+                const totalBlocks = colsMobile * displayRowsMobile;
+
+
+                const levels = heatmapData.map((c) => c.level);
+
+                // Each block consumes 4 underlying cells.
+                const totalUnderlying = totalBlocks * 4;
+                const padded = Array.from({ length: totalUnderlying }).map((_, i) =>
+                  levels[i % levels.length]
+                );
+
+                const grouped = [];
+                for (let i = 0; i < padded.length; i += 4) {
+                  const chunk = padded.slice(i, i + 4);
+                  const avg = chunk.reduce((s, v) => s + v, 0) / (chunk.length || 1);
+                  const level = Math.round(avg);
+                  grouped.push(level);
+                }
+
+                // Ensure exact count for the grid (in case of any rounding/mismatch)
+                const normalized = grouped
+                  .slice(0, totalBlocks)
+                  .map((lvl) => Math.max(0, Math.min(5, lvl)));
+
+                return normalized.map((level, idx) => (
+                  <div
+                    key={idx}
+                    className={`${styles.heatmapCell} ${getLevelClass(level)}`}
+                    title={`Level: ${level}`}
+                  />
+                ));
+
+              })()}
             </div>
+
           </div>
 
           {/* Daily Report Submissions (Donut Chart) */}

@@ -153,7 +153,7 @@
       #0A1E3C 75%,
       #10386F 100%
     );  border: 1.5px solid rgba(255,255,255,.45);
-  padding: 22px 24px;
+   padding: 20px 22px; /* slightly reduce padding */
   min-height: 130px;
   display: flex;
   flex-direction: column;
@@ -199,7 +199,7 @@
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .kpiLabel {
@@ -260,9 +260,9 @@
 
 .kpiValue {
   color: #FFFFFF;
-  font-size: 38px;
-  font-weight: 800;
-  letter-spacing: -1px;
+  font-size: 52px; /* thoda bada */
+  font-weight: 500; /* pehle 800 tha → ab regular feel */
+  letter-spacing: -0.5px;
   line-height: 1;
   font-feature-settings: 'tnum' on, 'lnum' on;
 }
@@ -397,7 +397,6 @@
 .adoptionRingBg, .adoptionRingProgress, .adoptionRingText,
 .kpiBarsWrap, .kpiBar { display: none; }
 
-/* ─── ROW 2 ─── */
 /* ─────────────────────────────
    ROW 2
 ───────────────────────────── */
