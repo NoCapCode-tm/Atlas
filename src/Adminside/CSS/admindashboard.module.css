@@ -397,6 +397,7 @@
 .adoptionRingBg, .adoptionRingProgress, .adoptionRingText,
 .kpiBarsWrap, .kpiBar { display: none; }
 
+
 /* ─────────────────────────────
    ROW 2
 ───────────────────────────── */
@@ -1190,19 +1191,37 @@
     padding-bottom: 12px;
   }
 
-  .redFlagItem {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 12px;
-  }
-
-  .redFlagBadge {
-    margin-left: 0;
-    align-self: flex-start;
-  }
+ .redFlagItem {
+  display: flex;
+  flex-direction: row;        /* Row hi rahega */
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
 }
 
+.redFlagInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.redFlagName {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.redFlagDate {
+  font-size: 11px;
+}
+
+.redFlagBadge {
+  margin-left: 12px;
+  align-self: center;
+  flex-shrink: 0;
+}
+}
 
 /* ─── ROW 4 ─── */
 .row4 {

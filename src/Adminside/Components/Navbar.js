@@ -210,10 +210,10 @@ function Navbar({ onAddEmployee, onAssignTask }) {
           <div className={styles.hamburgerBtn} onClick={() => setMenuopen(true)}>
             <Menu size={24} />
           </div>
-          {/* Logo (visible on mobile) */}
+          {/* Logo (visible on mobile)
           <div className={styles.logo} onClick={() => setMenuopen(!menuopen)}>
             <img src={require("./atlas.png")} alt="Atlas" className={`${styles.logoImg} ${menuopen ? styles.logoRotated : ""}`} />
-          </div>
+          </div> */}
         </div>
         <div className={styles.right}>
           {isEmployee && (
