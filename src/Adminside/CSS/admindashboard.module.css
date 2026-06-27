@@ -64,6 +64,10 @@
   flex-direction: column;
   gap: 28px;
   position: relative;
+
+  width: 100%;          /* ADD */
+  max-width: 100%;      /* ADD */
+  box-sizing: border-box; /* ADD */
 }
 
 /* ─── TOP HEADER ─── */
@@ -126,6 +130,31 @@
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.2);
 }
+
+@media (max-width: 768px) {
+
+  .topright {
+    width: 100%;
+    display: flex;
+  }
+
+  .topright2 {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 46px;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+}
+
 
 /* ===========================================
    ─── ROW 1 — PREMIUM KPI STAT CARDS ───
