@@ -221,6 +221,74 @@ const getGreeting = () => {
 };
 
 
+const users = [
+  { name: "Person 1", time: "4H" },
+  { name: "Person 2", time: "6H" },
+  { name: "Person 3", time: "1H" },
+  { name: "Person 4", time: "1H" },
+  { name: "Person 4", time: "1H" },
+];
+
+const redFlags = [
+  {
+    name: "David Kim",
+    date: "2026-01-20",
+    severity: "high",
+    status: "Missed Reports",
+  },
+  {
+    name: "Lisa Anderson",
+    date: "2026-01-20",
+    severity: "medium",
+    status: "Poor Performance",
+  },
+  {
+    name: "John Doe",
+    date: "2026-01-20",
+    severity: "low",
+    status: "Inactive",
+  },
+];
+
+const levels = [
+  "veryLow",
+  "low1",
+  "moderate",
+  "high1",
+  "exceptional",
+];
+
+const heatmap = [
+  [1,3,0,2,0,3,3,2,1,1,2,0,3,4,3,4,2,1,0,3,1,4,3],
+  [2,3,4,1,2,0,3,4,2,2,2,1,0,0,3,2,2,2,1,2,0,4,3],
+  [4,0,0,1,3,0,0,4,4,3,2,1,0,0,2,0,4,0,3,4,1,0,4],
+  [0,2,1,2,0,3,0,4,4,4,2,4,3,2,4,2,0,3,4,1,4,0,3],
+  [1,0,4,4,3,0,0,4,3,2,1,0,3,2,0,4,2,4,1,2,3,2,3],
+  [2,4,4,3,0,3,2,2,3,1,4,4,3,3,2,4,1,1,0,4,4,1,2],
+  [3,0,3,2,1,1,0,2,1,0,2,3,3,2,4,2,3,2,3,2,4,0,3],
+];
+
+
+const cards = [
+  {
+    title: "Completed",
+    count: 5,
+  },
+  {
+    title: "In Progress",
+    count: 10,
+  },
+  {
+    title: "On-hold",
+    count: 5,
+  },
+  {
+    title: "Pending",
+    count: 4,
+  },
+];
+
+
 
   /* ================= JSX ================= */
   return (
@@ -228,14 +296,13 @@ const getGreeting = () => {
     <div className={styles.mainContainer}>
       <div className={styles.topcontainer}>
         <div className={styles.topleft}>
-  <div className={styles.topleft1}>{getGreeting()}, {user?.name?.split(" ")[0]}!</div>
+  <div className={styles.topleft1}>Dashboard</div>
   <div className={styles.topleft2}>
      Here's what's happening today.
   </div>
 </div>
         <div className={styles.topright}>
-          <div className={styles.topright1} onClick={()=>{setoverlay(true)}}><UserPlus size={16}/>Add Employee</div>
-          <div className={styles.topright2} onClick={()=>{setTaskmodal(true)}}><Plus size={16}/>Assign Task</div>
+          <div className={styles.topright1} onClick={()=>{setoverlay(true)}}>New Employee</div>
         </div>
       </div>
       <div className={styles.cards}>
@@ -247,9 +314,9 @@ const getGreeting = () => {
             <div className={styles.cardleft2}>{employees?.length}</div>
             {/* <div className={styles.cardleft3}>↑ 12% from last month</div> */}
           </div>
-          <div className={styles.cardright}>
+          {/* <div className={styles.cardright}>
             <div className={styles.cardlogo5}><Users /></div>
-          </div>
+          </div> */}
         </div>
 
         <div className={`${styles.card1} ${styles.animateOnScroll}`}  data-animate style={{ "--delay": 0 }} onClick={() =>
@@ -268,9 +335,9 @@ const getGreeting = () => {
             <div className={styles.cardleft2}>{handleactivepaid()}</div>
             {/* <div className={styles.cardleft3}></div> */}
           </div>
-          <div className={styles.cardright}>
+          {/* <div className={styles.cardright}>
             <div className={styles.cardlogo2}><DollarSign /></div>
-          </div>
+          </div> */}
         </div>
         <div className={`${styles.card2} ${styles.animateOnScroll}`}  data-animate style={{ "--delay": 0 }} onClick={() =>
   navigate("/employees", {
@@ -287,9 +354,9 @@ const getGreeting = () => {
             <div className={styles.cardleft2}>{handleactiveunpaid()}</div>
             {/* <div className={styles.cardleft3}></div> */}
           </div>
-          <div className={styles.cardright}>
+          {/* <div className={styles.cardright}>
             <div className={styles.cardlogo3}> <GraduationCap /></div>
-          </div>
+          </div> */}
         </div>
         <div className={`${styles.card3} ${styles.animateOnScroll}`}  data-animate  style={{ "--delay": 0 }} onClick={()=>{navigate("/projects")}}>
           <div className={styles.cardleft}>
@@ -299,9 +366,9 @@ const getGreeting = () => {
             <div className={styles.cardleft2}>{projects?.length}</div>
             {/* <div className={styles.cardleft3}></div> */}
           </div>
-          <div className={styles.cardright}>
+          {/* <div className={styles.cardright}>
             <div className={styles.cardlogo1}><FolderKanban /></div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className={styles.graphcontainer}>
@@ -326,27 +393,27 @@ const getGreeting = () => {
                   {/* Gradient Fill */}
                   <defs>
                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="10%" stopColor="#7C3AED" stopOpacity={0.4} />
-                      <stop offset="90%" stopColor="#7C3AED" stopOpacity={0} />
+                      <stop offset="10%" stopColor="#6D78FF33" stopOpacity={0.4} />
+                      <stop offset="90%" stopColor="#2035FF" stopOpacity={0} />
                     </linearGradient>
                   </defs>
 
                   {/* Light dotted grid */}
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#6D78FF33" />
 
                   {/* Bottom labels */}
-                  <XAxis
+                  {/* <XAxis
                     dataKey="name"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fill: "#9CA3AF" }}
-                  />
+                    tick={{ fill: "#6D78FF33" }}
+                  /> */}
 
                   {/* Smooth Purple Area */}
                   <Area
                     type="monotone"
                     dataKey="value"
-                    stroke="#7C3AED"
+                    stroke="#2035FF"
                     strokeWidth={3}
                     fill="url(#colorValue)"
                   />
@@ -358,71 +425,168 @@ const getGreeting = () => {
 
         </div>
         <div className={`${styles.graphright} ${styles.animateOnScroll}`}  data-animate  style={{ "--delay": 0 }}>
-          <div className={styles.graphrighttop}><TriangleAlert color='#FB2C36' />Red Flags
+          <div className={styles.graphrighttop}>Project Status Overview
           <InfoTooltip text="Employees with missed reports, prolonged inactivity, or overdue tasks" /></div>
-          <div className={styles.graphrightbottom}>
-            {getYesterdayRedFlags().length === 0 ? (
-  <div className={styles.emptyState}>
-    🎉 No red flags detected yesterday
+          <div className={styles.newproject}>
+            <h1>24</h1>
+            <h2>Projects Active</h2>
+            <div className={styles.container}>
+      {cards.map((card, index) => (
+        <div className={styles.cardpr} key={index}>
+          <span className={styles.text}>
+            {card.title} - {card.count}
+          </span>
+        </div>
+      ))}
+    </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      {/* Red flag row */}
+
+      <div className={styles.dashboardRow}>
+  <div className={styles.cardred}>
+    <div className={styles.cardHeader}>Users Active</div>
+
+    <div className={styles.usersList}>
+      {users.map((user, i) => (
+        <div key={i} className={styles.userItem}>
+          <span className={styles.userName}>{user.name}</span>
+          <span className={styles.userTime}>{user.time}</span>
+        </div>
+      ))}
+    </div>
   </div>
-) : (
-  getYesterdayRedFlags().map((e, id) => {
-    return (
-      <div
-  className={`${styles.graphright1} ${styles.animateOnScroll} ${
-    id % 2 === 0 ? styles.fromLeft : styles.fromRight
-  }`}
-  data-animate
-  style={{ "--delay": id }}
->
 
-        <div className={styles.graphright2}>
-          {/* <div className={styles.graphrightperformance}>
-            {e.type?.map((t, i) => (
-              <span key={i} className={styles.tags}>{t}</span>
-            ))}
-          </div> */}
-          <div className={styles.graphrightname}>
-            {redflagdetail(e?.userId?.toString())}
-          </div>
-          <div className={styles.graphrightdate}>
-            {new Date(e.date).toLocaleDateString()}
-          </div>
-        </div>
-        <div className={styles.graphright3}>
-          <div className={`${styles.severity} ${severityClassMap[e.severity]}`}>
-            {e.severity}
-          </div>
-        </div>
+  <div className={styles.cardred}>
+    <div className={styles.cardHeader}>Redflags Panel</div>
+
+    <div className={styles.legend}>
+      <div className={styles.legendItem}>
+        <span className={`${styles.dot} ${styles.highDot}`}></span>
+        High
       </div>
-    );
-  })
-)}
 
-        
-            {/* <div className={styles.graphright1}>
-              <div className={styles.graphright2}>
-                <div className={styles.graphrightperformance}>Poor Performance</div>
-                <div className={styles.graphrightname}>Lisa Anderson</div>
-                <div className={styles.graphrightdate}>2025-11-20</div>
-              </div>
-              <div className={styles.graphright3}>
-                <div className={styles.graphrightlevel}>medium</div>
-              </div>
+      <div className={styles.legendItem}>
+        <span className={`${styles.dot} ${styles.mediumDot}`}></span>
+        Medium
+      </div>
+
+      <div className={styles.legendItem}>
+        <span className={`${styles.dot} ${styles.lowDot}`}></span>
+        Low
+      </div>
+    </div>
+
+    <div className={styles.redflagList}>
+      {redFlags.map((flag, i) => (
+        <div
+          key={i}
+          className={`${styles.flagItem} ${
+            styles[flag.severity]
+          }`}
+        >
+          <div className={styles.flagInfo}>
+            <div className={styles.flagName}>{flag.name}</div>
+            <div className={styles.flagDate}>{flag.date}</div>
+          </div>
+
+          <div className={styles.flagStatus}>
+            {flag.status}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+{/* heatmap and dounut */}
+
+ <div className={styles.wrapper}>
+      {/* LEFT */}
+
+      <div className={styles.heatmapCard}>
+        <div className={styles.header}>
+          Performance Heatmap
+        </div>
+
+        <div className={styles.body}>
+          <div className={styles.legend}>
+            <div className={styles.legendItem}>
+              <span className={`${styles.box} ${styles.veryLow}`}></span>
+              Very Low
             </div>
-            <div className={styles.graphright1}>
-              <div className={styles.graphright2}>
-                <div className={styles.graphrightperformance}>Inactive Account</div>
-                <div className={styles.graphrightname}>John Doe</div>
-                <div className={styles.graphrightdate}>2025-11-15</div>
-              </div>
-              <div className={styles.graphright3}>
-                <div className={styles.graphrightlevel}>low</div>
-              </div>
-            </div> */}
+
+            <div className={styles.legendItem}>
+              <span className={`${styles.box} ${styles.low1}`}></span>
+              Low
+            </div>
+
+            <div className={styles.legendItem}>
+              <span className={`${styles.box} ${styles.moderate}`}></span>
+              Moderate
+            </div>
+
+            <div className={styles.legendItem}>
+              <span className={`${styles.box} ${styles.high1}`}></span>
+              High
+            </div>
+
+            <div className={styles.legendItem}>
+              <span className={`${styles.box} ${styles.exceptional}`}></span>
+              Exceptional
+            </div>
+          </div>
+
+          <div className={styles.grid}>
+            {heatmap.flat().map((cell, index) => (
+              <div
+                key={index}
+                className={`${styles.cell} ${
+                  styles[levels[cell]]
+                }`}
+              />
+            ))}
           </div>
         </div>
       </div>
+
+      {/* RIGHT */}
+
+      <div className={styles.reportCard}>
+        <div className={styles.header}>
+          Daily Report Submissions
+        </div>
+
+        <div className={styles.reportBody}>
+          <div className={styles.chart}>
+            <div className={styles.chartInner}>
+              92%
+            </div>
+          </div>
+
+          <div className={styles.stats}>
+            <div className={styles.stat}>
+              <span className={`${styles.dot} ${styles.red}`}></span>
+              Expected : 180
+            </div>
+
+            <div className={styles.stat}>
+              <span className={`${styles.dot} ${styles.green}`}></span>
+              Submitted : 160
+            </div>
+
+            <div className={styles.stat}>
+              <span className={`${styles.dot} ${styles.orange}`}></span>
+              Missing : 20
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
       <div className={`${styles.tablecontainer} ${styles.animateOnScroll}`}  data-animate>
   <div className={styles.tabletop}>
@@ -455,11 +619,13 @@ const getGreeting = () => {
         >
           Employee {sortOrder === "desc" ? "↓" : "↑"}
         </th>
-        <th>Status</th>
         <th>Role</th>
+        
+        <th>Manager</th>
         <th>Projects</th>
         <th>Issues</th>
-        <th>Tasks</th>
+        <th>Status</th>
+        <th>Actions</th>
       </tr>
     </thead>
 
