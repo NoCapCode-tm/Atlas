@@ -41,8 +41,8 @@ export default function ProjectSuccessReports() {
     (async () => {
       try {
         const [pRes, uRes] = await Promise.all([
-          axios.get(`https://atlasbackend-1bt5.onrender.com/${API_PROJECTS}`),
-          axios.get(`https://atlasbackend-1bt5.onrender.com/${API_USERS}`),
+          axios.get(`https://b-atlas-ncc.onrender.com/${API_PROJECTS}`),
+          axios.get(`https://b-atlas-ncc.onrender.com/${API_USERS}`),
         ]);
         // assuming API returns { message: [...] } like your earlier responses
         console.log(pRes.data.message)
