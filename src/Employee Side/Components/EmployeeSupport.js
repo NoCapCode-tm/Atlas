@@ -68,9 +68,9 @@ useEffect(() => {
         ticketres,
         usersres,
       ] = await Promise.all([
-        axios.get("https://atlasbackend-1bt5.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
-        axios.get("https://atlasbackend-1bt5.onrender.com/api/v1/admin/gettickets"),
-        axios.get("https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser")
+        axios.get("b-atlas-ncc.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
+        axios.get("b-atlas-ncc.onrender.com/api/v1/admin/gettickets"),
+        axios.get("b-atlas-ncc.onrender.com/api/v1/admin/getalluser")
       ]);
 
       if (!mounted) return;
@@ -141,7 +141,7 @@ useEffect(() => {
     setLoading(true);
 
     await axios.post(
-      `https://atlasbackend-1bt5.onrender.com/api/v1/admin/createticket`,
+      `b-atlas-ncc.onrender.com/api/v1/admin/createticket`,
       {
         title: form.title,
         category: form.category,
@@ -164,7 +164,7 @@ useEffect(() => {
 };
 
 const handledetails = async(id) =>{
-      const response = await axios.post(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/ticketdetail`,{
+      const response = await axios.post(`b-atlas-ncc.onrender.com/api/v1/admin/ticketdetail`,{
             id:id
            },{withCredentials:true})
            console.log(response.data.message)
@@ -247,7 +247,7 @@ if (pageLoading) {
 
 const sendMessage =async() =>{
         try {
-            const response = await axios.post(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/comment`,{
+            const response = await axios.post(`b-atlas-ncc.onrender.com/api/v1/admin/comment`,{
                 comment:comment,
                 id:ticket._id
             },{withCredentials:true})
@@ -266,7 +266,7 @@ const sendMessage =async() =>{
      const handlestatus = async(status)=>{
         setactivestatus(status)
         try {
-            const response = await axios.post(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/updatestatus`,{
+            const response = await axios.post(`b-atlas-ncc.onrender.com/api/v1/admin/updatestatus`,{
                 id:ticket._id,
                 status:status
             },{withCredentials:true})

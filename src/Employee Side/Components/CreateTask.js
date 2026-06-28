@@ -46,7 +46,7 @@ const Createtask = ({ modal, setModal, user, projects }) => {
     try {
       setLoading(true);
       await axios.post(
-        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/assigntask",
+        "b-atlas-ncc.onrender.com/api/v1/admin/assigntask",
         {
           title: form.title,
           description: form.description,

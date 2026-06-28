@@ -39,7 +39,7 @@ export default function DailyReportModal({
     setSubmitting(true);
 
     await axios.post(
-      "https://atlasbackend-1bt5.onrender.com/api/v1/employee/submitreport",
+      "b-atlas-ncc.onrender.com/api/v1/employee/submitreport",
       {
         user: user._id,
         summary,
