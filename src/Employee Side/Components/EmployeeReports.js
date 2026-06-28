@@ -47,8 +47,8 @@ useEffect(() => {
         userRes,
         taskRes,
       ] = await Promise.all([
-        axios.get("https://atlasbackend-1bt5.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
-        axios.get("https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalltask"),
+        axios.get("b-atlas-ncc.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
+        axios.get("b-atlas-ncc.onrender.com/api/v1/admin/getalltask"),
       ]);
 
       if (!mounted) return;
@@ -115,7 +115,7 @@ useEffect(() => {
   const fetchReports = async () => {
     try {
       const res = await axios.get(
-        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getreports",
+        "b-atlas-ncc.onrender.com/api/v1/admin/getreports",
         { withCredentials: true }
       );
 
@@ -185,7 +185,7 @@ const handleSubmitReport = async () => {
     setSubmitting(true);
      console.log(summary)
     await axios.post(
-      "https://atlasbackend-1bt5.onrender.com/api/v1/employee/submitreport",
+      "b-atlas-ncc.onrender.com/api/v1/employee/submitreport",
       {
         user: user._id,
         summary:summary,
