@@ -15,7 +15,7 @@ const Login = () => {
   const handlelogin = async () => {
     try {
       setloading(true)
-      const response = await axios.post("https://atlasbackend-1bt5.onrender.com/api/v1/admin/adminlogin", {
+      const response = await axios.post("https://b-atlas-ncc.onrender.com/api/v1/admin/adminlogin", {
         userid: email,
         password: pass
       }, { withCredentials: true })

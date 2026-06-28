@@ -62,11 +62,11 @@ export default function PerformanceSection() {
   useEffect(() => {
     (async () => {
       const empRes = await axios.get(
-        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser",
+        "https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser",
         { withCredentials: true }
       );
       const perfRes = await axios.get(
-        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getscores",
+        "https://b-atlas-ncc.onrender.com/api/v1/admin/getscores",
         { withCredentials: true }
       );
 
