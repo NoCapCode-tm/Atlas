@@ -103,11 +103,11 @@ useEffect(() => {
         alluserRes,
         projectsRes,
       ] = await Promise.all([
-        axios.get("b-atlas-ncc.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
-        axios.get("b-atlas-ncc.onrender.com/api/v1/admin/getalltask"),
-        axios.get(`b-atlas-ncc.onrender.com/api/v1/admin/getprojectdetails/${id}`),
-        axios.get("b-atlas-ncc.onrender.com/api/v1/admin/getalluser"),
-        axios.get("b-atlas-ncc.onrender.com/api/v1/admin/getallproject"),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask"),
+        axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getprojectdetails/${id}`),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser"),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject"),
       ]);
 
       if (!mounted) return;
