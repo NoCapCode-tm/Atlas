@@ -94,7 +94,7 @@ export default function Calendarpage() {
       const startTime = Date.now();
       try {
         const [userRes, taskRes, projectRes, attendanceRes, reportRes] = await Promise.all([
-          axios.get("b-atlas-ncc.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
+          axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
           axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask"),
           axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject"),
           axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getattendance"),
