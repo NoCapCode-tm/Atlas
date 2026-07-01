@@ -21,14 +21,13 @@ export default function SLAComplianceDashboard() {
   const [tasks, setTasks] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [projects, setProjects] = useState([]);
-
   const [selectedSLAType, setSelectedSLAType] = useState("All");
   const [selectedProject, setSelectedProject] = useState("All");
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getsla`);
+        const res = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getsla`);
         setSla(res.data.message || []);
       } catch (err) {
         console.error("SLA fetch error:", err);
@@ -42,13 +41,13 @@ export default function SLAComplianceDashboard() {
     async function fetchAll() {
       try {
         const [tRes, uRes, pRes] = await Promise.all([
-          axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalltask`, {
+          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask`, {
             withCredentials: true,
           }),
-          axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`, {
+          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`, {
             withCredentials: true,
           }),
-          axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getallproject`, {
+          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject`, {
             withCredentials: true,
           }),
         ]);
@@ -242,8 +241,8 @@ export default function SLAComplianceDashboard() {
             <PieChart>
               <defs>
                 <linearGradient id="pieGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#BEACFF" />
-                  <stop offset="100%" stopColor="#4E3899" />
+                  <stop offset="0%" stopColor="#0050B8" />
+                  <stop offset="100%" stopColor="#0050B8" />
                 </linearGradient>
               </defs>
 

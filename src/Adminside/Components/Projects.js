@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import styles from "../CSS/Projects.module.css";
-import { Plus, Edit2, EllipsisVertical, X } from "lucide-react";
+import { Plus, Edit2, EllipsisVertical, X, BellRing, FileText, Files, Users } from "lucide-react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom"
 import {toast} from "react-toastify"
@@ -65,7 +65,7 @@ const Projects = () => {
 useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getallproject`);
+        const res = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject`);
         setProjects(res.data.message || []);
       } catch (err) {
         console.log("Error fetching projects:", err);
@@ -77,7 +77,7 @@ useEffect(() => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`);
+        const res = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`);
         setEmployees(res.data.message || []);
       } catch (err) {
         console.log("Error fetching users:", err);
@@ -129,6 +129,20 @@ useEffect(() => {
 
     return { active, upcoming, overdue, completed };
   }, [projects, today]);
+  const totalProjects =
+  projects.length 
+
+const inProgress = categorized.active.length;
+
+const atRisk = categorized.overdue.length;
+
+const total = Math.max(totalProjects, 1);
+
+const totalProgress = 100;
+
+const activeProgress = (inProgress / total) * 100;
+
+const riskProgress = (atRisk / total) * 100;
 
 
   const formatRange = (p) => {
@@ -173,7 +187,7 @@ useEffect(() => {
       setLoadingUsers(true);
       try {
         const res = await axios.get(
-          `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`,
+          `https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`,
           { withCredentials: true }
         );
         setEmployees(res.data.message || []);
@@ -246,7 +260,7 @@ useEffect(() => {
       setLoadingUsers(true)
       console.log(payload)
       const res = await axios.post(
-        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/addproject`,
+        `https://b-atlas-ncc.onrender.com/api/v1/admin/addproject`,
         payload,
         { withCredentials: true }
       );
@@ -263,6 +277,29 @@ useEffect(() => {
     }
   };
 
+ const stats = [
+  {
+    title: "Total Projects",
+    value: totalProjects,
+    progress: totalProgress,
+    color: "#3D8BFF",
+    icon: <Files size={22} color="rgba(220, 220, 255, 1)" />,
+  },
+  {
+    title: "In progress",
+    value: inProgress,
+    progress: activeProgress,
+    color: "#2FA86B",
+    icon: null,
+  },
+  {
+    title: "At risk",
+    value: atRisk,
+    progress: riskProgress,
+    color: "#FF564B",
+    icon: <BellRing size={22} color="#FF564B" />,
+  },
+];
   // helpers
   const managers = employees.filter(
     (e) => e.designation.name === "Manager" || e.role?.toLowerCase()?.includes("manager")
@@ -284,65 +321,125 @@ useEffect(() => {
     </div>
   );
 
+  const getProjectProgress = (project) => {
+  const start = parseDate(project.timeline?.startDate);
+  const end = parseDate(project.timeline?.endDate);
+  const today = todayDateOnly();
 
-  const ProjectCard = ({ p }) => {
-    const percent = p.progress?.percent ?? 0;
-    const riskCount = p.risks?.length || 0;
-    const navigate = useNavigate()
+  if (!start || !end) {
+    return {
+      progress: 0,
+      label: "On-Hold",
+      className: styles.onHold,
+    };
+  }
 
-    return (
-      <div className={styles.projectCard} >
-        <div className={styles.cardTop}>
-          <div className={styles.cardTitle}>
-            <div>
-              <div className={styles.cardName}>{p.projectname}</div>
-              <div className={styles.cardSub}>{p.description}</div>
-            </div>
-          </div>
+  const totalDuration = end.getTime() - start.getTime();
+  const elapsed = today.getTime() - start.getTime();
 
-          <div className={styles.cardActions}>
-            <div className={styles.statusBadge}>
-              {p.progress?.status === "Ongoing"
-                ? "On Track"
-                : p.progress?.status === "Completed"
-                ? "Completed"
-                : "Pending"}
-            </div>
-          </div>
-        </div>
+  // Before project starts
+  if (today < start) {
+    return {
+      progress: 0,
+      label: "On-Hold",
+      className: styles.onHold,
+    };
+  }
 
-        <div className={styles.cardBody}>
-          <div className={styles.progressLabel}>Progress</div>
+  // After deadline
+  if (today > end) {
+    return {
+      progress: 100,
+      label: "Overdue",
+      className: styles.overdue,
+    };
+  }
 
-          <div className={styles.progressBarWrap}>
-            <div className={styles.progressBar}>
-              <div
-                className={styles.progressFill}
-                style={{ width: `${Math.min(100, percent)}%` }}
-              />
-            </div>
-            <div className={styles.progressPercent}>{percent}%</div>
-          </div>
+  let progress = Math.round((elapsed / totalDuration) * 100);
 
-          {riskCount > 0 && <div className={styles.riskCount}>{riskCount} Risk</div>}
+  progress = Math.max(0, Math.min(progress, 100));
 
-          <div className={styles.avatarRow}>
-            <div className={styles.avatarStack}>{avatarStack(p)}</div>
+  // Completed project
+  if (project.progress?.status === "Completed") {
+    return {
+      progress: 100,
+      label: "Completed",
+      className: styles.completed,
+    };
+  }
 
-            <div className={styles.cardFooterRight}>
-              <div className={styles.dateRange}>{formatRange(p)}</div>
-            </div>
-          </div>
+  return {
+    progress,
+    label: "On-Track",
+    className: styles.onTrack,
+  };
+};
 
-          <div className={styles.settinganddetails}>
-            <div className={styles.viewDetails} onClick={()=>{
-       navigate(`/projects/${p._id}`)
-      }}>View Details</div>
-          </div>
+const ProjectCard = ({ p }) => {
+  const navigate = useNavigate();
+
+  const memberCount =
+    p.team?.assignedMembers?.length ||
+    p.team?.length ||
+    0;
+
+  const {
+    progress: percent,
+    label,
+    className,
+  } = getProjectProgress(p);
+
+  return (
+    <div className={styles.projectCard}>
+
+      <div className={styles.cardHeader}>
+        <h2 className={styles.projectTitle}>
+          {p.projectname}
+        </h2>
+
+        <div className={styles.memberCount}>
+          <Users size={18}/>
+          <span>{memberCount}</span>
         </div>
       </div>
-    );
-  };
+
+      <div className={styles.cardMiddle}>
+        <span className={`${styles.statusBadge} ${className}`}>
+          {label}
+        </span>
+
+        <button
+          className={styles.viewBtn}
+          onClick={() => navigate(`/projects/${p._id}`)}
+        >
+          View Details
+        </button>
+      </div>
+
+      <div className={styles.cardFooter}>
+        <span className={styles.progressLabel}>
+          Progress
+        </span>
+
+        <div className={styles.progressRow}>
+          <div className={styles.progressTrack}>
+            <div
+              className={styles.progressFill}
+              style={{
+                width: `${percent}%`,
+              }}
+            />
+          </div>
+
+          <span className={styles.progressText}>
+            {percent}%
+          </span>
+        </div>
+      </div>
+
+    </div>
+  );
+};
 
   return (
     <>
@@ -350,18 +447,7 @@ useEffect(() => {
       <div className={styles.headerRow}>
         <div>
           <h1 className={styles.pageTitle}>Projects</h1>
-
-          <div className={styles.rangeSelector}>
-            <select
-  value={range}
-  onChange={(e) => setRange(Number(e.target.value))}
->
-  <option value="7">Last 7 Days</option>
-  <option value="30">Last 30 Days</option>
-  <option value="90">Last 90 Days</option>
-</select>
-
-          </div>
+          <span className={styles.subtext}>Manage project allocation, assignments, and team ownership</span>
         </div>
 
         <div className={styles.headerActions}>
@@ -371,43 +457,55 @@ useEffect(() => {
         </div>
       </div>
 
-      <div className={styles.statusRow}>
-        <div className={styles.statusColumn}>
-          <h3>Active Projects</h3>
-          <div className={styles.compactList}>
-            {categorized.active.map((p, i) => (
-              <CompactCard key={i} p={p} />
-            ))}
-          </div>
-        </div>
+<div className={styles.statsContainer}>
+  {stats.map((card, index) => (
+    <div className={styles.statCard} key={index}>
+      <div className={styles.statTop}>
+        <span className={styles.statTitle}>
+          {card.title}
+        </span>
 
-        <div className={styles.statusColumn}>
-          <h3>Upcoming</h3>
-          <div className={styles.compactList}>
-            {categorized.upcoming.map((p, i) => (
-              <CompactCard key={i} p={p} />
-            ))}
+        {card.icon && (
+          <div className={styles.statIcon}>
+            {card.icon}
           </div>
-        </div>
-
-        <div className={styles.statusColumn}>
-          <h3>Overdue</h3>
-          <div className={styles.compactList}>
-            {categorized.overdue.map((p, i) => (
-              <CompactCard key={i} p={p} />
-            ))}
-          </div>
-        </div>
+        )}
       </div>
 
-      <section className={styles.allProjects}>
+      <h2 className={styles.statValue}>
+        {card.value}
+      </h2>
+
+      <div className={styles.progressTrack}>
+        <div
+          className={styles.progressFill}
+          style={{
+            width: `${card.progress}%`,
+            background: card.color,
+          }}
+        />
+      </div>
+    </div>
+  ))}
+</div>
+
+      {/* <section className={styles.allProjects}>
         <h2>All Projects</h2>
         <div className={styles.grid}>
           {projects.map((p, i) => (
             <ProjectCard key={i} p={p}/>
           ))}
         </div>
-      </section>
+      </section> */}
+      <div className={styles.projectGrid}>
+  {projects.map((p) => (
+    <ProjectCard
+      key={p._id}
+      p={p}
+    />
+  ))}
+</div>
+
     </div>
 
     {showModal && (

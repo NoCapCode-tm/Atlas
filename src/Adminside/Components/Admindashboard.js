@@ -4,7 +4,10 @@ import styles from '../CSS/admindashboard.module.css'
 import {
   UserPlus, Plus, Users, DollarSign,
   GraduationCap, FolderKanban,
-  TriangleAlert, X, ChevronUp, ChevronDown
+  TriangleAlert, X, ChevronUp, ChevronDown,
+  MoreVertical,
+  ChevronRight,
+  ChevronLeft
 } from "lucide-react";
 import {
   AreaChart,
@@ -20,43 +23,42 @@ import { useNavigate } from 'react-router';
 import Createtaskmodal from './Createtaskmodal';
 import { InfoTooltip } from './InfoTooltip';
 
-/* ================= IST HELPERS ================= */
-const toISTDateKey = (date) =>
-  new Date(date).toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
 
-const getYesterdayISTKey = () => {
-  const d = new Date(
-    new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-  );
-  d.setDate(d.getDate() - 1);
-  return toISTDateKey(d);
-};
+// const toISTDateKey = (date) =>
+//   new Date(date).toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
 
-const getLast7DaysIST = () => {
-  const days = [];
-  const today = new Date(
-    new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-  );
-  today.setHours(0, 0, 0, 0);
+// const getYesterdayISTKey = () => {
+//   const d = new Date(
+//     new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+//   );
+//   d.setDate(d.getDate() - 1);
+//   return toISTDateKey(d);
+// };
 
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    days.push({
-      key: toISTDateKey(d),
-      label: d.toLocaleDateString("en-US", {
-        weekday: "short",
-        timeZone: "Asia/Kolkata"
-      })
-    });
-  }
-  return days;
-};
+// const getLast7DaysIST = () => {
+//   const days = [];
+//   const today = new Date(
+//     new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+//   );
+//   today.setHours(0, 0, 0, 0);
+
+//   for (let i = 6; i >= 0; i--) {
+//     const d = new Date(today);
+//     d.setDate(today.getDate() - i);
+//     days.push({
+//       key: toISTDateKey(d),
+//       label: d.toLocaleDateString("en-US", {
+//         weekday: "short",
+//         timeZone: "Asia/Kolkata"
+//       })
+//     });
+//   }
+//   return days;
+// };
 
 function Admindashboard() {
   const navigate = useNavigate();
 
-  /* ================= STATES ================= */
   const [overlay, setoverlay] = useState(false);
   const [taskmodal, setTaskmodal] = useState(false);
   const [projects, setprojects] = useState([]);
@@ -78,102 +80,66 @@ const fullName = `${firstName} ${lastName}`.trim();
   const[loading,setLoading]=useState(false)
   const [sortOrder, setSortOrder] = useState("desc");
   const[user,setUser]=useState("")
+  const[role,setRole]=useState("")
+  const[tasks,setTasks]=useState([])
+  const[attendance,setAttendance]=useState([])
+  const[reports,setReports]=useState([])
   const itemsPerPage = 5;
   
-  useEffect(() => {
-    axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`, { withCredentials: true })
-      .then(res => setEmployees(res.data.message || []));
-  }, []);
-  useEffect(() => {
-   (async()=>{
-    const response = await axios.get("https://atlasbackend-1bt5.onrender.com/api/v1/admin/getuser",{withCredentials:true})
-    console.log(response.data.message)
-    setUser(response.data.message)
-   })()
-     
-  }, []);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const [
+        employeesRes,
+        userRes,
+        taskRes,
+        attRes,
+        repRes,
+        projectsRes,
+        metricsRes,
+        redflagsRes,
+      ] = await Promise.all([
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser", {
+          withCredentials: true,
+        }),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getuser", {
+          withCredentials: true,
+        }),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask", {
+          withCredentials: true,
+        }),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getattendance", {
+          withCredentials: true,
+        }),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getreports", {
+          withCredentials: true,
+        }),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject"),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getmetrics"),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getredflags"),
+      ]);
 
-  useEffect(() => {
-    axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getallproject`)
-      .then(res => setprojects(res.data.message || []));
-  }, []);
+      setEmployees(employeesRes.data.message || []);
+      setUser(userRes.data.message || {});
+      setTasks(taskRes.data.message || {});
+      setAttendance(attRes.data.message || {});
+      setReports(repRes.data.message || {});
+      setprojects(projectsRes.data.message || []);
+      setMetrics(metricsRes.data.message || []);
+      setredflags(redflagsRes.data.message || []);
 
-  useEffect(() => {
-    axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getmetrics`)
-      .then(res => setMetrics(res.data.message || []));
-  }, []);
-
-  useEffect(() => {
-    axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getredflags`)
-      .then(res => setredflags(res.data.message || []));
-  }, [employees]);
-
- 
-  const weeklyDynamicData = useMemo(() => {
-    const days = getLast7DaysIST();
-    return days.map(d => {
-      const m = metrics.find(x => toISTDateKey(x.date) === d.key);
-      return { name: d.label, value: m?.reportsSubmitted || 0 };
-    });
-  }, [metrics]);
-
-  useEffect(() => {
-    setData(weeklyDynamicData);
-  }, [weeklyDynamicData]);
-
-  const handleDaily = () => {
-    setActivegraph("daily");
-    setData(weeklyDynamicData);
-  };
-  const handleWeekly = () => {
-    setActivegraph("weekly");
-    setData(weeklyDynamicData);
-  };
-  const handleMonthly = () => {
-    setActivegraph("monthly");
-    setData(weeklyDynamicData);
+      console.log("User:", userRes.data.message);
+      console.log("Metrics:", metricsRes.data.message);
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+    }
   };
 
-  /* ================= RED FLAGS ================= */
-  const getYesterdayRedFlags = () => {
-    const key = getYesterdayISTKey();
-    return redflags.filter(r => toISTDateKey(r.date) === key);
-  };
+  fetchData();
+}, []);
 
-  const redflagdetail = (id) =>
-    employees.find(e => e._id.toString() === id)?.name || "-";
-
-  /* ================= PAGINATION ================= */
-  const sortedEmployees = [...employees].sort((a, b) =>
-    sortOrder === "desc"
-      ? new Date(b.createdAt) - new Date(a.createdAt)
-      : new Date(a.createdAt) - new Date(b.createdAt)
-  );
-
-  const totalPages = Math.ceil(sortedEmployees.length / itemsPerPage);
-  const paginatedEmployees = sortedEmployees.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const statusClassMap = { 
-    "Active & Paid": styles.activePaid, 
-    "Active & Unpaid": styles.activeUnpaid,
-     "Inactive": styles.inactive, 
-     "Onboarding": styles.onboarding, 
-    };
-     const severityClassMap = { 
-      "high":styles.high, 
-      "medium":styles.medium,
-       "low":styles.low, 
-      }
-
-      const handleactivepaid = () =>{
-         const ap = employees?.filter((e)=>e.status === "Active & Paid") 
-         return ap?.length 
-        } 
-        const handleactiveunpaid = () =>{ 
-          const au = employees?.filter((e)=>e.status === "Active & Unpaid") 
+        const handletasks = () =>{ 
+          const au = tasks?.filter((t)=>t.status === "Completed") 
           return au?.length
          }
 
@@ -190,11 +156,14 @@ const fullName = `${firstName} ${lastName}`.trim();
     setLoading(true);
 
     const response = await axios.post(
-      "https://atlasbackend-1bt5.onrender.com/api/v1/admin/addemployee",
+      "https://b-atlas-ncc.onrender.com/api/v1/admin/addemployee",
       {
         name: fullName,
         email: email,
         password: password,
+        dob,
+        gender,
+
       },
       { withCredentials: true }
     );
@@ -212,43 +181,92 @@ const fullName = `${firstName} ${lastName}`.trim();
     setLoading(false);
   }
 };
-const getGreeting = () => {
-  const hour = new Date().getHours();
 
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
-};
+//project section logic
 
+const projectStats = useMemo(() => {
+  const today = new Date();
 
-const users = [
-  { name: "Person 1", time: "4H" },
-  { name: "Person 2", time: "6H" },
-  { name: "Person 3", time: "1H" },
-  { name: "Person 4", time: "1H" },
-  { name: "Person 4", time: "1H" },
-];
+  let pending = 0;
+  let inProgress = 0;
+  let overdue = 0;
+  let completed = 0;
 
-const redFlags = [
-  {
-    name: "David Kim",
-    date: "2026-01-20",
-    severity: "high",
-    status: "Missed Reports",
-  },
-  {
-    name: "Lisa Anderson",
-    date: "2026-01-20",
-    severity: "medium",
-    status: "Poor Performance",
-  },
-  {
-    name: "John Doe",
-    date: "2026-01-20",
-    severity: "low",
-    status: "Inactive",
-  },
-];
+  projects.forEach((project) => {
+    // Completed has highest priority
+    if (project?.progress?.status === "completed") {
+      completed++;
+      return;
+    }
+
+    const startDate = new Date(project?.timeline?.startDate);
+    const endDate = new Date(project?.timeline?.endDate);
+
+    if (today < startDate) {
+      pending++;
+    } else if (today >= startDate && today <= endDate) {
+      inProgress++;
+    } else if (today > endDate) {
+      overdue++;
+    }
+  });
+
+  return {
+    pending,
+    inProgress,
+    overdue,
+    completed,
+  };
+}, [projects]);
+
+//red flags of previous day
+const yesterdayRedFlags = useMemo(() => {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const yesterdayString = yesterday.toLocaleDateString("en-CA"); // YYYY-MM-DD
+
+  return redflags.filter((flag) => {
+    const flagDateString = new Date(flag.createdAt || flag.date).toLocaleDateString("en-CA");
+
+    return flagDateString === yesterdayString;
+  });
+}, [redflags]);
+
+//attendance time
+
+const workinghours = useMemo(()=>{
+  const nowIST = new Date().toLocaleDateString("en-IN", {
+  timeZone: "Asia/Kolkata",
+});
+
+  const workinghour = attendance.filter((a)=>new Date(a?.date).toLocaleDateString("en-IN", {
+  timeZone: "Asia/Kolkata",
+}) === nowIST)
+  return workinghour
+},[attendance])
+
+//report submitted today
+
+const todayreports = useMemo(()=>{
+   const nowIST = new Date().toLocaleDateString("en-IN", {
+  timeZone: "Asia/Kolkata",
+});
+
+ const todayreport = reports.filter((a)=>new Date(a?.date).toLocaleDateString("en-IN", {
+  timeZone: "Asia/Kolkata",
+}) === nowIST).length
+
+const total = employees.filter((e)=>e?.designation?.name !=="Administrator").length
+const percent = (todayreport/total)*100
+const missing = total-todayreport
+
+return{
+  todayreport,
+  percent,
+  missing
+}
+})
 
 const levels = [
   "veryLow",
@@ -269,28 +287,42 @@ const heatmap = [
 ];
 
 
+
+
 const cards = [
   {
     title: "Completed",
-    count: 5,
+    count: projectStats?.completed,
   },
   {
     title: "In Progress",
-    count: 10,
+    count: projectStats?.inProgress,
   },
   {
-    title: "On-hold",
-    count: 5,
+    title: "Overdue",
+    count: projectStats?.overdue,
   },
   {
     title: "Pending",
-    count: 4,
+    count: projectStats?.pending,
   },
 ];
+  const perPage = 6;
+
+const totalPages = Math.ceil(employees.length / perPage);
+
+  const paginatedEmployees = employees.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage
+  );
 
 
 
-  /* ================= JSX ================= */
+
+
+
+
+  
   return (
    <>
     <div className={styles.mainContainer}>
@@ -320,19 +352,14 @@ const cards = [
         </div>
 
         <div className={`${styles.card1} ${styles.animateOnScroll}`}  data-animate style={{ "--delay": 0 }} onClick={() =>
-  navigate("/employees", {
-    state: {
-      tab: "onboarding",
-      status: "Active & Paid" // Active & Unpaid
-    }
-  })
+  navigate("/tasks")
 }
 >
           <div className={styles.cardleft}>
-            <div className={styles.cardleft1}>Active & Paid
+            <div className={styles.cardleft1}>Total Tasks
               <InfoTooltip text="Employees currently active and paid in the current cycle" />
             </div>
-            <div className={styles.cardleft2}>{handleactivepaid()}</div>
+            <div className={styles.cardleft2}>{tasks?.length}</div>
             {/* <div className={styles.cardleft3}></div> */}
           </div>
           {/* <div className={styles.cardright}>
@@ -340,18 +367,14 @@ const cards = [
           </div> */}
         </div>
         <div className={`${styles.card2} ${styles.animateOnScroll}`}  data-animate style={{ "--delay": 0 }} onClick={() =>
-  navigate("/employees", {
-    state: {
-      status: "Active & UnPaid"
-    }
-  })
+  navigate("/tasks")
 }
 >
           <div className={styles.cardleft}>
-            <div className={styles.cardleft1}>Active & Unpaid
+            <div className={styles.cardleft1}>Completed Tasks
               <InfoTooltip text="Employees currently active but pending payment status" />
             </div>
-            <div className={styles.cardleft2}>{handleactiveunpaid()}</div>
+            <div className={styles.cardleft2}>{handletasks()}</div>
             {/* <div className={styles.cardleft3}></div> */}
           </div>
           {/* <div className={styles.cardright}>
@@ -393,8 +416,8 @@ const cards = [
                   {/* Gradient Fill */}
                   <defs>
                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="10%" stopColor="#6D78FF33" stopOpacity={0.4} />
-                      <stop offset="90%" stopColor="#2035FF" stopOpacity={0} />
+                      <stop offset="20%" stopColor="#2035FF" stopOpacity={1} />
+                      <stop offset="100%" stopColor="#6D78FF33" stopOpacity={9} />
                     </linearGradient>
                   </defs>
 
@@ -414,7 +437,7 @@ const cards = [
                     type="monotone"
                     dataKey="value"
                     stroke="#2035FF"
-                    strokeWidth={3}
+                    // strokeWidth={3}
                     fill="url(#colorValue)"
                   />
 
@@ -428,7 +451,7 @@ const cards = [
           <div className={styles.graphrighttop}>Project Status Overview
           <InfoTooltip text="Employees with missed reports, prolonged inactivity, or overdue tasks" /></div>
           <div className={styles.newproject}>
-            <h1>24</h1>
+            <h1>{projects.length}</h1>
             <h2>Projects Active</h2>
             <div className={styles.container}>
       {cards.map((card, index) => (
@@ -452,19 +475,25 @@ const cards = [
     <div className={styles.cardHeader}>Users Active</div>
 
     <div className={styles.usersList}>
-      {users.map((user, i) => (
-        <div key={i} className={styles.userItem}>
-          <span className={styles.userName}>{user.name}</span>
-          <span className={styles.userTime}>{user.time}</span>
+      {workinghours?.map((user, i) => {
+        const emp = employees.find((e)=>e._id === user.user)
+        return(
+          <div key={i} className={styles.userItem}>
+          <span className={styles.userName}>{emp?.name}</span>
+          <span className={styles.userTime}>{user?.timespent} sec</span>
         </div>
-      ))}
+        )
+        
+})}
     </div>
   </div>
 
   <div className={styles.cardred}>
     <div className={styles.cardHeader}>Redflags Panel</div>
-
+    
+    
     <div className={styles.legend}>
+      
       <div className={styles.legendItem}>
         <span className={`${styles.dot} ${styles.highDot}`}></span>
         High
@@ -482,23 +511,30 @@ const cards = [
     </div>
 
     <div className={styles.redflagList}>
-      {redFlags.map((flag, i) => (
-        <div
+      {yesterdayRedFlags.map((flag, i) => {
+        const redemployee = employees.find((e)=>e._id === flag.userId)
+        if(!redemployee) return null
+        return(
+          <div
           key={i}
           className={`${styles.flagItem} ${
             styles[flag.severity]
           }`}
         >
           <div className={styles.flagInfo}>
-            <div className={styles.flagName}>{flag.name}</div>
-            <div className={styles.flagDate}>{flag.date}</div>
+            <div className={styles.flagName}>{redemployee?.name}</div>
+            <div className={styles.flagDate}>{new Date(flag?.date).toLocaleString("en-IN", {
+  timeZone: "Asia/Kolkata",
+})}</div>
           </div>
 
           <div className={styles.flagStatus}>
-            {flag.status}
+            {flag.reason}
           </div>
         </div>
-      ))}
+        )
+        
+})}
     </div>
   </div>
 </div>
@@ -564,211 +600,336 @@ const cards = [
         <div className={styles.reportBody}>
           <div className={styles.chart}>
             <div className={styles.chartInner}>
-              92%
+              {todayreports?.percent.toFixed(1)}%
             </div>
           </div>
 
           <div className={styles.stats}>
             <div className={styles.stat}>
               <span className={`${styles.dot} ${styles.red}`}></span>
-              Expected : 180
+              Expected : {employees.filter((e)=>e?.designation?.name !=="Administrator")?.length}
             </div>
 
             <div className={styles.stat}>
               <span className={`${styles.dot} ${styles.green}`}></span>
-              Submitted : 160
+              Submitted : {todayreports?.todayreport}
             </div>
 
             <div className={styles.stat}>
               <span className={`${styles.dot} ${styles.orange}`}></span>
-              Missing : 20
+              Missing : {todayreports?.missing}
             </div>
           </div>
         </div>
       </div>
     </div>
 
-      <div className={`${styles.tablecontainer} ${styles.animateOnScroll}`}  data-animate>
-  <div className={styles.tabletop}>
-    <div className={styles.tabletitle}>Recent Employees</div>
+  {/* table employes */}
+  <div className={styles.wrapper2}>
+      <div className={styles.header}>
+        Recent Employees
+      </div>
 
-    {/* <select
-      value={statusFilter}
-      onChange={(e) => {
-        setStatusFilter(e.target.value);
-        setCurrentPage(1);
-      }}
-      className={styles.filterSelect}
-    >
-      <option value="All">All</option>
-      <option value="Active & Paid">Active & Paid</option>
-      <option value="Active & Unpaid">Active & Unpaid</option>
-      <option value="Inactive">Inactive</option>
-      <option value="Onboarding">Onboarding</option>
-    </select> */}
-  </div>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Role</th>
+            <th>Manager</th>
+            <th>Projects</th>
+            <th>Issues</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
 
-  <table className={styles.employeeTable}>
-    <thead>
-      <tr>
-        <th
-          onClick={() =>
-            setSortOrder(sortOrder === "desc" ? "asc" : "desc")
-          }
-          style={{ cursor: "pointer" }}
-        >
-          Employee {sortOrder === "desc" ? "↓" : "↑"}
-        </th>
-        <th>Role</th>
-        
-        <th>Manager</th>
-        <th>Projects</th>
-        <th>Issues</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+        <tbody>
+          {paginatedEmployees.map((employee, index) =>{
+            const manager = employees.find((e)=>e?._id === employee?.managerAssigned)
+            const project = projects.filter((p) =>p?.team?.assignedMembers?.some((member) => member.userId === employee._id));
+            return (
+               <tr key={index}>
+              <td>
+                <div className={styles.employee}>
+                  <div className={styles.avatar}>
+  {employee.name
+    ?.split(" ")
+    .map((word) => word.charAt(0).toUpperCase())
+    .join("")}
+</div>
 
-    <tbody>
-      {paginatedEmployees.map((row) => (
-        <tr key={row._id}>
-          <td>{row.name}</td>
-          <td>
-            <span className={`${styles.status} ${statusClassMap[row.status]}`}>
-              {row.status}
-            </span>
-          </td>
-          <td>{row.role}</td>
-          <td>{row.Projects?.length || 0}</td>
-          <td>{row.issues || 0}</td>
-          <td>{row.Tasks?.length || 0}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
+                  <span>{employee.name}</span>
+                </div>
+              </td>
 
-  <div className={styles.pagination}>
+              <td className={styles.role}>
+                {employee.role}
+              </td>
+
+              <td>{manager?.name || "NA"}</td>
+
+              <td className={styles.center}>
+                {project?.length}
+              </td>
+
+              <td
+                className={`${styles.center} ${
+                  employee.issues >= 4
+                    ? styles.red1
+                    : ""
+                }`}
+              >
+                {employee.issues}
+              </td>
+
+              <td>
+                <span
+                  className={`${styles.badge} ${
+                    styles[
+                      employee.status.toLowerCase()
+                    ]
+                  }`}
+                >
+                  {employee.status}
+                </span>
+              </td>
+
+              <td className={styles.actions}>
+                <MoreVertical size={18} />
+              </td>
+            </tr>
+            )
+          })}
+        </tbody>
+      </table>
+
+        <div className={styles.pagination}>
+  <span>
+    Showing {(currentPage - 1) * perPage + 1}–
+    {Math.min(currentPage * perPage, employees.length)} of{" "}
+    {employees.length}
+  </span>
+
+  <div className={styles.pagebtns1}>
+    {/* Previous */}
     <button
+      className={styles.arrowBtn}
       disabled={currentPage === 1}
-      onClick={() => setCurrentPage(p => p - 1)}
+      onClick={() => setCurrentPage((p) => p - 1)}
     >
-      Prev
+      <ChevronLeft size={18} />
     </button>
 
-    {[...Array(totalPages)].map((_, i) => (
+    {/* First 3 Pages */}
+    {Array.from(
+      { length: Math.min(3, totalPages) },
+      (_, i) => i + 1
+    ).map((page) => (
       <button
-        key={i}
-        className={currentPage === i + 1 ? styles.activePage : ""}
-        onClick={() => setCurrentPage(i + 1)}
+        key={page}
+        className={`${styles.pageNumber1} ${
+          currentPage === page ? styles.activepage : ""
+        }`}
+        onClick={() => setCurrentPage(page)}
       >
-        {i + 1}
+        {page}
       </button>
     ))}
 
+    {/* Ellipsis */}
+    {totalPages > 4 && (
+      <>
+        <span className={styles.dots}>.....</span>
+
+        <button
+          className={`${styles.pageNumber} ${
+            currentPage === totalPages
+              ? styles.activepage
+              : ""
+          }`}
+          onClick={() => setCurrentPage(totalPages)}
+        >
+          {totalPages}
+        </button>
+      </>
+    )}
+
+    {/* Next */}
     <button
+      className={styles.arrowBtn}
       disabled={currentPage === totalPages}
-      onClick={() => setCurrentPage(p => p + 1)}
+      onClick={() => setCurrentPage((p) => p + 1)}
     >
-      Next
+      <ChevronRight size={18} />
     </button>
   </div>
 </div>
+    </div>
 
     </div>
- {overlay && (
-  <div className={styles.overlay} onClick={() => setoverlay(false)}>
-    <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+{overlay && (
+  <div
+    className={styles.overlay}
+    onClick={() => setoverlay(false)}
+  >
+    <div
+      className={styles.modal}
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* Close */}
 
-      {/* CLOSE */}
-      <button className={styles.closeBtn} onClick={() => setoverlay(false)}>
-        <X onClick={()=>{setoverlay(false)}}/>
+      <button
+        className={styles.closeBtn}
+        onClick={() => setoverlay(false)}
+      >
+        <X size={28} strokeWidth={2} />
       </button>
 
-      {/* TITLE */}
-      <div className={styles.titleRow}>
-        <div className={styles.line}></div>
-        <h2>Add Employee</h2>
-        <div className={styles.line}></div>
+      {/* Header */}
+
+      <div className={styles.header1}>
+        <h2>Employee Details</h2>
+
+        <p>
+          Fill the fields below to add new members
+        </p>
       </div>
 
-      {/* BASIC DETAILS */}
-      <div className={styles.section}>
-        <p className={styles.sectionTitle}>Basic Details<span style={{color:"red",margin:"0px 5px"}}>*</span>:</p>
+      {/* First Last */}
 
-        <div className={styles.row2}>
-          <div className={styles.field}>
-            <span>First name</span>
-            <input
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-          </div>
+      <div className={styles.row}>
+        <div className={styles.field}>
+          <label>
+            FIRST NAME <span>*</span>
+          </label>
 
-          <div className={styles.field}>
-            <span>Last name</span>
-            <input
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className={styles.fieldFull}>
-          <span>email ID</span>
           <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            value={firstName}
+            onChange={(e) =>
+              setFirstName(e.target.value)
+            }
           />
         </div>
 
-        <div className={styles.fieldFull}>
-          <span>Password</span>
+        <div className={styles.field}>
+          <label>
+            LAST NAME <span>*</span>
+          </label>
+
           <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            type="text"
+            value={lastName}
+            onChange={(e) =>
+              setLastName(e.target.value)
+            }
           />
         </div>
       </div>
 
-      {/* OTHER DETAILS */}
-      {/* <div className={styles.section}>
-        <p className={styles.sectionTitle}>Other Details<span style={{color:"red",margin:"0px 5px"}}>*</span>:</p>
-        <div className={styles.divider}></div>
+      {/* Role */}
 
-        <div className={styles.row2}>
-          <div className={styles.field}>
-            <span>Date of birth</span>
+      <div className={styles.fullField}>
+        <label>
+          ROLE <span>*</span>
+        </label>
+         <input
+            type="text"
+            value={role}
+            onChange={(e) =>
+              setRole(e.target.value)
+            }
+          />
+        
+      </div>
+
+      {/* Email */}
+
+      <div className={styles.fullField}>
+        <label>
+          EMAIL <span>*</span>
+        </label>
+
+        <input
+          type="email"
+          value={email}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
+        />
+      </div>
+
+      {/* Password */}
+
+      <div className={styles.fullField}>
+        <label>
+          PASSWORD <span>*</span>
+        </label>
+
+        <input
+          type="password"
+          value={password}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
+        />
+      </div>
+
+      {/* Bottom */}
+
+      <div className={styles.rowBottom}>
+        <div className={styles.field}>
+          <label>DATE OF BIRTH</label>
+
+          <div className={styles.dateWrapper}>
             <input
               type="date"
               value={dob}
-              className={styles.overlaydate}
-              onChange={(e) => setDob(e.target.value)}
+              onChange={(e) =>
+                setDob(e.target.value)
+              }
             />
           </div>
-
-          <div className={styles.field}>
-            <span>Gender</span>
-            <select
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-            >
-              <option></option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
-            </select>
-          </div>
         </div>
-      </div> */}
 
-      {/* SAVE */}
-      <div className={styles.footer}>
-        <button className={styles.saveBtn} onClick={handleaddu}>
-          {loading ? "Adding..." : "Save →"}
-        </button>
+        <div className={styles.field}>
+          <label>GENDER</label>
+
+          <select
+            value={gender}
+            onChange={(e) =>
+              setGender(e.target.value)
+            }
+          >
+            <option value="">
+              Select
+            </option>
+
+            <option>Male</option>
+
+            <option>Female</option>
+
+            <option>Other</option>
+          </select>
+        </div>
       </div>
 
+      {/* Footer */}
+
+      <div className={styles.footer}>
+        <p>
+          <span>*</span> Required fields
+        </p>
+
+        <button
+          className={styles.addBtn}
+          onClick={handleaddu}
+        >
+          {loading
+            ? "Adding..."
+            : "Add Employee"}
+        </button>
+      </div>
     </div>
   </div>
 )}

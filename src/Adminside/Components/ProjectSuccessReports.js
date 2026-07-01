@@ -41,8 +41,8 @@ export default function ProjectSuccessReports() {
     (async () => {
       try {
         const [pRes, uRes] = await Promise.all([
-          axios.get(`https://atlasbackend-1bt5.onrender.com/${API_PROJECTS}`),
-          axios.get(`https://atlasbackend-1bt5.onrender.com/${API_USERS}`),
+          axios.get(`https://b-atlas-ncc.onrender.com/${API_PROJECTS}`),
+          axios.get(`https://b-atlas-ncc.onrender.com/${API_USERS}`),
         ]);
         // assuming API returns { message: [...] } like your earlier responses
         console.log(pRes.data.message)
@@ -324,7 +324,7 @@ const bottleneckData = useMemo(() => {
 
       {/* Bottlenecks Chart */}
       <div className={styles.card1}>
-        <h3>Top Bottlenecks Across All Projects</h3>
+        <h3 style={{color:"white"}}>Top Bottlenecks Across All Projects</h3>
         <p className={styles.cardSub}>Tasks and phases that exceeded their estimated duration</p>
 
         <div style={{ width: "100%", height: 400, overflowY: "auto", paddingRight: 10}}>

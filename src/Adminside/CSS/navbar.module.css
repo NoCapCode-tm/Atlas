@@ -154,32 +154,31 @@
     padding: 20px 30px;
     gap:75px;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: center;
     color: #ffffff;
 }
 
-.logohumanity {
+/* .logohumanity {
     width: 100px;
     height: 40px;
-}
+} */
 
 .reportsDropdown {
     display: none;
     flex-direction: column;
-    padding-left: 32px;
+    align-self: end;
+    border-left: 0.85px solid #A5A5A5;
 }
 
 .showDropdown {
     display: flex;
+    width:80%;
 }
 
 .reportItem {
-    background: rgba(30, 41, 59, 0.5);
     width:90%;
     color: #e2e8f0;
-    border:1px solid rgba(255, 255, 255, 0.1);
     padding: 10px 16px;
-    border-radius: 8px;
     margin: 6px 0;
     cursor: pointer;
     font-size: 14px;
@@ -203,7 +202,7 @@
     position: relative;
     width: 300px;
     height: 100vh;
-    background: #1a1f2e;
+    background: #0F0F0F;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
@@ -248,7 +247,7 @@
     gap:15px;
     font-weight: 400;
     font-size: 15px;
-    background-color: #6366f1;
+    background-color: #0050B8;
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 

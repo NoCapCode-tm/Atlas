@@ -14,7 +14,6 @@ import {
   AreaChart
 } from "recharts";
 import { InfoTooltip } from "./InfoTooltip";
-
 const ProductivityReport = () => {
   const [metrics, setMetrics] = useState([]);
   const [attendance, setAttendance] = useState([]);
@@ -35,7 +34,7 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getmetrics"
+        "https://b-atlas-ncc.onrender.com/api/v1/admin/getmetrics"
       );
       setMetrics(res.data.message || []);
     })();
@@ -44,7 +43,7 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getattendance"
+        "https://b-atlas-ncc.onrender.com/api/v1/admin/getattendance"
       );
       setAttendance(res.data.message || []);
     })();
@@ -53,7 +52,7 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser",
+        "https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser",
         { withCredentials: true }
       );
       setEmployees(res.data.message || []);
@@ -63,16 +62,14 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalltask",
+        "https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask",
         { withCredentials: true }
       );
       setTasks(res.data.message || []);
     })();
   }, []);
 
-  // =========================
-  // DATE HELPERS (IST SAFE)
-  // =========================
+  
   const toISTDateKey = (date) =>
     new Date(date).toLocaleDateString("en-CA", {
       timeZone: "Asia/Kolkata"
@@ -99,9 +96,7 @@ const ProductivityReport = () => {
 
   const last6Days = getLast6DaysIST();
 
-  // =========================
-  // BAR CHART (METRICS)
-  // =========================
+ 
   const barChartData = last6Days.map(d => {
     const m = metrics.find(
       x => toISTDateKey(x.date) === d.key
@@ -113,9 +108,7 @@ const ProductivityReport = () => {
     };
   });
 
-  // =========================
-  // AREA CHART (ATTENDANCE)
-  // =========================
+
   const attendanceByDate = attendance.reduce((acc, a) => {
     const key = toISTDateKey(a.date);
     acc[key] = (acc[key] || 0) + (a.timespent || 0);
@@ -127,9 +120,7 @@ const ProductivityReport = () => {
     hours: Math.round((attendanceByDate[d.key] || 0) / 60)
   }));
 
-  // =========================
-  // TABLE DATA
-  // =========================
+  
   const minutesBetween = (start, end) => {
     if (!start || !end) return 0;
     const s = new Date(start).getTime();
@@ -171,9 +162,7 @@ const ProductivityReport = () => {
     };
   });
 
-  // =========================
-  // JSX (UNCHANGED)
-  // =========================
+
   return (
     <div className={styles.page}>
       <h1 className={styles.title}>
@@ -183,105 +172,226 @@ const ProductivityReport = () => {
 
       <p className={styles.subtitle}>Company</p>
 
-      <div className={styles.chartRow}>
-        <div className={styles.card}>
-          <h3>Average tasks completed per week</h3>
+       <div className={styles.wrapper}>
+      {/* Left Card */}
 
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={barChartData} barSize={50}>
-              <CartesianGrid vertical={false} horizontal={false} />
-              <XAxis dataKey="day" tick={false} />
-              <YAxis tick={false} />
-              <Tooltip />
+      <div className={styles.card}>
+
+        <h3>
+          Average tasks completed per week
+        </h3>
+
+        <div className={styles.chart}>
+          <ResponsiveContainer
+            width="100%"
+            height={220}
+          >
+            <BarChart
+              data={barChartData}
+              margin={{
+                top: 20,
+                right: 15,
+                left: 0,
+                bottom: 0,
+              }}
+              barGap={8}
+            >
+              <CartesianGrid
+                vertical={false}
+                stroke="#17181d"
+              />
+
+              <XAxis
+                dataKey="day"
+                tick={{
+                  fill: "#72737a",
+                  fontSize: 12,
+                }}
+                tickLine={false}
+                axisLine={false}
+              />
+
+              <YAxis
+                hide
+              />
+
+              <Tooltip
+                cursor={false}
+                contentStyle={{
+                  background: "#17181d",
+                  border: "1px solid #2f3138",
+                  color: "#fff",
+                  borderRadius: 10,
+                }}
+              />
+
               <Bar
                 dataKey="tasks"
-                fill="#a78bfa"
-                radius={[8, 8, 0, 0]}
+                radius={[6, 6, 0, 0]}
+                fill="#1D7CFF"
+                maxBarSize={34}
               />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className={styles.card}>
-          <h3>Hours logged vs Output</h3>
+      </div>
 
-          <ResponsiveContainer width="100%" height={250}>
-            <AreaChart data={lineChartData}>
+      {/* Right Card */}
+
+      <div className={styles.card}>
+
+        <h3>
+          Hours logged vs Output
+        </h3>
+
+        <div className={styles.chart}>
+          <ResponsiveContainer
+            width="100%"
+            height={220}
+          >
+            <AreaChart
+              data={lineChartData}
+              margin={{
+                top: 20,
+                right: 5,
+                left: -20,
+                bottom: 0,
+              }}
+            >
               <defs>
-                <linearGradient id="colorHours" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#6850BE" stopOpacity={1} />
-                  <stop offset="100%" stopColor="#EBE4FF" stopOpacity={1} />
+
+                <linearGradient
+                  id="gradient"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="5%"
+                    stopColor="#4654FF"
+                    stopOpacity={0.95}
+                  />
+
+                  <stop
+                    offset="95%"
+                    stopColor="#4654FF"
+                    stopOpacity={0.08}
+                  />
+
                 </linearGradient>
+
               </defs>
 
-              <CartesianGrid vertical={false} />
-              <XAxis dataKey="day" tick={false} />
-              <YAxis tick={false} />
-              <Tooltip />
+              <CartesianGrid
+                vertical={false}
+                stroke="#17181d"
+              />
+
+              <XAxis
+                dataKey="day"
+                tick={{
+                  fill: "#72737a",
+                  fontSize: 12,
+                }}
+                tickLine={false}
+                axisLine={false}
+              />
+
+              <YAxis hide />
+
+              <Tooltip
+                contentStyle={{
+                  background: "#17181d",
+                  border: "1px solid #2f3138",
+                  color: "#fff",
+                  borderRadius: 10,
+                }}
+              />
 
               <Area
                 type="monotone"
                 dataKey="hours"
-                stroke="transparent"
-                fill="url(#colorHours)"
-                fillOpacity={1}
+                stroke="#4051FF"
+                strokeWidth={3}
+                fill="url(#gradient)"
                 dot={false}
+                activeDot={{
+                  r: 5,
+                }}
               />
+
             </AreaChart>
           </ResponsiveContainer>
         </div>
+
       </div>
 
-      <div className={styles.tableCard}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Role</th>
-              <th>Tasks assigned</th>
-              <th>Tasks done</th>
-              <th>Avg. time/task</th>
-              <th>Productivity score</th>
+    </div>
+
+      <div className={styles.tableWrapper}>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Tasks assigned</th>
+            <th>Tasks done</th>
+            <th>Avg. time/task</th>
+            <th>Productivity score</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {tableData.map((employee, index) => (
+            <tr key={index}>
+              <td className={styles.name}>
+                {employee.name}
+              </td>
+
+              <td className={styles.role}>
+                {employee.role}
+              </td>
+
+              <td>
+                <div className={styles.taskCell}>
+                  <span className={styles.taskText}>
+                    Assigned Tasks
+                  </span>
+
+                  <div className={styles.countBadge}>
+                    {employee.assignedCount}
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <div className={styles.taskCell}>
+                  <span className={styles.taskText}>
+                    Completed Tasks
+                  </span>
+
+                  <div className={styles.countBadge}>
+                    {employee.completedCount}
+                  </div>
+                </div>
+              </td>
+
+              <td className={styles.avgTime}>
+                {employee.avgTime}
+              </td>
+
+              <td>
+                <span className={styles.score}>
+                  {employee.score}
+                </span>
+              </td>
             </tr>
-          </thead>
-
-          <tbody>
-            {tableData.map((row, i) => (
-              <tr key={i}>
-                <td className={styles.userCell}>
-                  <span className={styles.avatar}>{row.name[0]}</span>
-                  {row.name}
-                </td>
-                <td><span className={styles.roleTag}>{row.role}</span></td>
-                <td>Tasks Assigned <span className={styles.taskBadge}>{row.assignedCount}</span></td>
-                <td>Tasks Completed <span className={styles.taskBadge}>{row.completedCount}</span></td>
-                <td>{row.avgTime}</td>
-                <td className={styles.scoreGood}>{row.score}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div className={styles.pagination}>
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage(p => p - 1)}
-            className={styles.pageBtn}
-          >
-            ⬅ Prev
-          </button>
-
-          <span className={styles.pageNumber}>Page {currentPage}</span>
-
-          <button
-            disabled={indexOfLast >= employees.length}
-            onClick={() => setCurrentPage(p => p + 1)}
-            className={styles.pageBtn}
-          >
-            Next ➡
-          </button>
-        </div>
-      </div>
+          ))}
+        </tbody>
+      </table>
+    </div>
     </div>
   );
 };

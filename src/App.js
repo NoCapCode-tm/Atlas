@@ -36,6 +36,8 @@ import EmployeeDetails from "./Adminside/Components/EmployeeDetailspage";
 import EmployeeProfile from "./Employee Side/Components/EmployeeProfile";
 import ManagerLogin from "./Managerside/components/ManagerLogin";
 import HRLogin from "./hrside/Components/HRLogin";
+import Manager from "./Adminside/Components/Manager";
+import Activity from "./Adminside/Components/Activity";
 
 /* ---------- LAYOUT (Navbar control yahin hoga) ---------- */
 function Layout({ children }) {
@@ -63,7 +65,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Admindashboard />} />
             <Route path="/employees/:id" element={<EmployeeDetails />} />
-            <Route path="/employees" element={<EmployeePage />} />
+            <Route path="/people/employees" element={<EmployeePage />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:id" element={<ProjectDetailspage />} />
             <Route path="/tasks" element={<Taskpage />} />
@@ -79,6 +81,8 @@ function App() {
             <Route path="/project-success" element={<ProjectSuccessReports />} />
             <Route path="/task-analytics" element={<SLAComplianceDashboard />} />
             <Route path="/data-export" element={<Reports />} />
+            <Route path="/people/managers" element={<Manager/>} />
+            <Route path="/people/analytics" element={<Activity/>} />
 
             {/* employees */}
             <Route path="/employeelogin" element={<EmployeeLogin/>} />
