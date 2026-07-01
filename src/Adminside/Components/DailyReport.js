@@ -12,9 +12,7 @@ import {
 } from "recharts";
 import { InfoTooltip } from "./InfoTooltip";
 
-/* =========================
-   DATE HELPERS (IST SAFE)
-========================= */
+
 const toISTDateKey = (date) =>
   new Date(date).toLocaleDateString("en-CA", {
     timeZone: "Asia/Kolkata",
@@ -60,9 +58,7 @@ const makeWeekBuckets = (dates) => {
   return weeks;
 };
 
-/* =========================
-   COMPONENT
-========================= */
+
 export default function DailyReport() {
   const [reports, setReports] = useState([]);
   const [users, setUsers] = useState([]);
@@ -72,13 +68,11 @@ export default function DailyReport() {
   const [rangeDays, setRangeDays] = useState(30);
   const [loading, setLoading] = useState(true);
 
-  /* =========================
-     FETCH DATA
-  ========================= */
+  
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getmetrics"
+        "https://b-atlas-ncc.onrender.com/api/v1/admin/getmetrics"
       );
       setMetrics(res.data.message || []);
     })();
@@ -89,7 +83,7 @@ export default function DailyReport() {
       try {
         setLoading(true);
         const res = await axios.get(
-          "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser",
+          "https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser",
           { withCredentials: true }
         );
         setUsers(res.data.message || []);
@@ -102,24 +96,20 @@ export default function DailyReport() {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://atlasbackend-1bt5.onrender.com/api/v1/admin/getreports",
+        "https://b-atlas-ncc.onrender.com/api/v1/admin/getreports",
         { withCredentials: true }
       );
       setReports(res.data.message || []);
     })();
   }, []);
 
-  /* =========================
-     RANGE DATES
-  ========================= */
+
   const rangeDatesArr = useMemo(
     () => getLastNDaysIST(rangeDays),
     [rangeDays]
   );
 
-  /* =========================
-     COMPANY LEVEL CHART
-  ========================= */
+ 
   const companyChartData = useMemo(() => {
     const map = new Map();
 
@@ -146,9 +136,6 @@ export default function DailyReport() {
     });
   }, [metrics, users, rangeDatesArr]);
 
-  /* =========================
-     EMPLOYEE WEEKLY CHART
-  ========================= */
   const employeeWeeklyChartData = useMemo(() => {
     if (selectedUser === "all") return [];
 
@@ -177,9 +164,6 @@ export default function DailyReport() {
     });
   }, [selectedUser, reports, rangeDatesArr]);
 
-  /* =========================
-     CHART DATA (FINAL)
-  ========================= */
   const chartData = useMemo(() => {
     if (selectedUser === "all") {
       return companyChartData.map((d) => ({
@@ -194,9 +178,7 @@ export default function DailyReport() {
     }));
   }, [selectedUser, companyChartData, employeeWeeklyChartData]);
 
-  /* =========================
-     SUMMARY
-  ========================= */
+
   const summary = useMemo(() => {
     const src =
       selectedUser === "all"
@@ -226,9 +208,7 @@ export default function DailyReport() {
     );
   }
 
-  /* =========================
-     JSX (UNCHANGED)
-  ========================= */
+  
   return (
     <div className={styles.wrap}>
       <h1>
@@ -281,8 +261,8 @@ export default function DailyReport() {
             <AreaChart data={chartData}>
               <defs>
                 <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#6850BE" stopOpacity={1} />
-                  <stop offset="100%" stopColor="#EBE4FF" stopOpacity={1} />
+                  <stop offset="20%" stopColor="#2035FF" stopOpacity={1} />
+                  <stop offset="100%" stopColor="#6D78FF33" stopOpacity={1} />
                 </linearGradient>
               </defs>
 
@@ -293,7 +273,7 @@ export default function DailyReport() {
               <Area
                 type="monotone"
                 dataKey="value"
-                stroke="#6850BE"
+                stroke="#2035FF"
                 fill="url(#grad)"
                 fillOpacity={1}
               />

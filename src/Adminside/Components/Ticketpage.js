@@ -1,100 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styles from "../CSS/Ticketpage.module.css"; // adjust path to your project
-import { ChartNoAxesCombined, Clock, LayoutDashboard, Pencil, Ticket } from "lucide-react";
+import { ChartNoAxesCombined, Clock, Filter, LayoutDashboard, Pencil, Search, Ticket } from "lucide-react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom"
 import { toast } from "react-toastify";
 import { InfoTooltip } from "./InfoTooltip";
 
-const StatCard = ({ title, value, subtitle }) => {
-  const getIconColor = () => {
-    switch (title) {
-      case "Active":
-        return { icon: "orange", bg: "rgba(255,165,0,0.15)",tx: "rgb(255,165,0)" };
-      case "Working":
-        return { icon: "purple", bg: "rgba(128,0,128,0.15)" ,tx: "rgb(128,0,128)"};
-      case "Complete":
-        return { icon: "green", bg: "rgba(0,128,0,0.15)",tx: "rgb(0,128,0)" };
-      case "Urgent":
-        return { icon: "red", bg: "rgba(255,0,0,0.15)",tx: "rgb(255,0,0)" };
-      default:
-        return { icon: "#444", bg: "rgba(0,0,0,0.1)",tx: "rgb(0,0,0)" };
-    }
-  };
 
-  const colors = getIconColor();
-
-  const getIcon = () => {
-    if (title === "Urgent") return <ChartNoAxesCombined color={colors.icon} />;
-    return <Clock color={colors.icon} />;
-  };
-
-  return (
-    <div className={styles.statCard}>
-      <div className={styles.statLeft}>
-        <div className={styles.icon} style={{ backgroundColor: colors.bg }}>
-          {getIcon()}
-        </div>
-        <div className={styles.statTitle} style={{ color: colors.tx }}>{title}</div>
-      </div>
-
-      <div className={styles.statValue}>{value}</div>
-
-      {subtitle && <div className={styles.statSubtitle}>{subtitle}</div>}
-    </div>
-  );
-};
-
-
-
-const CategoryItem = ({ color, name, count }) => (
-    <div className={styles.catrowcount}>
-  <div className={styles.catRow}>
-    <span className={styles.catDot} style={{ background: color }} />
-    <span className={styles.catName}>{name}</span>
-    </div>
-    <span className={styles.catCount}>{count}</span>
-  
-  </div>
-);
-
-
-const TicketRow = ({ ticket , users}) => {
-
-    const handleuser = (raisedId) => {
-    const found = users.find(u => u?._id?.toString() === raisedId?.toString());
-    return found ? found.name : "Unknown";
-  };
-
-  const formatDate = (dateValue) => {
-  if (!dateValue) return "No Date";
-  return new Date(dateValue).toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric"
-  });
-};
-    return(
-  <div className={styles.ticketRow}>
-    <div className={styles.ticketInfo}>
-      <div className={styles.ticketTitle}>{ticket.title}</div>
-      <div className={styles.ticketMeta}>
-        Created by <b>{handleuser(ticket.raisedby)}</b><br/>{formatDate(ticket.raisedon)}
-      </div>
-    </div>
-
-    <div className={styles.ticketTags}>
-      <span className={`${styles.tag} ${styles[`priority_${ticket.priority}`]}`}>
-        {ticket.priority || "medium"}
-      </span>
-      <span className={`${styles.tag} ${
-  styles[`status_${(ticket.status || "Open").replace(/\s+/g, "_").replace(/&/g, "a")}`]
-}`}>
-  {ticket.status || "Open"}
-      </span>
-    </div>
-  </div>
-)};
 
 const Ticketpage = () => {
      const[active,setActive]=useState("dashboard")
@@ -143,7 +55,7 @@ const [creating, setCreating] = useState(false);
     setLoading(true);
 
     await axios.post(
-      `https://atlasbackend-1bt5.onrender.com/api/v1/admin/createticket`,
+      `https://b-atlas-ncc.onrender.com/api/v1/admin/createticket`,
       {
         title: form.title,
         category: form.category,
@@ -176,7 +88,7 @@ const [creating, setCreating] = useState(false);
     const fetchemployees = async () => {
       try {
         const response = await axios.get(
-          `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`,
+          `https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`,
           { withCredentials: true }
         );
 
@@ -191,7 +103,7 @@ const [creating, setCreating] = useState(false);
     const fetchTickets = async () => {
   try {
     const response = await axios.get(
-      `https://atlasbackend-1bt5.onrender.com/api/v1/admin/gettickets`
+      `https://b-atlas-ncc.onrender.com/api/v1/admin/gettickets`
     );
     setTickets(response.data.data);
   } catch (error) {
@@ -242,7 +154,7 @@ useEffect(() => {
   const handlestatus = async(status)=>{
         setactivestatus(status)
         try {
-            const response = await axios.post(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/updatestatus`,{
+            const response = await axios.post(`https://b-atlas-ncc.onrender.com/api/v1/admin/updatestatus`,{
                 id:ticket._id,
                 status:status
             },{withCredentials:true})
@@ -258,7 +170,7 @@ useEffect(() => {
 
     const sendMessage =async() =>{
         try {
-            const response = await axios.post(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/comment`,{
+            const response = await axios.post(`https://b-atlas-ncc.onrender.com/api/v1/admin/comment`,{
                 comment:comment,
                 id:ticket._id
             },{withCredentials:true})
@@ -276,12 +188,39 @@ useEffect(() => {
 
     useEffect(()=>{
         (async()=>{
-           const response = await axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getroles`)
+           const response = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getroles`)
            console.log(response)
            setRole(response.data.message)
     
         })()
        },[])
+
+       const filteredTickets = tickets.filter((ticket) => {
+  const matchesSearch =
+    ticket.title?.toLowerCase().includes(search.toLowerCase()) ||
+    ticket.category?.toLowerCase().includes(search.toLowerCase()) ||
+    ticket.status?.toLowerCase().includes(search.toLowerCase());
+
+  const matchesCategory = filterCategory
+    ? ticket.category === filterCategory
+    : true;
+
+  const matchesStatus = filterStatus
+    ? ticket.status === filterStatus
+    : true;
+
+  return matchesSearch && matchesCategory && matchesStatus;
+});
+
+const ticketsPerPage = 9;
+const [currentPage, setCurrentPage] = useState(1);
+
+const totalPages = Math.ceil(filteredTickets.length / ticketsPerPage);
+
+const currentTickets = filteredTickets.slice(
+  (currentPage - 1) * ticketsPerPage,
+  currentPage * ticketsPerPage
+);
 
 
 
@@ -298,7 +237,7 @@ useEffect(() => {
      {/* TOP BAR HEADER LIKE FIGMA UI */}
 <div className={styles.topBar}>
   <div className={styles.topBarLeft}>
-    <div className={styles.appIcon}><Ticket size={25} color="white"/></div>
+   
     <div>
       <div className={styles.appTitle}>Support / Ticketing System 
         <InfoTooltip text="Track and resolve employee support and issue requests" />
@@ -318,359 +257,260 @@ useEffect(() => {
   </div>
 </div>
 
-{/* NAV TABS */}
-<div className={styles.navTabs}>
-  <button className={active==="dashboard"?styles.activeTab : styles.inactiveTab} onClick={()=>{setActive("dashboard")}}><LayoutDashboard/>Dashboard</button>
-  <button className={active==="allticket"?styles.activeTab : styles.inactiveTab} onClick={()=>{setActive("allticket")}}><Ticket/>All Tickets</button>
+{/* //kip cards */}
+<div className={styles.statsGrid}>
+  <div className={styles.statCard}>
+    <p className={styles.statTitle}>Avg. Response</p>
+    <h2 className={styles.statValue}>
+      {Math.floor(avgResolutionHours / 60)}h {Math.round(avgResolutionHours % 60)}m
+    </h2>
+  </div>
+
+  <div className={styles.statCard}>
+    <p className={styles.statTitle}>Breached SLA</p>
+    <h2 className={styles.statValue}>{stats.urgent}</h2>
+  </div>
+
+  <div className={styles.statCard}>
+    <p className={styles.statTitle}>Due Today</p>
+    <h2 className={styles.statValue}>
+      {
+        tickets.filter(ticket => {
+          if (!ticket.dueDate) return false;
+
+          const today = new Date();
+          const due = new Date(ticket.dueDate);
+
+          return (
+            due.getDate() === today.getDate() &&
+            due.getMonth() === today.getMonth() &&
+            due.getFullYear() === today.getFullYear() &&
+            ticket.status !== "Resolved & Closed"
+          );
+        }).length
+      }
+    </h2>
+  </div>
+
+  <div className={styles.statCard}>
+    <p className={styles.statTitle}>Resolved</p>
+    <h2 className={styles.statValue}>{stats.resolved}</h2>
+  </div>
 </div>
 
-{active === "dashboard" ?(
+{/* table part */}
+<div className={styles.ticketContainer}>
 
-      <div className={styles.page}>
+    <div className={styles.ticketToolbar}>
 
-      <h3 className={styles.sectionTitle}>Ticket Statistics</h3>
-      <div className={styles.underhead}>Overview of support ticket metrics</div>
+        <div className={styles.searchBox}>
 
-      <div className={styles.statsGrid}>
-        <StatCard title="Active" value={stats.open} subtitle="Open Tickets" accent="#FFEFE9" />
-        <StatCard title="Working" value={stats.inProgress} subtitle="In Progress" accent="#EEF2FF" />
-        <StatCard title="Complete" value={stats.resolved} subtitle="Resolved/Closed" accent="#ECFDF5" />
-        <StatCard title="Urgent" value={stats.urgent} subtitle="High Priority" accent="#FFF1F2" />
-      </div>
+            <Search size={18} />
 
-      <div className={styles.mainGrid}>
-        <div className={styles.leftCol}>
-          <div className={styles.largeCard}>
-            <div className={styles.largeTitle}>Average Resolution Time</div>
-            <div className={styles.bigNumber}>{avgResolutionHours}<span className={styles.spanhours}>hours</span></div>
-            <div className={styles.smallNote}>Based on {stats.resolved} resolved tickets</div>
-          </div>
+            <input
+                type="text"
+                placeholder="Search Employees"
+                value={search}
+                onChange={(e)=>setSearch(e.target.value)}
+            />
+
         </div>
 
-        <div className={styles.rightCol}>
-          <div className={styles.largeCard}>
-            <div className={styles.largeTitle}>Tickets by Category</div>
-            <div className={styles.categoryList}>
-              {Object.keys(categoryCounts).length === 0 && <div className={styles.empty}>No categories</div>}
-              {Object.entries(categoryCounts).map(([cat, count]) => (
-                <CategoryItem key={cat} color={categoryPalette[cat] || "#9CA3AF"} name={cat} count={count} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+        <button className={styles.filterBtn}>
 
-      <div className={styles.recentCard}>
-        <div className={styles.recentTitle}>Recent Tickets</div>
-        <div className={styles.ticketList}>
-          {tickets.map((t, i) => (
-            <TicketRow key={i} ticket={t} users={users} />
-          ))}
-        </div>
-      </div>
+            <Filter size={16}/>
+
+            Filters
+
+        </button>
+
     </div>
-    ):(
-        !details? (
-             <div className={styles.allticketsInner}>
 
-  {/* FILTER STATES */}
-  {(() => {
-    
-    // COMPUTED FILTERED TICKETS
-    var filteredTickets = tickets.filter(t => {
-      const matchesSearch =
-        t.title?.toLowerCase().includes(search.toLowerCase()) ||
-        t.details?.toLowerCase().includes(search.toLowerCase());
 
-      const matchesCategory = filterCategory ? t.category === filterCategory : true;
-      const matchesStatus = filterStatus ? t.status === filterStatus : true;
+    <table className={styles.ticketTable}>
 
-      return matchesSearch && matchesCategory && matchesStatus;
-    });
+        <thead>
 
-    const handledetails = async(id) =>{
-      const response = await axios.post(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/ticketdetail`,{
-            id:id
-           },{withCredentials:true})
-           console.log(response.data.message)
-           setticket(response.data.message)
-           setdetails(true)
-           setactivestatus(response.data.message.status)
-    }
+        <tr>
 
-    
+            <th>Ticket List</th>
 
-    // RETURN JSX
-    return (
-      <>
+            <th>Categories</th>
 
-        {/* TOP BAR */}
-        <div className={styles.allHead}>
-          <div className={styles.allTitle}>All Support Tickets</div>
-          <div className={styles.allSubtitle}>
-            View and manage employee support requests
-          </div>
-        </div>
+            <th>SLA</th>
 
-        {/* SEARCH + FILTERS */}
-        <div className={styles.allSearchRow}>
-          <input
-            className={styles.searchInputBox}
-            placeholder="Search tickets by title or description..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+            <th>Priority</th>
 
-          <select
-            className={styles.filterBox}
-            value={filterCategory}
-            onChange={(e) => setFilterCategory(e.target.value)}
-          >
-            <option value="">All Categories</option>
-            <option>Access</option>
-            <option>Payrole</option>
-            <option>Hardware</option>
-            <option>Software</option>
-            <option>Bug</option>
-          </select>
+            <th>Assignee</th>
 
-          <select
-            className={styles.filterBox}
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-          >
-            <option value="">All Status</option>
-            <option>Open</option>
-            <option>In Progress</option>
-            <option>Resolved & Closed</option>
-          </select>
-        </div>
+            <th>Status</th>
 
-        {/* COUNT */}
-        <div className={styles.ticketCount}>
-          Showing {filteredTickets.length} of {tickets.length} tickets
-        </div>
+        </tr>
 
-        {/* FILTERED TICKET LIST */}
-        <div className={styles.ticketListAll}>
-          {filteredTickets.map((t, index) => (
-            <div key={index} className={styles.ticketCardAll} onClick={()=>handledetails(t._id)}>
-              
-              {/* TOP ROW */}
-              <div className={styles.ticketTopRow}>
-                <div className={styles.tagRow}>
-                  <span className={styles.ticketId}>
-                    TKT-{String(index + 1).padStart(3, "0")}
-                  </span>
-                  <span className={`${styles.tag} ${styles[`priority_${t.priority}`]}`}>
-                    {t.priority}
-                  </span>
-                  <span className={`${styles.tag} ${styles[`category_${t.category}`]}`}>
-                    {t.category}
-                  </span>
-                </div>
+        </thead>
 
-                <span className={`${styles.tag} ${
-  styles[`status_${(t.status || "Open").replace(/\s+/g, "_").replace(/&/g, "a")}`]
-}`}>
-  {t.status || "Open"}
-</span>
 
-              </div>
+        <tbody>
 
-              {/* TITLE */}
-              <div className={styles.ticketTitleAll}>{t.title}</div>
+        {currentTickets.map(ticket=>{
 
-              {/* DESCRIPTION */}
-              <div className={styles.ticketDetailsAll}>
-                {t.details?.substring(0, 140)}...
-              </div>
+            const assignee = users.find(
+                u=>u._id===ticket.assignedTo
+            );
 
-              {/* META INFO */}
-              <div className={styles.ticketMetaAll}>
-                <span>
-                  Created by <b>{users.find(u => u._id === t.raisedby)?.name || "Unknown"}</b>
-                </span>
-                <span>•</span>
-                <span>
-                  Assigned to <b>{users.find(u => u._id === t.assignedto)?.name || "Not Assigned"}</b>
-                </span>
-                <span>•</span>
-                <span>{new Date(t.raisedon).toLocaleDateString("en-IN")}</span>
-              </div>
+            const dueHours = ticket.dueHours || 0;
 
-              {/* ATTACHMENTS + COMMENTS */}
-              <div className={styles.ticketFooterRow}>
-                <span className={styles.attachment}>{t.attachments?.length || 0} attachments</span>
-                <span className={styles.comments}>{t.comments?.length || 0} comments</span>
-              </div>
+            const slaText =
+                dueHours<=0
+                ?"Breached"
+                :`${dueHours}h left`;
 
-            </div>
-          ))}
-        </div>
-      </>
-    );
-  })()}
-             </div>
-        ):(
-            <div className={styles.detailWrapper}>
+            return(
 
-  {/* BACK BUTTON */}
-  <button className={styles.backBtn} onClick={() => setdetails(false)}>
-    ← Back to Tickets
-  </button>
+                <tr
+                    key={ticket._id}
+                    className={styles.tableRow}
+                    onClick={()=>{
+                        setticket(ticket);
+                        setdetails(true);
+                    }}
+                >
 
-  <div className={styles.detailGrid}>
-    
-    {/* LEFT MAIN SECTION */}
-    <div className={styles.detailLeft}>
+                    <td className={styles.ticketTitle}>
+                        {ticket.title}
+                    </td>
 
-      {/* TITLE CARD */}
-      <div className={styles.detailCard}>
-        <div className={styles.detailTopRow}>
-          <span className={styles.detailId}>TKT-{ticket?.ticketno || "001"}</span>
+                    <td>{ticket.category}</td>
 
-          <span className={`${styles.tag} ${styles[`priority_${ticket.priority}`]}`}>
-            {ticket.priority}
-          </span>
+                    <td
+                    className={
+                        dueHours<=0
+                        ?styles.breached
+                        :styles.remaining
+                    }
+                    >
+                        {slaText}
+                    </td>
 
-          <span className={`${styles.tag} ${styles[`category_${ticket.category}`]}`}>
-            {ticket.category}
-          </span>
-        </div>
+                    <td>
 
-        <div className={styles.detailTitle}>{ticket.title}</div>
+                        <span
+                        className={`${styles.priority}
+                        ${
+                            ticket.priority==="High"
+                            ?styles.high
+                            :ticket.priority==="Medium"
+                            ?styles.medium
+                            :styles.low
+                        }`}
+                        >
 
-        <div className={styles.detailMeta}>
-          Created by <b>{users.find(u => u._id === ticket.raisedby)?.name || "Unknown"}</b>
-          • {new Date(ticket.raisedon).toLocaleString("en-IN")}
-        </div>
+                            {ticket.priority}
 
-        <div className={styles.detailDescriptionBox}>
-          {ticket.details}
-        </div>
+                        </span>
 
-        {/* ATTACHMENTS */}
-        <div className={styles.attachmentTitle}>Attachments</div>
-        <div className={styles.attachmentBox}>
-          {ticket.attachments?.length > 0 ? (
-            ticket.attachments.map((f, i) => (
-              <div key={i} className={styles.attachmentItem}>
-                📎 {f}
-              </div>
-            ))
-          ) : (
-            <div className={styles.noAttachment}>No attachments</div>
-          )}
-        </div>
+                    </td>
 
-      </div>
+                    <td>
 
-      {/* DISCUSSION THREAD */}
-      <div className={styles.detailCard}>
+                        {assignee
+                        ?assignee.name
+                        :"Unassigned"}
 
-        <div className={styles.discussionTitle}>Discussion Thread</div>
+                    </td>
 
-        {ticket.comments?.map((c, i) => {
-          return (
-            <div key={i} className={styles.commentRow}>
-              <div className={styles.commentAvatar}>👤</div>
-              
-              <div>
-                <div className={styles.commentMeta}>
-                  <b>{c?.by || "User"}</b> • {new Date(c?.date).toLocaleString("en-IN")}
-                </div>
+                    <td>
 
-                <div className={styles.commentBubble}>{c.text?c.text:comments1}</div>
-              </div>
-            </div>
-          );
+                        <span
+                        className={
+                            ticket.status==="Resolved & Closed"
+                            ?styles.resolved
+                            :ticket.status==="In Progress"
+                            ?styles.inprogress
+                            :styles.open
+                        }
+                        >
+
+                            {ticket.status}
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+            )
+
         })}
 
-        {/* COMMENT INPUT */}
-        <div className={styles.commentInputRow}>
-          <div className={styles.commentAvatarLarge}>👤</div>
-          <input className={styles.commentInput} placeholder="Add a comment..." value={comment} onChange={(e)=>{setComment(e.target.value)}}/>
-          <button className={styles.commentSend} onClick={sendMessage}>Send</button>
+        </tbody>
+
+    </table>
+
+    <div className={styles.pagination}>
+
+        <p>
+
+            Showing{" "}
+            {(currentPage-1)*ticketsPerPage+1}
+
+            –
+
+            {Math.min(
+                currentPage*ticketsPerPage,
+                filteredTickets.length
+            )}
+
+            {" "}of{" "}
+
+            {filteredTickets.length}
+
+        </p>
+
+        <div className={styles.pageButtons}>
+
+            <button
+            disabled={currentPage===1}
+            onClick={()=>setCurrentPage(p=>p-1)}
+            >
+
+                ❮
+
+            </button>
+
+            {[...Array(totalPages)].map((_,i)=>(
+
+                <button
+                key={i}
+                onClick={()=>setCurrentPage(i+1)}
+                className={
+                    currentPage===i+1
+                    ?styles.activePage
+                    :""
+                }
+                >
+
+                    {i+1}
+
+                </button>
+
+            ))}
+
+            <button
+            disabled={currentPage===totalPages}
+            onClick={()=>setCurrentPage(p=>p+1)}
+            >
+
+                ❯
+
+            </button>
+
         </div>
-      </div>
 
     </div>
 
-    {/* RIGHT SIDE SECTION */}
-    <div className={styles.detailRight}>
+</div>
 
-      {/* STATUS BOX */}
-      <div className={styles.sideCard}>
-        <div className={styles.sideTitle}>Status</div>
-
-        <div className={styles.statusList}>
-          <div className={`${styles.statusOption} ${activestatus === "Open" ? styles.activeStatus : styles.openStatus}`} onClick={()=>{handlestatus("Open")}}>
-            Open
-          </div>
-          <div className={`${styles.statusOption} ${activestatus === "In Progress" ? styles.activeStatus : styles.progressStatus}`} onClick={()=>{handlestatus("In Progress")}}>
-            In Progress
-          </div>
-          <div className={`${styles.statusOption} ${activestatus === "Resolved & Closed" ? styles.activeStatus : styles.resolvedStatus}`} onClick={()=>{handlestatus("Resolved & Closed")}}>
-            Resolved
-          </div>
-        </div>
-      </div>
-
-      {/* ASSIGNMENT BOX */}
-      <div className={styles.sideCard}>
-        <div className={styles.sideTitle}>Assignment <Pencil size={16} onClick={() => setAssignPopup(true)}/></div>
-
-        <div className={styles.sideSubtitle}>Assigned To</div>
-        <div className={styles.sideValue}>
-          {users.find(u => u._id === ticket.assignedto)?.name || "Not Assigned"}
-        </div>
-
-        <div className={styles.sideSubtitle}>Role</div>
-        <div className={styles.sideValue}>
-           {
-    (() => {
-      const usr = users.find(u => u._id === ticket.assignedto);
-      if (!usr) return "Not Assigned";
-      const roleId = usr.roleid;
-      if (!roleId) return "No Role Assigned";
-      const roleObj = roles.find(r => r._id === roleId);
-      return roleObj?.rolename || "Unknown Role";
-    })()
-  }
-        </div>
-      </div>
-
-      {/* DETAILS BOX */}
-      <div className={styles.sideCard}>
-        <div className={styles.sideTitle}>Details</div>
-
-        <div className={styles.sideSubtitle}>Category</div>
-        <div className={styles.sideValue}>{ticket.category}</div>
-
-        <div className={styles.sideSubtitle}>Priority</div>
-        <div className={styles.sideValue}>{ticket.priority}</div>
-
-        <div className={styles.sideSubtitle}>Created</div>
-        <div className={styles.sideValue}>
-          {new Date(ticket.raisedon).toLocaleString("en-IN")}
-        </div>
-
-        <div className={styles.sideSubtitle}>Last Updated</div>
-        <div className={styles.sideValue}>
-          {new Date(ticket.updatedAt).toLocaleString("en-IN")}
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-            </div>
-          )
-   
-
-)}
 
     </div>
 
@@ -702,7 +542,7 @@ useEffect(() => {
           onClick={async () => {
             try {
               const response = await axios.post(
-                `https://atlasbackend-1bt5.onrender.com/api/v1/admin/assign`,
+                `https://b-atlas-ncc.onrender.com/api/v1/admin/assign`,
                 { id: ticket._id, assignedto: selectedEmployee },
                 { withCredentials: true }
               );

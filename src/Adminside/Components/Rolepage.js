@@ -37,7 +37,7 @@ const Rolepage = () => {
     try {
       setLoadingRoles(true);
       const res = await axios.get(
-        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getroles`
+        `https://b-atlas-ncc.onrender.com/api/v1/admin/getroles`
       );
       setRole(res.data.message);
     } catch {
@@ -52,7 +52,7 @@ const Rolepage = () => {
     try {
       setLoadingUsers(true);
       const res = await axios.get(
-        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`,
+        `https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`,
         { withCredentials: true }
       );
       setusers(res.data.message);
@@ -73,7 +73,7 @@ const Rolepage = () => {
     try {
       setSubmitting(true);
       await axios.post(
-        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/createrole`,
+        `https://b-atlas-ncc.onrender.com/api/v1/admin/createrole`,
         { rolename: roleName, details },
         { withCredentials: true }
       );
@@ -92,7 +92,7 @@ const Rolepage = () => {
     try {
       setSubmitting(true);
       await axios.put(
-        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/updaterole`,
+        `https://b-atlas-ncc.onrender.com/api/v1/admin/updaterole`,
         {
           roleid,
           rolename: eroleName,
@@ -139,7 +139,7 @@ const Rolepage = () => {
   const handledelete =async(id)=>{
      if (!window.confirm(`Delete Role "${eroleName}" ?`)) return;
     try {
-      const response = await axios.delete(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/deleterole/${id}`,
+      const response = await axios.delete(`https://b-atlas-ncc.onrender.com/api/v1/admin/deleterole/${id}`,
       {withCredentials:true}
       )
       console.log(response)

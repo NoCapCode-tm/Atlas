@@ -98,7 +98,7 @@ useEffect(() => {
       try {
       
         const response = await axios.get(
-          `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getprojectdetails/${id}`,
+          `https://b-atlas-ncc.onrender.com/api/v1/admin/getprojectdetails/${id}`,
           { withCredentials: true }
         );
         console.log("Project Details",response.data.message)
@@ -113,7 +113,7 @@ useEffect(() => {
     const fetchemployees = async () => {
       try {
         const response = await axios.get(
-          `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`,
+          `https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`,
           { withCredentials: true }
         );
 
@@ -189,7 +189,7 @@ useEffect(() => {
       setLoadingUsers(true)
       console.log(payload)
       const res = await axios.put(
-        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/updateproject`,
+        `https://b-atlas-ncc.onrender.com/api/v1/admin/updateproject`,
         payload,
         { withCredentials: true }
       );
@@ -419,12 +419,12 @@ useEffect(() => {
 
           <div className={styles.assetRow}>
             <div className={styles.assetBox}>
-              <Image color="rgba(152, 16, 250, 1)" size={28}/>
+              <Image color="rgba(0, 80, 184, 1)" size={28}/>
               <p>Images</p>
               <span>3 files</span>
             </div>
             <div className={styles.assetBox}>
-              <File color="rgba(152, 16, 250, 1)"  size={28}/>
+              <File color="rgba(0, 80, 184, 1)"  size={28}/>
               <p>Files</p>
               <span>Logo</span>
             </div>
@@ -750,7 +750,7 @@ useEffect(() => {
             });
 
             try {
-              const response = await axios.post(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/createissue`,{
+              const response = await axios.post(`https://b-atlas-ncc.onrender.com/api/v1/admin/createissue`,{
                 title:issueTitle,
                 details:issueDescription,
                 category:issueCategory,

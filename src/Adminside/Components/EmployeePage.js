@@ -9,6 +9,8 @@ import {
   UserPlus,
   X,
   ChevronUp,
+  ChevronRight,
+  ChevronLeft,
 } from "lucide-react";
 import axios from "axios";
 import { useNavigate ,useLocation} from "react-router";
@@ -55,18 +57,11 @@ function CustomDropdown({ label, options, value, onChange }) {
 function EmployeePage() {
   const navigate = useNavigate();
   const location = useLocation();
-
-
   const [employees, setEmployees] = useState([]);
   const [overlay, setoverlay] = useState(false);
-
- const [firstName, setFirstName] = useState("");
+  const [firstName, setFirstName] = useState("");
  const [lastName, setLastName] = useState("");
-
-
- 
-   
-  const [email, setEmail] = useState("");
+const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [onboardingstatus, setonboardingstatus] = useState("");
   const [role, setRole] = useState("");
@@ -169,7 +164,7 @@ const handleUpdate = async () => {
     setLoading(true);
   
     await axios.put(
-      `https://atlasbackend-1bt5.onrender.com/api/v1/admin/updateemployee`,
+      `https://b-atlas-ncc.onrender.com/api/v1/admin/updateemployee`,
       { id:selectedEmployee._id,manager,onboardingstatus, role, status ,workmode,start,end,department,designation },
       { withCredentials: true }
     );
@@ -187,7 +182,7 @@ const handleUpdate = async () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       const res = await axios.get(
-        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`,
+        `https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`,
         { withCredentials: true }
       );
       setEmployees(res.data.message || []);
@@ -226,8 +221,8 @@ const departmentOptions = [
     try {
       setLoading(true);
       await axios.post(
-        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/addemployee`,
-        { name:fullName, email:email, password:password, dob:dob,gender:gender },
+        `https://b-atlas-ncc.onrender.com/api/v1/admin/addemployee`,
+        { name:fullName, email:email, password:password, dob:dob,gender:gender ,role},
         { withCredentials: true }
       );
       
@@ -284,9 +279,11 @@ const departmentOptions = [
 
   const mapStatus = (status) => {
     if (!status) return "";
-    if (status.includes("Active")) return "active";
-    if (status === "Inactive") return "inactive";
-    if (status === "Onboarding") return "onboarding";
+    if (status.includes("Paid")) return "active";
+    if (status === "Full Time") return "fulltime";
+    if (status === "Unpaid") return "inactive";
+     if (status === "Onboarding") return "onboarding";
+
     return "";
   };
 
@@ -310,365 +307,407 @@ const departmentOptions = [
         </div>
 
         <div className={styles.filteremptable}>
-          <div className={styles.filterbox}>
-            <div className={styles.searchbar}>
-              <Search size={18} />
-              <input
-                placeholder="Search by name or email..."
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setCurrentPage(1);
-                }}
-              />
-            </div>
+          <div className={styles.tableToolbar}>
+  <div className={styles.searchBox}>
+    <Search size={16} />
+    <input
+      type="text"
+      placeholder="Search Employees"
+      value={search}
+      onChange={(e) => {
+        setSearch(e.target.value);
+        setCurrentPage(1);
+      }}
+    />
+  </div>
 
-            <div style={{width:"15%", position: "relative" }}>
-              <button
-                className={styles.filterbtn1}
-                onClick={() => {
-                  setShowDesignationDrop((p) => !p);
-                  setShowStatusDrop(false);
-                  setShowRoleDrop(false);
-                }}
-              >
-                {designationFilter} <ChevronDown size={16} />
-              </button>
+  <div className={styles.toolbarRight}>
+    <button
+      className={styles.toolbarBtn}
+      onClick={() => {
+        setShowRoleDrop((p) => !p);
+        setShowDesignationDrop(false);
+        setShowStatusDrop(false);
+      }}
+    >
+      Role
+      <ChevronDown size={14} />
+    </button>
 
-              {showDesignationDrop && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "45px",
-                    left: 0,
-                    width: "100%",
-                    background: "white",
-                    borderRadius: "10px",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
-                    zIndex: 100,
-                    overflow: "hidden",
-                  }}
-                >
-                  {["All Employees", "All HRs", "All Admins"].map(
-                    (opt) => (
-                      <div
-                        key={opt}
-                        className={styles.dropdownItem}
-                        onClick={() => {
-                          setDesignationFilter(opt);
-                          setShowDesignationDrop(false);
-                          setCurrentPage(1);
-                        }}
-                      >
-                        {opt}
-                      </div>
-                    )
-                  )}
-                </div>
-              )}
-            </div>
-
-            <div style={{width:"15%", position: "relative" }}>
-              <button
-                className={styles.filterbtn1}
-                onClick={() => {
-                  setShowStatusDrop((p) => !p);
-                  setShowDesignationDrop(false);
-                  setShowRoleDrop(false);
-                }}
-              >
-                {statusFilter} <ChevronDown size={16} />
-              </button>
-
-              {showStatusDrop && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "45px",
-                    left: 0,
-                    width: "100%",
-                    background: "white",
-                    borderRadius: "10px",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
-                    zIndex: 100,
-                    overflow: "hidden",
-                  }}
-                >
-                  {statusOptions.map((opt) => (
-                    <div
-                      key={opt}
-                      className={styles.dropdownItem}
-                      onClick={() => {
-                        setStatusFilter(opt);
-                        setShowStatusDrop(false);
-                        setCurrentPage(1);
-                      }}
-                    >
-                      {opt}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div style={{ width:"15%",position: "relative" }}>
-              <button
-                className={styles.filterbtn1}
-                onClick={() => {
-                  setShowRoleDrop((p) => !p);
-                  setShowDesignationDrop(false);
-                  setShowStatusDrop(false);
-                }}
-              >
-                {roleFilter} <ChevronDown size={16} />
-              </button>
-
-              {showRoleDrop && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "45px",
-                    left: 0,
-                    width: "100%",
-                    background: "white",
-                    borderRadius: "10px",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
-                    zIndex: 100,
-                    overflow: "hidden",
-                  }}
-                >
-                  {roleOptions.map((opt) => (
-                    <div
-                      key={opt}
-                      className={styles.dropdownItem}
-                      onClick={() => {
-                        setRoleFilter(opt);
-                        setShowRoleDrop(false);
-                        setCurrentPage(1);
-                      }}
-                    >
-                      {opt}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* <button className={styles.morefilters}>
-              <Filter size={16} /> More Filters
-            </button> */}
+    {showRoleDrop && (
+      <div className={styles.dropdown}>
+        {roleOptions.map((opt) => (
+          <div
+            key={opt}
+            className={styles.dropdownItem}
+            onClick={() => {
+              setRoleFilter(opt);
+              setShowRoleDrop(false);
+            }}
+          >
+            {opt}
           </div>
+        ))}
+      </div>
+    )}
 
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Manager</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Onboarding</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
+    <button
+      className={styles.toolbarBtn}
+      onClick={() => {
+        setShowDesignationDrop((p) => !p);
+        setShowRoleDrop(false);
+        setShowStatusDrop(false);
+      }}
+    >
+      Manager
+      <ChevronDown size={14} />
+    </button>
 
-            <tbody>
-              {paginatedEmployees.map((emp, i) => {
-                const initials = emp.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("");
+    {showDesignationDrop && (
+      <div className={styles.dropdown}>
+        {["All Employees", "All HRs", "All Admins"].map((opt) => (
+          <div
+            key={opt}
+            className={styles.dropdownItem}
+            onClick={() => {
+              setDesignationFilter(opt);
+              setShowDesignationDrop(false);
+            }}
+          >
+            {opt}
+          </div>
+        ))}
+      </div>
+    )}
 
-                return (
-                  <tr key={i} >
-                    <td>
-                      <div className={styles.usercell}>
-                        <div className={styles.avatar}>
-                          {initials}
-                        </div>
-                        {emp.name}
-                      </div>
-                    </td>
+    <button
+      className={styles.toolbarBtn}
+      onClick={() => {
+        setShowStatusDrop((p) => !p);
+        setShowRoleDrop(false);
+        setShowDesignationDrop(false);
+      }}
+    >
+      Filters
+      <Filter size={14} />
+    </button>
 
-                    <td>{emp.email}</td>
-                    <td>{employees.find(e => e._id === emp.managerAssigned)?.name || "—"}</td>
-                    <td>{emp.role}</td>
+    {showStatusDrop && (
+      <div className={styles.dropdown}>
+        {statusOptions.map((opt) => (
+          <div
+            key={opt}
+            className={styles.dropdownItem}
+            onClick={() => {
+              setStatusFilter(opt);
+              setShowStatusDrop(false);
+            }}
+          >
+            {opt}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
 
-                    <td>
-                      <span
-                        className={`${styles.status} ${
-                          styles[mapStatus(emp.status)]
-                        }`}
-                      >
-                        {emp.status}
-                      </span>
-                    </td>
+<table className={styles.employeeTable}>
+  <thead>
+    <tr>
+      <th>Employee</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Manager</th>
+      <th>Projects</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
 
-                    <td>
-                      <span
-                        className={`${styles.onboarding} ${
-                          styles[
-                            emp.onboarding?.status
-                              ?.replace(" ", "")
-                              .toLowerCase()
-                          ]
-                        }`}
-                      >
-                        {emp.onboarding?.status}
-                      </span>
-                    </td>
+  <tbody>
+    {paginatedEmployees.map((emp) => {
+      const initials = emp.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("");
 
-                    <td>
-                      <MoreVertical size={18} className={styles.actionIcon}
-                       onClick={() => handleEdit(emp)}/>
-                       
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+      return (
+        <tr key={emp._id}>
+          <td>
+            <div className={styles.employeeInfo}>
+              <div className={styles.avatar}>
+                {initials}
+              </div>
 
-          <div className={styles.pagination}>
-            <span>
-              Showing {paginatedEmployees.length} of{" "}
-              {filteredEmployees.length}
+              <span>{emp.name}</span>
+            </div>
+          </td>
+
+          <td>{emp.email}</td>
+
+          <td>{emp.role || "-"}</td>
+
+          <td>
+            {emp.managerAssigned?.name || "—"}
+          </td>
+
+          <td>
+            {emp.Projects?.length || 0}
+          </td>
+
+          <td>
+            <span
+              className={`${styles.statusBadge} ${
+                styles[mapStatus(emp.status)]
+              }`}
+            >
+              {emp.status}
             </span>
+          </td>
 
-            <div className={styles.pagebtns}>
-              <button
-                disabled={currentPage === 1}
-                onClick={() =>
-                  setCurrentPage((p) => p - 1)
-                }
-              >
-                Previous
-              </button>
+          <td className={styles.actionCell}>
+            <MoreVertical
+              size={18}
+              className={styles.actionIcon}
+              onClick={() => handleEdit(emp)}
+            />
+          </td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>
 
-              {[...Array(totalPages)].map((_, i) => (
-                <button
-                  key={i}
-                  className={
-                    currentPage === i + 1
-                      ? styles.activepage
-                      : ""
-                  }
-                  onClick={() => setCurrentPage(i + 1)}
-                >
-                  {i + 1}
-                </button>
-              ))}
+         <div className={styles.pagination}>
+  <span>
+    Showing {(currentPage - 1) * perPage + 1}–
+    {Math.min(currentPage * perPage, filteredEmployees.length)} of{" "}
+    {filteredEmployees.length}
+  </span>
 
-              <button
-                disabled={currentPage === totalPages}
-                onClick={() =>
-                  setCurrentPage((p) => p + 1)
-                }
-              >
-                Next
-              </button>
-            </div>
-          </div>
+  <div className={styles.pagebtns1}>
+    {/* Previous */}
+    <button
+      className={styles.arrowBtn}
+      disabled={currentPage === 1}
+      onClick={() => setCurrentPage((p) => p - 1)}
+    >
+      <ChevronLeft size={18} />
+    </button>
+
+    {/* First 3 Pages */}
+    {Array.from(
+      { length: Math.min(3, totalPages) },
+      (_, i) => i + 1
+    ).map((page) => (
+      <button
+        key={page}
+        className={`${styles.pageNumber1} ${
+          currentPage === page ? styles.activepage : ""
+        }`}
+        onClick={() => setCurrentPage(page)}
+      >
+        {page}
+      </button>
+    ))}
+
+    {/* Ellipsis */}
+    {totalPages > 4 && (
+      <>
+        <span className={styles.dots}>.....</span>
+
+        <button
+          className={`${styles.pageNumber} ${
+            currentPage === totalPages
+              ? styles.activepage
+              : ""
+          }`}
+          onClick={() => setCurrentPage(totalPages)}
+        >
+          {totalPages}
+        </button>
+      </>
+    )}
+
+    {/* Next */}
+    <button
+      className={styles.arrowBtn}
+      disabled={currentPage === totalPages}
+      onClick={() => setCurrentPage((p) => p + 1)}
+    >
+      <ChevronRight size={18} />
+    </button>
+  </div>
+</div>
         </div>
       </div>
 
-   {overlay && (
-     <div className={styles.overlay} onClick={() => setoverlay(false)}>
-       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-   
-         {/* CLOSE */}
-         <button className={styles.closeBtn} onClick={() => setoverlay(false)}>
-           <X onClick={()=>{setoverlay(false)}}/>
-         </button>
-   
-         {/* TITLE */}
-         <div className={styles.titleRow}>
-           <div className={styles.line}></div>
-           <h2>Add Employee</h2>
-           <div className={styles.line}></div>
-         </div>
-   
-         {/* BASIC DETAILS */}
-         <div className={styles.section}>
-           <p className={styles.sectionTitle}>Basic Details<span style={{color:"red",margin:"0px 5px"}}>*</span>:</p>
-   
-           <div className={styles.row2}>
-             <div className={styles.field}>
-               <span>First name</span>
-               <input
-                 value={firstName}
-                 onChange={(e) => setFirstName(e.target.value)}
-               />
-             </div>
-   
-             <div className={styles.field}>
-               <span>Last name</span>
-               <input
-                 value={lastName}
-                 onChange={(e) => setLastName(e.target.value)}
-               />
-             </div>
-           </div>
-   
-           <div className={styles.fieldFull}>
-             <span>email ID</span>
-             <input
-               value={email}
-               onChange={(e) => setEmail(e.target.value)}
-             />
-           </div>
-   
-           <div className={styles.fieldFull}>
-             <span>Password</span>
-             <input
-               type="password"
-               value={password}
-               onChange={(e) => setPassword(e.target.value)}
-             />
-           </div>
-         </div>
-   
-         {/* OTHER DETAILS */}
-         <div className={styles.section}>
-           <p className={styles.sectionTitle}>Other Details<span style={{color:"red",margin:"0px 5px"}}>*</span>:</p>
-           {/* <div className={styles.divider}></div> */}
-   
-           <div className={styles.row2}>
-             <div className={styles.field}>
-               <span>Date of birth</span>
-               <input
-                 type="date"
-                 value={dob}
-                 className={styles.overlaydate}
-                 onChange={(e) => setDob(e.target.value)}
-               />
-             </div>
-   
-             <div className={styles.field}>
-               <span>Gender</span>
-               <select
-                 value={gender}
-                 onChange={(e) => setGender(e.target.value)}
-               >
-                 <option></option>
-                 <option>Male</option>
-                 <option>Female</option>
-                 <option>Other</option>
-               </select>
-             </div>
-           </div>
-         </div>
-   
-         {/* SAVE */}
-         <div className={styles.footer}>
-           <button className={styles.saveBtn} onClick={handleaddu}>
-             {loading ? "Adding..." : "Save →"}
-           </button>
-         </div>
-   
-       </div>
-     </div>
-   )}
+  {overlay && (
+    <div
+      className={styles.overlay}
+      onClick={() => setoverlay(false)}
+    >
+      <div
+        className={styles.modal1}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close */}
+  
+        <button
+          className={styles.closeBtn}
+          onClick={() => setoverlay(false)}
+        >
+          <X size={28} strokeWidth={2} />
+        </button>
+  
+        {/* Header */}
+  
+        <div className={styles.header1}>
+          <h2>Employee Details</h2>
+  
+          <p>
+            Fill the fields below to add new members
+          </p>
+        </div>
+  
+        {/* First Last */}
+  
+        <div className={styles.row}>
+          <div className={styles.field}>
+            <label>
+              FIRST NAME <span>*</span>
+            </label>
+  
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) =>
+                setFirstName(e.target.value)
+              }
+            />
+          </div>
+  
+          <div className={styles.field}>
+            <label>
+              LAST NAME <span>*</span>
+            </label>
+  
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) =>
+                setLastName(e.target.value)
+              }
+            />
+          </div>
+        </div>
+  
+        {/* Role */}
+  
+        <div className={styles.fullField}>
+          <label>
+            ROLE <span>*</span>
+          </label>
+           <input
+              type="text"
+              value={role}
+              onChange={(e) =>
+                setRole(e.target.value)
+              }
+            />
+          
+        </div>
+  
+        {/* Email */}
+  
+        <div className={styles.fullField}>
+          <label>
+            EMAIL <span>*</span>
+          </label>
+  
+          <input
+            type="email"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+          />
+        </div>
+  
+        {/* Password */}
+  
+        <div className={styles.fullField}>
+          <label>
+            PASSWORD <span>*</span>
+          </label>
+  
+          <input
+            type="password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+          />
+        </div>
+  
+        {/* Bottom */}
+  
+        <div className={styles.rowBottom}>
+          <div className={styles.field}>
+            <label>DATE OF BIRTH</label>
+  
+            <div className={styles.dateWrapper}>
+              <input
+                type="date"
+                value={dob}
+                onChange={(e) =>
+                  setDob(e.target.value)
+                }
+              />
+            </div>
+          </div>
+  
+          <div className={styles.field}>
+            <label>GENDER</label>
+  
+            <select
+              value={gender}
+              onChange={(e) =>
+                setGender(e.target.value)
+              }
+            >
+              <option value="">
+                Select
+              </option>
+  
+              <option>Male</option>
+  
+              <option>Female</option>
+  
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+  
+        {/* Footer */}
+  
+        <div className={styles.footer}>
+          <p>
+            <span>*</span> Required fields
+          </p>
+  
+          <button
+            className={styles.addBtn}
+            onClick={handleaddu}
+          >
+            {loading
+              ? "Adding..."
+              : "Add Employee"}
+          </button>
+        </div>
+      </div>
+    </div>
+  )}
 
       {editOverlay && (
   <div className={styles.overlay}>

@@ -9,7 +9,7 @@
 /* Main container */
 .adminprojects{
   padding: 28px 34px;
-  background: linear-gradient(180deg,#ffffff 0%, #faf7ff 100%);
+  background: rgba(5, 5, 5, 1);
   min-height: 100vh;
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
@@ -23,20 +23,17 @@
 }
 
 .pageTitle{
-  color: rgba(104, 80, 190, 1);
+  color: rgba(221, 221, 255, 1);
   font-size:28px;
   margin:0 0 6px 0;
   font-weight:700;
 }
 
-.rangeSelector select{
-  background: rgba(104, 80, 190, 1);
-  border-radius:8px;
-  border:none;
-  padding:8px 12px;
-  color:white;
-  font-weight:600;
+.subtext {
+  font-size: 14px;
+  color: rgba(221, 221, 255, 1);
 }
+
 
 /* header actions */
 .headerActions{
@@ -44,289 +41,307 @@
   gap:12px;
   align-items:center;
 }
-
-.editBtn, .addBtn{
-  background:var(--purple);
+.addBtn {
+  background: rgba(0, 80, 184, 1);
   color:white;
-  border:none;
-  padding:10px 14px;
+  padding:12px 14px;
   border-radius:10px;
-  display:flex;
-  gap:8px;
-  align-items:center;
+ border: 1px solid rgba(109, 120, 255, 1);
   cursor:pointer;
-  font-weight:600;
-  box-shadow: 0 6px 20px rgba(124,58,237,0.12);
 }
-.editBtn{ opacity:0.9; }
-.addBtn{ background:#6f2fe0; }
 
 /* Status row (Active/Upcoming/Overdue) */
-.statusRow{
-  display:flex;
-  gap:18px;
-  margin-top:18px;
-  margin-bottom:24px;
+
+
+.statsContainer {
+  width: 100%;
+  display: flex;
+  gap: 48px;
+  margin: 32px 0;
 }
 
-.statusColumn{
-  flex:1;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 1);
-  border: 5px solid rgba(255, 255, 255, 1);
-  box-shadow: 1px 8px 25.2px -4px rgba(0, 0, 0, 0.25);
-  padding:10px 10px;
+.statCard {
+  flex: 1;
+  background: #0f1117;
+  border: 1px solid #4b4d56;
+  border-radius: 18px;
+  padding: 22px 28px;
+  min-height: 160px;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
+  transition: all 0.25s ease;
 }
 
-.statusColumn h3{
-  color:var(--purple);
-  font-size:16px;
-  margin:0 0 10px 0;
-  font-weight:700;
+.statCard:hover {
+  border-color: #6b72ff;
+  transform: translateY(-2px);
 }
 
-/* compact card */
-.compactList{
-  background: rgba(175, 167, 206, 0.36);
-
-  padding:12px;
-  border-radius:14px;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-  min-height:68px;
+.statTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-.compactCard{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background: white;
-  padding:4px 12px;
-  border-radius:10px;
-  margin-bottom:8px;
+.statTitle {
+  font-size: 17px;
+  font-weight: 400;
+  color: #d6d6e8;
+  letter-spacing: 0.3px;
 }
 
-.compactLeft{
-  display:flex;
-  gap:12px;
-  align-items:center;
+.statIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.compactLogo{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  background: linear-gradient(180deg,#5b21b6,#7c3aed);
-  box-shadow: inset 0 2px 6px rgba(255,255,255,0.08);
+.statValue {
+  margin: 18px 0 24px;
+
+  font-size: 52px;
+  font-weight: 300;
+  color: #ffffff;
+  line-height: 1;
 }
 
-.compactTitle{
-  font-weight:600;
-  color:#302b45;
+.progressTrack {
+  width: 100%;
+  height: 6px;
+
+  background: rgba(255,255,255,0.95);
+
+  border-radius: 999px;
+
+  overflow: hidden;
 }
 
-/* compact right */
-.compactMembers{
-  background: #ffffff;
-  padding:6px 8px;
-  border-radius:10px;
-  color: #302b45;
-  font-weight:600;
+.progressFill {
+  height: 100%;
+  border-radius: inherit;
+
+  transition: width .35s ease;
+}
+
+/* Optional individual colors */
+
+.blue {
+  background: #3d8bff;
+}
+
+.green {
+  background: #2fb56d;
+}
+
+.red {
+  background: #ff564b;
+}
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+  .statsContainer {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .statCard {
+    min-height: 145px;
+  }
+}
+
+@media (max-width: 768px) {
+  .statCard {
+    padding: 20px;
+  }
+
+  .statValue {
+    font-size: 42px;
+  }
+
+  .statTitle {
+    font-size: 16px;
+  }
 }
 
 /* All Projects section */
-.allProjects{
-  margin-top:28px;
-  background: rgba(255, 255, 255, 1);
-  border: 1px solid rgba(255, 255, 255, 1);
-  padding:18px;
-  border-radius:16px;
-  box-shadow: 4px 7px 51.8px 5px rgba(0, 0, 0, 0.25);
+/* ================= PROJECT GRID ================= */
 
+.projectGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px;
+  margin-top: 28px;
 }
 
-.allProjects h2{
-  color: rgba(104, 80, 190, 1);
+/* ================= CARD ================= */
+
+.projectCard {
+  background: #0f1117;
+  border: 1px solid #6a6a73;
+  border-radius: 18px;
+
+  padding: 28px;
+
+  min-height: 195px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  transition: all .25s ease;
+}
+
+.projectCard:hover {
+  transform: translateY(-3px);
+  border-color: #8a8cff;
+  box-shadow: 0 14px 32px rgba(0,0,0,.25);
+}
+
+/* ================= HEADER ================= */
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.projectTitle {
+  margin: 0;
+
+  color: #d8d5f5;
+
+  font-size: 18px;
   font-weight: 500;
-  margin:6px 0 14px 0;
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
 }
 
-/* grid of cards */
-.grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap:18px;
+.memberCount {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  color: #d7d7f5;
+  font-size: 15px;
 }
 
-/* project card */
-.projectCard{
- background: linear-gradient(330.28deg, #FFFFFF 36.8%, #E2DFED 120.83%);
-  border: 1px solid rgba(208, 208, 208, 1);
-  border-radius:14px;
-  padding:14px;
- box-shadow: 1px 1px 11.3px -4px rgba(0, 0, 0, 0.25);
+/* ================= CENTER ================= */
 
-  display:flex;
-  flex-direction:column;
-  min-height:160px;
+.cardMiddle {
+  margin: 22px 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.cardTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 16px;
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.cardTitle{
-  display:flex;
-  gap:12px;
-  align-items:center;
+.onTrack {
+  background: rgba(39, 174, 96, 0.18);
+  color: #27ae60;
+  border: 1px solid #27ae60;
 }
 
-.cardLogo{
-  width:44px;
-  height:44px;
-  border-radius:10px;
-  background: linear-gradient(180deg,#6f2fe0,#8b5cf6);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+.completed {
+  background: rgba(59, 130, 246, 0.18);
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
 }
 
-.cardName{
-  font-weight:700;
-  color:#2b2440;
+.onHold {
+  background: rgba(255, 193, 7, 0.18);
+  color: #ffc107;
+  border: 1px solid #ffc107;
 }
 
-.cardSub{
-  font-size:12px;
-  color:var(--muted);
-   display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+.overdue {
+  background: rgba(239, 68, 68, 0.18);
+  color: #ef4444;
+  border: 1px solid #ef4444;
+}
+.viewBtn {
+  background: transparent;
+  border: none;
+
+  color: rgba(255, 255, 255, 1);
+
+  cursor: pointer;
+
+  font-size: 12px;
+  font-weight: 400;
+
+  transition: .2s;
+}
+
+.viewBtn:hover {
+  color: #6d73ff;
+}
+.onTrack{
+  color:green;
+}
+
+/* ================= FOOTER ================= */
+
+.cardFooter {
+  display: flex;
+  flex-direction: column;
+}
+
+.progressLabel {
+  color: #d7d7d7;
+
+  font-size: 15px;
+
+  margin-bottom: 10px;
+}
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 6px;
+
+  background: #ffffff;
+
+  border-radius: 20px;
+
   overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.4;
-  max-height: calc(1.4em * 2);
 }
 
-.cardActions{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.progressFill {
+  height: 100%;
+
+  background: #36a36b;
+
+  border-radius: inherit;
+
+  transition: width .35s ease;
 }
 
-/* status badge */
-.statusBadge{
-  background: rgba(104, 80, 190, 1);
-
-  color: white;
-  font-weight: 700;
-
-  padding:6px 10px;
-  border-radius:40px;
-  font-weight:700;
-  font-size:8px;
-}
-
-/* body */
-.cardBody{
-  margin-top:12px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.progressLabel{
-  font-size:13px;
-  color:black;
-  font-weight:600;
-}
-
-.progressBarWrap{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.progressBar{
-  flex:1;
-  height:10px;
-  background:rgba(226, 226, 226, 1);
-  border-radius:8px;
-  overflow:hidden;
-  position:relative;
-}
-
-.progressFill{
-  height:100%;
-  background: linear-gradient(90deg,#6f2fe0,#7c3aed);
-  border-radius:8px;
-  transition: width .5s ease;
-}
-
-.progressPercent{
-  width:44px;
-  text-align:right;
-  color:#6b5bd6;
-  font-weight:700;
-  font-size:13px;
-}
-
-.riskCount{
-  color:#ff4d6d;
-  font-weight:700;
-  font-size:12px;
-  margin-top:-6px;
-}
-
-/* avatar stack and footer */
-.avatarRow{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:6px;
-  border-bottom: 1px solid rgba(200, 200, 200, 0.5)
-}
-
-.avatarStack{
-  position:relative;
-  width:130px;
-  height:40px;
-}
-
-.avatar{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  position:absolute;
-  border: 2px solid white;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-  object-fit:cover;
-}
-
-.cardFooterRight{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:6px;
-}
-
-.dateRange{
-  font-size:12px;
-  color:var(--muted);
-}
-.settinganddetails{
-    display:flex;
-    flex-direction: row;
-    justify-content: center;
-}
-.viewDetails{
-  font-size:13px;
-  color: rgba(104, 80, 190, 1);
-  text-align: center;
-  font-weight:700;
-  cursor:pointer;
-
+.progressText {
+  color: #d7d7d7;
+  font-size: 18px;
 }
 
 /* Model */
@@ -407,14 +422,6 @@
   margin-top:6px;
   margin-bottom:8px;
 }
-.addBtn {
-  background: rgba(104,80,190,1);
-  color:white;
-  padding:12px 14px;
-  border-radius:10px;
-  border:none;
-  cursor:pointer;
-}
 
 /* selected chips */
 .selectedWrap {
@@ -428,7 +435,7 @@
   display:flex;
   align-items:center;
   gap:10px;
-  background: #f3edff;
+  background: rgba(5, 5, 5, 1);
   padding:8px 10px;
   border-radius:30px;
   min-width: 160px;

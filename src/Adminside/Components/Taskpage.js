@@ -1,49 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import styles from "../CSS/Taskspage.module.css";
-import { Pencil, Trash, Search, ChevronLeft, ChevronRight, X, ChevronDown, Bell } from "lucide-react";
+import { Pencil, Trash, Search, ChevronLeft, ChevronRight, X, ChevronDown, Bell, Clock3, TriangleAlert, ClipboardList, Plus, MoreVertical } from "lucide-react";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router";
 import Createtaskmodal from "./Createtaskmodal";
 
-const PAGE_SIZE = 5;
-
-const formatDate = (d) => {
-  if (!d) return "-";
-  const dt = dayjs(d);
-  if (!dt.isValid()) return "-";
-  return dt.format("DD-MM-YY");
-};
-
-const priorityClass = (p) => {
-  switch ((p || "").toLowerCase()) {
-    case "urgent":
-      return styles.priorityUrgent;
-    case "high":
-      return styles.priorityHigh;
-    case "medium":
-      return styles.priorityMedium;
-    case "low":
-      return styles.priorityLow;
-    default:
-      return styles.priorityNeutral;
-  }
-};
-
-const statusClass = (s) => {
-  if (!s) return styles.statusPending;
-  switch (s.toLowerCase()) {
-    case "completed":
-    case "done":
-      return styles.statusDone;
-    case "in progress":
-    case "inprogress":
-      return styles.statusInProgress;
-    default:
-      return styles.statusPending;
-  }
-};
 
 const Taskpage = () => {
   const [tasks, setTasks] = useState([]);
@@ -64,14 +27,6 @@ const [selectedTask, setSelectedTask] = useState(null);
     employeeid: "",
     dueAt:""
   });
-
-  // UI state
-  const [query, setQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
-const [priorityFilter, setPriorityFilter] = useState("All");
-const [projectFilter, setProjectFilter] = useState("All");
-
-  const [page, setPage] = useState(1);
   const navigate = useNavigate()
 
   // fetch all data
@@ -81,9 +36,9 @@ const [projectFilter, setProjectFilter] = useState("All");
       try {
         setLoading(true);
         const [tRes, uRes, pRes] = await Promise.all([
-          axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalltask`, { withCredentials: true }),
-          axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`, { withCredentials: true }),
-          axios.get(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/getallproject`, { withCredentials: true }),
+          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask`, { withCredentials: true }),
+          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`, { withCredentials: true }),
+          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject`, { withCredentials: true }),
         ]);
 
         if (!mounted) return;
@@ -102,6 +57,8 @@ const [projectFilter, setProjectFilter] = useState("All");
     return () => { mounted = false; };
   }, []);
 
+  console.log(tasks);
+
   
 
   // derived enriched rows: join task.assignedto -> user, projectId -> project
@@ -117,76 +74,7 @@ const [projectFilter, setProjectFilter] = useState("All");
         project,
       };
     });
-  }, [tasks, users, projects]);
-
-  // filtering (search by title or assignee or project)
-const filtered = useMemo(() => {
-  let data = enriched;
-
-  // 🔍 SEARCH (title + assignee + project)
-  const q = query.trim().toLowerCase();
-  if (q) {
-    data = data.filter((t) => {
-      const title = (t.title || "").toLowerCase();
-      const assignee = (t.assigned?.name || "").toLowerCase();
-      const project = (t.project?.projectname || "").toLowerCase();
-
-      return (
-        title.includes(q) ||
-        assignee.includes(q) ||
-        project.includes(q)
-      );
-    });
-  }
-
-  // 📌 STATUS
-  if (statusFilter !== "All") {
-    data = data.filter(
-      (t) =>
-        (t.status || "").toLowerCase() ===
-        statusFilter.toLowerCase()
-    );
-  }
-
-  // 🚦 PRIORITY
-  if (priorityFilter !== "All") {
-    data = data.filter(
-      (t) =>
-        (t.priority || "").toLowerCase() ===
-        priorityFilter.toLowerCase()
-    );
-  }
-
-  // 📁 PROJECT
-  if (projectFilter !== "All") {
-    data = data.filter(
-      (t) => t.project?._id === projectFilter
-    );
-  }
-
-  return data;
-}, [
-  enriched,
-  query,
-  statusFilter,
-  priorityFilter,
-  projectFilter
-]);
-
-
-
-  // pagination
- const total = filtered.length;
-const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-
-useEffect(() => {
-  if (page > totalPages) setPage(totalPages);
-}, [totalPages, page]);
-
-const pageItems = useMemo(() => {
-  const start = (page - 1) * PAGE_SIZE;
-  return filtered.slice(start, start + PAGE_SIZE);
-}, [filtered, page]);
+  }, [tasks, users, projects])
 
 
   // actions (stubbed)
@@ -206,7 +94,7 @@ const pageItems = useMemo(() => {
     if (!window.confirm(`Delete task "${task.title}" ?`)) return;
     try {
       // replace with real API if exists:
-      await axios.delete(`https://atlasbackend-1bt5.onrender.com/api/v1/admin/deletetask/${task._id}`, { withCredentials: true });
+      await axios.delete(`https://b-atlas-ncc.onrender.com/api/v1/admin/deletetask/${task._id}`, { withCredentials: true });
       setTasks((prev) => prev.filter((t) => String(t._id) !== String(task._id)));
       toast.success("Task deleted");
       window.location.reload()
@@ -232,266 +120,323 @@ const pendingCount = tasks.filter(
   t => (t.status || "").toLowerCase() === "pending"
 ).length;
 
-function InfoTooltip({ text }) {
-  return (
-    <span className={styles.tooltipWrap}>
-      <span className={styles.infoIcon}>i</span>
-      <span className={styles.tooltipText}>{text}</span>
-    </span>
-  );
-}
+// Total Active Tasks
+const activeTasks = tasks.filter(
+  (task) =>
+    task.status?.toLowerCase() !== "completed"
+).length;
 
+// High Priority Tasks (Risk Level)
+const highRiskTasks = tasks.filter(
+  (task) =>
+    task.priority?.toLowerCase() === "high"
+).length;
+
+// Average Completion Time
+const completedTasks = tasks.filter(
+  (task) =>
+    task.status?.toLowerCase() === "completed"
+);
+
+const averageCompletionTime = (() => {
+  if (!completedTasks.length) return "0h";
+
+  const totalHours = completedTasks.reduce((sum, task) => {
+    if (!task.createdAt || !task.completedAt) return sum;
+
+    const created = new Date(task.createdAt);
+    const completed = new Date(task.completedAt);
+
+    return (
+      sum +
+      (completed - created) /
+        (1000 * 60 * 60)
+    );
+  }, 0);
+
+  return `${(
+    totalHours / completedTasks.length
+  ).toFixed(1)}h`;
+})();
+
+const stats = [
+  {
+    title: "Tasks Active",
+    value: activeTasks,
+    sub: `${completedTodayCount} Completed`,
+    color: "#2ECC71",
+    icon: <ClipboardList size={28} color="rgba(221, 221, 255, 1)"/>,
+  },
+  {
+    title: "Risk Level",
+    value: highRiskTasks ? "HIGH" : "LOW",
+    sub: `${highRiskTasks} High Priority`,
+    color: highRiskTasks ? "#FF5B4D" : "#A0A0A0",
+    icon: <TriangleAlert size={28} color="rgba(221, 221, 255, 1)"/>,
+  },
+  {
+    title: "Avg. Completion Time",
+    value: averageCompletionTime,
+    sub: `${completedTasks.length} Completed Tasks`,
+    color: "#A0A0A0",
+    icon: <Clock3 size={28} color="rgba(221, 221, 255, 1)"/>,
+  },
+];
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const taskColumns = useMemo(() => {
+  return {
+    todo: tasks.filter(
+      (t) =>
+        t.status?.toLowerCase() === "to do"
+    ),
+
+    pending: tasks.filter(
+      (t) =>
+        t.status?.toLowerCase() === "pending"
+    ),
+
+    review: tasks.filter(
+      (t) =>
+        t.status?.toLowerCase() === "in progress"
+    ),
+
+    overdue: tasks.filter((t) => {
+      if (!t.dueAt) return false;
+
+      return (
+        new Date(t.dueAt) < new Date() &&
+        t.status?.toLowerCase() !== "completed"
+      );
+    }),
+  };
+}, [tasks]);
+
+const getPriorityClass = (priority) => {
+  switch (priority?.toLowerCase()) {
+    case "high":
+      return styles.high;
+
+    case "medium":
+      return styles.medium;
+
+    case "low":
+      return styles.low;
+
+    default:
+      return styles.low;
+  }
+};
+
+const getRemaining = (due) => {
+  if (!due) return "";
+
+  const now = new Date();
+  const end = new Date(due);
+
+  const diff = end - now;
+
+  if (diff <= 0) return "Expired";
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  if (days > 0)
+    return `${days} day${days > 1 ? "s" : ""} Left`;
+
+  const hours = Math.floor(
+    diff / (1000 * 60 * 60)
+  );
+
+  return `${hours}h Left`;
+};
+
+const getDueText = (due) => {
+  if (!due) return "-";
+
+  const now = new Date();
+
+  const end = new Date(due);
+
+  const diff = end - now;
+
+  if (diff <= 0) return "Overdue";
+
+  const days = Math.ceil(
+    diff / (1000 * 60 * 60 * 24)
+  );
+
+  return `Due in ${days} day${days > 1 ? "s" : ""}`;
+};
+
+const TaskCard = ({ task }) => {
+  const emp = users.find(
+    (u) => String(u._id) === String(task.assignedto)
+  );
+
+  const initials =
+    emp?.name
+      ?.split(" ")
+      .map((x) => x[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase() || "--";
+
+  return (
+    <div className={styles.taskCard}>
+      <div className={styles.cardTop}>
+        <div>
+          <h4>{task.title}</h4>
+
+          <span
+            className={`${styles.priority} ${getPriorityClass(
+              task.priority
+            )}`}
+          >
+            {task.priority}
+          </span>
+        </div>
+
+        {emp?.profilepicture ? (
+          <img
+            src={emp.profilepicture}
+            className={styles.avatar}
+            alt=""
+          />
+        ) : (
+          <div className={styles.avatar}>
+            {initials}
+          </div>
+        )}
+      </div>
+
+      <div className={styles.cardBottom}>
+        <span>{getDueText(task.dueAt)}</span>
+
+        <span>{getRemaining(task.dueAt)}</span>
+      </div>
+    </div>
+  );
+};
+
+const TaskColumn = ({
+  title,
+  color,
+  tasks,
+}) => (
+  <div
+    className={styles.column}
+    style={{
+      background: color.background,
+    }}
+  >
+    <div
+      className={styles.columnHeader}
+      style={{
+        background: color.header,
+      }}
+    >
+      <div className={styles.columnTitle}>
+        {title}
+
+        <span>{tasks.length}</span>
+      </div>
+
+      <div className={styles.columnIcons}>
+        <Plus size={18} />
+
+        <MoreVertical size={18} />
+      </div>
+    </div>
+
+    <div className={styles.columnBody}>
+      {tasks.map((task) => (
+        <TaskCard
+          key={task._id}
+          task={task}
+        />
+      ))}
+    </div>
+  </div>
+);
 
    
   return (
     <>
   <div className={styles.page}>
       <div className={styles.headbutton}>
-      <h1 className={styles.title}>Task Manager</h1>
+        <div className={styles.block}>
+          <h1 className={styles.title}>Task Manager</h1>
+      <span className={styles.subtext}>Track and manage project tasks</span>
+        </div>
+      
       <button className={styles.addtask} onClick={()=>{setTaskmodal(true)}}>Assign Task</button>
       </div>
 
       {/* KPI CARDS */}
-       <div className={styles.kpiRow}>
+     <div className={styles.statsRow}>
+  {stats.map((item, index) => (
+    <div className={styles.card} key={index}>
+      <div className={styles.cardHeader}>
+        <span className={styles.title1}>
+          {item.title}
+        </span>
 
-      {/* TOTAL TASKS */}
-      <div className={`${styles.kpiCard} ${styles.purple}`}>
-        <div className={styles.left}>
-          <p>Total Tasks <InfoTooltip text="Total number of tasks created across all projects" /></p>
-          <h2>{tasks?.length}</h2>
-        </div>
-
-        {/* IMAGE PLACEHOLDER */}
-        <div className={styles.imageSlot}>
-          <img src ="./task1.png" alt="/" height="100%" width="100%"/>
+        <div className={styles.icon}>
+          {item.icon}
         </div>
       </div>
 
-      {/* IN PROGRESS */}
-      <div className={`${styles.kpiCard} ${styles.green}`}>
-        <div className={styles.left}>
-          <p>In Progress <InfoTooltip text="Tasks currently being worked on and not completed" /></p>
-          <h2>{inProgressCount}</h2>
-        </div>
-
-        <div className={styles.imageSlot1}>
-          <span></span>
-  <span></span>
-  <span></span>
-        </div>
+      <div className={styles.value}>
+        {item.value}
       </div>
 
-      {/* COMPLETED TODAY */}
-      <div className={`${styles.kpiCard} ${styles.orange}`}>
-        <div className={styles.left}>
-          <p>Completed<InfoTooltip text="Tasks that have been completed" /></p>
-          <h2>{completedTodayCount}</h2>
-        </div>
-
-        <div className={styles.imageSlot}>
-          <img src ="./task4.png" alt="/" height="100%" width="100%"/>
-        </div>
-      </div>
-
-      {/* PENDING */}
-      <div className={`${styles.kpiCard} ${styles.red}`}>
-        <div className={styles.left}>
-          <p>Pending <InfoTooltip text="Tasks that have passed their assigned deadline" /></p>
-          <h2>{pendingCount}</h2>
-        </div>
-
-        <div className={styles.imageSlot}>
-          <img src ="./task3.png" alt="/" height="100%" width="100%"/>
-        </div>
-      </div>
-
+     
     </div>
+  ))}
+</div>
+    
+    {/* Kanban */}
 
-      {/* ADV FILTER */}
-   <div className={styles.tableWrap}>
+    <div className={styles.kanbanBoard}>
+  <TaskColumn
+    title="To Do"
+    tasks={taskColumns.todo}
+    color={{
+      background: "#0F241A",
+      header: "#2F8E57",
+    }}
+  />
 
-  {/* HEADER ROW */}
-  <div className={styles.taskHeaderRow}>
-    <h2>Task Status</h2>
+  <TaskColumn
+    title="Pending"
+    tasks={taskColumns.pending}
+    color={{
+      background: "#342514",
+      header: "#F3A948",
+    }}
+  />
 
-    <div className={styles.filtersRow}>
+  <TaskColumn
+    title="In Review"
+    tasks={taskColumns.review}
+    color={{
+      background: "#15293F",
+      header: "#3E8BDB",
+    }}
+  />
 
-      {/* SEARCH */}
-      <input
-        type="text"
-        placeholder="Search tasks"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          setPage(1);
-        }}
-        className={styles.filterSearch}
-      />
-
-      {/* STATUS FILTER */}
-      <select
-        className={styles.filterSelect}
-        value={statusFilter}
-        onChange={(e) => {
-          setStatusFilter(e.target.value);
-          setPage(1);
-        }}
-      >
-        <option value="All">All Status</option>
-        <option value="Pending">Pending</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Completed">Completed</option>
-      </select>
-
-      {/* PRIORITY FILTER */}
-      <select
-        className={styles.filterSelect}
-        value={priorityFilter}
-        onChange={(e) => {
-          setPriorityFilter(e.target.value);
-          setPage(1);
-        }}
-      >
-        <option value="All">All Priority</option>
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-        <option value="Urgent">Urgent</option>
-      </select>
-
-      {/* PROJECT FILTER */}
-      <select
-        className={styles.filterSelect}
-        value={projectFilter}
-        onChange={(e) => {
-          setProjectFilter(e.target.value);
-          setPage(1);
-        }}
-      >
-        <option value="All">All Projects</option>
-        {projects.map((p) => (
-          <option key={p._id} value={p._id}>
-            {p.projectname}
-          </option>
-        ))}
-      </select>
-
-    </div>
-  </div>
-
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th style={{ width: "40px" }} />
-              <th>Task Title</th>
-              <th>Assignee</th>
-              <th>Priority</th>
-              <th>Status</th>
-              <th>Deadline</th>
-              <th>Project</th>
-              <th style={{ width: "110px" }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr><td colSpan={9} className={styles.loadingRow}>Loading...</td></tr>
-            ) : pageItems.length === 0 ? (
-              <tr><td colSpan={9} className={styles.loadingRow}>No tasks found</td></tr>
-            ) : pageItems.map((row) => (
-              <tr key={row._id}>
-                <td>
-                  <input type="checkbox" />
-                </td>
-
-                <td className={styles.titleCell}>
-                  <div className={styles.taskTitle}>{row.title}</div>
-                </td>
-
-                <td>
-                  <div className={styles.assigneeCell}>
-                    <img
-                      src={row.assigned?.profilepicture || `https://i.pravatar.cc/40?u=${row.assigned?._id || row.assignedto}`}
-                      alt="avatar"
-                      className={styles.avatar}
-                    />
-                    <div>
-                      <div className={styles.assigneeName}>{row.assigned?.name || "—"}</div>
-                      <div className={styles.assigneeRole}>{row.assigned?.designation?.name || "No Role"}</div>
-                    </div>
-                  </div>
-                </td>
-
-                <td>
-                  <div className={`${styles.priorityTag} ${priorityClass(row.priority)}`}>
-                    {row.priority || "—"}
-                  </div>
-                </td>
-
-                <td>
-                  <div className={`${styles.statusTag} ${statusClass(row.status)}`}>
-                    {row.status || "Pending"}
-                  </div>
-                </td>
-
-                <td>{formatDate(row.dueAt)}</td>
-
-                <td>{row.project?.projectname || "—"}</td>
-
-                {/* <td>
-                  <div className={styles.progressWrap}>
-                    <div className={styles.progressBar}>
-                      <div
-                        className={styles.progressFill}
-                        style={{ width: `${Math.min(100, Number(row.weightage || 0))}%` }}
-                      />
-                    </div>
-                    <div className={styles.progressNumber}>{row.weightage ?? 0}%</div>
-                  </div>
-                </td> */}
-
-                <td className={styles.actions}>
-                  <button className={styles.iconBtn} title="Edit" onClick={() => handleEdit(row)}>
-                    <Pencil size={16} color="black" fill="black"  />
-                  </button>
-                  <button className={styles.iconBtnDanger} title="Delete" onClick={() => handleDelete(row)}>
-                    <Trash size={16} color="red" fill="red"/>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-    </div>
-    <div className={styles.pagination}>
-        <div className={styles.pageInfo}>
-          Showing {(page - 1) * PAGE_SIZE + 1} to {Math.min(page * PAGE_SIZE, total)} of {total} tasks
-        </div>
-     <div className={styles.pageControls}>
-          <button
-            className={styles.pageBtn}
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-          >
-            <ChevronLeft />
-          </button>
-
-          <div className={styles.pageNumbers}>
-            {Array.from({ length: totalPages }).map((_, i) => {
-              const idx = i + 1;
-              return (
-                <button
-                  key={idx}
-                  className={`${styles.pageNumber} ${page === idx ? styles.activePage : ""}`}
-                  onClick={() => setPage(idx)}
-                >
-                  {idx}
-                </button>
-              );
-            })}
-         </div>
-    </div>
-   </div>
+  <TaskColumn
+    title="Overdue"
+    tasks={taskColumns.overdue}
+    color={{
+      background: "#391A1A",
+      header: "#C64537",
+    }}
+  />
+</div>
+    
    </div>
 
     {modal && <Createtaskmodal modal={modal} setModal={setModal} projects={projects} users={users}/>}
@@ -560,7 +505,7 @@ function InfoTooltip({ text }) {
         onClick={async () => {
           try {
             await axios.put(
-              `https://atlasbackend-1bt5.onrender.com/api/v1/admin/updatetask/${selectedTask._id}`,
+              `https://b-atlas-ncc.onrender.com/api/v1/admin/updatetask/${selectedTask._id}`,
               form,
               { withCredentials: true }
             );

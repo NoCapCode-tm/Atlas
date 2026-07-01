@@ -15,8 +15,7 @@ import {
 import {  ChartNoAxesCombined, CircleCheckBig, Clock, TriangleAlert } from "lucide-react";
 import { InfoTooltip } from "./InfoTooltip";
 
-const API = `https://atlasbackend-1bt5.onrender.com/api/v1/admin`;
-
+const API = `https://b-atlas-ncc.onrender.com/api/v1/admin`;
 const severityColors = {
   High: "rgba(239,68,68,1)",
   Medium: "rgba(255,179,51,1)",
@@ -382,13 +381,13 @@ export default function RedFlagReports() {
     <div className={styles.alertIcon1}><ChartNoAxesCombined size={22} color="rgba(21, 93, 252, 1)"/></div>
     <div>
       <h3>Escalation Trend</h3>
-      <p>Escalations over time by severity level</p>
+      <p style={{color:"white"}}>Escalations over time by severity level</p>
     </div>
   </div>
 
         <ResponsiveContainer width="100%" height={270}>
           <BarChart data={chartData} barSize={50} >
-            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="white" vertical={false} />
             <XAxis dataKey="date" />
             {/* <YAxis /> */}
             <Legend
@@ -396,7 +395,8 @@ export default function RedFlagReports() {
   align="center"
    wrapperStyle={{
     position:"absolute",
-    bottom:250
+    bottom:250,
+    
     // marginBottom: 55,
     // paddingTop: 6
   }}

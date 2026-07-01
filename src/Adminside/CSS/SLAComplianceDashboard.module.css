@@ -1,15 +1,14 @@
 .page {
   width: 100%;
   padding: 40px;
-  background: #ffffff;
+  background: #050505;
   font-family: "Inter", sans-serif;
 }
-
 /* Heading */
 .heading {
   font-size: 32px;
   font-weight: 700;
-  color: rgba(104, 78, 185, 1);
+  color: #DDDDFF;
   margin-bottom: 20px;
 }
 
@@ -22,15 +21,15 @@
 
 .filterGroup {
   display: flex;
-   background-color: white;
-  border: 1px solid #d7d7d7;
+   background-color: #12141C;
+ border: 1px solid #A5A5A5;
   border-radius: 10px;
   align-items: center;
  
 }
 
 .filterBtn {
-  background: rgba(104, 78, 185, 1);
+  background: #0050B8;
   color: white;
   border: none;
   padding: 11px 22px;
@@ -41,7 +40,7 @@
 
 .dropdown {
   color:rgba(120, 120, 120, 1);
-  background-color: none;
+  background-color: transparent;
   border: none;
  
   width: 260px;
@@ -51,7 +50,7 @@
 /* CHART GRID */
 .chartRow {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   flex-wrap: wrap;
   
   gap: 40px;
@@ -60,18 +59,20 @@
 
 /* DONUT BOX EXACT SIZE */
 .donutBox {
-  width: 283px;
-  height: 278px;
-
+  width: 40%;
+  height: 40vh;
+ background-color: #0C0D11;
+ border: 1px solid #A5A5A5;
   border-radius: 10px;
   position: relative;
-  padding: 5px;
+  padding: 0px;
 }
 
 .donutText {
   position: absolute;
   top: 50%;
   left: 50%;
+  color:white;
   transform: translate(-50%, -50%);
   font-size: 34px;
   font-weight: 700;
@@ -79,10 +80,11 @@
 
 /* BAR BOX */
 .barBox {
-  height: 280px;
-  width:550px;
-  background: #ffffff;
+  height: 40vh;
+  width:50%;
+  background: #0C0D11;
   padding: 10px;
+  border: 1px solid #A5A5A5;
   border-radius: 10px;
 }
 
@@ -100,14 +102,14 @@
 }
 
 .table th {
-  background: rgba(104, 78, 185, 1);
+  background: #0F0F0F;
   color: white;
   padding: 16px;
   font-size: 16px;
 }
 
 .table td {
-  text-align: center;
+  
   padding: 16px;
   border-bottom: 1px solid #e6e6e6;
   font-size: 15px;

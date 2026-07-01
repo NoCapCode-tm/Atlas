@@ -8,13 +8,13 @@
   --danger:#ef4444;
   --soft:#eef2ff;
   --shadow: 0 6px 20px rgba(15,23,42,0.06);
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-family: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
 .page{
     height:auto;
   padding:28px;
-  background:var(--bg);
+  background:#050505;
   min-height:100vh;
   color:#111827;
 }
@@ -26,11 +26,11 @@
 .header h1{
   margin:0;
   font-size:28px;
-  color:rgba(104, 80, 190, 1);
+  color:#DDDDFF;
 }
 .header .sub{
   margin:6px 0 12px 0;
-  color:var(--muted);
+  color:white;
   font-size:14px;
 }
 
@@ -48,30 +48,34 @@
 }
 .control label{
   font-size:12px;
-  color:var(--muted);
+  color:white;
 }
 .control select{
   min-width:200px;
   padding:10px 12px;
   border-radius:8px;
-  border:1px solid #e6e9ef;
-  background:white;
+  border: 1px solid #D1D5DC;
+  background:#12141C;
+  color:white;
   box-shadow:none;
   font-size:14px;
 }
 
 /* Card */
 .card{
-  background:var(--card);
+  background:#0C0D11;
  
   border-radius:10px;
 
-  box-shadow:var(--shadow);
+  box-shadow: 0px 1px 2px -1px #0000001A;
+
+box-shadow: 0px 1px 3px 0px #0000001A;
+;
   margin-bottom:18px;
-  border:1px solid #eef2ff;
+  border: 0.5px solid #A5A5A5;
 }
 .card1{
-  background:var(--card);
+  background:#0C0D11;
   height:auto;
   border-radius:10px;
   padding:18px 18px 40px 18px;
@@ -87,6 +91,7 @@
   font-size:13px;
   color:var(--muted);
   margin-bottom:12px;
+  margin-top:12px;
 }
 
 /* table */
@@ -98,10 +103,12 @@
   border-collapse:collapse;
   font-size:14px;
   min-width:800px;
+  color: white;
 }
 .tableHeader {
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 30px;
+  font-weight: 600;
+  color: white;
 }
 .headerdiv{
   display:flex;
@@ -118,10 +125,11 @@
 .table thead th{
   text-align:left;
   padding:12px 10px;
-  color:var(--muted);
+  color:white;
   font-weight:600;
   font-size:13px;
   border-bottom:1px solid #f1f5f9;
+  border-top:1px solid #f1f5f9;
 }
 .table tbody td{
   padding:12px 10px;
@@ -177,7 +185,7 @@
 }
 .budgetPercent{
   font-weight:700;
-  color:var(--accent);
+  color:blue;
 }
 .budgetAmount{
   color:var(--muted);
