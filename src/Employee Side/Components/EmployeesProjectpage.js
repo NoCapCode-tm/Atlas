@@ -47,7 +47,7 @@ const Projects = () => {
     (async () => {
       try {
         const res = await axios.get(
-          `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getuser`,
+          `https://b-atlas-ncc.onrender.com/api/v1/admin/getuser`,
           { withCredentials: true }
         );
         setUser(res.data.message || []);
@@ -62,7 +62,7 @@ const Projects = () => {
     (async () => {
       try {
         const res = await axios.get(
-          `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getallproject`
+          `https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject`
         );
         const employeeProjects = res.data.message.filter(
           (p) =>
@@ -81,7 +81,7 @@ const Projects = () => {
     (async () => {
       try {
         const res = await axios.get(
-          `https://atlasbackend-1bt5.onrender.com/api/v1/admin/getalluser`
+          `https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`
         );
         setEmployees(res.data.message || []);
       } catch (err) {
