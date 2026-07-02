@@ -73,7 +73,7 @@ const [lastName, setLastName] = useState("");
 const fullName = `${firstName} ${lastName}`.trim();
 
   const [data, setData] = useState([]);
-  const [activegraph, setActivegraph] = useState("monthly");
+  const [activegraph, setActivegraph] = useState("daily");
   const[email,setEmail]=useState("") 
   const[password,setPassword]=useState("")
   const [currentPage, setCurrentPage] = useState(1);
@@ -276,15 +276,15 @@ const levels = [
   "exceptional",
 ];
 
-const heatmap = [
-  [1,3,0,2,0,3,3,2,1,1,2,0,3,4,3,4,2,1,0,3,1,4,3],
-  [2,3,4,1,2,0,3,4,2,2,2,1,0,0,3,2,2,2,1,2,0,4,3],
-  [4,0,0,1,3,0,0,4,4,3,2,1,0,0,2,0,4,0,3,4,1,0,4],
-  [0,2,1,2,0,3,0,4,4,4,2,4,3,2,4,2,0,3,4,1,4,0,3],
-  [1,0,4,4,3,0,0,4,3,2,1,0,3,2,0,4,2,4,1,2,3,2,3],
-  [2,4,4,3,0,3,2,2,3,1,4,4,3,3,2,4,1,1,0,4,4,1,2],
-  [3,0,3,2,1,1,0,2,1,0,2,3,3,2,4,2,3,2,3,2,4,0,3],
-];
+// const heatmap = [
+//   [1,3,0,2,0,3,3,2,1,1,2,0,3,4,3,4,2,1,0,3,1,4,3],
+//   [2,3,4,1,2,0,3,4,2,2,2,1,0,0,3,2,2,2,1,2,0,4,3],
+//   [4,0,0,1,3,0,0,4,4,3,2,1,0,0,2,0,4,0,3,4,1,0,4],
+//   [0,2,1,2,0,3,0,4,4,4,2,4,3,2,4,2,0,3,4,1,4,0,3],
+//   [1,0,4,4,3,0,0,4,3,2,1,0,3,2,0,4,2,4,1,2,3,2,3],
+//   [2,4,4,3,0,3,2,2,3,1,4,4,3,3,2,4,1,1,0,4,4,1,2],
+//   [3,0,3,2,1,1,0,2,1,0,2,3,3,2,4,2,3,2,3,2,4,0,3],
+// ];
 
 
 
@@ -315,6 +315,165 @@ const totalPages = Math.ceil(employees.length / perPage);
     (currentPage - 1) * perPage,
     currentPage * perPage
   );
+
+
+  //company report section 
+
+  const chartData = useMemo(() => {
+  if (!metrics.length) return [];
+
+  // newest first
+  const sorted = [...metrics].sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
+
+  // DAILY
+  if (activegraph === "daily") {
+    return sorted.map(item => ({
+      name: new Date(item.date).toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "short"
+      }),
+      value: item.reportsSubmitted
+    }));
+  }
+
+  // WEEKLY
+  if (activegraph === "weekly") {
+    const weeks = {};
+
+    sorted.forEach(item => {
+      const date = new Date(item.date);
+
+      const year = date.getFullYear();
+
+      // week number
+      const firstDay = new Date(year, 0, 1);
+
+      const week =
+        Math.ceil(
+          (((date - firstDay) / 86400000) +
+            firstDay.getDay() +
+            1) /
+            7
+        );
+
+      const key = `${year}-W${week}`;
+
+      if (!weeks[key]) {
+        weeks[key] = {
+          name: `W${week}`,
+          value: 0
+        };
+      }
+
+      weeks[key].value += item.reportsSubmitted;
+    });
+
+    return Object.values(weeks);
+  }
+
+  // MONTHLY
+  const months = {};
+
+  sorted.forEach(item => {
+    const date = new Date(item.date);
+
+    const key = date.toLocaleString("default", {
+      month: "short",
+      year: "numeric"
+    });
+
+    if (!months[key]) {
+      months[key] = {
+        name: date.toLocaleString("default", {
+          month: "short"
+        }),
+        value: 0
+      };
+    }
+
+    months[key].value += item.reportsSubmitted;
+  });
+
+  return Object.values(months);
+}, [metrics, activegraph]);
+
+//heatmap data
+
+const metricsMap = useMemo(() => {
+  const map = {};
+
+  metrics.forEach(metric => {
+    const key = new Date(metric.date).toISOString().slice(0, 10);
+
+    map[key] = metric;
+  });
+
+  return map;
+}, [metrics]);
+
+const heatmap = useMemo(() => {
+  const cells = [];
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const start = new Date(today);
+  start.setDate(start.getDate() - 364);
+
+  // GitHub starts on Sunday
+  start.setDate(start.getDate() - start.getDay());
+
+  // Find maximum values for normalization
+  const maxReports = Math.max(...metrics.map(m => m.reportsSubmitted), 1);
+  const maxTasks = Math.max(...metrics.map(m => m.tasksCompleted), 1);
+  const maxUsers = Math.max(...metrics.map(m => m.activeUsers), 1);
+
+  const current = new Date(start);
+
+  while (current <= today) {
+    const key = current.toISOString().slice(0, 10);
+
+    const metric = metricsMap[key];
+
+    let level = "veryLow";
+
+    if (metric) {
+      const reportScore = metric.reportsSubmitted / maxReports;
+      const taskScore = metric.tasksCompleted / maxTasks;
+      const userScore = metric.activeUsers / maxUsers;
+
+      // weighted performance score
+      const score =
+        reportScore * 0.4 +
+        taskScore * 0.4 +
+        userScore * 0.2;
+
+      if (score < 0.2)
+        level = "veryLow";
+      else if (score < 0.4)
+        level = "low1";
+      else if (score < 0.6)
+        level = "moderate";
+      else if (score < 0.8)
+        level = "high1";
+      else
+        level = "exceptional";
+    }
+
+    cells.push({
+      date: new Date(current),
+      metric,
+      level,
+    });
+
+    current.setDate(current.getDate() + 1);
+  }
+
+  return cells;
+}, [metrics, metricsMap]);
+
 
 
 
@@ -400,18 +559,18 @@ const totalPages = Math.ceil(employees.length / perPage);
           <div className={styles.graphleft1}>Company Report
             <InfoTooltip text="Consolidated view of company-wide productivity and activity" />
           </div>
-          {/* <div className={styles.graphleft2}>
+          <div className={styles.graphleft2}>
             <div className={styles.graphtoggle}>
-              <div className={`${styles.leftweekly} ${activegraph === "daily" ? styles.active : ""}`} onClick={handleDaily}>Daily</div>
-              <div className={`${styles.leftweekly} ${activegraph === "weekly" ? styles.active : ""}`} onClick={handleWeekly}>Weekly</div>
-              <div className={`${styles.leftweekly} ${activegraph === "monthly" ? styles.active : ""}`} onClick={handleMonthly}>Monthly</div>
+              <div className={`${styles.leftweekly} ${activegraph === "daily" ? styles.active : ""}` } onClick={() => setActivegraph("daily")}>Daily</div>
+              <div className={`${styles.leftweekly} ${activegraph === "weekly" ? styles.active : ""}`} onClick={() => setActivegraph("weekly")}>Weekly</div>
+              <div className={`${styles.leftweekly} ${activegraph === "monthly" ? styles.active : ""}`} onClick={() => setActivegraph("monthly")}>Monthly</div>
             </div>
-          </div> */}
+          </div>
           </div>
           <div className={styles.graphleft3}>
             <div style={{ width: "100%", height: 220 }}>
               <ResponsiveContainer>
-                <AreaChart data={data}>
+                <AreaChart data={chartData}>
 
                   {/* Gradient Fill */}
                   <defs>
@@ -577,16 +736,23 @@ const totalPages = Math.ceil(employees.length / perPage);
             </div>
           </div>
 
-          <div className={styles.grid}>
-            {heatmap.flat().map((cell, index) => (
-              <div
-                key={index}
-                className={`${styles.cell} ${
-                  styles[levels[cell]]
-                }`}
-              />
-            ))}
-          </div>
+         <div className={styles.grid}>
+  {heatmap.map((cell, index) => (
+    <div
+      key={index}
+      className={`${styles.cell} ${styles[cell.level]}`}
+      title={
+        cell.metric
+          ? `${cell.date.toDateString()}
+Reports : ${cell.metric.reportsSubmitted}
+Tasks : ${cell.metric.tasksCompleted}
+Users : ${cell.metric.activeUsers}`
+          : `${cell.date.toDateString()}
+No activity`
+      }
+    />
+  ))}
+</div>
         </div>
       </div>
 
