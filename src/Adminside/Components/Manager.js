@@ -177,7 +177,7 @@ Filters
 </button>
 
 </div>
-
+<div className={styles.desktopview}>
 <table className={styles.table}>
 
 <thead>
@@ -234,6 +234,7 @@ M
 
 <td>
 
+
 <button className={styles.actionBtn}>
 
 <MoreVertical size={18} onClick={()=>{setOverlay((prev) => (prev === `dropdown${manager._id}` ? "" : `dropdown${manager._id}`))}
@@ -246,7 +247,6 @@ M
 </div>
 
 </button>
-
 </td>
 
 </tr>
@@ -256,6 +256,82 @@ M
 </tbody>
 
 </table>
+</div>
+<div className={styles.mobileView}>
+  {managers.map((manager) => {
+    const initials = manager.name
+      .split(" ")
+      .map((n) => n[0])
+      .join("");
+
+    const project = projects.filter((p)=>p.manager === manager._id)
+  const members = employees.filter((m)=>m.managerAssigned === manager._id)
+
+    return (
+      <div className={styles.employeeCard} key={manager._id}>
+        {/* Top */}
+
+        <div className={styles.cardTop}>
+          <div className={styles.avatar}>
+            {initials}
+          </div>
+
+          <div className={styles.cardUser}>
+            <h3>{manager?.name}</h3>
+            <p>{manager?.email}</p>
+          </div>
+        </div>
+
+        <div className={styles.cardDivider}></div>
+
+        {/* Details */}
+
+        <div className={styles.cardGrid}>
+           <div>
+            <span className={styles.cardLabel}>Projects</span>
+            <h4>{project.length}</h4>
+          </div>
+          <div>
+            <span className={styles.cardLabel}>Teams</span>
+            <h4>{members?.length || "NA"}</h4>
+          </div>
+           <div>
+            <span className={styles.cardLabel}>Action</span>
+             <button className={styles.actionBtn}>
+
+<MoreVertical size={18} onClick={()=>{setOverlay((prev) => (prev === `dropdown${manager._id}` ? "" : `dropdown${manager._id}`))}
+}/>
+<div className={overlay === `dropdown${manager._id}` ?styles.dropdown :styles.none}>
+   <span className ={styles.first} onClick={()=>{setSelectedproject(project)
+    setSelected(manager)
+    setOverlay("managerdetails")}}>Change Manager</span>
+   <span className ={styles.second}>Remove from Manager</span>
+</div>
+
+</button>
+          </div>
+
+        
+
+         
+
+          {/* <div>
+            <span
+              className={`${styles.mobileStatus} ${
+                emp?.onboarding?.status === "Completed"
+                  ? styles.active
+                  : styles.inactive
+              }`}
+            >
+              {emp?.onboarding?.status || "NA"}
+            </span>
+          </div> */}
+        </div>
+      </div>
+    );
+  })}
+</div>
+
 
 <div className={styles.pagination}>
 
@@ -565,8 +641,8 @@ Showing 1-6 of 20
           onClick={handeladdu}
         >
           {loading=== true
-            ? "Adding..."
-            : "Add Employee"}
+            ? "Assigning..."
+            : "Assign Manager"}
         </button>
       </div>
     </div>

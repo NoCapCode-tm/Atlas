@@ -353,7 +353,6 @@
   background: rgba(60, 38, 157, 1) !important;
   color: #fff;
 }
-
 .dots {
   color: #9a9a9a;
   font-size: 14px;
@@ -393,9 +392,9 @@
   font-weight: 500;
 }
 
-.completed { background: #e0e7ff; color: #4338ca; }
+.Completed { background: #e0e7ff; color: #4338ca;border:1px solid #4338ca }
 .inprogress { background: #fff7cd; color: #c98b0a; }
-.incomplete { background: #fde2e4; color: #b83232; }
+.Incomplete { background: #fde2e4; color: #b83232;border:1px solid #b83232 }
 
 /* ACTION ICON */
 .actionicon {
@@ -585,6 +584,19 @@ backdrop-filter: blur(80px);
   transform: scale(.98);
 }
 
+@media (max-width:1200px){
+  .filteremptable{
+    overflow: auto  ;
+  }
+  .tableToolbar{
+    width:1010px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap:10px;
+    height: auto;
+    padding:10px 10px;
+  }
+}
 @media (max-width:900px) {
 
   .modal {
@@ -616,11 +628,21 @@ backdrop-filter: blur(80px);
     right: 20px;
   }
 }
+@media (max-width:768px){
+   .employeespage{
+    padding:40px 30px;
+   }
+}
 
 @media (max-width:600px) {
 
   .overlay {
     padding: 12px;
+  }
+  .topbar{
+    flex-direction: column;
+    align-items: flex-start;
+    gap:10px;
   }
 
   .modal {
@@ -732,6 +754,152 @@ button:active {
 .actionIcon:hover {
   transform: rotate(90deg);
   color: #7c3aed;
+}
+
+
+/* 
+mobile view cards */
+.employeeCard{
+    background:#101115;
+    border:1px solid #23262d;
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:16px;
+}
+
+.cardTop{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.cardUser{
+    flex:1;
+}
+
+.cardUser h3{
+    color:#fff;
+    font-size:22px;
+    font-weight:600;
+    margin:0;
+}
+
+.cardUser p{
+    color:#9ca3af;
+    font-size:14px;
+    margin-top:4px;
+}
+
+.cardDivider{
+    width:100%;
+    height:1px;
+    background:#252831;
+    margin:16px 0;
+}
+
+.cardGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.cardLabel{
+    display:block;
+    color:#8f939b;
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+.cardGrid h4{
+    margin:0;
+    color:white;
+    font-size:16px;
+    font-weight:500;
+}
+
+.mobileStatus{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    min-width:88px;
+    height:32px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+}
+
+.active{ background: #e0e7ff; color: #4338ca;border:1px solid #4338ca;padding:0px 10px; }
+
+.inactive{ background: #fde2e4; color: #b83232;border:1px solid #b83232;padding:0px 10px; }
+.desktopview{
+    display:block;
+}
+
+.mobileView{
+    display:none;
+}
+@media (max-width:500px){
+
+.desktopview{
+    display:none;
+}
+
+.mobileView{
+    display:block;
+}
+
+.filteremptable{
+    padding:14px;
+}
+
+.tableToolbar{
+    flex-direction:column;
+    width:100%; 
+    align-items:stretch;
+    gap:14px;
+}
+
+.searchBox{
+    width:100%;
+}
+
+.toolbarRight{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.toolbarBtn{
+    justify-content:center;
+}
+
+.pagination{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:18px;
+}
+.pagination span{
+  display: none;
+}
+
+.pagebtns1{
+    width:100%;
+    margin-top: 10px;
+    justify-content:center;
+}
+}
+@media (max-width:420px){
+  .cardTop{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .toolbarRight{
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .employeespage{
+    padding:40px 10px;
+  }
 }
 
 
