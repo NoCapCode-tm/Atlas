@@ -168,12 +168,12 @@
 }
 
 /* All Projects section */
-/* ================= PROJECT GRID ================= */
+
 
 .projectGrid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 34px;
   margin-top: 28px;
 }
@@ -316,6 +316,9 @@
   display: flex;
   align-items: center;
   gap: 12px;
+}
+.allProjects h2{
+  color:white;
 }
 
 .progressTrack {
@@ -616,7 +619,21 @@
   .modalWrap { width: 100%; flex-direction: column; align-items: stretch; }
   .left, .right { width: 100%; }
 }
-
+@media (max-width: 768px){
+  .headerRow{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+@media (max-width: 400px){
+  .headerRow{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .projectGrid{
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
 
 
 /* responsive tweaks */

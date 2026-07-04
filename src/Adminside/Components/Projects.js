@@ -440,7 +440,6 @@ const ProjectCard = ({ p }) => {
     </div>
   );
 };
-
   return (
     <>
     <div className={styles.adminprojects}>
@@ -489,14 +488,10 @@ const ProjectCard = ({ p }) => {
   ))}
 </div>
 
-      {/* <section className={styles.allProjects}>
+      <section className={styles.allProjects}>
         <h2>All Projects</h2>
-        <div className={styles.grid}>
-          {projects.map((p, i) => (
-            <ProjectCard key={i} p={p}/>
-          ))}
-        </div>
-      </section> */}
+      </section>
+      
       <div className={styles.projectGrid}>
   {projects.map((p) => (
     <ProjectCard
