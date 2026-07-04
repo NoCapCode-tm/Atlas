@@ -17,6 +17,7 @@ const Taskpage = () => {
   const [editModal, setEditModal] = useState(false);
   const[taskmodal,setTaskmodal] = useState(false)
 const [selectedTask, setSelectedTask] = useState(null);
+const [openColumn, setOpenColumn] = useState("todo");
 
    const [form, setForm] = useState({
     title: "",
@@ -270,6 +271,8 @@ const getDueText = (due) => {
   return `Due in ${days} day${days > 1 ? "s" : ""}`;
 };
 
+
+
 const TaskCard = ({ task }) => {
   const emp = users.find(
     (u) => String(u._id) === String(task.assignedto)
@@ -282,6 +285,7 @@ const TaskCard = ({ task }) => {
       .join("")
       .slice(0, 2)
       .toUpperCase() || "--";
+      
 
   return (
     <div className={styles.taskCard}>
@@ -321,45 +325,66 @@ const TaskCard = ({ task }) => {
 };
 
 const TaskColumn = ({
+  id,
   title,
-  color,
   tasks,
-}) => (
-  <div
-    className={styles.column}
-    style={{
-      background: color.background,
-    }}
-  >
+  color,
+  openColumn,
+  setOpenColumn,
+}) => {
+  const isOpen = openColumn === id;
+
+  return (
     <div
-      className={styles.columnHeader}
+      className={styles.column}
       style={{
-        background: color.header,
+        background: color.background,
       }}
     >
-      <div className={styles.columnTitle}>
-        {title}
+      <div
+        className={styles.columnHeader}
+        style={{
+          background: color.header,
+        }}
+        onClick={() =>
+          setOpenColumn(isOpen ? "" : id)
+        }
+      >
+        <div className={styles.columnTitle}>
+          {title}
 
-        <span>{tasks.length}</span>
+          <span>{tasks.length}</span>
+        </div>
+
+        <div className={styles.columnIcons}>
+          <Plus size={18} />
+
+          <MoreVertical size={18} />
+
+          <ChevronDown
+            size={18}
+            className={`${styles.arrow} ${
+              isOpen ? styles.rotate : ""
+            }`}
+          />
+        </div>
       </div>
 
-      <div className={styles.columnIcons}>
-        <Plus size={18} />
-
-        <MoreVertical size={18} />
+      <div
+        className={`${styles.columnBody} ${
+          isOpen ? styles.open : styles.closed
+        }`}
+      >
+        {tasks.map((task) => (
+          <TaskCard
+            key={task._id}
+            task={task}
+          />
+        ))}
       </div>
     </div>
-
-    <div className={styles.columnBody}>
-      {tasks.map((task) => (
-        <TaskCard
-          key={task._id}
-          task={task}
-        />
-      ))}
-    </div>
-  </div>
-);
+  );
+};
 
    
   return (
@@ -399,44 +424,56 @@ const TaskColumn = ({
     
     {/* Kanban */}
 
-    <div className={styles.kanbanBoard}>
+  <div className={styles.kanbanBoard}>
   <TaskColumn
+    id="todo"
+    openColumn={openColumn}
+    setOpenColumn={setOpenColumn}
     title="To Do"
     tasks={taskColumns.todo}
     color={{
-      background: "#0F241A",
-      header: "#2F8E57",
+      background:"#0F241A",
+      header:"#2F8E57"
     }}
   />
 
   <TaskColumn
+    id="pending"
+    openColumn={openColumn}
+    setOpenColumn={setOpenColumn}
     title="Pending"
     tasks={taskColumns.pending}
     color={{
-      background: "#342514",
-      header: "#F3A948",
+      background:"#342514",
+      header:"#F3A948"
     }}
   />
 
   <TaskColumn
+    id="review"
+    openColumn={openColumn}
+    setOpenColumn={setOpenColumn}
     title="In Review"
     tasks={taskColumns.review}
     color={{
-      background: "#15293F",
-      header: "#3E8BDB",
+      background:"#15293F",
+      header:"#3E8BDB"
     }}
   />
 
   <TaskColumn
+    id="overdue"
+  
+    openColumn={openColumn}
+    setOpenColumn={setOpenColumn}
     title="Overdue"
     tasks={taskColumns.overdue}
     color={{
-      background: "#391A1A",
-      header: "#C64537",
+      background:"#391A1A",
+      header:"#C64537"
     }}
   />
 </div>
-    
    </div>
 
     {modal && <Createtaskmodal modal={modal} setModal={setModal} projects={projects} users={users}/>}
