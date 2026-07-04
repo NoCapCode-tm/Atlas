@@ -514,6 +514,14 @@ transition: box-shadow 0.3s ease, transform 0.3s ease;
   font-size: 12px;
   font-weight: 500;
 }
+.completed{
+  background-color: #DCFCE7;
+  color:#008236;
+}
+.incomplete{
+  background-color: #f5d3d3;
+   color:#820000;
+}
 
 /* Active */
 
@@ -1428,6 +1436,12 @@ color: #DDDDFF;
    gap:10px;
   }
 }
+@media (max-width: 1004px) {
+  .pagination{
+    width:880px;
+    overflow: auto;
+  }
+}
 @media (max-width: 768px) {
   .dashboardRow{
   flex-direction: column;
@@ -1499,4 +1513,10 @@ color: #DDDDFF;
   .cards{
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
+}
+@media (max-width: 400px){
+  .cardpr{
+   padding:16px 5px;
+  }
+  
 }

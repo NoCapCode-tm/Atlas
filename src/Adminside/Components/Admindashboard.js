@@ -14,7 +14,8 @@ import {
   Area,
   XAxis,
   CartesianGrid,
-  ResponsiveContainer
+  ResponsiveContainer,
+  Tooltip
 } from "recharts";
 import { Tag } from "primereact/tag";
 import axios from 'axios';
@@ -98,7 +99,7 @@ useEffect(() => {
         projectsRes,
         metricsRes,
         redflagsRes,
-      ] = await Promise.all([
+    ] = await Promise.all([
         axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser", {
           withCredentials: true,
         }),
@@ -591,6 +592,15 @@ const heatmap = useMemo(() => {
                     tick={{ fill: "#6D78FF33" }}
                   /> */}
 
+                  <Tooltip
+                                  contentStyle={{
+                                    background: "#17181d",
+                                    border: "1px solid #2f3138",
+                                    color: "#fff",
+                                    borderRadius: 10,
+                                  }}
+                                />
+
                   {/* Smooth Purple Area */}
                   <Area
                     type="monotone"
@@ -829,7 +839,7 @@ No activity`
               </td>
 
               <td className={styles.role}>
-                {employee.role}
+                {employee.role || "NA"}
               </td>
 
               <td>{manager?.name || "NA"}</td>
@@ -845,18 +855,18 @@ No activity`
                     : ""
                 }`}
               >
-                {employee.issues}
+                {employee?.ticketsraised?.length}
               </td>
 
               <td>
                 <span
                   className={`${styles.badge} ${
                     styles[
-                      employee.status.toLowerCase()
+                      employee?.onboarding?.status.toLowerCase()
                     ]
                   }`}
                 >
-                  {employee.status}
+                  {employee?.onboarding?.status}
                 </span>
               </td>
 

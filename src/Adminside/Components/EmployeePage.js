@@ -63,11 +63,11 @@ function EmployeePage() {
  const [lastName, setLastName] = useState("");
 const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [onboardingstatus, setonboardingstatus] = useState("");
+  // const [onboardingstatus, setonboardingstatus] = useState("");
   const [role, setRole] = useState("");
-  const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
-  const[designation,setDesignation]=useState("")
+  // const[designation,setDesignation]=useState("")
   const[start,setStart]=useState("")
   const[end,setend]=useState("")
   const[workmode,setworkmode]=useState("")
@@ -75,36 +75,83 @@ const [email, setEmail] = useState("");
   const [search, setSearch] = useState("");
    const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
-
-  const [designationFilter, setDesignationFilter] = useState("All Employees");
-  const [statusFilter, setStatusFilter] = useState("All Status");
-  const [roleFilter, setRoleFilter] = useState("All Roles");
-
   const [showDesignationDrop, setShowDesignationDrop] = useState(false);
   const [showStatusDrop, setShowStatusDrop] = useState(false);
   const [showRoleDrop, setShowRoleDrop] = useState(false);
-
+ const[project,setprojects]=useState("")
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 6;
-  const [editOverlay, setEditOverlay] = useState(false);
+  // const [editOverlay, setEditOverlay] = useState(false);
 const [selectedEmployee, setSelectedEmployee] = useState(null);
 const [loadingData, setLoadingData] = useState(true);
 
-const[manager,setManager]=useState("")
+// const[manager,setManager]=useState("")
  const fullName = `${firstName} ${lastName}`.trim();
 
+ //filter states
+ const [roleFilter, setRoleFilter] = useState("All Roles");
+const [managerFilter, setManagerFilter] = useState("All Managers");
+const [statusFilter, setStatusFilter] = useState("All Status");
 
-  const statusOptions = [
-    "Onboarding",
-    "Paid",
-    "Unpaid",
-    "Full Time",
-    "Contractual"
+const managerOptions = useMemo(() => {
+  return [
+    "All Managers",
+    ...employees
+      .filter((e) => e?.designation?.name === "Manager")
+      .map((e) => e.name),
   ];
-  const statusOptionsFormatted = statusOptions.map(s => ({
-  label: s,
-  value: s
-}));
+}, [employees]);
+
+const statusOptions = [
+  "All Status",
+  "Paid",
+  "Unpaid",
+];
+
+const filteredEmployees = useMemo(() => {
+  return employees.filter((emp) => {
+    const manager = employees.find(
+      (e) => e._id === emp.managerAssigned
+    );
+
+    const matchesSearch =
+      emp.name.toLowerCase().includes(search.toLowerCase()) ||
+      emp.email.toLowerCase().includes(search.toLowerCase());
+
+    const matchesRole =
+      roleFilter === "All Roles" ||
+      emp.role === roleFilter;
+
+    const matchesManager =
+      managerFilter === "All Managers" ||
+      manager?.name === managerFilter;
+
+    const matchesStatus =
+      statusFilter === "All Status" ||
+      emp.status === statusFilter;
+
+    return (
+      matchesSearch &&
+      matchesRole &&
+      matchesManager &&
+      matchesStatus
+    );
+  });
+}, [
+  employees,
+  search,
+  roleFilter,
+  managerFilter,
+  statusFilter,
+]);
+
+const totalPages = Math.ceil(filteredEmployees.length / perPage);
+
+const paginatedEmployees = filteredEmployees.slice(
+  (currentPage - 1) * perPage,
+  currentPage * perPage
+);
+
 const onboardingOptions = [
   { label: "Incomplete", value: "Incomplete" },
   { label: "In-Progress", value: "In-Progress" },
@@ -121,100 +168,81 @@ const onboardingOptions = [
     "QA",
     "UI/UX Designer",
     "Devops",
-    "Manager"
+    "Manager",
+    "Content Writer"
   ];
   const roleOptionsFormatted = roleOptions.map(r => ({
   label: r,
   value: r
 }));
-useEffect(() => {
-  if (location.state?.status) {
-    setStatusFilter(location.state.status);
-    setCurrentPage(1);
-  }
-}, [location.state]);
 
 
 
-  const handleManager = useMemo(() => {
-  return employees
-    .filter(emp => emp.designation?.name === "Manager")
-    .map(emp => ({
-      label: emp.name,
-      value: emp._id
-    }));
-}, [employees]);
+//   const handleManager = useMemo(() => {
+//   return employees
+//     .filter(emp => emp.designation?.name === "Manager")
+//     .map(emp => ({
+//       label: emp.name,
+//       value: emp._id
+//     }));
+// }, [employees]);
 
-  const handleEdit = (emp) => {
-  setSelectedEmployee(emp);
-  setManager(emp?.managerAssigned?._id || "");
-  setonboardingstatus(emp?.onboarding?.status || "");
-  setRole(emp.role || "");
-  setStatus(emp.status || "");
-  setStart(emp.startedAt || "")
-  setend(emp.endAt ||"")
-  setDesignation(emp.designation.name || "")
-  setworkmode(emp.workdetails.mode || "")
-  setdepartment(emp.department || "")
-  setEditOverlay(true);
-};
+//   const handleEdit = (emp) => {
+//   setSelectedEmployee(emp);
+//   setManager(emp?.managerAssigned?._id || "");
+//   setonboardingstatus(emp?.onboarding?.status || "");
+//   setRole(emp.role || "");
+//   setStatus(emp.status || "");
+//   setStart(emp.startedAt || "")
+//   setend(emp.endAt ||"")
+//   setDesignation(emp.designation.name || "")
+//   setworkmode(emp.workdetails.mode || "")
+//   setdepartment(emp.department || "")
+//   setEditOverlay(true);
+// };
 
-const handleUpdate = async () => {
-  try {
-    setLoading(true);
+// const handleUpdate = async () => {
+//   try {
+//     setLoading(true);
   
-    await axios.put(
-      `https://b-atlas-ncc.onrender.com/api/v1/admin/updateemployee`,
-      { id:selectedEmployee._id,manager,onboardingstatus, role, status ,workmode,start,end,department,designation },
-      { withCredentials: true }
-    );
-    toast.success("Employee Updated Successfully");
-    setEditOverlay(false);
-    window.location.reload();
-  } catch {
-    toast.error("Update Failed");
-  } finally {
-    setLoading(false);
-  }
-};
+//     await axios.put(
+//       `https://b-atlas-ncc.onrender.com/api/v1/admin/updateemployee`,
+//       { id:selectedEmployee._id,manager,onboardingstatus, role, status ,workmode,start,end,department,designation },
+//       { withCredentials: true }
+//     );
+//     toast.success("Employee Updated Successfully");
+//     setEditOverlay(false);
+//     window.location.reload();
+//   } catch {
+//     toast.error("Update Failed");
+//   } finally {
+//     setLoading(false);
+//   }
+// };
 
 
-  useEffect(() => {
-    const fetchEmployees = async () => {
-      const res = await axios.get(
-        `https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`,
-        { withCredentials: true }
-      );
-      setEmployees(res.data.message || []);
-       setLoadingData(false);
-    };
-    fetchEmployees();
-  }, []);
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const [
+        employeesRes,
+        projectsRes,
+    ] = await Promise.all([
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser", {
+          withCredentials: true,
+        }),
+        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject"),
+      ]);
 
-  const designationOptions = [
-  { label: "Manager", value: "Manager" },
-  { label: "Human Resource", value: "Human Resource" },
-  { label: "Intern", value: "Intern" },
-  { label: "Administrator", value: "Administrator" },
-  { label: "Employee", value: "Employee" }
-];
+      setEmployees(employeesRes.data.message || []);
+      setprojects(projectsRes.data.message || []);
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+    }
+  };
 
-const workModeOptions = [
-  { label: "Remote", value: "Remote" },
-  { label: "Onsite", value: "OnSite" },
-  { label: "Hybrid", value: "Hybrid" },
-];
-
-const departmentOptions = [
-  { label: "Engineering", value: "Engineering" },
-  { label: "Designing", value: "Designing" },
-  { label: "Marketing", value: "Marketing" },
-  { label: "Sales", value: "Sales" },
-  { label: "Operations", value: "Operations"},
-  { label: "Finance", value: "Finance" },
-  { label: "Human Resource", value: "Human Resource" },
-  { label: "Other", value: "Other" },
-];
+  fetchData();
+}, []);
 
 
   const handleaddu = async () => {
@@ -236,56 +264,47 @@ const departmentOptions = [
     }
   };
 
-  const filteredEmployees = useMemo(() => {
-    return employees.filter((emp) => {
-      const matchesSearch =
-        emp.name.toLowerCase().includes(search.toLowerCase()) ||
-        emp.email.toLowerCase().includes(search.toLowerCase());
+  // const filteredEmployees = useMemo(() => {
+  //   return employees.filter((emp) => {
+  //     const matchesSearch =
+  //       emp.name.toLowerCase().includes(search.toLowerCase()) ||
+  //       emp.email.toLowerCase().includes(search.toLowerCase());
 
-      const matchesDesignation =
-        designationFilter === "All Employees" ||
-        (designationFilter === "All HRs" &&
-          emp.designation?.name === "HR") ||
-        (designationFilter === "All Admins" &&
-          emp.designation?.name === "admin");
+  //     const matchesDesignation =
+  //       designationFilter === "All Employees" ||
+  //       (designationFilter === "All HRs" &&
+  //         emp.designation?.name === "HR") ||
+  //       (designationFilter === "All Admins" &&
+  //         emp.designation?.name === "admin");
 
-      const matchesStatus =
-        statusFilter === "All Status" || emp.status === statusFilter;
+  //     const matchesStatus =
+  //       statusFilter === "All Status" || emp.status === statusFilter;
 
-      const matchesRole =
-        roleFilter === "All Roles" || emp.role === roleFilter;
+  //     const matchesRole =
+  //       roleFilter === "All Roles" || emp.role === roleFilter;
 
-      return (
-        matchesSearch &&
-        matchesDesignation &&
-        matchesStatus &&
-        matchesRole
-      );
-    });
-  }, [
-    employees,
-    search,
-    designationFilter,
-    statusFilter,
-    roleFilter,
-  ]);
+  //     return (
+  //       matchesSearch &&
+  //       matchesDesignation &&
+  //       matchesStatus &&
+  //       matchesRole
+  //     );
+  //   });
+  // }, [
+  //   employees,
+  //   search,
+  //   designationFilter,
+  //   statusFilter,
+  //   roleFilter,
+  // ]);
 
-  const totalPages = Math.ceil(filteredEmployees.length / perPage);
+  // const totalPages = Math.ceil(filteredEmployees.length / perPage);
 
-  const paginatedEmployees = filteredEmployees.slice(
-    (currentPage - 1) * perPage,
-    currentPage * perPage
-  );
+  // const paginatedEmployees = filteredEmployees.slice(
+  //   (currentPage - 1) * perPage,
+  //   currentPage * perPage
+  // );
 
-  const mapStatus = (status) => {
-    if (!status) return "";
-    if (status.includes("Paid")) return "active";
-    if (status === "Full Time") return "fulltime";
-    if (status === "Unpaid") return "inactive";
-     if (status === "Onboarding") return "onboarding";
-
-    return "";
-  };
 
   return (
     <>
@@ -338,15 +357,16 @@ const departmentOptions = [
       <div className={styles.dropdown}>
         {roleOptions.map((opt) => (
           <div
-            key={opt}
-            className={styles.dropdownItem}
-            onClick={() => {
-              setRoleFilter(opt);
-              setShowRoleDrop(false);
-            }}
-          >
-            {opt}
-          </div>
+  key={opt}
+  className={styles.dropdownItem}
+  onClick={() => {
+    setRoleFilter(opt);
+    setCurrentPage(1);
+    setShowRoleDrop(false);
+  }}
+>
+  {opt}
+</div>
         ))}
       </div>
     )}
@@ -365,17 +385,18 @@ const departmentOptions = [
 
     {showDesignationDrop && (
       <div className={styles.dropdown}>
-        {["All Employees", "All HRs", "All Admins"].map((opt) => (
+        {managerOptions.map((opt) => (
           <div
-            key={opt}
-            className={styles.dropdownItem}
-            onClick={() => {
-              setDesignationFilter(opt);
-              setShowDesignationDrop(false);
-            }}
-          >
-            {opt}
-          </div>
+  key={opt}
+  className={styles.dropdownItem}
+  onClick={() => {
+    setManagerFilter(opt);
+    setCurrentPage(1);
+    setShowDesignationDrop(false);
+  }}
+>
+  {opt}
+</div>
         ))}
       </div>
     )}
@@ -394,23 +415,24 @@ const departmentOptions = [
 
     {showStatusDrop && (
       <div className={styles.dropdown}>
-        {statusOptions.map((opt) => (
-          <div
-            key={opt}
-            className={styles.dropdownItem}
-            onClick={() => {
-              setStatusFilter(opt);
-              setShowStatusDrop(false);
-            }}
-          >
-            {opt}
-          </div>
-        ))}
+       {statusOptions.map((opt) => (
+  <div
+    key={opt}
+    className={styles.dropdownItem}
+    onClick={() => {
+      setStatusFilter(opt);
+      setCurrentPage(1);
+      setShowStatusDrop(false);
+    }}
+  >
+    {opt}
+  </div>
+))}
       </div>
     )}
   </div>
 </div>
-
+<div className={styles.desktopview}>
 <table className={styles.employeeTable}>
   <thead>
     <tr>
@@ -431,6 +453,9 @@ const departmentOptions = [
         .map((n) => n[0])
         .join("");
 
+        const manager1 = employees.find((e)=>e._id === emp.managerAssigned) 
+        const project1 = project.filter((p) =>p?.team?.assignedMembers?.some((member) => member.userId === emp._id));
+
       return (
         <tr key={emp._id}>
           <td>
@@ -445,23 +470,23 @@ const departmentOptions = [
 
           <td>{emp.email}</td>
 
-          <td>{emp.role || "-"}</td>
+          <td>{emp.role || "NA"}</td>
 
           <td>
-            {emp.managerAssigned?.name || "—"}
+            {manager1?.name || "NA"}
           </td>
 
           <td>
-            {emp.Projects?.length || 0}
+            {project1.length || 0}
           </td>
 
           <td>
             <span
               className={`${styles.statusBadge} ${
-                styles[mapStatus(emp.status)]
+                styles[emp?.onboarding?.status]
               }`}
             >
-              {emp.status}
+              {emp?.onboarding?.status}
             </span>
           </td>
 
@@ -469,7 +494,7 @@ const departmentOptions = [
             <MoreVertical
               size={18}
               className={styles.actionIcon}
-              onClick={() => handleEdit(emp)}
+              
             />
           </td>
         </tr>
@@ -477,33 +502,111 @@ const departmentOptions = [
     })}
   </tbody>
 </table>
+</div>
+<div className={styles.mobileView}>
+  {paginatedEmployees.map((emp) => {
+    const initials = emp.name
+      .split(" ")
+      .map((n) => n[0])
+      .join("");
 
-         <div className={styles.pagination}>
+    const manager1 = employees.find(
+      (e) => e._id === emp.managerAssigned
+    );
+
+    const project1 = project.filter((p) =>
+      p?.team?.assignedMembers?.some(
+        (member) => member.userId === emp._id
+      )
+    );
+
+    return (
+      <div className={styles.employeeCard} key={emp._id}>
+        {/* Top */}
+
+        <div className={styles.cardTop}>
+          <div className={styles.avatar}>
+            {initials}
+          </div>
+
+          <div className={styles.cardUser}>
+            <h3>{emp.name}</h3>
+            <p>{emp.email}</p>
+          </div>
+        </div>
+
+        <div className={styles.cardDivider}></div>
+
+        {/* Details */}
+
+        <div className={styles.cardGrid}>
+          <div>
+            <span className={styles.cardLabel}>Role</span>
+            <h4>{emp.role || "NA"}</h4>
+          </div>
+
+          <div>
+            <span className={styles.cardLabel}>Manager</span>
+            <h4>{manager1?.name || "NA"}</h4>
+          </div>
+
+          <div>
+            <span className={styles.cardLabel}>Projects</span>
+            <h4>{project1.length}</h4>
+          </div>
+
+          <div>
+            <span
+              className={`${styles.mobileStatus} ${
+                emp?.onboarding?.status === "Completed"
+                  ? styles.active
+                  : styles.inactive
+              }`}
+            >
+              {emp?.onboarding?.status || "NA"}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  })}
+</div>
+
+      <div className={styles.pagination}>
   <span>
-    Showing {(currentPage - 1) * perPage + 1}–
-    {Math.min(currentPage * perPage, filteredEmployees.length)} of{" "}
-    {filteredEmployees.length}
+    Showing{" "}
+    {filteredEmployees.length === 0
+      ? 0
+      : (currentPage - 1) * perPage + 1}
+    -
+    {Math.min(
+      currentPage * perPage,
+      filteredEmployees.length
+    )}{" "}
+    of {filteredEmployees.length}
   </span>
 
   <div className={styles.pagebtns1}>
-    {/* Previous */}
     <button
       className={styles.arrowBtn}
       disabled={currentPage === 1}
-      onClick={() => setCurrentPage((p) => p - 1)}
+      onClick={() =>
+        setCurrentPage((p) => p - 1)
+      }
     >
       <ChevronLeft size={18} />
     </button>
 
-    {/* First 3 Pages */}
     {Array.from(
-      { length: Math.min(3, totalPages) },
+      { length: totalPages },
       (_, i) => i + 1
     ).map((page) => (
       <button
         key={page}
         className={`${styles.pageNumber1} ${
-          currentPage === page ? styles.activepage : ""
+          page === currentPage
+            ? styles.activepage
+            : ""
         }`}
         onClick={() => setCurrentPage(page)}
       >
@@ -511,29 +614,12 @@ const departmentOptions = [
       </button>
     ))}
 
-    {/* Ellipsis */}
-    {totalPages > 4 && (
-      <>
-        <span className={styles.dots}>.....</span>
-
-        <button
-          className={`${styles.pageNumber} ${
-            currentPage === totalPages
-              ? styles.activepage
-              : ""
-          }`}
-          onClick={() => setCurrentPage(totalPages)}
-        >
-          {totalPages}
-        </button>
-      </>
-    )}
-
-    {/* Next */}
     <button
       className={styles.arrowBtn}
       disabled={currentPage === totalPages}
-      onClick={() => setCurrentPage((p) => p + 1)}
+      onClick={() =>
+        setCurrentPage((p) => p + 1)
+      }
     >
       <ChevronRight size={18} />
     </button>
@@ -709,7 +795,7 @@ const departmentOptions = [
     </div>
   )}
 
-      {editOverlay && (
+      {/* {editOverlay && (
   <div className={styles.overlay}>
     <div className={styles.editModal}>
       <button
@@ -726,7 +812,7 @@ const departmentOptions = [
           <CustomDropdown
             label="Manager"
             value={manager}
-            options={handleManager}
+            options={manager}
             onChange={setManager}
           />
         </div>
@@ -811,7 +897,7 @@ const departmentOptions = [
       </button>
     </div>
   </div>
-)}
+)} */}
 
     </>
   );
