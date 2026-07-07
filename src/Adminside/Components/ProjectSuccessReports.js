@@ -255,6 +255,7 @@ const bottleneckData = useMemo(() => {
             </div>
 
         <div className={styles.tableWrap}>
+          <div className={styles.desktopview}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -319,6 +320,88 @@ const bottleneckData = useMemo(() => {
               })}
             </tbody>
           </table>
+          </div>
+          <div className={styles.mobileView}>
+            <div className={styles.mobileView}>
+              {filteredProjects.map((p) => {
+                const initials = p?.managerObj?.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("");
+            
+                const estCompletion = p.timeline?.endDate ? new Date(p.timeline.endDate) : null;
+            
+                return (
+                  <div className={styles.employeeCard} key={p._id}>
+                    {/* Top */}
+            
+                    <div className={styles.cardTop}>
+                      <div className={styles.avatar}>
+                        {initials}
+                      </div>
+            
+                      <div className={styles.cardUser}>
+                        <h3>{p?.projectname}</h3>
+                        <p>{p?.managerObj?.name}</p>
+                      </div>
+                    </div>
+            
+                    <div className={styles.cardDivider}></div>
+            
+                    {/* Details */}
+            
+                    <div className={styles.cardGrid}>
+                      <div>
+                        <span className={styles.cardLabel}>Progress</span>
+                       <div className={styles.completionRow}>
+                        <div className={styles.progressBar}>
+                          <div
+                            className={styles.progressFill}
+                            style={{ width: `${Math.max(0, Math.min(100, p.progress.percent))}%` }}
+                          />
+                        </div>
+                        <div className={styles.percentText}>{p.progress.percent}%</div>
+                      </div>
+                      </div>
+            
+                      <div>
+                        <span className={styles.cardLabel}>Budget Used</span>
+                       <div className={styles.budgetText}>
+                        <div className={styles.budgetPercent}>
+                          {p.budgetUsedPercent}%{" "}
+                        </div>
+                        <div className={styles.budgetAmount}>
+                          ${formatNumber(p.budgetUsedAmount)} of ${formatNumber(p.budget)}
+                        </div>
+                      </div>
+                      </div>
+            
+                      <div>
+                        <span className={styles.cardLabel}>Est. Completion</span>
+                        <h4>{estCompletion ? format(estCompletion, "MMM dd, yyyy") : "—"}</h4>
+                      </div>
+            
+                      <div>
+                        <span className={styles.cardLabel}>Health Status</span>
+                        <div className={styles.healthRow}>
+                        <span
+                          className={`${styles.healthDot} ${
+                            p.health === "Healthy"
+                              ? styles.healthy
+                              : p.health === "Warning"
+                              ? styles.warning
+                              : styles.atRisk
+                          }`}
+                        ></span>
+                        <span>{p.health}</span>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -327,26 +410,67 @@ const bottleneckData = useMemo(() => {
         <h3 style={{color:"white"}}>Top Bottlenecks Across All Projects</h3>
         <p className={styles.cardSub}>Tasks and phases that exceeded their estimated duration</p>
 
-        <div style={{ width: "100%", height: 400, overflowY: "auto", paddingRight: 10}}>
+        <div style={{ width: "100%", height: "auto", overflow: "auto", paddingRight: 10}}>
           {chartData.length === 0 ? (
             <div className={styles.empty}>No risk/bottleneck data available</div>
           ) : (
-            <ResponsiveContainer width="100%" height={400}>
+           <ResponsiveContainer width="100%" height={420}>
   <BarChart
-    layout="vertical"
     data={bottleneckData}
-    // margin={{ top: 10, right: 30, left: 150, bottom: 20 }}
-    barGap={20}
+    margin={{ top: 20, right: 20, left: 20}}
+    barCategoryGap="25%"
   >
-    <CartesianGrid strokeDasharray="3 3" />
-    <XAxis type="number" label={{ value: "Days Delayed", position: "bottom" }} />
-    <YAxis dataKey="title" type="category" width={300} />
-    <Tooltip />
-    <Legend />
+    <CartesianGrid strokeDasharray="3 3" vertical={false} />
 
-    <Bar dataKey="Critical" stackId="a" fill={severityColor.Critical} radius={[0, 8, 8, 0]}/>
-    <Bar dataKey="Warning" stackId="a" fill={severityColor.Warning} radius={[0, 8, 8, 0]}/>
-    <Bar dataKey="Minor" stackId="a" fill={severityColor.Minor} radius={[0, 8, 8, 0]}/>
+    {/* <XAxis
+      dataKey="title"
+      interval={0}
+      angle={0}
+      textAnchor="end"
+      height={80}
+      tick={{ fontSize: 12 }}
+    /> */}
+
+    {/* <YAxis
+      label={{
+        value: "Days Delayed",
+        angle: 90,
+        position: "insideLeft",
+      }}
+      allowDecimals={false}
+    /> */}
+
+    <Tooltip />
+
+    <Legend
+      verticalAlign="bottom"
+      align="center"
+      wrapperStyle={{ paddingBottom: 10 , paddingTop:30 , gap:10}}
+    />
+
+    <Bar
+      dataKey="Critical"
+      stackId="a"
+      fill={severityColor.Critical}
+      radius={[8, 8, 0, 0]}
+       barSize={60}
+    />
+
+    <Bar
+      dataKey="Warning"
+      stackId="a"
+      fill={severityColor.Warning}
+      radius={[8, 8, 0, 0]}
+       barSize={60}
+    />
+
+    <Bar
+      dataKey="Minor"
+      stackId="a"
+      fill={severityColor.Minor}
+      radius={[8, 8, 0, 0]}
+       barSize={60}
+    />
   </BarChart>
 </ResponsiveContainer>
 

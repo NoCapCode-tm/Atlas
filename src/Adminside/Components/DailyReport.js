@@ -267,8 +267,8 @@ export default function DailyReport() {
               </defs>
 
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="name" />
-              <YAxis domain={[0, 100]} />
+              {/* <XAxis dataKey="name" /> */}
+              {/* <YAxis domain={[0, 100]} /> */}
               <Tooltip formatter={(v) => `${v}%`} />
               <Area
                 type="monotone"
@@ -286,10 +286,10 @@ export default function DailyReport() {
         <h3>Summary (Last {rangeDays} days)</h3>
         <div className={styles.summaryGrid}>
           <div className={styles.leftCol}>
-            <p>Average Submission Rate :</p>
-            <p>Total Reports Expected :</p>
-            <p>Total Reports Submitted :</p>
-            <p>Missing Reports :</p>
+            <p style={{fontWeight:700}}>Average Submission Rate :<span className={styles.small}>{summary.avgPct}%</span></p>
+            <p style={{fontWeight:700}}>Total Reports Expected :<span className={styles.small}>{summary.totalExpected}</span></p>
+            <p style={{fontWeight:700}}>Total Reports Submitted :<span className={styles.small}>{summary.totalSubmitted}</span></p>
+            <p style={{fontWeight:700}}>Missing Reports :<span className={styles.small}>{summary.missing}</span></p>
           </div>
           <div className={styles.rightCol}>
             <p className={styles.big}>{summary.avgPct}%</p>

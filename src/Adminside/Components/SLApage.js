@@ -288,7 +288,7 @@ export default function SLAComplianceDashboard() {
       </div>
 
       <div className={styles.tableContainer}>
-        <table className={styles.table}>
+        <table className={styles.table1}>
           <thead>
             <tr>
               <th>Project Name</th>

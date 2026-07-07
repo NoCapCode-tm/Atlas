@@ -32,7 +32,7 @@
   background: #0050B8;
   color: white;
   border: none;
-  padding: 11px 22px;
+  padding: 10px 22px;
   border-radius: 10px;
   font-size: 15px;
   font-weight: 600;
@@ -59,8 +59,8 @@
 
 /* DONUT BOX EXACT SIZE */
 .donutBox {
-  width: 40%;
-  height: 40vh;
+  width: 44%;
+  height: 50vh;
  background-color: #0C0D11;
  border: 1px solid #A5A5A5;
   border-radius: 10px;
@@ -80,7 +80,7 @@
 
 /* BAR BOX */
 .barBox {
-  height: 40vh;
+  height: 50vh;
   width:50%;
   background: #0C0D11;
   padding: 10px;
@@ -93,7 +93,7 @@
   margin-top: 25px;
 }
 
-.table {
+.table1 {
   width: 100%;
   border-collapse: collapse;
   box-shadow: 0 3px 10px rgba(0,0,0,0.1);
@@ -101,14 +101,14 @@
   overflow: hidden;
 }
 
-.table th {
+.table1 th {
   background: #0F0F0F;
   color: white;
   padding: 16px;
   font-size: 16px;
 }
 
-.table td {
+.table1 td {
   
   padding: 16px;
   border-bottom: 1px solid #e6e6e6;
@@ -117,4 +117,39 @@
 
 .bold {
   font-weight: 700;
+}
+@media (max-width:800px){
+  .filterRow{
+    flex-wrap: wrap;
+  }
+  .filterBtn{
+    padding:10px 22px;
+  }
+  .table1{
+    overflow: auto !important;
+  }
+  .donutBox{
+    width:100%;
+  }
+  .barBox{
+    width:100%;
+  }
+  .filterGroup{
+    width:100%;
+  }
+  .dropdown{
+    width:100%;
+  }
+  .tableContainer{
+    overflow: auto;
+  }
+}
+@media (max-width:500px){
+ .page{
+  padding:40px 10px;
+ }
+ .filterBtn{
+    padding:5px 22px;
+    font-size: 12px;
+  }
 }

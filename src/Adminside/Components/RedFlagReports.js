@@ -415,13 +415,14 @@ export default function RedFlagReports() {
       </div>
 
       {/* TABLE */}
+     
       <div className={styles.tableCard}>
         <div className={styles.headerdiv}>
         <h3 className={styles.tableHeader}>Escalation History Log</h3>
         <p className={styles.tablesubHeader}>Complete record of all escalations and their resolution status</p>
         </div>
-
-        <table className={styles.table}>
+         <div className={styles.desktopview}>
+        <table className={styles.table1}>
           <thead>
             <tr>
               <th>Date/Time</th>
@@ -481,6 +482,77 @@ export default function RedFlagReports() {
             )}
           </tbody>
         </table>
+        </div>
+
+        <div className={styles.mobileView}>
+          {pageData.map((r) => {
+           const res =
+                  r.resolvedon && r.raisedon
+                    ? Math.round((r.resolvedon - r.raisedon) / (1000 * 60 * 60)) +
+                      "h"
+                    : "—";
+            const initials = userMap[r.raisedby]
+      .split(" ")
+      .map((n) => n[0])
+      .join("");
+        
+            return (
+              <div className={styles.employeeCard} key={r._id}>
+                {/* Top */}
+        
+                <div className={styles.cardTop}>
+                  <div className={styles.avatar}>
+                    {initials}
+                  </div>
+        
+                  <div className={styles.cardUser}>
+                    <h3>{userMap[r.raisedby]}</h3>
+                    <p>{r.projectName} | {r.raisedon?.toLocaleString()}</p>
+                    
+                  </div>
+                </div>
+        
+                <div className={styles.cardDivider}></div>
+        
+                {/* Details */}
+        
+                <div className={styles.cardGrid}>
+                  <div>
+                    <span className={styles.cardLabel}>Type</span>
+                    <h4 >{r?.type || "NA"}</h4>
+                  </div>
+        
+                  <div>
+                    <span className={styles.cardLabel}>Status</span>
+                    <span className={`${styles.badge} ${
+                                          styles[
+                                            r?.status
+                                          ]
+                                        }`}>{r.status|| "NA"}</span>
+                  </div>
+        
+                  <div>
+                    <span className={styles.cardLabel}>Resolution</span>
+                    <h4>{res}</h4>
+                  </div>
+        
+                  <div>
+                     <span className={styles.cardLabel}>Severity</span>
+                    <span
+                      className={`${styles.badge} ${
+                                          styles[
+                                            r?.severity
+                                          ]
+                                        }`}
+                    >
+                      {r?.severity || "NA"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
 
         {/* PAGINATION */}
         <div className={styles.pagination}>
@@ -503,6 +575,7 @@ export default function RedFlagReports() {
           </button>
         </div>
       </div>
+      
     </div>
   );
 }
