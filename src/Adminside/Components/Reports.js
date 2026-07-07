@@ -89,7 +89,7 @@ export default function Reports() {
               type="radio"
               checked={format === "excel"}
               onChange={() => setFormat("excel")}
-            />
+           />
             Excel
           </label>
           <label>
@@ -162,8 +162,8 @@ export default function Reports() {
       {/* ---------- Recent Exports ---------- */}
       <div className={styles.card}>
         <h4>Recent Exports</h4>
-
-        <table className={styles.table}>
+        <div className={styles.desktopview}>
+           <table className={styles.table}>
           <thead>
             <tr>
               <th>File Name</th>
@@ -207,6 +207,69 @@ export default function Reports() {
             ))}
           </tbody>
         </table>
+        </div>
+        <div className={styles.mobileView}>
+          {exports.map((r) => {
+        
+            return (
+              <div className={styles.employeeCard} key={r._id}>
+                {/* Top */}
+        
+                <div className={styles.cardTop}>
+                  {/* <div className={styles.avatar}>
+                    {initials}
+                  </div> */}
+        
+                  <div className={styles.cardUser}>
+                    <h3>{r.type}-report-{dayjs(r.createdAt).format("YYYY-MM")}
+                  .{r.format}</h3>
+                  </div>
+                </div>
+        
+                <div className={styles.cardDivider}></div>
+        
+                {/* Details */}
+        
+                <div className={styles.cardGrid}>
+                  <div>
+                    <span className={styles.cardLabel}>Date Generated</span>
+                    <h4>{dayjs(r.createdAt).format("YYYY-MM-DD HH:mm")}</h4>
+                  </div>
+        
+                  <div>
+                    <span className={styles.cardLabel}>Status</span>
+                    <span
+                    className={`${styles.badge} ${
+                      r.status === "ready"
+                        ? styles.ready
+                        : styles.processing
+                    }`}
+                  >
+                    {r.status}
+                  </span>
+                  </div>
+        
+                  <div>
+                    <span className={styles.cardLabel}>Action</span>
+                    <span>
+                  {r.status === "ready" ? (
+                    <a
+                      href={`https://b-atlas-ncc.onrender.com${r.fileUrl}`}
+                      className={styles.link}
+                    >
+                      Download
+                    </a>
+                  ) : (
+                    "Processing..."
+                  )}
+                </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        
       </div>
     </div>
   );
