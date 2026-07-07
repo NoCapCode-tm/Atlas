@@ -191,12 +191,30 @@ box-shadow: 0px 1px 3px 0px #0000001A;
   color:var(--muted);
   font-size:13px;
 }
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
+  background: #5b45df;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+
+  flex-shrink: 0;
+}
 
 /* health */
 .healthRow{
   display:flex;
   align-items:center;
   gap:8px;
+  color:white;
 }
 .healthDot{
   width:10px;
@@ -223,3 +241,164 @@ box-shadow: 0px 1px 3px 0px #0000001A;
   .progressBar{ width:100px; }
   .table{ min-width:700px; }
 }
+
+.mobileView{
+  display:none;
+}
+.laptopView{
+  display:block;
+}
+
+/* 
+mobile view cards */
+.employeeCard{
+    background:#101115;
+    border:1px solid #23262d;
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:16px;
+}
+
+.cardTop{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.cardUser{
+    flex:1;
+}
+
+.cardUser h3{
+    color:#fff;
+    font-size:22px;
+    font-weight:600;
+    margin:0;
+}
+
+.cardUser p{
+    color:#9ca3af;
+    font-size:14px;
+    margin-top:4px;
+}
+
+.cardDivider{
+    width:100%;
+    height:1px;
+    background:#252831;
+    margin:16px 0;
+}
+
+.cardGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.cardLabel{
+    display:block;
+    color:#8f939b;
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+.cardGrid h4{
+    margin:0;
+    color:white;
+    font-size:16px;
+    font-weight:500;
+}
+
+.mobileStatus{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    min-width:88px;
+    height:32px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+}
+
+.active{ background: #e0e7ff; color: #4338ca;border:1px solid #4338ca;padding:0px 10px; }
+
+.inactive{ background: #fde2e4; color: #b83232;border:1px solid #b83232;padding:0px 10px; }
+.desktopview{
+    display:block;
+}
+
+.mobileView{
+    display:none;
+}
+@media (max-width:500px){
+
+.desktopview{
+    display:none;
+}
+.card{
+  padding:10px;
+}
+.page{
+  padding: 28px 10px;
+}
+
+.mobileView{
+    display:block;
+}
+
+.filteremptable{
+    padding:14px;
+}
+
+.tableToolbar{
+    flex-direction:column;
+    width:100%; 
+    align-items:stretch;
+    gap:14px;
+}
+
+.searchBox{
+    width:100%;
+}
+
+.toolbarRight{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.toolbarBtn{
+    justify-content:center;
+}
+
+.pagination{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:18px;
+}
+.pagination span{
+  display: none;
+}
+
+.pagebtns1{
+    width:100%;
+    margin-top: 10px;
+    justify-content:center;
+}
+}
+@media (max-width:420px){
+  .cardTop{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .toolbarRight{
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .employeespage{
+    padding:40px 10px;
+  }
+}
+
+
+

@@ -755,7 +755,12 @@ button:active {
   transform: rotate(90deg);
   color: #7c3aed;
 }
-
+.mobileView{
+  display:none;
+}
+.laptopView{
+  display:block;
+}
 
 /* 
 mobile view cards */
@@ -844,6 +849,8 @@ mobile view cards */
 .desktopview{
     display:none;
 }
+
+
 
 .mobileView{
     display:block;

@@ -154,6 +154,7 @@ const ProductivityReport = () => {
 
     return {
       name: emp.name,
+      email:emp?.email || emp?.Emails?.email, 
       role: emp.designation?.name || "No Role",
       assignedCount: empTasks.length,
       completedCount: completedTasks.length,
@@ -329,8 +330,9 @@ const ProductivityReport = () => {
       </div>
 
     </div>
-
-      <div className={styles.tableWrapper}>
+      <h3>Employees Productivity Report</h3>
+      <div className={styles.desktopview}>
+         <div className={styles.tableWrapper}>
       <table className={styles.table}>
         <thead>
           <tr>
@@ -339,7 +341,6 @@ const ProductivityReport = () => {
             <th>Tasks assigned</th>
             <th>Tasks done</th>
             <th>Avg. time/task</th>
-            <th>Productivity score</th>
           </tr>
         </thead>
 
@@ -381,17 +382,72 @@ const ProductivityReport = () => {
               <td className={styles.avgTime}>
                 {employee.avgTime}
               </td>
-
-              <td>
-                <span className={styles.score}>
-                  {employee.score}
-                </span>
-              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+      </div>
+      <div className={styles.mobileView}>
+        {tableData.map((employee) => {
+          const initials = employee?.name
+            .split(" ")
+            .map((n) => n[0])
+            .join("");
+      
+      
+          return (
+            <div className={styles.employeeCard} key={employee._id}>
+              {/* Top */}
+      
+              <div className={styles.cardTop}>
+                <div className={styles.avatar}>
+                  {initials}
+                </div>
+      
+                <div className={styles.cardUser}>
+                  <h3>{employee?.name}</h3>
+                  <p>{employee?.email}</p>
+                </div>
+              </div>
+      
+              <div className={styles.cardDivider}></div>
+      
+              {/* Details */}
+      
+              <div className={styles.cardGrid}>
+                <div>
+                  <span className={styles.cardLabel}>Role</span>
+                  <h4>{employee?.role || "NA"}</h4>
+                </div>
+      
+                <div>
+                  <span className={styles.cardLabel}>Task Assigned</span>
+                  <h4>{employee?.assignedCount || "NA"}</h4>
+                </div>
+      
+                <div>
+                  <span className={styles.cardLabel}>Task Done</span>
+                  <h4>{employee?.completedCount}</h4>
+                </div>
+      
+                {/* <div>
+                  <span
+                    className={`${styles.mobileStatus} ${
+                      emp?.onboarding?.status === "Completed"
+                        ? styles.active
+                        : styles.inactive
+                    }`}
+                  >
+                    {emp?.onboarding?.status || "NA"}
+                  </span>
+                </div> */}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      
     </div>
   );
 };
