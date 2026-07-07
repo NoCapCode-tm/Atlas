@@ -513,7 +513,6 @@ const onboardingOptions = [
     const manager1 = employees.find(
       (e) => e._id === emp.managerAssigned
     );
-
     const project1 = project.filter((p) =>
       p?.team?.assignedMembers?.some(
         (member) => member.userId === emp._id

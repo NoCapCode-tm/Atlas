@@ -326,7 +326,7 @@ const currentTickets = filteredTickets.slice(
 
     </div>
 
-
+    <div className={styles.desktopview}>
     <table className={styles.ticketTable}>
 
         <thead>
@@ -359,7 +359,6 @@ const currentTickets = filteredTickets.slice(
             );
 
             const dueHours = ticket.dueHours || 0;
-
             const slaText =
                 dueHours<=0
                 ?"Breached"
@@ -446,6 +445,105 @@ const currentTickets = filteredTickets.slice(
         </tbody>
 
     </table>
+    </div>
+    <div className={styles.mobileView}>
+      {currentTickets.map((ticket) => {
+        const assignee = users.find(
+                u=>u._id===ticket.assignedTo
+            );
+
+            const dueHours = ticket.dueHours || 0;
+            const slaText =
+                dueHours<=0
+                ?"Breached"
+                :`${dueHours}h left`;
+
+                 const initials = assignee
+                        ?assignee.name
+                        :"NA"
+      .split(" ")
+      .map((n) => n[0])
+      .join("");
+    
+        return (
+          <div className={styles.employeeCard} key={ticket._id}>
+            {/* Top */}
+    
+            <div className={styles.cardTop}>
+              <div className={styles.avatar}>
+                {initials}
+              </div>
+    
+              <div className={styles.cardUser}>
+                <h3>{ticket?.title}</h3>
+                <p>{assignee
+                        ?assignee.name
+                        :"NA"}</p>
+              </div>
+            </div>
+    
+            <div className={styles.cardDivider}></div>
+    
+            {/* Details */}
+    
+            <div className={styles.cardGrid}>
+              <div>
+                <span className={styles.cardLabel}>Category</span>
+                <h4>{ticket.category|| "NA"}</h4>
+              </div>
+    
+              <div>
+                <span className={styles.cardLabel}>SLA</span>
+               <span
+                    className={
+                        dueHours<=0
+                        ?styles.breached
+                        :styles.remaining
+                    }
+                    >
+                        {slaText}
+                    </span>
+              </div>
+    
+              <div>
+                <span className={styles.cardLabel}>Priority</span>
+                <span
+                        className={`${styles.priority}
+                        ${
+                            ticket.priority==="High"
+                            ?styles.high
+                            :ticket.priority==="Medium"
+                            ?styles.medium
+                            :styles.low
+                        }`}
+                        >
+
+                            {ticket.priority}
+
+                        </span>
+              </div>
+    
+              <div>
+                <span className={styles.cardLabel}>Status</span>
+                <span
+                        className={
+                            ticket.status==="Resolved & Closed"
+                            ?styles.resolved
+                            :ticket.status==="In Progress"
+                            ?styles.inprogress
+                            :styles.open
+                        }
+                        >
+
+                            {ticket.status}
+
+                        </span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
 
     <div className={styles.pagination}>
 
