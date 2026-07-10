@@ -16,7 +16,7 @@ export default function Announcementpage() {
   const [channels, setChannels] = useState({ banner: true, email: false, push: false });
   const [scheduleLater, setScheduleLater] = useState(false);
   const [scheduledAt, setScheduledAt] = useState("");
-
+  const[overlay,setOverlay]=useState(false)
   // lists from server
   const [teams, setTeams] = useState([]); // roles
   const [employees, setEmployees] = useState([]);
@@ -31,7 +31,7 @@ export default function Announcementpage() {
 
   // overall UI tab
   const [active, setActive] = useState("create"); // create | history | target
-
+  const [audienceType, setAudienceType] = useState("company");
   // history (announcements)
   const [announcements, setAnnouncements] = useState([]);
   const [publishing, setPublishing] = useState(false);
@@ -48,7 +48,7 @@ const [publishStep, setPublishStep] = useState("");
   useEffect(() => {
     (async () => {
       try {
-        const r = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getroles`);
+        const r = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject`);
         if (r?.data?.message) setTeams(r.data.message);
       } catch (e) {
         console.log("roles fetch error", e.message);
@@ -136,9 +136,16 @@ const [publishStep, setPublishStep] = useState("");
     title,
     type,
     message,
-    audience,
-    selectedTeams,
-    selectedPeople,
+    audience: audienceType,
+selectedTeams:
+  audienceType === "Specific Teams"
+    ? selectedTeams
+    : [],
+
+selectedPeople:
+  audienceType === "Individual Recipients"
+    ? selectedPeople
+    : [],
     priority,
     channels,
     scheduledAt: scheduleLater ? scheduledAt : null,
@@ -195,7 +202,7 @@ const [publishStep, setPublishStep] = useState("");
 
   // overlay filtered lists
   const filteredTeams = useMemo(
-    () => teams.filter((t) => String(t.rolename || "").toLowerCase().includes(teamSearch.toLowerCase())),
+    () => teams.filter((t) => String(t?.projectname || "").toLowerCase().includes(teamSearch.toLowerCase())),
     [teams, teamSearch]
   );
   const filteredPeople = useMemo(
@@ -214,7 +221,7 @@ const [publishStep, setPublishStep] = useState("");
         </div>
       </div>
               <div className={styles.topright}>
-                <div className={styles.topright1} >Create Announcement</div>
+                <div className={styles.topright1} onClick={()=>{setOverlay(true)}}>Create Announcement</div>
               </div>
     </div>
 
@@ -288,8 +295,320 @@ const [publishStep, setPublishStep] = useState("");
   </div>
 
 
-      {/* TEAMS OVERLAY */}
-      {teamsOverlayOpen && (
+    
+    
+   
+      {publishing && (
+  <div className={styles.publishOverlay}>
+    <div className={styles.publishCard}>
+      <div className={styles.dots}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <p className={styles.publishText}>{publishStep}...</p>
+    </div>
+  </div>
+)}
+{overlay && (
+  <div
+    className={styles.overlay}
+    onClick={() => setOverlay(false)}
+  >
+    <div
+      className={styles.broadcastModal}
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* Header */}
+
+      <div className={styles.modalHeader}>
+        <h2>Create Broadcast</h2>
+
+        <button
+          className={styles.closeBtn}
+          onClick={() => setOverlay(false)}
+        >
+          <X size={20} />
+        </button>
+      </div>
+
+      {/* Title */}
+
+      <input
+        className={styles.input}
+        placeholder="Announcement Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+
+      {/* Message */}
+
+      <textarea
+        className={styles.textarea}
+        placeholder="Enter your message here"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+
+      {/* Communication Type */}
+
+      <select
+        className={styles.select}
+        value={type}
+        onChange={(e) => setType(e.target.value)}
+      >
+        <option>General Announcement</option>
+        <option>Important Update</option>
+        <option>Reminder</option>
+        <option>Emergency</option>
+      </select>
+
+      {/* Audience + Delivery */}
+
+      <div className={styles.doubleGrid}>
+        {/* Left */}
+
+        <div className={styles.card}>
+  <h4>Target Audience</h4>
+
+  {/* Whole Company */}
+
+  <label className={styles.checkboxRow}>
+    <input
+      type="radio"
+      name="audience"
+      checked={audienceType === "All Employees"}
+      onChange={() => {
+        setAudienceType("All Employees");
+        setAudience("All Employees");
+        setSelectedTeams([]);
+        setSelectedPeople([]);
+      }}
+    />
+
+    <span>Whole Company</span>
+  </label>
+
+  {/* Teams */}
+
+  <div
+    className={styles.selectAudienceCard}
+    onClick={() => {
+      setAudienceType("Specific Teams");
+      setAudience("Specific Teams");
+      setTeamsOverlayOpen(true);
+    }}
+  >
+    <div className={styles.selectAudienceLeft}>
+      <input
+        type="radio"
+        checked={audienceType === "Specific Teams"}
+        readOnly
+      />
+
+      <span>Teams</span>
+    </div>
+
+    <div className={styles.selectedCount}>
+      {selectedTeams.length > 0
+        ? `${selectedTeams.length} Selected`
+        : "Select"}
+    </div>
+  </div>
+
+  {/* Employees */}
+
+  <div
+    className={styles.selectAudienceCard}
+    onClick={() => {
+      setAudienceType("Individual Recipients");
+      setAudience("Individual Recipients");
+      setPeopleOverlayOpen(true);
+    }}
+  >
+    <div className={styles.selectAudienceLeft}>
+      <input
+        type="radio"
+        checked={audienceType === "Individual Recipients"}
+        readOnly
+      />
+
+      <span>Employees</span>
+    </div>
+
+    <div className={styles.selectedCount}>
+      {selectedPeople.length > 0
+        ? `${selectedPeople.length} Selected`
+        : "Select"}
+    </div>
+  </div>
+</div>
+
+        {/* Right */}
+
+        <div className={styles.card}>
+          <h4>Delivery Method</h4>
+
+          <label className={styles.checkboxRow}>
+            <input
+              type="checkbox"
+              checked={channels.banner}
+              onChange={() =>
+                setChannels((s) => ({
+                  ...s,
+                  banner: !s.banner,
+                }))
+              }
+            />
+
+            <span>Dashboard Notification</span>
+          </label>
+
+          <label className={styles.checkboxRow}>
+            <input
+              type="checkbox"
+              checked={channels.email}
+              onChange={() =>
+                setChannels((s) => ({
+                  ...s,
+                  email: !s.email,
+                }))
+              }
+            />
+
+            <span>Email Dispatch</span>
+          </label>
+
+          <label className={styles.checkboxRow}>
+            <input
+              type="checkbox"
+              checked={channels.push}
+              onChange={() =>
+                setChannels((s) => ({
+                  ...s,
+                  push: !s.push,
+                }))
+              }
+            />
+
+            <span>Push Notification</span>
+          </label>
+        </div>
+      </div>
+
+      {/* Schedule */}
+
+      <div className={styles.scheduleRow}>
+        <span>Schedule For Later</span>
+
+        <input
+          type="time"
+          className={styles.timeInput}
+          value={
+            scheduledAt
+              ? new Date(scheduledAt)
+                  .toISOString()
+                  .slice(11, 16)
+              : ""
+          }
+          onChange={(e) => {
+            const date = scheduledAt
+              ? new Date(scheduledAt)
+              : new Date();
+
+            const [h, m] = e.target.value.split(":");
+
+            date.setHours(h);
+            date.setMinutes(m);
+
+            setScheduledAt(date.toISOString());
+            setScheduleLater(true);
+          }}
+        />
+
+        <input
+          type="date"
+          className={styles.dateInput}
+          onChange={(e) => {
+            const date = scheduledAt
+              ? new Date(scheduledAt)
+              : new Date();
+
+            const [y, m, d] =
+              e.target.value.split("-");
+
+            date.setFullYear(y);
+            date.setMonth(m - 1);
+            date.setDate(d);
+
+            setScheduledAt(date.toISOString());
+            setScheduleLater(true);
+          }}
+        />
+      </div>
+
+      {/* Priority */}
+
+      <div className={styles.priorityRow}>
+        <button
+          className={`${styles.priorityBtn} ${
+            priority === "Low"
+              ? styles.activePriority
+              : ""
+          }`}
+          onClick={() => setPriority("Low")}
+        >
+          Low
+        </button>
+
+        <button
+          className={`${styles.priorityBtn} ${
+            priority === "Medium"
+              ? styles.activePriority
+              : ""
+          }`}
+          onClick={() => setPriority("Medium")}
+        >
+          Medium
+        </button>
+
+        <button
+          className={`${styles.priorityBtn} ${
+            priority === "High"
+              ? styles.activePriority
+              : ""
+          }`}
+          onClick={() => setPriority("High")}
+        >
+          High
+        </button>
+      </div>
+
+      {/* Footer */}
+
+      <div className={styles.footer}>
+        <button
+          className={styles.createBtn}
+          onClick={handlePublish}
+          disabled={publishing}
+        >
+          {publishing
+            ? "Creating..."
+            : "Create New Assignment"}
+        </button>
+
+        <button
+          className={styles.draftBtn}
+          onClick={() => {
+            handlePublish()
+            toast.info("Draft Saved");
+            setOverlay(false);
+          }}
+        >
+          Save as draft
+        </button>
+      </div>
+        {teamsOverlayOpen && (
         <div className={styles.overlay}>
           <div className={styles.overlayCard}>
             <div className={styles.overlayHeader}>
@@ -303,7 +622,7 @@ const [publishStep, setPublishStep] = useState("");
               {filteredTeams.map((t) => (
                 <label key={t._id} className={styles.overlayItem}>
                   <input type="checkbox" checked={selectedTeams.includes(t._id)} onChange={() => toggleTeamSelect(t._id)} />
-                  <div>{t.rolename}</div>
+                  <div>{t?.projectname}</div>
                 </label>
               ))}
             </div>
@@ -316,7 +635,7 @@ const [publishStep, setPublishStep] = useState("");
         </div>
       )}
 
-      {/* PEOPLE OVERLAY */}
+     
       {peopleOverlayOpen && (
         <div className={styles.recipientOverlay}>
           <div className={styles.recipientModal}>
@@ -347,18 +666,10 @@ const [publishStep, setPublishStep] = useState("");
           </div>
         </div>
       )}
-
-      {publishing && (
-  <div className={styles.publishOverlay}>
-    <div className={styles.publishCard}>
-      <div className={styles.dots}>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <p className={styles.publishText}>{publishStep}...</p>
     </div>
+    
   </div>
+  
 )}
 
     </div>

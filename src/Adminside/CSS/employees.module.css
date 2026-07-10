@@ -833,6 +833,11 @@ mobile view cards */
     font-weight:600;
     text-transform:uppercase;
 }
+.namemenu{
+  display:flex;
+  width:100%;
+  justify-content: space-between;
+}
 
 .active{ background: #e0e7ff; color: #4338ca;border:1px solid #4338ca;padding:0px 10px; }
 
@@ -907,6 +912,19 @@ mobile view cards */
   .employeespage{
     padding:40px 10px;
   }
+}
+
+.dropdownWrapper{
+  width: 100%;
+    background: rgba(43, 45, 51, 1);
+    border: 0.31px solid rgba(165, 165, 165, 1);
+    border-radius: 12px;
+    padding: 10px 22px;
+    color: #ffffff;
+    font-size: 18px;
+    outline: none;
+    transition: .25s;
+    box-sizing: border-box;
 }
 
 
