@@ -652,78 +652,7 @@ const ProjectCard = ({ p }) => {
         </div>
 
         {/* RIGHT - employee + skills */}
-        <div className={styles.right}>
-          <div className={styles.searchWrap}>
-            <input className={styles.search} placeholder="Search..." />
-          </div>
-
-          <div className={styles.employeesList}>
-            {loadingUsers ? (
-              <div className={styles.loading}>Loading employees...</div>
-            ) : (
-              employees.map((emp) => (
-                <div
-                  key={emp._id}
-                  className={`${styles.empCard} ${isSelected(emp._id) ? styles.disabled : ""}`}
-                  onClick={() => pickEmployeeQuick(emp._id)}
-                >
-                  <img
-                    src={emp.profilepicture || `https://i.pravatar.cc/40?u=${emp._id}`}
-                    alt=""
-                    className={styles.empAvatar}
-                  />
-                  <div className={styles.empInfo}>
-                    <div className={styles.empName}>{emp.name}</div>
-                    <div className={styles.empRoleSmall}>{emp.designation.name}</div>
-                    {/* show skills */}
-                    {/* <div className={styles.skillRow}>
-                      {staticSkills.slice(0, 4).map((s) => (
-                        <button
-                          key={s}
-                          className={styles.skillTag}
-                          onClick={(ev) => {
-                            ev.stopPropagation();
-                            // set member if not set
-                            if (!selectedMember) setSelectedMember(emp._id);
-                            onSkillClick(s);
-                          }}
-                        >
-                          {s}
-                        </button>
-                      ))}
-                    </div> */}
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-
-          {/* bottom simple selected summary with custom scrollbar */}
-          <div className={styles.selectedPanel}>
-            <div className={styles.selectedTitle}>Selected</div>
-            <div className={styles.selectedScroll}>
-              {team.map((t) => {
-                const emp = employees.find((e) => e._id === t.userId);
-                return (
-                  <div className={styles.selectedRow} key={t.userId}>
-                    <img
-                      src={emp?.profilepicture || `https://i.pravatar.cc/40?u=${t.userId}`}
-                      alt=""
-                      className={styles.smallAvatar}
-                    />
-                    <div className={styles.selectedName}>{emp?.name || "---"}</div>
-                    <button
-                      className={styles.smallRemove}
-                      onClick={() => removePair(t.userId)}
-                    >
-                      <X/>
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+       
       </div>
     </div>
     )}

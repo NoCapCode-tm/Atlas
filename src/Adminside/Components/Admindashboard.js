@@ -805,8 +805,8 @@ No activity`
       <div className={styles.header}>
         Recent Employees
       </div>
-
-      <table className={styles.table}>
+      <div className={styles.desktopview}>
+         <table className={styles.table}>
         <thead>
           <tr>
             <th>Employee</th>
@@ -878,6 +878,75 @@ No activity`
           })}
         </tbody>
       </table>
+      </div>
+      <div className={styles.mobileView}>
+        {paginatedEmployees.map((emp) => {
+          const initials = emp.name
+            .split(" ")
+            .map((n) => n[0])
+            .join("");
+      
+          const manager1 = employees.find(
+            (e) => e._id === emp.managerAssigned
+          );
+          const project1 = projects.filter((p) =>
+            p?.team?.assignedMembers?.some(
+              (member) => member.userId === emp._id
+            )
+          );
+      
+          return (
+            <div className={styles.employeeCard} key={emp._id}>
+              {/* Top */}
+      
+              <div className={styles.cardTop}>
+                <div className={styles.avatar}>
+                  {initials}
+                </div>
+      
+                <div className={styles.cardUser}>
+                  <h3>{emp.name}</h3>
+                  <p>{emp.email}</p>
+                </div>
+              </div>
+      
+              <div className={styles.cardDivider}></div>
+      
+              {/* Details */}
+      
+              <div className={styles.cardGrid}>
+                <div>
+                  <span className={styles.cardLabel}>Role</span>
+                  <h4>{emp.role || "NA"}</h4>
+                </div>
+      
+                <div>
+                  <span className={styles.cardLabel}>Manager</span>
+                  <h4>{manager1?.name || "NA"}</h4>
+                </div>
+      
+                <div>
+                  <span className={styles.cardLabel}>Projects</span>
+                  <h4>{project1.length}</h4>
+                </div>
+      
+                <div>
+                  <span
+                    className={`${styles.mobileStatus} ${
+                      emp?.onboarding?.status === "Completed"
+                        ? styles.active
+                        : styles.inactive
+                    }`}
+                  >
+                    {emp?.onboarding?.status || "NA"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      
 
         <div className={styles.pagination}>
   <span>

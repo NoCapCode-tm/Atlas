@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 const Createtaskmodal = ({ modal, setModal, projects, users }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const employeeUsers = users.filter(
+  const employeeUsers = users?.filter(
   u => u.designation?.name !== "Administrator"
 );
 
@@ -117,7 +117,7 @@ const Createtaskmodal = ({ modal, setModal, projects, users }) => {
                   <option value="">
                     Select Project
                   </option>
-                 {projects.map((p)=>{
+                 {projects?.map((p)=>{
                   return(
                      <option key={p._id} value={p._id}>
           {p.projectname}
@@ -140,7 +140,7 @@ const Createtaskmodal = ({ modal, setModal, projects, users }) => {
                   <option value="">
                     Select Employee
                   </option>
-                {employeeUsers.map((u) => (
+                {employeeUsers?.map((u) => (
         <option key={u._id} value={u._id}>
           {u.name}
         </option>
