@@ -734,18 +734,25 @@ Support Tickets
             onClick={(e) => e.stopPropagation()}
           >
             <div className={styles.logomenu}>
-              <Menu
+              {/* <Menu
                 onClick={() => {
                   setempmenuopen(false);
                 }}
-              />
+              /> */}
               <div className={styles.logohumanity}>
-                <img
-                  src="./companylogo.png"
-                  alt="/"
-                  height="100%"
-                  width="100%"
-                />
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 67 57"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4.24084 51.7974L32.5664 9.06055L62.2408 51.7974C40.0276 37.9745 27.3506 37.7995 4.24084 51.7974Z"
+                    stroke="#DDDDFF"
+                    stroke-width="10.1754"
+                  />
+                </svg>
               </div>
             </div>
             <div className={styles.menuScroll}>

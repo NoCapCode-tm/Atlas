@@ -320,86 +320,106 @@ const totalPages = Math.ceil(employees.length / perPage);
 
   //company report section 
 
-  const chartData = useMemo(() => {
-  if (!metrics.length) return [];
+ const chartData = useMemo(() => {
+  if (!reports?.length) return [];
 
-  // newest first
-  const sorted = [...metrics].sort(
+  // Sort reports oldest -> newest
+  const sorted = [...reports].sort(
     (a, b) => new Date(a.date) - new Date(b.date)
   );
 
-  // DAILY
+  // ================= DAILY =================
+
   if (activegraph === "daily") {
-    return sorted.map(item => ({
-      name: new Date(item.date).toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "short"
-      }),
-      value: item.reportsSubmitted
-    }));
-  }
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-  // WEEKLY
-  if (activegraph === "weekly") {
-    const weeks = {};
+    const dailyMap = {};
 
-    sorted.forEach(item => {
-      const date = new Date(item.date);
+    // Last 7 days
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
 
-      const year = date.getFullYear();
+      const key = d.toISOString().slice(0, 10);
 
-      // week number
-      const firstDay = new Date(year, 0, 1);
-
-      const week =
-        Math.ceil(
-          (((date - firstDay) / 86400000) +
-            firstDay.getDay() +
-            1) /
-            7
-        );
-
-      const key = `${year}-W${week}`;
-
-      if (!weeks[key]) {
-        weeks[key] = {
-          name: `W${week}`,
-          value: 0
-        };
-      }
-
-      weeks[key].value += item.reportsSubmitted;
-    });
-
-    return Object.values(weeks);
-  }
-
-  // MONTHLY
-  const months = {};
-
-  sorted.forEach(item => {
-    const date = new Date(item.date);
-
-    const key = date.toLocaleString("default", {
-      month: "short",
-      year: "numeric"
-    });
-
-    if (!months[key]) {
-      months[key] = {
-        name: date.toLocaleString("default", {
-          month: "short"
+      dailyMap[key] = {
+        name: d.toLocaleDateString("en-US", {
+          weekday: "short",
         }),
-        value: 0
+        value: 0,
       };
     }
 
-    months[key].value += item.reportsSubmitted;
+    sorted.forEach((report) => {
+      const key = new Date(report.date)
+        .toISOString()
+        .slice(0, 10);
+
+      if (dailyMap[key]) {
+        dailyMap[key].value++;
+      }
+    });
+
+    return Object.values(dailyMap);
+  }
+
+  // ================= WEEKLY =================
+
+  if (activegraph === "weekly") {
+    const weekly = {};
+
+    sorted.forEach((report) => {
+      const date = new Date(report.date);
+
+      const firstDay = new Date(date.getFullYear(), 0, 1);
+
+      const week = Math.ceil(
+        (((date - firstDay) / 86400000) +
+          firstDay.getDay() +
+          1) /
+          7
+      );
+
+      const key = `${date.getFullYear()}-${week}`;
+
+      if (!weekly[key]) {
+        weekly[key] = {
+          name: `Week ${week}`,
+          value: 0,
+        };
+      }
+
+      weekly[key].value++;
+    });
+
+    return Object.values(weekly).slice(-8);
+  }
+
+  // ================= MONTHLY =================
+
+  const monthly = {};
+
+  sorted.forEach((report) => {
+    const date = new Date(report.date);
+
+    const key = `${date.getFullYear()}-${date.getMonth()}`;
+
+    if (!monthly[key]) {
+      monthly[key] = {
+        name: date.toLocaleDateString("en-US", {
+          month: "short",
+        }),
+        value: 0,
+      };
+    }
+
+    monthly[key].value++;
   });
 
-  return Object.values(months);
-}, [metrics, activegraph]);
+  return Object.values(monthly).slice(-12);
 
+}, [reports, activegraph]);
 //heatmap data
 
 const metricsMap = useMemo(() => {
@@ -585,12 +605,12 @@ const heatmap = useMemo(() => {
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#6D78FF33" />
 
                   {/* Bottom labels */}
-                  {/* <XAxis
+                  <XAxis
                     dataKey="name"
                     axisLine={false}
                     tickLine={false}
                     tick={{ fill: "#6D78FF33" }}
-                  /> */}
+                  />
 
                   <Tooltip
                                   contentStyle={{

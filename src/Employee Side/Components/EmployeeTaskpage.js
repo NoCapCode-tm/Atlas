@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styles from "../CSS/EmployeeTaskpage.module.css";
-import { Plus, CheckCircle, Paperclip, FileText, X, Calendar, PlusIcon, MoreVertical } from "lucide-react";
+import { Plus, CheckCircle, Paperclip, FileText, X, Calendar, PlusIcon, MoreVertical, ChevronDown } from "lucide-react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router";
@@ -45,6 +45,7 @@ export default function EmployeeTaskpage() {
   const [openSubtasks, setOpenSubtasks] = useState({});
   const [task, setTask]           = useState(false);
   const [addsubtask, setAddsubtask] = useState("");
+  const [openColumn, setOpenColumn] = useState("");
 
   /* ── Page loading gate ── */
   useEffect(() => {
@@ -211,8 +212,10 @@ export default function EmployeeTaskpage() {
 
         {/* KANBAN BOARD */}
         <div className={styles.board}>
-          {boardColumns.map((col) => (
-            <div
+          {boardColumns.map((col) => {
+            const isOpen = openColumn === col.key;
+            return (
+               <div
               key={col.key}
               className={styles.column}
               style={{ background: col.colBg }}
@@ -237,17 +240,31 @@ export default function EmployeeTaskpage() {
               <div
                 className={styles.columnHeader}
                 style={{ background: col.headerBg }}
+                onClick={() =>
+  setOpenColumn(isOpen ? "" : col.key)
+}
               >
                 <span className={styles.colTitle}>{col.title}</span>
                 <span className={styles.colCount}>{col.count}</span>
                 <div className={styles.colActions}>
+                   <ChevronDown
+            size={18}
+            color="white"
+            className={`${styles.arrow} ${
+              isOpen ? styles.rotate : ""
+            }`}
+          />
                   <button className={styles.colIconBtn}><Plus size={14} /></button>
                   <button className={styles.colIconBtn}><MoreVertical size={14} /></button>
                 </div>
               </div>
 
               {/* TASK CARDS */}
-              <div className={styles.cards}>
+              <div
+  className={`${styles.cards} ${
+    !isOpen ? styles.cardsCollapsed : ""
+  }`}
+>
                 {col.tasks.length === 0 && (
                   <div className={styles.emptyCol}>No tasks here</div>
                 )}
@@ -328,7 +345,10 @@ export default function EmployeeTaskpage() {
                 })}
               </div>
             </div>
-          ))}
+            )
+          }
+           
+          )}
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "../CSS/Rolepage.module.css";
 import { Search, Pencil, Users, ShieldCheck } from "lucide-react";
 import axios from "axios";
@@ -150,6 +150,12 @@ const Rolepage = () => {
       toast.error("Role Cannot be deleted")
     }
   }
+
+  const getuserno = (roleName) => {
+  return users.filter(
+    (user) => user?.designation?.name === roleName
+  ).length;
+};
   return (
     <>
       <div className={styles.container}>
@@ -171,7 +177,7 @@ const Rolepage = () => {
           </div>
 
           <div className={styles.buttonRow}>
-            <button className={styles.topBtn}>Permission Configuration</button>
+            {/* <button className={styles.topBtn}>Permission Configuration</button> */}
             <button
               className={styles.topBtn}
               onClick={() => setBulkModal(true)}
@@ -216,12 +222,12 @@ const Rolepage = () => {
 
                 <div className={styles.cardBottomRow}>
                   <div className={styles.bottomItem}>
-                    <Users size={16} /> {role?.users?.length } users
+                    <Users size={16} /> {getuserno(role.rolename)} users
                   </div>
-                  <div className={styles.bottomItem}>
+                  {/* <div className={styles.bottomItem}>
                     <ShieldCheck size={16} color="green" />{" "}
                     {role.permissions || 48} permissions
-                  </div>
+                  </div> */}
                   <div
                     className={styles.bottomItem}
                     onClick={() => {
