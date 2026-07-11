@@ -34,7 +34,7 @@ button: #3225BF
   gap: 12px;
 }
 
-.header h1::before {
+/* .header h1::before {
   content: "";
   width: 40px;
   height: 40px;
@@ -43,7 +43,7 @@ button: #3225BF
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 .header p {
   font-size: 14px;
@@ -182,6 +182,7 @@ button: #3225BF
 /* INLINE PROGRESS (under timer) */
 .inlineProgress {
   width: 200px;
+  display: none;
   height: 4px;
   background: #232836;
   border-radius: 10px;
@@ -268,8 +269,9 @@ button: #3225BF
 @media (max-width: 768px) {
   .floatingSubmitBtn {
     display: flex;
-    position: fixed;
-    bottom: 24px;
+    position: absolute;
+   
+    top: 85px;
     right: 24px;
     padding: 10px;
     background: linear-gradient(135deg, #3225BF 0%, #5b4dd9 100%);
@@ -280,7 +282,7 @@ button: #3225BF
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 8px 24px rgba(50, 37, 191, 0.4);
-    z-index: 50;
+    
     transition: all 0.3s ease;
   }
 
@@ -302,6 +304,16 @@ button: #3225BF
     }
   }
 }
+@media (max-width: 500px){
+  .floatingSubmitBtn{
+    top:165px;
+  }
+  .deadlineLeft{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+} 
+
 
 /* PAST REPORTS */
 .pastReports {
@@ -558,7 +570,7 @@ button: #3225BF
   font-size: 14px;
   font-weight: 600;
   color: #F1F3F8;
-  margin: 0;
+  margin-bottom:5px;
 }
 
 .sectionHeader span {
@@ -891,6 +903,15 @@ button: #3225BF
 }
 
 /* RESPONSIVE */
+@media (max-width: 1000px){
+  .deadlineCard{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .timerWrap{
+    width: 100%;
+  }
+}
 @media (max-width: 768px) {
   .page {
     padding: 24px 20px;
@@ -935,5 +956,19 @@ button: #3225BF
   /* Hide submit card on mobile */
   .submitCard {
     display: none;
+  }
+}
+@media (max-width: 400px){
+  .reportItem{
+    flex-direction: column;
+  }
+  .pastHeader{
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap:10px;
+  }
+  .pastHeader span{
+    margin-left: 30px;
   }
 }

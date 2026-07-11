@@ -2,12 +2,15 @@
   width: 100%;
   padding: 25px 30px;
   font-family: "Inter", sans-serif;
+  min-height: 100vh;
+  height:auto;
+  background: #050505;
 }
 
 .title {
-  font-size: 32px;
-  font-weight: 700;
-  color: rgba(104, 80, 190, 1);
+  font-size: 40px;
+  font-weight: 600;
+  color:white;
 ;
   margin-bottom: 20px;
 }
@@ -35,9 +38,9 @@
 .searchInput {
   width: 100%;
   height: 38px;
-  background: var(--search-box, rgba(241, 245, 249, 1));
+ background: #2d2d2d;
+    border: 1px solid #63656d;
   border-radius: 8px;
-  border: 1px solid #dcdcdc;
   padding-left: 35px;
   font-size: 14px;
   outline: none;
@@ -52,14 +55,14 @@
 
 /* Top buttons */
 .buttonRow {
-    background: var(--search-box, rgba(241, 245, 249, 1));
-  height:fit-content;
+   background: #161a23;
   padding:10px;
   border-radius:5px;
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 10px;
   gap: 12px;
-  margin-bottom: 25px;
+  height: fit-content;
 }
 
 .topBtn {
@@ -67,9 +70,10 @@
   padding: 0px 14px;
   align-items: center;
   border-radius: 8px;
-  color:white;
-  border: 1px solid #c9c9c9;
-   background:  rgba(104, 80, 190, 1);
+  background: #3225bf;
+    color: #fff;
+  border: none;
+  
   font-size: 10px;
   cursor: pointer;
 }
@@ -78,8 +82,8 @@
     height:30px;
   padding: 0px 14px;
   align-items: center;
-  background:  rgba(104, 80, 190, 1);;
-  color: white;
+  background: #3225bf;
+    color: #fff;
   border-radius: 8px;
   border: none;
   font-size: 10px;
@@ -97,12 +101,11 @@
 .card {
   width: 100%;
   height: auto;
-  background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, #F9F5FF 100%);
-
+  background: #0f1117;
+    border: 1px solid #4b4b4b;
   border-radius: 12px;
   padding: 18px 22px;
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
-  border: 1px solid #eee;
   transition: 0.2s ease;
 }
 
@@ -159,7 +162,7 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: #555;
+  color: white;
 }
 
 /* Overlay Background */
@@ -179,13 +182,17 @@
 /* Modal Container */
 .modal {
   width: 60%;
-  background: #fff;
+ backdrop-filter: blur(80px);
+    background: linear-gradient(146.47deg, #0e0f1394 1.32%, #59607994), linear-gradient(234.47deg, #0000 -.9%, #0000000a 86.88%);
+    border: 1px solid #4d4f56;
   border-radius: 10px;
   padding: 30px 35px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+ 
   animation: fadeIn 0.25s ease;
 }
-
+.modal h2{
+  color:white;
+}
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -215,7 +222,7 @@
   font-weight: 500;
   margin-bottom: 6px;
   display: block;
-  color: #333;
+  color: white;
 }
 
 /* Dropdown */
@@ -257,7 +264,8 @@
 .textarea {
   width: 100%;
   height: 140px;
-  border: 1px solid #ccc;
+ background: #2b2d33;
+    border: .31px solid #a5a5a5;
   border-radius: 6px;
   padding: 10px 12px;
   resize: none;
@@ -283,7 +291,7 @@
 
 .createBtn1 {
   padding: 8px 22px;
-  background: rgba(104, 80, 190, 1);
+  background: #0d5acb;
   color: white;
   border: none;
   border-radius: 6px;
@@ -365,7 +373,23 @@ font-size: 20px;
     padding:7px;
     width:300px;
     border-radius: 8px;
-    border: 1px solid var(--border-color, rgba(226, 232, 240, 1));
+   background: #2b2d33;
+    border: .31px solid #a5a5a5;
     margin-bottom:10px;
 
+}
+
+@media (max-width: 400px){
+  .searchWrapper{
+    width:100%;
+  }
+  .grid{
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  .buttonRow{
+    width:100%;
+  }
+  .createBtn ,.topBtn{
+    width:50%;
+  }
 }

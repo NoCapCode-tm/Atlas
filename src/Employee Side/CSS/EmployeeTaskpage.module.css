@@ -11,6 +11,25 @@
   min-height: 100vh;
   font-family: "Inter", sans-serif;
 }
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 5000px;
+  overflow: hidden;
+  transition: max-height .3s ease;
+}
+
+.cardsCollapsed {
+  max-height: 0;
+}
+.arrow {
+  transition: transform .25s ease;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
 
 /* ── Page Header ── */
 .pageHeader {
@@ -173,11 +192,11 @@
 
 /* ── Cards container ── */
 .cards {
-  padding: 10px;
+ 
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-height: 80px;
+  
 }
 
 .emptyCol {

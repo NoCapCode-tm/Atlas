@@ -289,7 +289,7 @@ export default function EmployeeDashboard() {
 
   // Fix: compare both as strings, and also show tasks with no dueAt (unscheduled)
   const todayTasks = totaltask.filter(
-    t => t.dueAt && getLocalDate(t.dueAt) === today
+    t => t.createdAt && getLocalDate(t.createdAt) === today
   );
 
   // Real notifications: overdue tasks + tasks due today not yet completed
@@ -639,6 +639,9 @@ export default function EmployeeDashboard() {
             <button className={styles.mobileSeeAll} onClick={() => navigate("/employee/announcement")}>See All</button>
           </div>
           <div className={styles.mobileSectionCard}>
+            {announcements?.length === 0 && (
+                <p className={styles.mobileEmpty}>No Announcement today.</p>
+              )}
             {announcements?.map((a, i) => (
               <Announcement key={i} name={a?.scheduledby} text={a?.details} createdon={a.createdon} />
             ))}
@@ -975,7 +978,7 @@ function ActivityHeatmap({ heatmapData, reports, compact }) {
 
   return (
     <div className={styles.heatmapWrapper}>
-      <div className={compact ? styles.heatmapCompact : styles.heatmap}>
+      <div className={compact ? styles.heatmap: styles.heatmap}>
         {heatmapData.map((item, i) => {
           if (item.level === null) {
             return <span key={i} className={styles.future} />;
@@ -1028,12 +1031,12 @@ function ProductivityChart({ data, compact }) {
             </linearGradient>
           </defs>
 
-          <XAxis
+          {/* <XAxis
             dataKey="day"
             axisLine={false}
             tickLine={false}
             tick={compact ? false : { fill: "#9ca3af", fontSize: 12 }}
-          />
+          /> */}
 
           <Tooltip />
 

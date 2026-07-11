@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 export default function EmployeeProfile() {
   const [user, setUser] = useState(null);
+  const[employees,setEmployees]=useState([])
   const [activeTab, setActiveTab] = useState("profile");
   const [pageLoading, setPageLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
@@ -14,6 +15,25 @@ export default function EmployeeProfile() {
     email: "",
     phone: ""
   });
+
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser",
+        {
+          withCredentials: true,
+        }
+      );
+
+      setEmployees(response.data.message);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchData();
+}, []);
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -49,6 +69,12 @@ export default function EmployeeProfile() {
       });
     }
   };
+
+  const handleManager = (id) =>{
+    console.log(id)
+    const manager = employees.find((e)=> e._id === id)
+    return manager?.name
+  }
 
   const handleSaveProfile = async () => {
     try {
@@ -138,8 +164,8 @@ export default function EmployeeProfile() {
                   <div className={styles.avatarSection}>
                     {user?.profilepicture ? (
                       <img
-                        src={user.profilepicture}
-                        alt={user.name}
+                        src={user?.profilepicture}
+                        alt={user?.name}
                         className={styles.avatar}
                       />
                     ) : (
@@ -181,7 +207,7 @@ export default function EmployeeProfile() {
                       <input
                         type="text"
                         className={styles.input}
-                        value={editForm.name}
+                        value={editForm?.name}
                         onChange={(e) =>
                           setEditForm({ ...editForm, name: e.target.value })
                         }
@@ -203,7 +229,7 @@ export default function EmployeeProfile() {
                         }
                       />
                     ) : (
-                      <p>{user?.email || "sarah.wilson@abc.com"}</p>
+                      <p>{user?.Emails?.email || "No Email"}</p>
                     )}
                   </div>
 
@@ -219,7 +245,7 @@ export default function EmployeeProfile() {
                         }
                       />
                     ) : (
-                      <p>{user?.phone || "+91 98765 43210"}</p>
+                      <p>{user?.phone?.permanent || "NA"}</p>
                     )}
                   </div>
 
@@ -227,23 +253,23 @@ export default function EmployeeProfile() {
                     <label>Joining Date</label>
                     <p>
                       {user?.joiningdate
-                        ? new Date(user.joiningdate).toLocaleDateString("en-US", {
+                        ? new Date(user?.onboarding?.completedAt).toLocaleDateString("en-US", {
                             day: "numeric",
                             month: "long",
                             year: "numeric"
                           })
-                        : "03 January 2026"}
+                        : "NA"}
                     </p>
                   </div>
 
                   <div className={styles.infoItem}>
                     <label>Manager</label>
-                    <p>{user?.manager?.name || "Mr Willson"}</p>
+                    <p>{handleManager(user?.managerAssigned)}</p>
                   </div>
 
                   <div className={styles.infoItem}>
                     <label>Team</label>
-                    <p>{user?.team || "Product Development"}</p>
+                    <p>{user?.role || "NA"}</p>
                   </div>
                 </div>
               </div>
