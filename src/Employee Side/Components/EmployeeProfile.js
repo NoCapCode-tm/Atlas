@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "../CSS/EmployeeProfile.module.css";
-import { User, Mail, Phone, Calendar, Users, Briefcase, FileText, Shield, Settings, Edit, Download, Eye, Upload, Plus } from "lucide-react";
+import { User, Mail, Phone, Calendar, Users, Briefcase, FileText, Shield, Settings, Edit, Download, Eye, Upload, Plus, Pencil } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -10,6 +10,7 @@ export default function EmployeeProfile() {
   const [activeTab, setActiveTab] = useState("profile");
   const [pageLoading, setPageLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
+  const[overlay,setOverlay]=useState(false)
   const [editForm, setEditForm] = useState({
     name: "",
     email: "",
@@ -63,9 +64,10 @@ export default function EmployeeProfile() {
     setEditMode(!editMode);
     if (!editMode) {
       setEditForm({
+        id:user._id,
         name: user.name || "",
-        email: user.email || "",
-        phone: user.phone || ""
+        email: user.Emails.email || "",
+        phone: user.phone.permanent || "NA"
       });
     }
   };
@@ -78,9 +80,9 @@ export default function EmployeeProfile() {
 
   const handleSaveProfile = async () => {
     try {
-      // Mock save - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+     const response = await axios.put("https://b-atlas-ncc.onrender.com/api/v1/employee/updateuser",editForm,{withCredentials:true})
+     console.log(response.data.message)
+      window.location.reload()
       setUser({ ...user, ...editForm });
       setEditMode(false);
       toast.success("Profile updated successfully");
@@ -102,7 +104,9 @@ export default function EmployeeProfile() {
     return <PageLoader />;
   }
 
+
   return (
+    <>
     <div className={styles.page}>
       <div className={styles.header}>
         <h1>My Account</h1>
@@ -286,8 +290,8 @@ export default function EmployeeProfile() {
               {/* Company-Issued Documents */}
               <div className={styles.documentSection}>
                 <h3 className={styles.documentSectionTitle}>Company-Issued Documents</h3>
-                
-                <div className={styles.documentTable}>
+                <div className={styles.desktopview}>
+                  <div className={styles.documentTable}>
                   <div className={styles.documentTableHeader}>
                     <div>Document</div>
                     <div>Status</div>
@@ -345,12 +349,131 @@ export default function EmployeeProfile() {
                     </div>
                   </div>
                 </div>
+                </div>
+                <div className={styles.mobileView}>
+      <div className={styles.employeeCard}>
+        {/* Top */}
+
+        <div className={styles.cardTop}>
+          
+          <div className={styles.namemenu}>
+          <div className={styles.cardUser}>
+            <h3>Offer Letter</h3>
+            <p>{user?.name}</p>
+          </div>
+          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
+            handleEdit(emp)
+            setselected(emp._id)
+          }}/> */}
+          </div>
+        </div>
+
+        <div className={styles.cardDivider}></div>
+
+        {/* Details */}
+
+        <div className={styles.cardGrid}>
+          <div>
+                      <span className={`${styles.statusBadge} ${styles.acknowledged}`}>
+                        ● Acknowledged
+                      </span>
+          </div>
+
+          <div className={styles.actionButtons}>
+                      <button className={styles.actionBtn}>
+                        <Eye size={16} /> View
+                      </button>
+                      <button className={styles.actionBtn}>
+                        <Download size={16} /> Download
+                      </button>
+          </div>
+        </div>
+      </div>
+       <div className={styles.employeeCard}>
+        {/* Top */}
+
+        <div className={styles.cardTop}>
+          
+          <div className={styles.namemenu}>
+          <div className={styles.cardUser}>
+            <h3>NDA</h3>
+            <p>{user?.name}</p>
+          </div>
+          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
+            handleEdit(emp)
+            setselected(emp._id)
+          }}/> */}
+          </div>
+        </div>
+
+        <div className={styles.cardDivider}></div>
+
+        {/* Details */}
+
+        <div className={styles.cardGrid}>
+          <div>
+                      <span className={`${styles.statusBadge} ${styles.acknowledged}`}>
+                        ● Acknowledged
+                      </span>
+          </div>
+
+          <div className={styles.actionButtons}>
+                      <button className={styles.actionBtn}>
+                        <Eye size={16} /> View
+                      </button>
+                      <button className={styles.actionBtn}>
+                        <Download size={16} /> Download
+                      </button>
+          </div>
+        </div>
+      </div>
+      <div className={styles.employeeCard}>
+        {/* Top */}
+
+        <div className={styles.cardTop}>
+          
+          <div className={styles.namemenu}>
+          <div className={styles.cardUser}>
+            <h3>Policy Handbook</h3>
+            <p>{user?.name}</p>
+          </div>
+          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
+            handleEdit(emp)
+            setselected(emp._id)
+          }}/> */}
+          </div>
+        </div>
+
+        <div className={styles.cardDivider}></div>
+
+        {/* Details */}
+
+        <div className={styles.cardGrid}>
+          <div>
+                      <span className={`${styles.statusBadge} ${styles.acknowledged}`}>
+                        ● Acknowledged
+                      </span>
+          </div>
+
+          <div className={styles.actionButtons}>
+                      <button className={styles.actionBtn}>
+                        <Eye size={16} /> View
+                      </button>
+                      <button className={styles.actionBtn}>
+                        <Download size={16} /> Download
+                      </button>
+          </div>
+        </div>
+      </div>
+                </div>
+                
               </div>
 
               {/* Uploaded Documents */}
               <div className={styles.documentSection}>
                 <h3 className={styles.documentSectionTitle}>Uploaded Documents</h3>
                 
+                <div className={styles.desktopview}>
                 <div className={styles.documentTable}>
                   <div className={styles.documentTableHeader}>
                     <div>Document</div>
@@ -364,44 +487,184 @@ export default function EmployeeProfile() {
                       <div className={styles.documentSubtext}>(Aadhaar / PAN)</div>
                     </div>
                     <div>
-                      <span className={`${styles.statusBadge} ${styles.uploaded}`}>
-                        ● Uploaded
+                      <span className={`${styles.statusBadge} ${user?.documents?.govid1?.image || user?.documents?.govid2?.image ? styles.uploaded :styles.pending}`}>
+                        {user?.documents?.govid1?.image || user?.documents?.govid2?.image?"Uploaded":"Pending"}
+                      </span>
+                    </div>
+                    <div className={styles.actionButtons}>
+                     <a
+  href={user?.documents?.govid1?.image}
+  target="_blank"
+  rel="noopener noreferrer"
+  className={styles.actionBtn}
+  style={{textDecorationLine:"none"}}
+>
+  <Eye size={16} />
+  View
+</a>
+                      <button className={styles.actionBtn}>
+                        <Pencil size={16} /> Update
+                      </button>
+          </div>
+                  </div>
+
+                  <div className={styles.documentRow}>
+                    <div>Address Proof</div>
+                    <div>
+                      <span className={`${styles.statusBadge} ${user?.documents?.govid1?.image ? styles.uploaded :styles.pending}`}>
+                        {user?.documents?.govid1?.image ?"Uploaded":"Pending"}
+                      </span>
+                    </div>
+                    <div className={styles.actionButtons}>
+                       <a
+  href={user?.documents?.govid1?.image}
+  target="_blank"
+  rel="noopener noreferrer"
+  className={styles.actionBtn}
+  style={{textDecorationLine:"none"}}
+>
+                        <Eye size={16} /> View
+                      </a>
+                      <button className={styles.actionBtn}>
+                        <Pencil size={16} /> Update
+                      </button>
+          </div>
+                  </div>
+
+                  <div className={styles.documentRow}>
+                    <div>Bank Details</div>
+                    <div>
+                      <span className={`${styles.statusBadge} ${user?.bankdetails?.upi ? styles.uploaded :styles.pending}`}>
+                        {user?.bankdetails?.upi ?"Uploaded":"Pending"}
                       </span>
                     </div>
                     <div className={styles.actionButtons}>
                       <button className={styles.actionBtn}>
                         <Eye size={16} /> View
                       </button>
-                    </div>
-                  </div>
-
-                  <div className={styles.documentRow}>
-                    <div>Address Proof</div>
-                    <div>
-                      <span className={`${styles.statusBadge} ${styles.uploaded}`}>
-                        ● Uploaded
-                      </span>
-                    </div>
-                    <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn}>Replace</button>
-                    </div>
-                  </div>
-
-                  <div className={styles.documentRow}>
-                    <div>Bank Details</div>
-                    <div>
-                      <span className={`${styles.statusBadge} ${styles.pending}`}>
-                        ● Pending
-                      </span>
-                    </div>
-                    <div className={styles.actionButtons}>
                       <button className={styles.actionBtn}>
-                        <Upload size={16} /> Upload
+                        <Pencil size={16} /> Update
                       </button>
-                    </div>
+          </div>
                   </div>
                 </div>
-              </div>
+                </div>
+                  <div className={styles.mobileView}>
+      <div className={styles.employeeCard}>
+        {/* Top */}
+
+        <div className={styles.cardTop}>
+          
+          <div className={styles.namemenu}>
+          <div className={styles.cardUser}>
+            <h3>Government ID</h3>
+            <p>(Aadhaar / PAN)</p>
+          </div>
+          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
+            handleEdit(emp)
+            setselected(emp._id)
+          }}/> */}
+          </div>
+        </div>
+
+        <div className={styles.cardDivider}></div>
+
+        {/* Details */}
+
+        <div className={styles.cardGrid}>
+          <div>
+                      <span className={`${styles.statusBadge} ${user?.documents?.aadhar || user?.documents?.pan ? styles.uploaded :styles.pending}`}>
+                        {user?.documents?.aadhar || user?.documents?.pan ?"Uploaded":"Pending"}
+                      </span>
+          </div>
+
+          <div className={styles.actionButtons}>
+                      <button className={styles.actionBtn}>
+                        <Eye size={16} /> View
+                      </button>
+                      <button className={styles.actionBtn}>
+                        <Pencil size={16} /> Update
+                      </button>
+          </div>
+        </div>
+      </div>
+      <div className={styles.employeeCard}>
+        {/* Top */}
+
+        <div className={styles.cardTop}>
+          
+          <div className={styles.namemenu}>
+          <div className={styles.cardUser}>
+            <h3>Address Proof</h3>
+            <p>(Aadhaar)</p>
+          </div>
+          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
+            handleEdit(emp)
+            setselected(emp._id)
+          }}/> */}
+          </div>
+        </div>
+
+        <div className={styles.cardDivider}></div>
+
+        {/* Details */}
+
+        <div className={styles.cardGrid}>
+          <div>
+                      <span className={`${styles.statusBadge} ${user?.documents?.aadhar || user?.documents?.pan ? styles.uploaded :styles.pending}`}>
+                        {user?.documents?.aadhar || user?.documents?.pan ?"Uploaded":"Pending"}
+                      </span>
+          </div>
+
+          <div className={styles.actionButtons}>
+                      <button className={styles.actionBtn}>
+                        <Eye size={16} /> View
+                      </button>
+                      <button className={styles.actionBtn}>
+                        <Pencil size={16} /> Update
+                      </button>
+          </div>
+        </div>
+      </div>
+      <div className={styles.employeeCard}>
+        {/* Top */}
+
+        <div className={styles.cardTop}>
+          
+          <div className={styles.namemenu}>
+          <div className={styles.cardUser}>
+            <h3>Bank Details</h3>
+            {/* <p>(Aadhaar / PAN)</p> */}
+          </div>
+          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
+            handleEdit(emp)
+            setselected(emp._id)
+          }}/> */}
+          </div>
+        </div>
+
+        <div className={styles.cardDivider}></div>
+
+        {/* Details */}
+
+        <div>
+                      <span className={`${styles.statusBadge} ${user?.bankdetails?.upi ? styles.uploaded :styles.pending}`}>
+                        {user?.bankdetails?.upi ?"Uploaded":"Pending"}
+                      </span>
+        </div>
+
+          <div className={styles.actionButtons}>
+                      {/* <button className={styles.actionBtn}>
+                        <Eye size={16} /> View
+                      </button> */}
+                      <button className={styles.actionBtn}>
+                        <Pencil size={16} /> Update
+                      </button>
+          </div>
+        </div>
+                 </div>
+                  </div>
+             
             </>
           )}
 
@@ -453,11 +716,11 @@ export default function EmployeeProfile() {
               <div className={styles.credentialCard}>
                 <div className={styles.credentialCardHeader}>
                   <h3>Tools Access</h3>
-                  <button className={styles.requestBtn}>
+                  {/* <button className={styles.requestBtn}>
                     <Plus size={16} /> Request Device
-                  </button>
+                  </button> */}
                 </div>
-                
+                <div className={styles.desktopview}>
                 <div className={styles.documentTable}>
                   <div className={styles.documentTableHeader}>
                     <div>Document</div>
@@ -474,6 +737,7 @@ export default function EmployeeProfile() {
                     </div>
                     <div className={styles.actionButtons}>
                       <button className={styles.actionBtn}>Editor</button>
+                      <button className={styles.actionBtn}>Request</button>
                     </div>
                   </div>
 
@@ -485,7 +749,8 @@ export default function EmployeeProfile() {
                       </span>
                     </div>
                     <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn}>Member</button>
+                      <button className={styles.actionBtn}>Editor</button>
+                      <button className={styles.actionBtn}>Request</button>
                     </div>
                   </div>
 
@@ -497,14 +762,114 @@ export default function EmployeeProfile() {
                       </span>
                     </div>
                     <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn} disabled>-</button>
+                      <button className={styles.actionBtn}>Editor</button>
+                      <button className={styles.actionBtn}>Request</button>
                     </div>
                   </div>
                 </div>
+                </div>
+                <div className={styles.mobileView}>
+      <div className={styles.employeeCard}>
+        {/* Top */}
+
+        <div className={styles.cardTop}>
+          
+          <div className={styles.namemenu}>
+          <div className={styles.cardUser}>
+            <h3>Figma</h3>
+            {/* <p>(Aadhaar / PAN)</p> */}
+          </div>
+          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
+            handleEdit(emp)
+            setselected(emp._id)
+          }}/> */}
+          </div>
+        </div>
+
+        <div className={styles.cardDivider}></div>
+
+        {/* Details */}
+
+        <div>
+                      <span className={`${styles.statusBadge} ${styles.active}`}>
+                        ● Active
+                      </span>
+                    </div>
+
+         <div className={styles.actionButtons}>
+                      <button className={styles.actionBtn}>Editor</button>
+                      <button className={styles.actionBtn}>Request</button>
+                    </div>
+        </div>
+      <div className={styles.employeeCard}>
+        {/* Top */}
+
+        <div className={styles.cardTop}>
+          
+          <div className={styles.namemenu}>
+          <div className={styles.cardUser}>
+            <h3>AWS</h3>
+            {/* <p>(Aadhaar / PAN)</p> */}
+          </div>
+          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
+            handleEdit(emp)
+            setselected(emp._id)
+          }}/> */}
+          </div>
+        </div>
+
+        <div className={styles.cardDivider}></div>
+
+        {/* Details */}
+
+        <div>
+                      <span className={`${styles.statusBadge} ${styles.active}`}>
+                        ● Active
+                      </span>
+                    </div>
+
+         <div className={styles.actionButtons}>
+                      <button className={styles.actionBtn}>Editor</button>
+                      <button className={styles.actionBtn}>Request</button>
+                    </div>
+        </div>
+      <div className={styles.employeeCard}>
+        {/* Top */}
+
+        <div className={styles.cardTop}>
+          
+          <div className={styles.namemenu}>
+          <div className={styles.cardUser}>
+            <h3>Slack</h3>
+            {/* <p>(Aadhaar / PAN)</p> */}
+          </div>
+          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
+            handleEdit(emp)
+            setselected(emp._id)
+          }}/> */}
+          </div>
+        </div>
+
+        <div className={styles.cardDivider}></div>
+
+        {/* Details */}
+
+        <div>
+                      <span className={`${styles.statusBadge} ${styles.pending}`}>
+                        ● Pending
+                      </span>
+                    </div>
+
+         <div className={styles.actionButtons}>
+                      <button className={styles.actionBtn}>Editor</button>
+                      <button className={styles.actionBtn}>Request</button>
+                    </div>
+        </div>
+                 </div>
               </div>
 
               {/* Device Access */}
-              <div className={styles.credentialCard}>
+              <div className={styles.credentialCard} style={{display:"none"}}>
                 <div className={styles.credentialCardHeader}>
                   <h3>Device Access</h3>
                   <button className={styles.requestBtn}>
@@ -645,5 +1010,12 @@ export default function EmployeeProfile() {
         </div>
       </div>
     </div>
+
+    {overlay && (
+      <div className={styles.overlay}>
+        
+      </div>
+    )}
+    </>
   );
 }

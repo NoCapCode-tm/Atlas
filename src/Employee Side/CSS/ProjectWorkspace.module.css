@@ -260,6 +260,7 @@
   background: #161A23;
   border-radius: 16px;
   padding: 24px;
+  height:440px;
   border: 1px solid #232836;
 }
 
@@ -274,6 +275,8 @@
 .activityList {
   display: flex;
   flex-direction: column;
+  height:370px;
+  overflow: auto;
   gap: 16px;
 }
 

@@ -72,7 +72,6 @@ useEffect(() => {
         axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/gettickets"),
         axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser")
       ]);
-
       if (!mounted) return;
      const currentUser = userRes.data.message;
       setUser(currentUser);
@@ -81,35 +80,35 @@ useEffect(() => {
         t => String(t.raisedby) === String(currentUser._id)
       );
 
-      setTickets(myTickets);
+      setTickets(ticketres.data.data);
 
       setallusers(usersres.data.message)
 
       // Mock requests data - replace with actual API call
-      const mockRequests = [
-        {
-          _id: "1",
-          title: "Leave Request",
-          status: "Approved",
-          submittedAt: new Date("2026-01-03"),
-          details: "Annual leave request for vacation"
-        },
-        {
-          _id: "2",
-          title: "Task Extension Request",
-          status: "In Review",
-          submittedAt: new Date("2026-02-06"),
-          details: "Request to extend deadline for Project Alpha"
-        },
-        {
-          _id: "3",
-          title: "Resource Access Request",
-          status: "Pending",
-          submittedAt: new Date("2026-02-01"),
-          details: "Access to production database"
-        }
-      ];
-      setRequests(mockRequests);
+      // const mockRequests = [
+      //   {
+      //     _id: "1",
+      //     title: "Leave Request",
+      //     status: "Approved",
+      //     submittedAt: new Date("2026-01-03"),
+      //     details: "Annual leave request for vacation"
+      //   },
+      //   {
+      //     _id: "2",
+      //     title: "Task Extension Request",
+      //     status: "In Review",
+      //     submittedAt: new Date("2026-02-06"),
+      //     details: "Request to extend deadline for Project Alpha"
+      //   },
+      //   {
+      //     _id: "3",
+      //     title: "Resource Access Request",
+      //     status: "Pending",
+      //     submittedAt: new Date("2026-02-01"),
+      //     details: "Access to production database"
+      //   }
+      // ];
+      setRequests(myTickets)
 
     } catch (err) {
       toast.error("Failed to load dashboard");
@@ -173,40 +172,40 @@ const handledetails = async(id) =>{
            setactivestatus(response.data.message.status)
     }
 
-const handleCreateRequest = async () => {
-  if (!requestForm.type || !requestForm.shortDescription || !requestForm.detailedInfo) {
-    toast.error("Please fill all fields");
-    return;
-  }
+// const handleCreateRequest = async () => {
+//   if (!requestForm.type || !requestForm.shortDescription || !requestForm.detailedInfo) {
+//     toast.error("Please fill all fields");
+//     return;
+//   }
 
-  try {
-    setLoading(true);
+//   try {
+//     setLoading(true);
 
-    // Mock API call - replace with actual endpoint
-    await new Promise(resolve => setTimeout(resolve, 1000));
+//     // Mock API call - replace with actual endpoint
+//     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    toast.success("Request Created Successfully");
+//     toast.success("Request Created Successfully");
 
-    setCreateRequestOpen(false);
-    setRequestForm({ type: "", shortDescription: "", detailedInfo: "" });
+//     setCreateRequestOpen(false);
+//     setRequestForm({ type: "", shortDescription: "", detailedInfo: "" });
 
-    // Add to requests list
-    const newRequest = {
-      _id: Date.now().toString(),
-      title: requestForm.shortDescription,
-      status: "Pending",
-      submittedAt: new Date(),
-      details: requestForm.detailedInfo,
-      type: requestForm.type
-    };
-    setRequests(prev => [newRequest, ...prev]);
+//     // Add to requests list
+//     const newRequest = {
+//       _id: Date.now().toString(),
+//       title: requestForm.shortDescription,
+//       status: "Pending",
+//       submittedAt: new Date(),
+//       details: requestForm.detailedInfo,
+//       type: requestForm.type
+//     };
+//     setRequests(prev => [newRequest, ...prev]);
 
-  } catch (error) {
-    toast.error("Failed to create request");
-  } finally {
-    setLoading(false);
-  }
-};
+//   } catch (error) {
+//     toast.error("Failed to create request");
+//   } finally {
+//     setLoading(false);
+//   }
+// };
 
 
 const PageLoader = () => {
@@ -234,10 +233,9 @@ const filteredTickets = ticketFilter === "All"
 const filteredRequests = requestFilter === "All"
   ? requests
   : requests.filter(r => {
-      if (requestFilter === "Open") return r.status === "Open";
-      if (requestFilter === "Waiting") return r.status === "In Review";
-      if (requestFilter === "Active") return r.status === "Pending";
-      if (requestFilter === "Review") return r.status === "Approved";
+      if (requestFilter === "Open") return r?.status === "Open";
+      if (requestFilter === "In Progress") return r?.status === "In Progress";
+      if (requestFilter=== "Resolved") return r?.status === "Resolved & Closed";
       return true;
     });
 
@@ -310,11 +308,11 @@ const sendMessage =async() =>{
           if(activeTab === "alltickets") {
             setCreateTicketOpen(true)
           } else {
-            setCreateRequestOpen(true)
+           setCreateTicketOpen(true)
           }
         }}>
           <Plus size={16}  />
-          {activeTab === "alltickets" ? "Create Ticket" : "Create Request"}
+          {activeTab === "alltickets" ? "Create Ticket" : "Create Ticket"}
         </button>
       </div>
 
@@ -355,33 +353,33 @@ const sendMessage =async() =>{
               <div className={`${styles.statCard} ${styles.openCard}`}>
                 <div className={styles.statNumber}>{tickets.filter(t => t.status === "Open").length}</div>
                 <div className={styles.statLabel}>Open</div>
-                <div className={styles.statIconBox}>
+                {/* <div className={styles.statIconBox}>
                   <MessageSquare size={24} />
-                </div>
+                </div> */}
               </div>
 
               <div className={`${styles.statCard} ${styles.waitingCard}`}>
                 <div className={styles.statNumber}>{tickets.filter(t => t.status === "In Progress").length}</div>
                 <div className={styles.statLabel}>Waiting</div>
-                <div className={styles.statIconBox}>
+                {/* <div className={styles.statIconBox}>
                   <Clock size={24} />
-                </div>
+                </div> */}
               </div>
 
               <div className={`${styles.statCard} ${styles.activeCard}`}>
                 <div className={styles.statNumber}>{tickets.filter(t => t.status === "Active").length}</div>
                 <div className={styles.statLabel}>Active</div>
-                <div className={styles.statIconBox}>
+                {/* <div className={styles.statIconBox}>
                   <Pencil size={24} />
-                </div>
+                </div> */}
               </div>
 
               <div className={`${styles.statCard} ${styles.resolvedCard}`}>
                 <div className={styles.statNumber}>{tickets.filter(t => t.status === "Resolved & Closed").length}</div>
                 <div className={styles.statLabel}>Resolved</div>
-                <div className={styles.statIconBox}>
+                {/* <div className={styles.statIconBox}>
                   <CheckCircle size={24} />
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -458,22 +456,22 @@ const sendMessage =async() =>{
               </button>
               <button 
                 className={`${styles.filterBtn} ${requestFilter === "Waiting" ? styles.activeFilter : ""}`}
-                onClick={() => setRequestFilter("Waiting")}
+                onClick={() => setRequestFilter("In Progress")}
               >
-                Waiting
+                In Progress
               </button>
               <button 
                 className={`${styles.filterBtn} ${requestFilter === "Active" ? styles.activeFilter : ""}`}
-                onClick={() => setRequestFilter("Active")}
+                onClick={() => setRequestFilter("Resolved & Closed")}
               >
-                Active
+                Resolved
               </button>
-              <button 
+              {/* <button 
                 className={`${styles.filterBtn} ${requestFilter === "Review" ? styles.activeFilter : ""}`}
                 onClick={() => setRequestFilter("Review")}
               >
                 Review
-              </button>
+              </button> */}
             </div>
 
             {/* Stats Cards for My Requests */}
@@ -481,33 +479,33 @@ const sendMessage =async() =>{
               <div className={`${styles.statCard} ${styles.openCard}`}>
                 <div className={styles.statNumber}>{requests.filter(r => r.status === "Open").length}</div>
                 <div className={styles.statLabel}>Open</div>
-                <div className={styles.statIconBox}>
+                {/* <div className={styles.statIconBox}>
                   <MessageSquare size={24} />
-                </div>
+                </div> */}
               </div>
 
               <div className={`${styles.statCard} ${styles.waitingCard}`}>
                 <div className={styles.statNumber}>{requests.filter(r => r.status === "In Review").length}</div>
-                <div className={styles.statLabel}>Waiting</div>
-                <div className={styles.statIconBox}>
+                <div className={styles.statLabel}>In Progress</div>
+                {/* <div className={styles.statIconBox}>
                   <Clock size={24} />
-                </div>
+                </div> */}
               </div>
 
-              <div className={`${styles.statCard} ${styles.activeCard}`}>
+              {/* <div className={`${styles.statCard} ${styles.activeCard}`}>
                 <div className={styles.statNumber}>{requests.filter(r => r.status === "Pending").length}</div>
-                <div className={styles.statLabel}>Active</div>
+                <div className={styles.statLabel}>Resolved</div>
                 <div className={styles.statIconBox}>
                   <Pencil size={24} />
                 </div>
-              </div>
+              </div> */}
 
               <div className={`${styles.statCard} ${styles.resolvedCard}`}>
                 <div className={styles.statNumber}>{requests.filter(r => r.status === "Approved").length}</div>
                 <div className={styles.statLabel}>Resolved</div>
-                <div className={styles.statIconBox}>
+                {/* <div className={styles.statIconBox}>
                   <CheckCircle size={24} />
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -516,37 +514,49 @@ const sendMessage =async() =>{
               <div className={styles.tableHeader}>
                 <div className={styles.colTitle}>Title</div>
                 <div className={styles.colStatus}>Status</div>
-                <div className={styles.colSubmitted}>Submitted At</div>
+                <div className={styles.colPriority}>Priority</div>
+                <div className={styles.colAssignee}>Assignee</div>
+                <div className={styles.colSLA}>SLA</div>
               </div>
 
-              {filteredRequests.map((r, index) => (
-                <div className={styles.tableRow} key={index}>
+               {filteredRequests.map((t, index) => (
+                <div className={styles.tableRow} key={index} onClick={() => handledetails(t._id)}>
                   <div className={styles.colTitle}>
                     <div>
-                      <div className={styles.ticketTitle}>{r?.title}</div>
+                      <div className={styles.ticketTitle}>{t?.title}</div>
                       <div className={styles.ticketDetails}>Details... <span className={styles.chatBadge}>Chat</span></div>
                     </div>
                   </div>
 
                   <div className={styles.colStatus}>
                     <span className={`${styles.statusBadge} ${
-                      r.status === "Approved" ? styles.statusApproved :
-                      r.status === "In Review" ? styles.statusReview :
-                      r.status === "Pending" ? styles.statusPending :
+                      t.status === "Open" ? styles.statusOpen :
+                      t.status === "In Progress" ? styles.statusProgress :
+                      t.status === "Resolved & Closed" ? styles.statusResolved :
                       styles.statusOpen
                     }`}>
-                      {r.status === "Approved" ? "● Approved" : 
-                       r.status === "In Review" ? "● In Review" : 
-                       "● Pending"}
+                      {t.status === "In Progress" ? "● In Progress" : 
+                       t.status === "Resolved & Closed" ? "● Resolved" : 
+                       "● Open"}
                     </span>
                   </div>
 
-                  <div className={styles.colSubmitted}>
-                    {new Date(r.submittedAt).toLocaleDateString("en-US", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric"
-                    })}
+                  <div className={styles.colPriority}>
+                    <span className={`${styles.priorityBadge} ${
+                      t.priority === "High" ? styles.priorityHigh :
+                      t.priority === "Medium" ? styles.priorityMedium :
+                      styles.priorityLow
+                    }`}>
+                      {t.priority}
+                    </span>
+                  </div>
+
+                  <div className={styles.colAssignee}>
+                    {alluser.find(u => u._id === t.assignedto)?.name || "Unassigned"}
+                  </div>
+
+                  <div className={styles.colSLA}>
+                    0h 55m
                   </div>
                 </div>
               ))}
@@ -867,7 +877,7 @@ const sendMessage =async() =>{
           <div className={styles.actions}>
             <button
               className={styles.primaryBtn}
-              onClick={handleCreateRequest}
+              onClick={handleCreate}
               disabled={loading}
             >
               {loading ? "Submitting..." : "Submit Request"}

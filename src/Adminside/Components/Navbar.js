@@ -91,7 +91,7 @@ function Navbar() {
         { withCredentials: true }
       );
       toast.success("Logout Successfull");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       toast.error("Logout Unsuccessfull");
     }

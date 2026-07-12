@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styles from "../CSS/ProjectDetailspage.module.css"
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useParams } from "react-router";
-import { CircleAlert, CircleCheck, Clock, File, FileSpreadsheet, FileText, ImageIcon } from 'lucide-react';
+import { useNavigate, useParams } from "react-router";
+import { CircleAlert, CircleCheck, Clock, File, FileSpreadsheet, FileText, ImageIcon, X } from 'lucide-react';
 import { Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -65,6 +65,26 @@ export default function ProjectWorkspace() {
     const[files,setFiles]=useState([])
     const[projects,setProjects]=useState([])
     const[modal,setModal]=useState(false)
+    const[showModal,setShowModal]=useState(false)
+     const [managerId, setManagerId] = useState("");
+
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [description, setDescription] = useState("");
+  const [selectedMember, setSelectedMember] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
+  const [team, setTeam] = useState([]); 
+  const navigate = useNavigate()
+   const roleSelectRef = useRef(null);
+   const [showIssueModal, setShowIssueModal] = useState(false);
+ const [projectName, setProjectName] = useState("");
+const [issueTitle, setIssueTitle] = useState("");
+const [issueDescription, setIssueDescription] = useState("");
+const [issueCategory, setIssueCategory] = useState("");
+const [issueSeverity, setIssueSeverity] = useState("");
+const [showIssueDetail, setShowIssueDetail] = useState(false);
+const [selectedRisk, setSelectedRisk] = useState(null);
+ const [loadingUsers, setLoadingUsers] = useState(false);
 
   const filteredTasks =
     filter === "All"
@@ -270,6 +290,95 @@ const getFileIcon = (type) => {
   }
 };
 
+ const addPair = () => {
+    if (!selectedMember || !selectedRole) return;
+    
+    if (team.some((t) => t.userId === selectedMember)) {
+      setSelectedMember("");
+      setSelectedRole("");
+      return;
+    }
+    setTeam((t) => [...t, { userId: selectedMember, role: selectedRole }]);
+    setSelectedMember("");
+    setSelectedRole("");
+  };
+
+  const removePair = (userId) => {
+    setTeam((t) => t.filter((x) => x.userId !== userId));
+  };
+
+ 
+  const pickEmployeeQuick = (userId) => {
+    if (team.some((t) => t.userId === userId)) return; 
+    setSelectedMember(userId);
+    setTimeout(() => {
+      if (roleSelectRef.current) roleSelectRef.current.focus();
+    }, 10);
+  };
+const roles = [
+    "Frontend Developer",
+    "Backend Developer",
+    "UI/UX Designer",
+    "QA Tester",
+    "DevOps",
+    "Product Manager",
+  ];
+  const onSkillClick = (skill) => {
+    if (!selectedMember) return;
+
+    const found = roles.find((r) =>
+      r.toLowerCase().includes(skill.toLowerCase())
+    );
+    setSelectedRole(found || skill);
+
+    setTimeout(addPair, 250);
+  };
+
+  const handleCreateProject = async () => {
+    
+    const payload = {
+      projectId:project._id,
+      projectname: projectName,
+      description,
+      startdate:startDate,
+      enddate:endDate,
+      manager: managerId || null,
+      team: team,
+      progress: { percent: 0, status: "Pending" },
+      risks: [],
+    };
+
+    try {
+      setLoadingUsers(true)
+      console.log(payload)
+      const res = await axios.put(
+        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/updateproject`,
+        payload,
+        { withCredentials: true }
+      );
+      console.log("Created:", res.data.message);
+      toast.success("Project Edited Successfully")
+      navigate("/projects")
+      window.location.reload()
+
+    } catch (err) {
+      console.error("Create project failed", err);
+      toast.error("Create failed - check console");
+    }finally{
+      setLoadingUsers(false)
+    }
+  };
+
+  // helpers
+  const managers = alluser.filter(
+    (e) => e.designation.name === "Manager" 
+  );
+
+  const isSelected = (userId) => team.some((t) => t.userId === userId);
+
+
+
+
 
 
 
@@ -357,7 +466,9 @@ if (pageLoading) {
 
         <div className={styles.headerRight}>
           {/* <button className={styles.moreBtn}>•••</button> */}
+          <div className={styles.buttons}>
           <button className={styles.addTaskBtn} onClick={()=>{setModal(true)}}>+ Add Task</button>
+          <button className={styles.addTaskBtn} onClick={()=>{setShowModal(true)}}>+ Edit Project</button></div>
           
           <div className={styles.progressInfo}>
             <span className={styles.progressLabel}>Progress</span>
@@ -740,6 +851,231 @@ if (pageLoading) {
           projects={projects}
         />
       )}
+
+        {showModal && (
+               <div className={styles.overlay} onClick={()=>{setShowModal(false)}}>
+            <div className={styles.modalWrap} onClick={(e) => e.stopPropagation()}>
+              {/* LEFT - MAIN FORM */}
+              <div className={styles.left2}>
+                <h3 className={styles.formTitle}>Update project :</h3>
+      
+                <label className={styles.label}>Project Name :</label>
+                <input
+                  className={styles.input}
+                  value={projectName}
+                  onChange={(e) => setProjectName(e.target.value)}
+                  placeholder="Project Name"
+                />
+      
+                <label className={styles.label}>Project Manager :</label>
+                <select
+                  className={styles.input}
+                  value={managerId}
+                  onChange={(e) => setManagerId(e.target.value)}
+                >
+                  <option value="">Select Manager</option>
+                  {managers.map((m) => (
+                    <option key={m._id} value={m._id}>
+                      {m.name} ({m.designation.name})
+                    </option>
+                  ))}
+                </select>
+      
+                <div className={styles.row}>
+                  <div style={{ flex: 1 }}>
+                    <label className={styles.label}>Project Duration :</label>
+                    <input
+                      type="date"
+                      className={styles.input}
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                    />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label className={styles.label}>&nbsp;</label>
+                    <input
+                      type="date"
+                      className={styles.input}
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                    />
+                  </div>
+                </div>
+      
+                <div className={styles.row}>
+                  <div style={{ flex: 1 }}>
+                    <label className={styles.label}>Assign Team Members :</label>
+                    <select
+                      className={styles.input}
+                      value={selectedMember}
+                      onChange={(e) => setSelectedMember(e.target.value)}
+                    >
+                      <option value="">Select employee</option>
+                      {alluser.map((emp) => (
+                        <option
+                          key={emp._id}
+                          value={emp._id}
+                          disabled={isSelected(emp._id)}
+                        >
+                          {emp.name} — {emp.designation.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+      
+                  <div style={{ width: 8 }} />
+      
+                  <div style={{ flex: 1 }}>
+                    <label className={styles.label}>Role :</label>
+                    <select
+                      ref={roleSelectRef}
+                      className={styles.input}
+                      value={selectedRole}
+                      onChange={(e) => setSelectedRole(e.target.value)}
+                      disabled={!selectedMember}
+                    >
+                      <option value="">Select role</option>
+                      {roles.map((r) => (
+                        <option key={r} value={r}>
+                          {r}
+                        </option>
+                      ))}
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+      
+                <div className={styles.addRow}>
+                  <button
+                    className={styles.addBtn}
+                    onClick={addPair}
+                    disabled={!selectedMember || !selectedRole}
+                  >
+                    Add
+                  </button>
+                </div>
+      
+                <label className={styles.label}>Description :</label>
+                <textarea
+                  className={styles.textarea}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Project description..."
+                />
+      
+                {/* Selected chips */}
+                <div className={styles.selectedWrap}>
+                  {team.map((t) => {
+                    const emp = alluser.find((e) => e._id === t.userId);
+                    return (
+                      <div key={t.userId} className={styles.chip}>
+                        <img
+                          src={emp?.profilepicture || `https://i.pravatar.cc/40?u=${t.userId}`}
+                          alt=""
+                          className={styles.chipAvatar}
+                        />
+                        <div className={styles.chipText}>
+                          <div className={styles.chipName}>{emp?.name || "Unknown"}</div>
+                          <div className={styles.chipRole}>{t.role}</div>
+                        </div>
+                        <button
+                          className={styles.chipRemove}
+                          onClick={() => removePair(t.userId)}
+                          aria-label="remove"
+                        >
+                          <X/>
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+      
+                <div className={styles.formFooter}>
+                  <button className={styles.cancelBtn} onClick={()=>{setShowModal(false)}}>
+                    Cancel
+                  </button>
+                  <button className={styles.createBtn} onClick={handleCreateProject}>
+                    {loadingUsers?"Updating...":"Update"}
+                  </button>
+                </div>
+              </div>
+      
+              {/* RIGHT - employee + skills */}
+              <div className={styles.right2}>
+                <div className={styles.searchWrap}>
+                  <input className={styles.search} placeholder="Search..." />
+                </div>
+      
+                <div className={styles.employeesList}>
+                  {loadingUsers ? (
+                    <div className={styles.loading}>Loading employees...</div>
+                  ) : (
+                    alluser.map((emp) => (
+                      <div
+                        key={emp._id}
+                        className={`${styles.empCard} ${isSelected(emp._id) ? styles.disabled : ""}`}
+                        onClick={() => pickEmployeeQuick(emp._id)}
+                      >
+                        <img
+                          src={emp.profilepicture || `https://i.pravatar.cc/40?u=${emp._id}`}
+                          alt=""
+                          className={styles.empAvatar}
+                        />
+                        <div className={styles.empInfo}>
+                          <div className={styles.empName}>{emp.name}</div>
+                          <div className={styles.empRoleSmall}>{emp.designation.name}</div>
+                          {/* show skills */}
+                          {/* <div className={styles.skillRow}>
+                            {staticSkills.slice(0, 4).map((s) => (
+                              <button
+                                key={s}
+                                className={styles.skillTag}
+                                onClick={(ev) => {
+                                  ev.stopPropagation();
+                                  // set member if not set
+                                  if (!selectedMember) setSelectedMember(emp._id);
+                                  onSkillClick(s);
+                                }}
+                              >
+                                {s}
+                              </button>
+                            ))}
+                          </div> */}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+      
+                {/* bottom simple selected summary with custom scrollbar */}
+                <div className={styles.selectedPanel}>
+                  <div className={styles.selectedTitle}>Selected</div>
+                  <div className={styles.selectedScroll}>
+                    {team.map((t) => {
+                      const emp = alluser.find((e) => e._id === t.userId);
+                      return (
+                        <div className={styles.selectedRow} key={t.userId}>
+                          <img
+                            src={emp?.profilepicture || `https://i.pravatar.cc/40?u=${t.userId}`}
+                            alt=""
+                            className={styles.smallAvatar}
+                          />
+                          <div className={styles.selectedName}>{emp?.name || "---"}</div>
+                          <button
+                            className={styles.smallRemove}
+                            onClick={() => removePair(t.userId)}
+                          >
+                            <X/>
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          )}
 
     </div>
   );

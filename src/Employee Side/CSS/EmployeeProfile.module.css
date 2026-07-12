@@ -355,6 +355,7 @@
 .statusBadge.active {
   background: rgba(134, 239, 172, 0.2);
   color: #86EFAC;
+  padding:8px 10px;
   border: 1px solid rgba(134, 239, 172, 0.3);
 }
 
@@ -819,6 +820,7 @@
   .actionButtons {
     flex-wrap: wrap;
     gap: 8px;
+    padding-top:10px;
   }
 
   .actionBtn {
@@ -868,5 +870,132 @@
   .profileInfo h3 { font-size: 18px; }
   .documentSection, .credentialCard, .settingsCard, .infoCard, .profileCard {
     padding: 16px;
+  }
+}
+
+.mobileView{
+  display:none;
+}
+.laptopView{
+  display:block;
+}
+
+/* 
+mobile view cards */
+.employeeCard{
+    background: #1a1f2e;
+    border:1px solid #23262d;
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:16px;
+}
+
+.cardTop{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.cardUser{
+    flex:1;
+}
+
+.cardUser h3{
+    color:#fff;
+    font-size:22px;
+    font-weight:600;
+    margin:0;
+}
+
+.cardUser p{
+    color:#9ca3af;
+    font-size:14px;
+    margin-top:4px;
+}
+
+.cardDivider{
+    width:100%;
+    height:1px;
+    background:#252831;
+    margin:16px 0;
+}
+
+.cardGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.cardLabel{
+    display:block;
+    color:#8f939b;
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+.cardGrid h4{
+    margin:0;
+    color:white;
+    font-size:16px;
+    font-weight:500;
+}
+
+.mobileStatus{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    min-width:88px;
+    height:32px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+}
+.namemenu{
+  display:flex;
+  width:100%;
+  justify-content: space-between;
+}
+
+.active{ background: #e0e7ff; color: #4338ca;border:1px solid #4338ca;padding:0px 10px; }
+
+.inactive{ background: #fde2e4; color: #b83232;border:1px solid #b83232;padding:0px 10px; }
+.desktopview{
+    display:block;
+}
+
+.mobileView{
+    display:none;
+}
+@media (max-width:770px){
+
+.desktopview{
+    display:none;
+}
+.mobileView{
+    display:block;
+}
+}
+@media (max-width:640px){
+  .cardGrid{
+    grid-template-columns: 1fr ;
+  }
+}
+@media (max-width:420px){
+  .cardTop{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .toolbarRight{
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .employeespage{
+    padding:40px 10px;
+  }
+  
+}
+@media (max-width:350px){
+  .actionButtons{
+    flex-direction: column;
   }
 }
