@@ -23,6 +23,7 @@ const Ticketpage = () => {
     const [assignPopup, setAssignPopup] = useState(false);
 const [selectedEmployee, setSelectedEmployee] = useState("");
 const [createTicketOpen, setCreateTicketOpen] = useState(false);
+// const[selectedticket,setselectedticket]=useState({})
 const[comments1,setComments1]=useState([])
 const [pageLoading, setPageLoading] = useState(true);
 const [actionLoading, setActionLoading] = useState(false);
@@ -45,6 +46,11 @@ const [creating, setCreating] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
+
+  // const handleselect = (id)=>{
+  //   const tick = tickets.find((t)=>t._id === id)
+  //   setselectedticket(tick)
+  // }
   const handleCreate = async () => {
   if (!form.title || !form.category || !form.priority || !form.description) {
     toast.error("Please fill all fields");
@@ -232,7 +238,8 @@ const currentTickets = filteredTickets.slice(
     <p>Loading tickets…</p>
   </div>
 )}
-
+ 
+ {!details && (
     <div className={styles.wholepage}>
      {/* TOP BAR HEADER LIKE FIGMA UI */}
 <div className={styles.topBar}>
@@ -325,7 +332,6 @@ const currentTickets = filteredTickets.slice(
         </button>
 
     </div>
-
     <div className={styles.desktopview}>
     <table className={styles.ticketTable}>
 
@@ -611,6 +617,165 @@ const currentTickets = filteredTickets.slice(
 
 
     </div>
+ )}
+   
+{details && (
+  <div className={styles.detailWrapper}>
+
+  {/* BACK BUTTON */}
+  <button className={styles.backBtn} onClick={() => setdetails(false)}>
+    ← Back to Tickets
+  </button>
+
+  <div className={styles.detailGrid}>
+    
+    {/* LEFT MAIN SECTION */}
+    <div className={styles.detailLeft}>
+
+      {/* TITLE CARD */}
+      <div className={styles.detailCard}>
+        <div className={styles.detailTopRow}>
+          <span className={styles.detailId}>TKT-{ticket?.ticketno || "001"}</span>
+
+          <span className={`${styles.tag} ${styles[`priority_${ticket.priority}`]}`}>
+            {ticket.priority}
+          </span>
+
+          <span className={`${styles.tag} ${styles[`category_${ticket.category}`]}`}>
+            {ticket.category}
+          </span>
+        </div>
+
+        <div className={styles.detailTitle}>{ticket.title}</div>
+
+        <div className={styles.detailMeta}>
+          Created by <b>{users.find(u => u._id === ticket.raisedby)?.name || "Unknown"}</b>
+          • {new Date(ticket.raisedon).toLocaleString("en-IN")}
+        </div>
+
+        <div className={styles.detailDescriptionBox}>
+          {ticket.details}
+        </div>
+
+        {/* ATTACHMENTS */}
+        <div className={styles.attachmentTitle}>Attachments</div>
+        <div className={styles.attachmentBox}>
+          {ticket.attachments?.length > 0 ? (
+            ticket.attachments.map((f, i) => (
+              <div key={i} className={styles.attachmentItem}>
+                📎 {f}
+              </div>
+            ))
+          ) : (
+            <div className={styles.noAttachment}>No attachments</div>
+          )}
+        </div>
+
+      </div>
+
+      {/* DISCUSSION THREAD */}
+      <div className={styles.detailCard}>
+
+        <div className={styles.discussionTitle}>Discussion Thread</div>
+
+        {ticket.comments?.map((c, i) => {
+          return (
+            <div key={i} className={styles.commentRow}>
+              <div className={styles.commentAvatar}>👤</div>
+              
+              <div>
+                <div className={styles.commentMeta}>
+                  <b>{c?.by || "User"}</b> • {new Date(c?.date).toLocaleString("en-IN")}
+                </div>
+
+                <div className={styles.commentBubble}>{c.text?c.text:comments1}</div>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* COMMENT INPUT */}
+        <div className={styles.commentInputRow}>
+          <div className={styles.commentAvatarLarge}>👤</div>
+          <input className={styles.commentInput} placeholder="Add a comment..." value={comment} onChange={(e)=>{setComment(e.target.value)}}/>
+          <button className={styles.commentSend} onClick={sendMessage}>Send</button>
+        </div>
+      </div>
+
+    </div>
+
+    {/* RIGHT SIDE SECTION */}
+    <div className={styles.detailRight}>
+
+      {/* STATUS BOX */}
+      <div className={styles.sideCard}>
+        <div className={styles.sideTitle}>Status</div>
+
+        <div className={styles.statusList}>
+          <div className={`${styles.statusOption} ${activestatus === "Open" ? styles.activeStatus : styles.openStatus}`} onClick={()=>{handlestatus("Open")}}>
+            Open
+          </div>
+          <div className={`${styles.statusOption} ${activestatus === "In Progress" ? styles.activeStatus : styles.progressStatus}`} onClick={()=>{handlestatus("In Progress")}}>
+            In Progress
+          </div>
+          <div className={`${styles.statusOption} ${activestatus === "Resolved & Closed" ? styles.activeStatus : styles.resolvedStatus}`} onClick={()=>{handlestatus("Resolved & Closed")}}>
+            Resolved
+          </div>
+        </div>
+      </div>
+
+      {/* ASSIGNMENT BOX */}
+      <div className={styles.sideCard}>
+        <div className={styles.sideTitle}>Assignment <Pencil size={16} onClick={() => setAssignPopup(true)}/></div>
+
+        <div className={styles.sideSubtitle}>Assigned To</div>
+        <div className={styles.sideValue}>
+          {users.find(u => u._id === ticket.assignedto)?.name || "Not Assigned"}
+        </div>
+
+        <div className={styles.sideSubtitle}>Role</div>
+        <div className={styles.sideValue}>
+           {
+    (() => {
+      const usr = users.find(u => u._id === ticket.assignedto);
+      if (!usr) return "Not Assigned";
+      const roleId = usr.roleid;
+      if (!roleId) return "No Role Assigned";
+      const roleObj = roles.find(r => r._id === roleId);
+      return roleObj?.rolename || "Unknown Role";
+    })()
+  }
+        </div>
+      </div>
+
+      {/* DETAILS BOX */}
+      <div className={styles.sideCard}>
+        <div className={styles.sideTitle}>Details</div>
+
+        <div className={styles.sideSubtitle}>Category</div>
+        <div className={styles.sideValue}>{ticket.category}</div>
+
+        <div className={styles.sideSubtitle}>Priority</div>
+        <div className={styles.sideValue}>{ticket.priority}</div>
+
+        <div className={styles.sideSubtitle}>Created</div>
+        <div className={styles.sideValue}>
+          {new Date(ticket.raisedon).toLocaleString("en-IN")}
+        </div>
+
+        <div className={styles.sideSubtitle}>Last Updated</div>
+        <div className={styles.sideValue}>
+          {new Date(ticket.updatedAt).toLocaleString("en-IN")}
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+            </div>
+)}
+
 
     {assignPopup && (
   <div className={styles.popupOverlay}>

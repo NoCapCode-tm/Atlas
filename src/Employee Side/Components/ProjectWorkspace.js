@@ -556,13 +556,13 @@ if (pageLoading) {
         </div>
       ):tabs === "files" ?(
          <div className={styles.filesGrid}>
-          {files.map((url, i) => {
-            const meta = getFileMeta(url);
+          {files.map((f, i) => {
+            const meta = getFileMeta(f?.img);
 
             return (
               <a
                 key={i}
-                href={url}
+                href={f?.img}
                 target="_blank"
                 rel="noreferrer"
                 className={styles.fileCard}
@@ -578,7 +578,7 @@ if (pageLoading) {
 
                 <div className={styles.fileUploader}>
                   <div className={styles.uploaderAvatar}>JD</div>
-                  <span>Uploaded by Jane Doe</span>
+                  <span>Uploaded by {f?.name}</span>
                 </div>
               </a>
             );

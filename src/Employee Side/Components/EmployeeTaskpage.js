@@ -186,6 +186,18 @@ export default function EmployeeTaskpage() {
     );
   }
 
+  const getFileMeta = (url) => {
+  const name = decodeURIComponent(url.split("/").pop().split("?")[0]);
+  const ext = name.split(".").pop().toLowerCase();
+
+  let type = "file";
+  if (ext === "pdf") type = "pdf";
+  else if (["xls", "xlsx"].includes(ext)) type = "excel";
+  else if (["jpg", "jpeg", "png", "webp"].includes(ext)) type = "image";
+
+  return name;
+};
+
   /* ── Render ── */
   return (
     <>
@@ -407,12 +419,18 @@ export default function EmployeeTaskpage() {
                 </div>
 
                 <div className={styles.panelCard}>
-                  <h4><Paperclip size={15} /> Attachments ({attachments.length})</h4>
-                  {attachments.length === 0
+                  <h4><Paperclip size={15} /> Attachments ({selectedTask?.dependencies?.files.length})</h4>
+                  {selectedTask?.dependencies?.files?.length === 0
                     ? <p className={styles.muted}>No attachments yet</p>
                     : <ul className={styles.attachList}>
-                        {attachments.map((f, i) => (
-                          <li key={i}><Paperclip size={13} />{f.name}</li>
+                        {selectedTask?.dependencies?.files?.map((f, i) => (
+                          <a
+                                          key={i}
+                                          href={f?.img}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                          className={styles.fileCard}
+                                        ><li key={i}><Paperclip size={13} />{getFileMeta(f?.img)}</li></a>
                         ))}
                       </ul>
                   }
