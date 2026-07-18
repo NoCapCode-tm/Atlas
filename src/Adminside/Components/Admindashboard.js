@@ -518,7 +518,7 @@ const heatmap = useMemo(() => {
         </div>
       </div>
       <div className={styles.cards}>
-        <div className={`${styles.card} ${styles.animateOnScroll}`}  data-animate style={{ "--delay": 0 }} onClick={()=>{navigate("/employees")}}>
+        <div className={`${styles.card} ${styles.animateOnScroll}`}  data-animate style={{ "--delay": 0 }} onClick={()=>{navigate("/people/employees")}}>
           <div className={styles.cardleft} >
             <div className={styles.cardleft1}>Total Employees
               <InfoTooltip text="Total number of registered employees in the organization" />
@@ -526,9 +526,6 @@ const heatmap = useMemo(() => {
             <div className={styles.cardleft2}>{employees?.length}</div>
             {/* <div className={styles.cardleft3}>↑ 12% from last month</div> */}
           </div>
-          {/* <div className={styles.cardright}>
-            <div className={styles.cardlogo5}><Users /></div>
-          </div> */}
         </div>
 
         <div className={`${styles.card1} ${styles.animateOnScroll}`}  data-animate style={{ "--delay": 0 }} onClick={() =>

@@ -351,7 +351,7 @@ font-size: 13.3px;
 }
 
 .recipientRow:hover {
-  background: #f0f0f0;
+  border:1px solid blue;
 }
 
 
@@ -724,6 +724,7 @@ linear-gradient(234.47deg, rgba(0, 0, 0, 0) -0.9%, rgba(0, 0, 0, 0.04) 86.88%);
   backdrop-filter: blur(80px);
   border-radius:12px;
   width:600px;
+  scrollbar-width: none;
   max-width:92%;
   padding:30px;
   box-shadow: 0 10px 30px rgba(2,6,23,0.12);
@@ -881,6 +882,7 @@ linear-gradient(234.47deg, rgba(0, 0, 0, 0) -0.9%, rgba(0, 0, 0, 0.04) 86.88%);
     background: linear-gradient(146.47deg, #0e0f1394 1.32%, #59607994), linear-gradient(234.47deg, #0000 -.9%, #0000000a 86.88%);
     border: 1px solid #4d4f56;
   border-radius: 8px;
+  scrollbar-width: none;
   padding: 24px;
   height: 92vh;
     overflow: auto;

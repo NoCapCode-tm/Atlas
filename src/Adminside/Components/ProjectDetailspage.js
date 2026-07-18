@@ -12,6 +12,7 @@ import {
   Legend
 } from "chart.js";
 import Createtaskmodal from "./Createtaskmodal";
+import useWindowWidth from "./usewindowwidth";
 // import Createtask from "./CreateTask";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -333,26 +334,62 @@ const roles = [
 
     setTimeout(addPair, 250);
   };
+  const manager= alluser.filter(
+    (e) =>e._id === project?.manager
+  );
+  const managers= alluser.filter(
+    (e) =>e?.designation?.name === "Manager"
+  );
+
+  useEffect(() => {
+  if (!showModal || !project) return;
+
+  setProjectName(project.projectname || "");
+  setDescription(project.description || "");
+
+  setManagerId(project.manager || "");
+
+  setStartDate(
+    project.timeline?.startDate
+      ? new Date(project.timeline.startDate).toISOString().split("T")[0]
+      : ""
+  );
+
+  setEndDate(
+    project.timeline?.endDate
+      ? new Date(project.timeline.endDate).toISOString().split("T")[0]
+      : ""
+  );
+
+  setTeam(
+    (project.team?.assignedMembers || []).map((member) => ({
+      userId:
+        member.userId ||
+        member._id ||
+        member.employee ||
+        member.memberId,
+      role: member.role || "",
+    }))
+  );
+}, [showModal, project]);
 
   const handleCreateProject = async () => {
     
     const payload = {
-      projectId:project._id,
-      projectname: projectName,
-      description,
-      startdate:startDate,
-      enddate:endDate,
-      manager: managerId || null,
-      team: team,
-      progress: { percent: 0, status: "Pending" },
-      risks: [],
-    };
+  projectId: project._id,
+  projectname: projectName,
+  description,
+  startdate: startDate,
+  enddate: endDate,
+  manager: managerId,
+  team,
+};
 
     try {
       setLoadingUsers(true)
       console.log(payload)
       const res = await axios.put(
-        `https://atlasbackend-1bt5.onrender.com/api/v1/admin/updateproject`,
+        `https://b-atlas-ncc.onrender.com/api/v1/admin/updateproject`,
         payload,
         { withCredentials: true }
       );
@@ -369,10 +406,10 @@ const roles = [
     }
   };
 
+  const width = useWindowWidth()
+
   // helpers
-  const managers = alluser.filter(
-    (e) => e.designation.name === "Manager" 
-  );
+  
 
   const isSelected = (userId) => team.some((t) => t.userId === userId);
 
@@ -892,7 +929,7 @@ if (pageLoading) {
                     />
                   </div>
                   <div style={{ flex: 1 }}>
-                    <label className={styles.label}>&nbsp;</label>
+                  <label className={width<=440?styles.htao:styles.label}>&nbsp;</label>
                     <input
                       type="date"
                       className={styles.input}
@@ -904,7 +941,7 @@ if (pageLoading) {
       
                 <div className={styles.row}>
                   <div style={{ flex: 1 }}>
-                    <label className={styles.label}>Assign Team Members :</label>
+                    <label className={styles.label}>{width<=440 ?"Assign Member & roles":"Assign Members"}</label>
                     <select
                       className={styles.input}
                       value={selectedMember}
@@ -923,10 +960,10 @@ if (pageLoading) {
                     </select>
                   </div>
       
-                  <div style={{ width: 8 }} />
+                  <div style={{ width: 8 , display:"none"}} />
       
                   <div style={{ flex: 1 }}>
-                    <label className={styles.label}>Role :</label>
+                    <label className={width<=440?styles.htao:styles.label} >Role :</label>
                     <select
                       ref={roleSelectRef}
                       className={styles.input}

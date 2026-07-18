@@ -10,9 +10,9 @@ import Createtask from "./CreateTask";
 /* ── Column config matching the image ── */
 const STATUS_COLUMNS = [
   { key: "To Do",       title: "To Do",     headerBg: "#2E8B5A", colBg: "rgba(46,139,90,0.20)"   },
-  { key: "Pending",     title: "Pending",   headerBg: "#FFAE4C", colBg: "rgba(255,174,76,0.20)"  },
-  { key: "In Progress", title: "In Review", headerBg: "#378ADD", colBg: "rgba(55,138,221,0.20)"  },
-  { key: "Completed",   title: "Done",      headerBg: "#FF5447", colBg: "rgba(255,84,71,0.20)"   },
+  { key: "In Progress",     title: "In Progress",   headerBg: "#FFAE4C", colBg: "rgba(255,174,76,0.20)"  },
+  { key: "In Review", title: "In Review", headerBg: "#378ADD", colBg: "rgba(55,138,221,0.20)"  },
+  { key: "Completed",   title: "Completed",      headerBg: "#FF5447", colBg: "rgba(255,84,71,0.20)"   },
 ];
 
 /* ── Priority config ── */
@@ -86,7 +86,7 @@ export default function EmployeeTaskpage() {
 
   /* ── Stats ── */
   const myTasks     = tasks.filter(t => t.assignedto === user._id);
-  const pendingtask = myTasks.filter(t => t.status === "Pending");
+  const pendingtask = myTasks.filter(t => t.status === "In Progress");
   const highpriority = myTasks.filter(t => t.priority === "High");
 
   /* ── Board columns ── */
@@ -508,7 +508,7 @@ export default function EmployeeTaskpage() {
                       disabled={selectedTask.status === "Pending"}>
                       Submit for Review
                     </button>
-                  </div>
+                  </div>  
                 )}
               </div>
             )}

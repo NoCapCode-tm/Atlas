@@ -500,6 +500,15 @@
   right: 3px;
   bottom: 8px;
 }
+.offline {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: red;
+  right: 3px;
+  bottom: 8px;
+}
 
 .titleRow {
   display: flex;
@@ -527,6 +536,15 @@
   font-size: 14px;
   font-weight: 600;
 }
+.inactiveBadge {
+  padding: 5px 14px;
+  background: #ffb9b9;
+  color: #7d1414;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 
 .editBtn {
   width: 176px;

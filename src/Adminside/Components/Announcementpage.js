@@ -497,55 +497,59 @@ selectedPeople:
       </div>
 
       {/* Schedule */}
+{/* 
+     <div className={styles.scheduleRow}>
+  <span>Schedule For Later</span>
 
-      <div className={styles.scheduleRow}>
-        <span>Schedule For Later</span>
+  <input
+    type="date"
+    className={styles.dateInput}
+    value={
+      scheduledAt
+        ? new Date(scheduledAt).toLocaleDateString("en-CA")
+        : ""
+    }
+    onChange={(e) => {
+      const current = scheduledAt
+        ? new Date(scheduledAt)
+        : new Date();
 
-        <input
-          type="time"
-          className={styles.timeInput}
-          value={
-            scheduledAt
-              ? new Date(scheduledAt)
-                  .toISOString()
-                  .slice(11, 16)
-              : ""
-          }
-          onChange={(e) => {
-            const date = scheduledAt
-              ? new Date(scheduledAt)
-              : new Date();
+      const [year, month, day] = e.target.value.split("-").map(Number);
 
-            const [h, m] = e.target.value.split(":");
+      current.setFullYear(year, month - 1, day);
 
-            date.setHours(h);
-            date.setMinutes(m);
+      setScheduledAt(current);
+      setScheduleLater(true);
+    }}
+  />
 
-            setScheduledAt(date.toISOString());
-            setScheduleLater(true);
-          }}
-        />
+  <input
+    type="time"
+    className={styles.timeInput}
+    value={
+      scheduledAt
+        ? `${String(new Date(scheduledAt).getHours()).padStart(2, "0")}:${String(
+            new Date(scheduledAt).getMinutes()
+          ).padStart(2, "0")}`
+        : ""
+    }
+    onChange={(e) => {
+      const current = scheduledAt
+        ? new Date(scheduledAt)
+        : new Date();
 
-        <input
-          type="date"
-          className={styles.dateInput}
-          onChange={(e) => {
-            const date = scheduledAt
-              ? new Date(scheduledAt)
-              : new Date();
+      const [hours, minutes] = e.target.value.split(":").map(Number);
 
-            const [y, m, d] =
-              e.target.value.split("-");
+      current.setHours(hours);
+      current.setMinutes(minutes);
+      current.setSeconds(0);
+      current.setMilliseconds(0);
 
-            date.setFullYear(y);
-            date.setMonth(m - 1);
-            date.setDate(d);
-
-            setScheduledAt(date.toISOString());
-            setScheduleLater(true);
-          }}
-        />
-      </div>
+      setScheduledAt(current);
+      setScheduleLater(true);
+    }}
+  />
+</div> */}
 
       {/* Priority */}
 
