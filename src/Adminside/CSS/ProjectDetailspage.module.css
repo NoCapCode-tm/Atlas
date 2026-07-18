@@ -1026,25 +1026,27 @@
 }
 
 .formTitle {
-  color: rgba(104,80,190,1);
-  margin: 0 0 12px;
-  font-size: 20px;
+  color: white;
+  margin: 0 0 20px;
+  font-size: 24px;
   font-weight: 600;
 }
 
 .label {
   display:block;
   margin: 8px 0 6px;
-  color: #444;
+  color: white;
   font-size: 13px;
 }
 
 .input, .textarea, select {
   width:100%;
   padding: 10px 12px;
-  border-radius: 24px;
-  border: 1px solid #ddd;
+  /* border-radius: 24px; */
+  background: #2b2d33;
+    border: .31px solid #a5a5a5;
   outline: none;
+  color:white;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -1071,7 +1073,7 @@
   margin-bottom:8px;
 }
 .addBtn {
-  background: rgba(104,80,190,1);
+  background: #0d5acb;
   color:white;
   padding:12px 14px;
   border-radius:10px;
@@ -1091,7 +1093,8 @@
   display:flex;
   align-items:center;
   gap:10px;
-  background: #f3edff;
+  background: #3333EE4D;
+  border: 1px solid #6B5BF9;
   padding:8px 10px;
   border-radius:30px;
   min-width: 160px;
@@ -1138,13 +1141,14 @@
 .cancelBtn {
   background:transparent;
   border:1px solid #ddd;
+  color:white;
   padding:8px 14px;
   border-radius:8px;
   cursor:pointer;
 }
 
 .createBtn {
-  background: rgba(104,80,190,1);
+  background-color: #0050b8;
   color:white;
   border:none;
   padding:8px 14px;
@@ -1281,5 +1285,13 @@
 .selectedScroll::-webkit-scrollbar-thumb {
   background: #d8c6ff;
   border-radius: 999px;
+}
+.htao{
+  display:none;
+}
+@media (max-width:440px){
+  .row{
+    flex-direction: column;
+  }
 }
 

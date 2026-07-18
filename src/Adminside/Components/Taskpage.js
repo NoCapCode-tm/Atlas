@@ -1,23 +1,35 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import styles from "../CSS/Taskspage.module.css";
-import { Pencil, Trash, Search, ChevronLeft, ChevronRight, X, ChevronDown, Bell, Clock3, TriangleAlert, ClipboardList, Plus, MoreVertical } from "lucide-react";
+import { Pencil, Trash, Search, ChevronLeft, ChevronRight, X, ChevronDown, Bell, Clock3, TriangleAlert, ClipboardList, Plus, MoreVertical, CheckCircle, Paperclip, FileText, Calendar } from "lucide-react";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router";
 import Createtaskmodal from "./Createtaskmodal";
 
-
+const PRIORITY_CFG = {
+  High:   { color: "#ef4444", bg: "rgba(239,68,68,0.15)",   border: "rgba(239,68,68,0.4)"   },
+  Medium: { color: "#f59e0b", bg: "rgba(245,158,11,0.15)",  border: "rgba(245,158,11,0.4)"  },
+  Low:    { color: "#22c55e", bg: "rgba(34,197,94,0.15)",   border: "rgba(34,197,94,0.4)"   },
+  Urgent: { color: "#a855f7", bg: "rgba(168,85,247,0.15)",  border: "rgba(168,85,247,0.4)"  },
+};
 const Taskpage = () => {
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
+  const[user,setUser]=useState()
   const[modal,setModal]=useState(false)
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editModal, setEditModal] = useState(false);
   const[taskmodal,setTaskmodal] = useState(false)
-const [selectedTask, setSelectedTask] = useState(null);
+  const [selectedTask, setSelectedTask] = useState(null);
 const [openColumn, setOpenColumn] = useState("todo");
+const [draggedTask, setDraggedTask] = useState(null);
+ const [tab, setTab]             = useState("details");
+  const [attachments, setAttachments] = useState([]);
+  const fileInputRef              = React.useRef(null);
+  const [comment, setComments]    = useState("");
+
 
    const [form, setForm] = useState({
     title: "",
@@ -29,6 +41,51 @@ const [openColumn, setOpenColumn] = useState("todo");
     dueAt:""
   });
   const navigate = useNavigate()
+
+ const handleDrop = async (columnId) => {
+  if (!draggedTask) return;
+
+  if (columnId === "Overdue") {
+    setDraggedTask(null);
+    return;
+  }
+
+  const newStatus = columnId;
+
+  if (draggedTask.status === newStatus) {
+    setDraggedTask(null);
+    return;
+  }
+
+  try {
+    await axios.put(
+      `https://b-atlas-ncc.onrender.com/api/v1/admin/updatetask/${draggedTask._id}`,
+      {
+        status: newStatus,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    setTasks(prev =>
+      prev.map(task =>
+        task._id === draggedTask._id
+          ? {
+              ...task,
+              status: newStatus,
+            }
+          : task
+      )
+    );
+
+    toast.success("Task updated");
+  } catch {
+    toast.error("Failed");
+  }
+
+  setDraggedTask(null);
+};
 
   // fetch all data
   useEffect(() => {
@@ -57,8 +114,6 @@ const [openColumn, setOpenColumn] = useState("todo");
     fetchAll();
     return () => { mounted = false; };
   }, []);
-
-  console.log(tasks);
 
   
 
@@ -190,18 +245,19 @@ today.setHours(0, 0, 0, 0);
 const taskColumns = useMemo(() => {
   return {
     todo: tasks.filter(
-      (t) =>
-        t.status?.toLowerCase() === "to do"
+      (t) => t.status=== "To Do"
     ),
 
     pending: tasks.filter(
-      (t) =>
-        t.status?.toLowerCase() === "pending"
+      (t) => t.status === "In Progress"
     ),
 
     review: tasks.filter(
-      (t) =>
-        t.status?.toLowerCase() === "in progress"
+      (t) => t.status === "In Review"
+    ),
+
+    completed: tasks.filter(
+      (t) => t.status === "Completed"
     ),
 
     overdue: tasks.filter((t) => {
@@ -271,6 +327,66 @@ const getDueText = (due) => {
   return `Due in ${days} day${days > 1 ? "s" : ""}`;
 };
 
+      const handlecomment = async () => {
+    try {
+      await axios.post("https://b-atlas-ncc.onrender.com/api/v1/employee/commentsend",
+        { comment, taskid: selectedTask, userid: user },
+        { withCredentials: true }
+      );
+      toast.success("Comment sent");
+      window.location.reload();
+    } catch { toast.error("Comment failed"); }
+  };
+  const handleFileSelect = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setAttachments(prev => [...prev, file]);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("taskId", selectedTask);
+      await axios.post(
+        "https://b-atlas-ncc.onrender.com/api/v1/employee/task/upload-attachment",
+        fd, { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }
+      );
+      toast.success("Attachment uploaded");
+    } catch { toast.error("Upload failed"); }
+  };
+
+  /* ── Complete / Review ── */
+  const handlecomplete = async () => {
+    try {
+      await axios.post("https://b-atlas-ncc.onrender.com/api/v1/employee/complete-task",
+        { taskid: selectedTask, userid: user}
+      );
+      toast.success("Task completed");
+      window.location.reload();
+    } catch { toast.error("Failed"); }
+  };
+
+  const handlereview = async () => {
+    try {
+      await axios.post("https://b-atlas-ncc.onrender.com/api/v1/employee/review-task",
+        { taskid: selectedTask, userid: user}
+      );
+      toast.success("Sent for review");
+      window.location.reload();
+    } catch { toast.error("Failed"); }
+  };
+
+   const getFileMeta = (url) => {
+  const name = decodeURIComponent(url.split("/").pop().split("?")[0]);
+  const ext = name.split(".").pop().toLowerCase();
+
+  let type = "file";
+  if (ext === "pdf") type = "pdf";
+  else if (["xls", "xlsx"].includes(ext)) type = "excel";
+  else if (["jpg", "jpeg", "png", "webp"].includes(ext)) type = "image";
+
+  return name;
+};
+      
+
 
 
 const TaskCard = ({ task }) => {
@@ -285,10 +401,19 @@ const TaskCard = ({ task }) => {
       .join("")
       .slice(0, 2)
       .toUpperCase() || "--";
-      
+
+ 
 
   return (
-    <div className={styles.taskCard}>
+    <div
+  className={styles.taskCard}
+  draggable
+  onDragStart={() => setDraggedTask(task)}
+  onClick={() => {
+    setUser(task?.assignedto);
+    setSelectedTask(task);
+  }}
+>
       <div className={styles.cardTop}>
         <div>
           <h4>{task.title}</h4>
@@ -371,10 +496,13 @@ const TaskColumn = ({
       </div>
 
       <div
-        className={`${styles.columnBody} ${
-          isOpen ? styles.open : styles.closed
-        }`}
-      >
+  className={`${styles.columnBody} ${
+    isOpen ? styles.open : styles.closed
+  }`}
+  onDragOver={(e) => e.preventDefault()}
+  onDrop={() => handleDrop(id)}
+
+>
         {tasks.map((task) => (
           <TaskCard
             key={task._id}
@@ -426,22 +554,23 @@ const TaskColumn = ({
 
   <div className={styles.kanbanBoard}>
   <TaskColumn
-    id="todo"
+    id="To Do"
     openColumn={openColumn}
+    
     setOpenColumn={setOpenColumn}
     title="To Do"
     tasks={taskColumns.todo}
     color={{
-      background:"#0F241A",
-      header:"#2F8E57"
+      background:"#1A1A1A",
+      header:"#596079"
     }}
   />
 
   <TaskColumn
-    id="pending"
+    id="In Progress"
     openColumn={openColumn}
     setOpenColumn={setOpenColumn}
-    title="Pending"
+    title="In Progress"
     tasks={taskColumns.pending}
     color={{
       background:"#342514",
@@ -450,7 +579,7 @@ const TaskColumn = ({
   />
 
   <TaskColumn
-    id="review"
+    id="In Review"
     openColumn={openColumn}
     setOpenColumn={setOpenColumn}
     title="In Review"
@@ -460,9 +589,20 @@ const TaskColumn = ({
       header:"#3E8BDB"
     }}
   />
+  <TaskColumn
+  id="Completed"
+  openColumn={openColumn}
+  setOpenColumn={setOpenColumn}
+  title="Completed"
+  tasks={taskColumns.completed}
+  color={{
+    background: "#17322A",
+    header: "#16A34A",
+  }}
+/>
 
   <TaskColumn
-    id="overdue"
+    id="Overdue"
   
     openColumn={openColumn}
     setOpenColumn={setOpenColumn}
@@ -563,6 +703,167 @@ const TaskColumn = ({
 
 
 {taskmodal && <Createtaskmodal modal={taskmodal} setModal={setTaskmodal} projects={projects} users={users}/>}
+
+{selectedTask && (
+        <div className={styles.backdrop} onClick={() => setSelectedTask(null)}>
+          <div className={styles.panel} onClick={(e) => e.stopPropagation()}>
+
+            <div className={styles.panelHeader}>
+              <div className={styles.panelBadges}>
+                {(() => {
+                  const pcfg = PRIORITY_CFG[selectedTask.priority] || PRIORITY_CFG.Low;
+                  return (
+                    <span className={styles.priorityBadge}
+                      style={{ color: pcfg.color, background: pcfg.bg, border: `1px solid ${pcfg.border}` }}>
+                      {selectedTask.priority} Priority
+                    </span>
+                  );
+                })()}
+                <span className={styles.statusBadge}>{selectedTask.status}</span>
+              </div>
+              <button className={styles.closeBtn} onClick={() => setSelectedTask(null)}>
+                <X size={16} />
+              </button>
+            </div>
+
+            <h2 className={styles.panelTitle}>{selectedTask.title}</h2>
+
+            <div className={styles.panelMeta}>
+              <div>
+                <span>ASSIGNEE</span>
+                <p>{user?.name}</p>
+              </div>
+              <div>
+                <span>DUE DATE</span>
+                <p><Calendar size={13} />
+                  {new Date(selectedTask.dueAt).toLocaleDateString("en-IN", {
+                    day: "2-digit", month: "short", year: "numeric"
+                  })}
+                </p>
+              </div>
+            </div>
+
+            <div className={styles.panelTabs}>
+              <button className={tab === "details" ? styles.activeTab : styles.tabBtn}
+                onClick={() => setTab("details")}>Details</button>
+              <button className={tab === "activity" ? styles.activeTab : styles.tabBtn}
+                onClick={() => setTab("activity")}>Activity & Comments</button>
+            </div>
+
+            {tab === "details" && (
+              <div className={styles.panelContent}>
+                <div className={styles.panelCard}>
+                  <h4><FileText size={15} /> Description</h4>
+                  <p>{selectedTask.description}</p>
+                </div>
+
+                <div className={styles.panelCard}>
+                  <h4><Paperclip size={15} /> Attachments ({selectedTask?.dependencies?.files.length})</h4>
+                  {selectedTask?.dependencies?.files?.length === 0
+                    ? <p className={styles.muted}>No attachments yet</p>
+                    : <ul className={styles.attachList}>
+                        {selectedTask?.dependencies?.files?.map((f, i) => (
+                          <a
+                                          key={i}
+                                          href={f?.img}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                          className={styles.fileCard}
+                                        ><li key={i}><Paperclip size={13} />{getFileMeta(f?.img)}</li></a>
+                        ))}
+                      </ul>
+                  }
+                  <button className={styles.attachBtn}
+                    onClick={() => fileInputRef.current.click()}>
+                    + Add Attachment
+                  </button>
+                  <input type="file" ref={fileInputRef} style={{ display: "none" }}
+                    onChange={handleFileSelect} />
+                </div>
+
+                {selectedTask.status !== "Completed" && (
+                  <div className={styles.panelFooter}>
+                    <button className={styles.completeBtn} onClick={handlecomplete}>
+                      <CheckCircle size={16} /> Mark Complete
+                    </button>
+                    <button className={styles.reviewBtn} onClick={handlereview}
+                      disabled={selectedTask.status === "Pending"}>
+                      Submit for Review
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {tab === "activity" && (
+              <div className={styles.panelContent}>
+                <div className={styles.comments}>
+                  {selectedTask.comments?.map((c, i) => (
+                    <div key={i} className={styles.commentCard}>
+                      <div className={styles.commentHeader}>
+                        <span className={styles.commentAuthor}>{c.commentby}</span>
+                        <span className={styles.commentTime}>
+                          {new Date(c.timeat).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}
+                        </span>
+                      </div>
+                      <p>{c.text}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className={styles.commentBox}>
+                  <textarea placeholder="Write a comment…"
+                    value={comment} onChange={(e) => setComments(e.target.value)} />
+                  <button className={styles.sendBtn} onClick={handlecomment}>➤</button>
+                </div>
+
+                <div className={styles.historySection}>
+                  <h4>TASK HISTORY</h4>
+                  <div className={styles.timeline}>
+                    {selectedTask.history?.map((h, i) => (
+                      <div key={i} className={styles.timelineItem}>
+                        <span className={styles.timelineDot} />
+                        <div>
+                          <p><strong>{h.actionby}</strong> {h.title}</p>
+                          <span>
+                            {new Date(h.timeat).toLocaleDateString("en-IN", {
+                              day: "2-digit", month: "2-digit", year: "numeric"
+                            })} at {new Date(h.timeat).toLocaleTimeString("en-IN", {
+                              hour: "2-digit", minute: "2-digit"
+                            })}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {selectedTask.status !== "Completed" && (
+                  <div className={styles.panelFooter}>
+                    <button className={styles.completeBtn} onClick={handlecomplete}>
+                      <CheckCircle size={16} /> Mark Complete
+                    </button>
+                    <button className={styles.reviewBtn} onClick={handlereview}
+                      disabled={selectedTask.status === "Pending"}>
+                      Submit for Review
+                    </button>
+                  </div>
+                )}
+                {selectedTask.status === "Completed" && (
+                  <div className={styles.panelFooter}>
+                    <button className={styles.completeBtn} onClick={handlecomplete}  disabled={selectedTask.status === "Completed"}>
+                      <CheckCircle size={16} /> Mark Complete
+                    </button>
+                    <button className={styles.reviewBtn} onClick={handlereview}>
+                      Submit for Review
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
 </>
   );

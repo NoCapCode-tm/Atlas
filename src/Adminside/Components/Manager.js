@@ -382,23 +382,23 @@ Showing 1-6 of 20
           <div className={styles.leftHeader}>
             <div className={styles.avatarWrapper}>
               <div className={styles.avatar1}>M</div>
-              <span className={styles.online}></span>
+              <span className={selected?.deleted === false?styles.online:styles.offline}></span>
             </div>
 
             <div>
               <div className={styles.titleRow}>
                 <h1>{selected?.name}</h1>
 
-                <span className={styles.activeBadge}>Active</span>
+                <span className={selected?.deleted === false?styles.activeBadge:styles.inactiveBadge}>{selected?.deleted === false?'Active':'Inactive'}</span>
               </div>
 
-              <p>Reports to Senior Manager</p>
+              {/* <p>Reports to Senior Manager</p> */}
             </div>
           </div>
-
+{/* 
           <button className={styles.editBtn}>
             Edit Manager
-          </button>
+          </button> */}
         </div>
 
         {/* Cards */}
