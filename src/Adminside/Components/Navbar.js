@@ -400,7 +400,7 @@ function Navbar() {
                   getActive([
                     "/people/employees",
                     "/people/managers",
-                    "/people/activity",
+                    // "/people/activity",
                   ])
                     ? styles.dashboardmenucolor
                     : styles.dashboardmenu
@@ -446,7 +446,7 @@ function Navbar() {
                   Managers
                 </div>
 
-                <div
+                {/* <div
                   className={
                     location.pathname === "/people/activity"
                       ? styles.dashboardmenucolor
@@ -455,7 +455,7 @@ function Navbar() {
                   onClick={() => navigate("/people/activity")}
                 >
                   Activity Logs
-                </div>
+                </div> */}
               </div>
 
               {/* Work Section */}
