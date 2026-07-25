@@ -1,0 +1,55 @@
+name: Production Deployment (CI/CD)
+
+on:
+  push:
+    branches:
+      - main # Change to 'master' if your primary branch uses the older naming convention
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository code
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js environment (Upgraded to Node 22 for Puppeteer v25)
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      # 3. Install dependencies (Using npm install to bypass lockfile desyncs)
+      - name: Install Dependencies
+        run: npm install
+
+      # 4. Strip local Windows paths from package.json before building
+      - name: Optimize package.json for Linux Environment
+        run: |
+          node -e "
+          const fs = require('fs');
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          if (pkg.reactSnap && pkg.reactSnap.puppeteerExecutablePath) {
+            delete pkg.reactSnap.puppeteerExecutablePath;
+          }
+          fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          "
+
+      # 5. Build application and generate pre-rendered static paths via react-snap
+      - name: Execute System Production Build
+        run: npm run build
+        env:
+          CI: false # Prevents warnings from being treated as fatal compilation errors
+
+      # 6. Securely deploy compiled assets to the target gh-pages branch
+      - name: Deploy Assets to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build
+          branch: gh-pages
+          clean: true
