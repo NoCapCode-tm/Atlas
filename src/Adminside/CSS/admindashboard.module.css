@@ -634,11 +634,11 @@ transition: box-shadow 0.3s ease, transform 0.3s ease;
 
 .modal {
   width: 600px;
-  height:90vh;
+  height:80vh;
   border-radius: 18px;
   overflow: auto;
   scrollbar-width: none;
-  padding: 42px 48px 36px;
+  padding: 40px 36px 36px;
   position: relative;
   border: 1px solid #4d4f56;
   background: linear-gradient(146.47deg, rgba(14, 15, 19, 0.58) 1.32%, rgba(89, 96, 121, 0.58) 100%),
