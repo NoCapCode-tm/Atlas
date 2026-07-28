@@ -680,7 +680,7 @@ export default function EmployeeProfile() {
                 <div className={styles.credentialGrid}>
                   <div className={styles.credentialItem}>
                     <label>Company Email</label>
-                    <p>{user?.email || "sarah@nocapcode.cloud"}</p>
+                    <p>{user?.email || "N/A"}</p>
                   </div>
 
                   <div className={styles.credentialItem}>
@@ -700,7 +700,16 @@ export default function EmployeeProfile() {
 
                   <div className={styles.credentialItem}>
                     <label>Created On</label>
-                    <p>1 January 2026</p>
+                    <p> 
+                      {user?.joiningdate? new Date(user?.onboarding?.completedAt).toLocaleDateString
+                      ("en-US", 
+                        {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric"
+                        }
+                      )
+                        : "NA"}</p>
                   </div>
 
                   <div className={styles.credentialItem}>
@@ -987,9 +996,16 @@ export default function EmployeeProfile() {
                       Keep your account safe by enabling 2FA via SMS or using temporary one-time passwords
                     </div>
                   </div>
-                  <label className={styles.toggle}>
-                    <input type="checkbox" defaultChecked />
-                    <span className={styles.toggleSlider}></span>
+                  <label className={styles.toggle} style={{ cursor: "not-allowed" }}>
+                    <input 
+                      type="checkbox" 
+                      disabled 
+                      /* Removed defaultChecked so it stays toggled off */
+                    />
+                    <span 
+                      className={styles.toggleSlider} 
+                      style={{ cursor: "not-allowed", opacity: 0.4 }}
+                    ></span>
                   </label>
                 </div>
 
