@@ -17,6 +17,42 @@ export default function EmployeeProfile() {
     phone: ""
   });
 
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
+
+
+  // Handler for Password Submission
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      toast.error("New passwords do not match!");
+      return;
+    }
+
+    try {
+      // Pointing to the correct backend route /updateuser
+      const response = await axios.put(
+        "https://b-atlas-ncc.onrender.com/api/v1/employee/updateuser", 
+        {
+          id: user._id, // The backend controller requires the user id 
+          password: passwordForm.newPassword // The backend expects the key to be 'password'
+        }, 
+        { withCredentials: true }
+      );
+      
+      toast.success("Password changed successfully!");
+      setIsPasswordModalOpen(false);
+      setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to change password");
+    }
+  };
+
   useEffect(() => {
   const fetchData = async () => {
     try {
@@ -287,383 +323,345 @@ export default function EmployeeProfile() {
                 <h2>Documents</h2>
               </div>
 
+  
               {/* Company-Issued Documents */}
               <div className={styles.documentSection}>
                 <h3 className={styles.documentSectionTitle}>Company-Issued Documents</h3>
+                
+                {/* Desktop View */}
                 <div className={styles.desktopview}>
                   <div className={styles.documentTable}>
-                  <div className={styles.documentTableHeader}>
-                    <div>Document</div>
-                    <div>Status</div>
-                    <div>Action</div>
-                  </div>
+                    <div className={styles.documentTableHeader}>
+                      <div>Document</div>
+                      <div>Status</div>
+                      <div>Action</div>
+                    </div>
 
-                  <div className={styles.documentRow}>
-                    <div>Offer Letter</div>
-                    <div>
-                      <span className={`${styles.statusBadge} ${styles.signed}`}>
-                        ● Signed
-                      </span>
+                    <div className={styles.documentRow}>
+                      <div>Offer Letter</div>
+                      <div>
+                        <span className={`${styles.statusBadge} ${styles.signed}`}>
+                          ● Signed
+                        </span>
+                      </div>
+                      <div className={styles.actionButtons}>
+                        <button 
+                          className={styles.actionBtn} 
+                          onClick={() => window.open('https://dox.nocapcode.cloud/legal-agreements', '_blank')}
+                        >
+                          <Eye size={16} /> View
+                        </button>
+                      </div>
                     </div>
-                    <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn}>
-                        <Eye size={16} /> View
-                      </button>
-                      <button className={styles.actionBtn}>
-                        <Download size={16} /> Download
-                      </button>
-                    </div>
-                  </div>
 
-                  <div className={styles.documentRow}>
-                    <div>NDA</div>
-                    <div>
-                      <span className={`${styles.statusBadge} ${styles.signed}`}>
-                        ● Signed
-                      </span>
+                    <div className={styles.documentRow}>
+                      <div>NDA</div>
+                      <div>
+                        <span className={`${styles.statusBadge} ${styles.signed}`}>
+                          ● Signed
+                        </span>
+                      </div>
+                      <div className={styles.actionButtons}>
+                        <button 
+                          className={styles.actionBtn}
+                          onClick={() => window.open('https://dox.nocapcode.cloud/legal-agreements', '_blank')}
+                        >
+                          <Eye size={16} /> View
+                        </button>
+                      </div>
                     </div>
-                    <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn}>
-                        <Eye size={16} /> View
-                      </button>
-                      <button className={styles.actionBtn}>
-                        <Download size={16} /> Download
-                      </button>
-                    </div>
-                  </div>
 
-                  <div className={styles.documentRow}>
-                    <div>Policy Handbook</div>
-                    <div>
-                      <span className={`${styles.statusBadge} ${styles.acknowledged}`}>
-                        ● Acknowledged
-                      </span>
-                    </div>
-                    <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn}>
-                        <Eye size={16} /> View
-                      </button>
-                      <button className={styles.actionBtn}>
-                        <Download size={16} /> Download
-                      </button>
+                    <div className={styles.documentRow}>
+                      <div>Policy Handbook</div>
+                      <div>
+                        <span className={`${styles.statusBadge} ${styles.acknowledged}`}>
+                          ● Acknowledged
+                        </span>
+                      </div>
+                      <div className={styles.actionButtons}>
+                        <button 
+                          className={styles.actionBtn}
+                          onClick={() => window.open('https://dox.nocapcode.cloud/company-docs', '_blank')}
+                        >
+                          <Eye size={16} /> View
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-                </div>
+
+                {/* Mobile View */}
                 <div className={styles.mobileView}>
-      <div className={styles.employeeCard}>
-        {/* Top */}
+                  <div className={styles.employeeCard}>
+                    <div className={styles.cardTop}>
+                      <div className={styles.namemenu}>
+                        <div className={styles.cardUser}>
+                          <h3>Offer Letter</h3>
+                          <p>{user?.name}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.cardDivider}></div>
+                    <div className={styles.cardGrid}>
+                      <div>
+                        <span className={`${styles.statusBadge} ${styles.acknowledged}`}>
+                          ● Acknowledged
+                        </span>
+                      </div>
+                      <div className={styles.actionButtons}>
+                        <button 
+                          className={styles.actionBtn}
+                          onClick={() => window.open('https://dox.nocapcode.cloud/legal-agreements', '_blank')}
+                        >
+                          <Eye size={16} /> View
+                        </button>
+                        <button className={styles.actionBtn}>
+                          <Download size={16} /> Download
+                        </button>
+                      </div>
+                    </div>
+                  </div>
 
-        <div className={styles.cardTop}>
-          
-          <div className={styles.namemenu}>
-          <div className={styles.cardUser}>
-            <h3>Offer Letter</h3>
-            <p>{user?.name}</p>
-          </div>
-          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
-            handleEdit(emp)
-            setselected(emp._id)
-          }}/> */}
-          </div>
-        </div>
+                  <div className={styles.employeeCard}>
+                    <div className={styles.cardTop}>
+                      <div className={styles.namemenu}>
+                        <div className={styles.cardUser}>
+                          <h3>NDA</h3>
+                          <p>{user?.name}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.cardDivider}></div>
+                    <div className={styles.cardGrid}>
+                      <div>
+                        <span className={`${styles.statusBadge} ${styles.acknowledged}`}>
+                          ● Acknowledged
+                        </span>
+                      </div>
+                      <div className={styles.actionButtons}>
+                        <button 
+                          className={styles.actionBtn}
+                          onClick={() => window.open('https://dox.nocapcode.cloud/legal-agreements', '_blank')}
+                        >
+                          <Eye size={16} /> View
+                        </button>
+                        <button className={styles.actionBtn}>
+                          <Download size={16} /> Download
+                        </button>
+                      </div>
+                    </div>
+                  </div>
 
-        <div className={styles.cardDivider}></div>
-
-        {/* Details */}
-
-        <div className={styles.cardGrid}>
-          <div>
-                      <span className={`${styles.statusBadge} ${styles.acknowledged}`}>
-                        ● Acknowledged
-                      </span>
-          </div>
-
-          <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn}>
-                        <Eye size={16} /> View
-                      </button>
-                      <button className={styles.actionBtn}>
-                        <Download size={16} /> Download
-                      </button>
-          </div>
-        </div>
-      </div>
-       <div className={styles.employeeCard}>
-        {/* Top */}
-
-        <div className={styles.cardTop}>
-          
-          <div className={styles.namemenu}>
-          <div className={styles.cardUser}>
-            <h3>NDA</h3>
-            <p>{user?.name}</p>
-          </div>
-          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
-            handleEdit(emp)
-            setselected(emp._id)
-          }}/> */}
-          </div>
-        </div>
-
-        <div className={styles.cardDivider}></div>
-
-        {/* Details */}
-
-        <div className={styles.cardGrid}>
-          <div>
-                      <span className={`${styles.statusBadge} ${styles.acknowledged}`}>
-                        ● Acknowledged
-                      </span>
-          </div>
-
-          <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn}>
-                        <Eye size={16} /> View
-                      </button>
-                      <button className={styles.actionBtn}>
-                        <Download size={16} /> Download
-                      </button>
-          </div>
-        </div>
-      </div>
-      <div className={styles.employeeCard}>
-        {/* Top */}
-
-        <div className={styles.cardTop}>
-          
-          <div className={styles.namemenu}>
-          <div className={styles.cardUser}>
-            <h3>Policy Handbook</h3>
-            <p>{user?.name}</p>
-          </div>
-          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
-            handleEdit(emp)
-            setselected(emp._id)
-          }}/> */}
-          </div>
-        </div>
-
-        <div className={styles.cardDivider}></div>
-
-        {/* Details */}
-
-        <div className={styles.cardGrid}>
-          <div>
-                      <span className={`${styles.statusBadge} ${styles.acknowledged}`}>
-                        ● Acknowledged
-                      </span>
-          </div>
-
-          <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn}>
-                        <Eye size={16} /> View
-                      </button>
-                      <button className={styles.actionBtn}>
-                        <Download size={16} /> Download
-                      </button>
-          </div>
-        </div>
-      </div>
+                  <div className={styles.employeeCard}>
+                    <div className={styles.cardTop}>
+                      <div className={styles.namemenu}>
+                        <div className={styles.cardUser}>
+                          <h3>Policy Handbook</h3>
+                          <p>{user?.name}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.cardDivider}></div>
+                    <div className={styles.cardGrid}>
+                      <div>
+                        <span className={`${styles.statusBadge} ${styles.acknowledged}`}>
+                          ● Acknowledged
+                        </span>
+                      </div>
+                      <div className={styles.actionButtons}>
+                        <button 
+                          className={styles.actionBtn}
+                          onClick={() => window.open('https://dox.nocapcode.cloud/company-docs', '_blank')}
+                        >
+                          <Eye size={16} /> View
+                        </button>
+                        <button className={styles.actionBtn}>
+                          <Download size={16} /> Download
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                
               </div>
 
               {/* Uploaded Documents */}
+              
               <div className={styles.documentSection}>
                 <h3 className={styles.documentSectionTitle}>Uploaded Documents</h3>
                 
+                {/* Desktop View */}
                 <div className={styles.desktopview}>
-                <div className={styles.documentTable}>
-                  <div className={styles.documentTableHeader}>
-                    <div>Document</div>
-                    <div>Status</div>
-                    <div>Action</div>
+                  <div className={styles.documentTable}>
+                    <div className={styles.documentTableHeader}>
+                      <div>Document</div>
+                      <div>Status</div>
+                      <div>Action</div>
+                    </div>
+
+                    <div className={styles.documentRow}>
+                      <div>
+                        <div>Government ID</div>
+                        <div className={styles.documentSubtext}>(Aadhaar / PAN)</div>
+                      </div>
+                      <div>
+                        <span className={`${styles.statusBadge} ${user?.documents?.govid1?.image || user?.documents?.govid2?.image ? styles.uploaded :styles.pending}`}>
+                          {user?.documents?.govid1?.image || user?.documents?.govid2?.image?"Uploaded":"Pending"}
+                        </span>
+                      </div>
+                      <div className={styles.actionButtons}>
+                        <a
+                          href={user?.documents?.govid1?.image}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.actionBtn}
+                          style={{textDecorationLine:"none"}}
+                        >
+                          <Eye size={16} /> View
+                        </a>
+                        <button 
+                          className={styles.actionBtn}
+                          onClick={() => window.open('https://dox.nocapcode.cloud/onboarding/step3', '_blank')}
+                        >
+                          <Pencil size={16} /> Update
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className={styles.documentRow}>
+                      <div>Address Proof</div>
+                      <div>
+                        <span className={`${styles.statusBadge} ${user?.documents?.govid1?.image ? styles.uploaded :styles.pending}`}>
+                          {user?.documents?.govid1?.image ?"Uploaded":"Pending"}
+                        </span>
+                      </div>
+                      <div className={styles.actionButtons}>
+                        <a
+                          href={user?.documents?.govid1?.image}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.actionBtn}
+                          style={{textDecorationLine:"none"}}
+                        >
+                          <Eye size={16} /> View
+                        </a>
+                        <button 
+                          className={styles.actionBtn}
+                          onClick={() => window.open('https://dox.nocapcode.cloud/onboarding/step3', '_blank')}
+                        >
+                          <Pencil size={16} /> Update
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className={styles.documentRow}>
+                      <div>Bank Details</div>
+                      <div>
+                        <span className={`${styles.statusBadge} ${user?.bankdetails?.upi ? styles.uploaded :styles.pending}`}>
+                          {user?.bankdetails?.upi ?"Uploaded":"Pending"}
+                        </span>
+                      </div>
+                      <div className={styles.actionButtons}>
+                        <button className={styles.actionBtn}>
+                          <Eye size={16} /> View
+                        </button>
+                        <button 
+                          className={styles.actionBtn}
+                          onClick={() => window.open('https://dox.nocapcode.cloud/onboarding/step6', '_blank')}
+                        >
+                          <Pencil size={16} /> Update
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Mobile View */}
+                <div className={styles.mobileView}>
+                  <div className={styles.employeeCard}>
+                    <div className={styles.cardTop}>
+                      <div className={styles.namemenu}>
+                        <div className={styles.cardUser}>
+                          <h3>Government ID</h3>
+                          <p>(Aadhaar / PAN)</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.cardDivider}></div>
+                    <div className={styles.cardGrid}>
+                      <div>
+                        <span className={`${styles.statusBadge} ${user?.documents?.aadhar || user?.documents?.pan ? styles.uploaded :styles.pending}`}>
+                          {user?.documents?.aadhar || user?.documents?.pan ?"Uploaded":"Pending"}
+                        </span>
+                      </div>
+                      <div className={styles.actionButtons}>
+                        <button className={styles.actionBtn}>
+                          <Eye size={16} /> View
+                        </button>
+                        <button 
+                          className={styles.actionBtn}
+                          onClick={() => window.open('https://dox.nocapcode.cloud/onboarding/step3', '_blank')}
+                        >
+                          <Pencil size={16} /> Update
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className={styles.documentRow}>
-                    <div>
-                      <div>Government ID</div>
-                      <div className={styles.documentSubtext}>(Aadhaar / PAN)</div>
+                  <div className={styles.employeeCard}>
+                    <div className={styles.cardTop}>
+                      <div className={styles.namemenu}>
+                        <div className={styles.cardUser}>
+                          <h3>Address Proof</h3>
+                          <p>(Aadhaar)</p>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <span className={`${styles.statusBadge} ${user?.documents?.govid1?.image || user?.documents?.govid2?.image ? styles.uploaded :styles.pending}`}>
-                        {user?.documents?.govid1?.image || user?.documents?.govid2?.image?"Uploaded":"Pending"}
-                      </span>
+                    <div className={styles.cardDivider}></div>
+                    <div className={styles.cardGrid}>
+                      <div>
+                        <span className={`${styles.statusBadge} ${user?.documents?.aadhar || user?.documents?.pan ? styles.uploaded :styles.pending}`}>
+                          {user?.documents?.aadhar || user?.documents?.pan ?"Uploaded":"Pending"}
+                        </span>
+                      </div>
+                      <div className={styles.actionButtons}>
+                        <button className={styles.actionBtn}>
+                          <Eye size={16} /> View
+                        </button>
+                        <button 
+                          className={styles.actionBtn}
+                          onClick={() => window.open('https://dox.nocapcode.cloud/onboarding/step3', '_blank')}
+                        >
+                          <Pencil size={16} /> Update
+                        </button>
+                      </div>
                     </div>
-                    <div className={styles.actionButtons}>
-                     <a
-  href={user?.documents?.govid1?.image}
-  target="_blank"
-  rel="noopener noreferrer"
-  className={styles.actionBtn}
-  style={{textDecorationLine:"none"}}
->
-  <Eye size={16} />
-  View
-</a>
-                      <button className={styles.actionBtn}>
-                        <Pencil size={16} /> Update
-                      </button>
-          </div>
                   </div>
 
-                  <div className={styles.documentRow}>
-                    <div>Address Proof</div>
-                    <div>
-                      <span className={`${styles.statusBadge} ${user?.documents?.govid1?.image ? styles.uploaded :styles.pending}`}>
-                        {user?.documents?.govid1?.image ?"Uploaded":"Pending"}
-                      </span>
+                  <div className={styles.employeeCard}>
+                    <div className={styles.cardTop}>
+                      <div className={styles.namemenu}>
+                        <div className={styles.cardUser}>
+                          <h3>Bank Details</h3>
+                        </div>
+                      </div>
                     </div>
-                    <div className={styles.actionButtons}>
-                       <a
-  href={user?.documents?.govid1?.image}
-  target="_blank"
-  rel="noopener noreferrer"
-  className={styles.actionBtn}
-  style={{textDecorationLine:"none"}}
->
-                        <Eye size={16} /> View
-                      </a>
-                      <button className={styles.actionBtn}>
-                        <Pencil size={16} /> Update
-                      </button>
-          </div>
-                  </div>
-
-                  <div className={styles.documentRow}>
-                    <div>Bank Details</div>
+                    <div className={styles.cardDivider}></div>
                     <div>
                       <span className={`${styles.statusBadge} ${user?.bankdetails?.upi ? styles.uploaded :styles.pending}`}>
                         {user?.bankdetails?.upi ?"Uploaded":"Pending"}
                       </span>
                     </div>
                     <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn}>
-                        <Eye size={16} /> View
-                      </button>
-                      <button className={styles.actionBtn}>
+                      <button 
+                        className={styles.actionBtn}
+                        onClick={() => window.open('https://dox.nocapcode.cloud/onboarding/step6', '_blank')}
+                      >
                         <Pencil size={16} /> Update
                       </button>
-          </div>
+                    </div>
                   </div>
                 </div>
-                </div>
-                  <div className={styles.mobileView}>
-      <div className={styles.employeeCard}>
-        {/* Top */}
-
-        <div className={styles.cardTop}>
-          
-          <div className={styles.namemenu}>
-          <div className={styles.cardUser}>
-            <h3>Government ID</h3>
-            <p>(Aadhaar / PAN)</p>
-          </div>
-          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
-            handleEdit(emp)
-            setselected(emp._id)
-          }}/> */}
-          </div>
-        </div>
-
-        <div className={styles.cardDivider}></div>
-
-        {/* Details */}
-
-        <div className={styles.cardGrid}>
-          <div>
-                      <span className={`${styles.statusBadge} ${user?.documents?.aadhar || user?.documents?.pan ? styles.uploaded :styles.pending}`}>
-                        {user?.documents?.aadhar || user?.documents?.pan ?"Uploaded":"Pending"}
-                      </span>
-          </div>
-
-          <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn}>
-                        <Eye size={16} /> View
-                      </button>
-                      <button className={styles.actionBtn}>
-                        <Pencil size={16} /> Update
-                      </button>
-          </div>
-        </div>
-      </div>
-      <div className={styles.employeeCard}>
-        {/* Top */}
-
-        <div className={styles.cardTop}>
-          
-          <div className={styles.namemenu}>
-          <div className={styles.cardUser}>
-            <h3>Address Proof</h3>
-            <p>(Aadhaar)</p>
-          </div>
-          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
-            handleEdit(emp)
-            setselected(emp._id)
-          }}/> */}
-          </div>
-        </div>
-
-        <div className={styles.cardDivider}></div>
-
-        {/* Details */}
-
-        <div className={styles.cardGrid}>
-          <div>
-                      <span className={`${styles.statusBadge} ${user?.documents?.aadhar || user?.documents?.pan ? styles.uploaded :styles.pending}`}>
-                        {user?.documents?.aadhar || user?.documents?.pan ?"Uploaded":"Pending"}
-                      </span>
-          </div>
-
-          <div className={styles.actionButtons}>
-                      <button className={styles.actionBtn}>
-                        <Eye size={16} /> View
-                      </button>
-                      <button className={styles.actionBtn}>
-                        <Pencil size={16} /> Update
-                      </button>
-          </div>
-        </div>
-      </div>
-      <div className={styles.employeeCard}>
-        {/* Top */}
-
-        <div className={styles.cardTop}>
-          
-          <div className={styles.namemenu}>
-          <div className={styles.cardUser}>
-            <h3>Bank Details</h3>
-            {/* <p>(Aadhaar / PAN)</p> */}
-          </div>
-          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
-            handleEdit(emp)
-            setselected(emp._id)
-          }}/> */}
-          </div>
-        </div>
-
-        <div className={styles.cardDivider}></div>
-
-        {/* Details */}
-
-        <div>
-                      <span className={`${styles.statusBadge} ${user?.bankdetails?.upi ? styles.uploaded :styles.pending}`}>
-                        {user?.bankdetails?.upi ?"Uploaded":"Pending"}
-                      </span>
-        </div>
-
-          <div className={styles.actionButtons}>
-                      {/* <button className={styles.actionBtn}>
-                        <Eye size={16} /> View
-                      </button> */}
-                      <button className={styles.actionBtn}>
-                        <Pencil size={16} /> Update
-                      </button>
-          </div>
-        </div>
-                 </div>
-                  </div>
+              </div>
              
             </>
           )}
@@ -682,7 +680,7 @@ export default function EmployeeProfile() {
                 <div className={styles.credentialGrid}>
                   <div className={styles.credentialItem}>
                     <label>Company Email</label>
-                    <p>{user?.email || "sarah.wilson@company.com"}</p>
+                    <p>{user?.email || "sarah@nocapcode.cloud"}</p>
                   </div>
 
                   <div className={styles.credentialItem}>
@@ -692,12 +690,12 @@ export default function EmployeeProfile() {
 
                   <div className={styles.credentialItem}>
                     <label>2FA Enabled</label>
-                    <p>Yes</p>
+                    <p>N/A</p>
                   </div>
 
                   <div className={styles.credentialItem}>
                     <label>Account Type</label>
-                    <p>Google Workspace</p>
+                    <p>Atlas Workspace</p>
                   </div>
 
                   <div className={styles.credentialItem}>
@@ -1002,7 +1000,9 @@ export default function EmployeeProfile() {
                       Update your account password regularly for security
                     </div>
                   </div>
-                  <button className={styles.settingsButton}>Change Password</button>
+                  <button className={styles.settingsButton} onClick={() => setIsPasswordModalOpen(true)}>
+                    Change Password
+                  </button>
                 </div>
               </div>
             </>
@@ -1011,11 +1011,67 @@ export default function EmployeeProfile() {
       </div>
     </div>
 
-    {overlay && (
-      <div className={styles.overlay}>
-        
-      </div>
-    )}
+    {/* Existing Overlay */}
+      {overlay && (
+        <div className={styles.overlay}>
+        </div>
+      )}
+
+      {/* New Password Change Modal */}
+      {isPasswordModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <div className={styles.modalHeader}>
+              <h2>Change Password</h2>
+              <button 
+                className={styles.modalClose} 
+                onClick={() => setIsPasswordModalOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            
+            <form onSubmit={handlePasswordSubmit}>
+              <div className={styles.formGroup}>
+                <label>Current Password</label>
+                <input 
+                  type="password" 
+                  required
+                  placeholder="Enter current password"
+                  value={passwordForm.currentPassword}
+                  onChange={(e) => setPasswordForm({...passwordForm, currentPassword: e.target.value})}
+                />
+              </div>
+              
+              <div className={styles.formGroup}>
+                <label>New Password</label>
+                <input 
+                  type="password" 
+                  required
+                  placeholder="Enter new password"
+                  value={passwordForm.newPassword}
+                  onChange={(e) => setPasswordForm({...passwordForm, newPassword: e.target.value})}
+                />
+              </div>
+              
+              <div className={styles.formGroup}>
+                <label>Confirm New Password</label>
+                <input 
+                  type="password" 
+                  required
+                  placeholder="Confirm new password"
+                  value={passwordForm.confirmPassword}
+                  onChange={(e) => setPasswordForm({...passwordForm, confirmPassword: e.target.value})}
+                />
+              </div>
+              
+              <button type="submit" className={styles.submitBtn}>
+                Change Password
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }
