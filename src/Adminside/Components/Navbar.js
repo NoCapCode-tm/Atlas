@@ -1,25 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "../CSS/navbar.module.css";
 import {
-  Menu,
-  Bell,
-  LayoutDashboard,
-  Users,
-  FolderKanban,
-  SquareCheckBig,
-  Heart,
-  ChartNoAxesColumnIncreasing,
-  Megaphone,
-  Wrench,
-  KeyRound,
-  UserCircle,
-  Settings,
-  LogOut,
-  ChevronDown,
-  Pause,
-  Play,
-  User,
-  House,
+  Menu, Bell, LayoutDashboard, Users, FolderKanban, SquareCheckBig, 
+  Heart, ChartNoAxesColumnIncreasing, Megaphone, Wrench, KeyRound, 
+  UserCircle, Settings, LogOut, ChevronDown, Pause, Play, User, House, Square 
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router";
 import axios from "axios";
@@ -38,6 +22,10 @@ function Navbar() {
   const [seconds, setSeconds] = useState(0);
   const timerRef = React.useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  // Create refs for the dropdown wrappers
+  const timerDropdownRef = React.useRef(null);
+  const profileDropdownRef = React.useRef(null);
 
   const getActive = (paths) => {
     return paths.includes(location.pathname);
@@ -58,6 +46,30 @@ function Navbar() {
       }
     })();
   }, []);
+
+  // Add click-outside listener
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // If the timer dropdown is open and we click outside of its wrapper, close it
+      if (timerDropdownRef.current && !timerDropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+      
+      // If the profile dropdown is open and we click outside of its wrapper, close it
+      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
+        setinfo(false);
+      }
+    };
+
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    
+    // Unbind the event listener on cleanup
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
 
   useEffect(() => {
     const status = localStorage.getItem("prism_timer_status");
@@ -205,41 +217,37 @@ function Navbar() {
 
   const isOpen = menuopen || empmenu;
 
-  return (
+return (
     <>
       <div className={styles.container}>
-        <div className={styles.searchBar}>
-          <div className={styles.logo} onClick={handlesidebar}>
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 67 57"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4.24084 51.7974L32.5664 9.06055L62.2408 51.7974C40.0276 37.9745 27.3506 37.7995 4.24084 51.7974Z"
-                stroke="#DDDDFF"
-                stroke-width="10.1754"
-              />
-            </svg>
-          </div>
-          {/* <Search /> */}
-          {/* <input
-          type="text"
-          placeholder={` Search employees,projects,tasks...`}
-          className={styles.searchInput}
-        /> */}
+        
+        {/* LOGO - Search bar wrapper completely removed */}
+        <div className={styles.logo} onClick={handlesidebar}>
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 67 57"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4.24084 51.7974L32.5664 9.06055L62.2408 51.7974C40.0276 37.9745 27.3506 37.7995 4.24084 51.7974Z"
+              stroke="#DDDDFF"
+              stroke-width="10.1754"
+            />
+          </svg>
         </div>
+        
+        {/* RIGHT SIDE ITEMS */}
         <div className={styles.right}>
           {isEmployee && (
-            <div className={styles.timerBoxWrapper}>
-              <div className={styles.timerBox}>
+            <div className={styles.timerBoxWrapper} ref={timerDropdownRef}>
+              <div className={styles.timerBox} onClick={() => setShowDropdown(!showDropdown)}>
                 <button className={styles.playPauseBtn}>
-                  {timerStatus === "PUNCH_IN" ? <Pause /> : <Play />}
+                  {timerStatus === "PUNCH_IN" ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
                 </button>
 
-                <div>
+                <div className={styles.timerTextWrap}>
                   <p className={styles.timerLabel}>
                     {timerStatus === "PUNCH_IN"
                       ? "WORKING"
@@ -251,31 +259,39 @@ function Navbar() {
                 </div>
 
                 <ChevronDown
-                  onClick={() => setShowDropdown(!showDropdown)}
+                  size={16}
                   color="white"
+                  className={styles.chevron}
+                  style={{ transform: showDropdown ? 'rotate(180deg)' : 'rotate(0deg)' }}
                 />
               </div>
 
               {showDropdown && (
                 <div className={styles.timerDropdown}>
-                  <button onClick={punchIn}>▶ Punch In</button>
-                  <button onClick={takeBreak}>⏸ Break</button>
-                  <button onClick={punchOut}>⏹ Punch Out</button>
+                  <button onClick={punchIn}>
+                    <Play size={14} fill="currentColor" /> Punch In
+                  </button>
+                  <button onClick={takeBreak}>
+                    <Pause size={14} fill="currentColor" /> Break
+                  </button>
+                  <button onClick={punchOut}>
+                    <Square size={14} fill="currentColor" /> Punch Out
+                  </button>
                 </div>
               )}
             </div>
           )}
+          
           <div className={styles.notification}>
-            <Bell />
+            <Bell size={20} />
           </div>
           <div
             className={styles.profile}
-            onClick={() => {
-              setinfo(!info);
-            }}
+            ref={profileDropdownRef}
+            onClick={() => setinfo(!info)}
           >
             <div className={styles.profilepic}>
-              {user.profilepicture ? (
+              {user?.profilepicture ? (
                 <img
                   src={user?.profilepicture}
                   height="100%"
@@ -283,25 +299,36 @@ function Navbar() {
                   alt="/"
                 />
               ) : (
-                "B"
+                user?.name?.charAt(0).toUpperCase() || "U"
               )}
             </div>
-            <span>{user?.name?.split(" ")[0]}</span>
-            <ChevronDown size={12} />
+            <span className={styles.profileName}>{user?.name?.split(" ")[0]}</span>
+            <ChevronDown 
+              size={14} 
+              className={styles.profileChevron}
+              style={{ transform: info ? 'rotate(180deg)' : 'rotate(0deg)' }}
+            />
+            
             {info && (
               <div className={styles.info}>
-                <div className={styles.options}>
-                  <UserCircle color="rgba(104, 80, 190, 1)" />
+                <button 
+                  className={styles.options} 
+                  onClick={() => navigate(isEmployee ? '/employee/profile' : '/profile')}
+                >
+                  <UserCircle size={18} color="#6d64fa" />
                   Profile
-                </div>
-                <div className={styles.options}>
-                  <Settings color="rgba(104, 80, 190, 1)" />
+                </button>
+                <button 
+                  className={styles.options} 
+                  onClick={() => navigate(isEmployee ? '/employee/profile' : '/setting')}
+                >
+                  <Settings size={18} color="#6d64fa" />
                   Settings
-                </div>
-                <div className={styles.options} onClick={handlelogout}>
-                  <LogOut color="rgba(104, 80, 190, 1)" />
+                </button>
+                <button className={styles.options} onClick={handlelogout}>
+                  <LogOut size={18} color="#6d64fa" />
                   Log Out
-                </div>
+                </button>
               </div>
             )}
           </div>

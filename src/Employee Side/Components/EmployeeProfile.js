@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styles from "../CSS/EmployeeProfile.module.css";
-import { User, Mail, Phone, Calendar, Users, Briefcase, FileText, Shield, Settings, Edit, Download, Eye, Upload, Plus, Pencil } from "lucide-react";
+import { User, Mail, Phone, Calendar, Users, Briefcase, FileText, Shield, Settings, Edit, Download, Eye, Upload, Plus, Pencil, Lock } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 
 export default function EmployeeProfile() {
   const [user, setUser] = useState(null);
@@ -720,12 +721,18 @@ export default function EmployeeProfile() {
               </div>
 
               {/* Tools Access */}
-              <div className={styles.credentialCard}>
+              <div className={`${styles.credentialCard} ${styles.restrictedContainer}`}>
+                
+                {/* New Restricted Overlay */}
+                <div className={styles.restrictedOverlay}>
+                  <Lock size={36} className={styles.lockIcon} />
+                  <p>
+                    Restricted from Human Resource Department. If needed, raise a Ticket using the Support/Request Section.
+                  </p>
+                </div>
+
                 <div className={styles.credentialCardHeader}>
                   <h3>Tools Access</h3>
-                  {/* <button className={styles.requestBtn}>
-                    <Plus size={16} /> Request Device
-                  </button> */}
                 </div>
                 <div className={styles.desktopview}>
                 <div className={styles.documentTable}>
@@ -775,104 +782,69 @@ export default function EmployeeProfile() {
                   </div>
                 </div>
                 </div>
+                
                 <div className={styles.mobileView}>
-      <div className={styles.employeeCard}>
-        {/* Top */}
-
-        <div className={styles.cardTop}>
-          
-          <div className={styles.namemenu}>
-          <div className={styles.cardUser}>
-            <h3>Figma</h3>
-            {/* <p>(Aadhaar / PAN)</p> */}
-          </div>
-          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
-            handleEdit(emp)
-            setselected(emp._id)
-          }}/> */}
-          </div>
-        </div>
-
-        <div className={styles.cardDivider}></div>
-
-        {/* Details */}
-
-        <div>
+                  {/* Keep your existing mobile cards here... */}
+                  <div className={styles.employeeCard}>
+                    <div className={styles.cardTop}>
+                      <div className={styles.namemenu}>
+                        <div className={styles.cardUser}>
+                          <h3>Figma</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.cardDivider}></div>
+                    <div>
                       <span className={`${styles.statusBadge} ${styles.active}`}>
                         ● Active
                       </span>
                     </div>
-
-         <div className={styles.actionButtons}>
+                    <div className={styles.actionButtons}>
                       <button className={styles.actionBtn}>Editor</button>
                       <button className={styles.actionBtn}>Request</button>
                     </div>
-        </div>
-      <div className={styles.employeeCard}>
-        {/* Top */}
-
-        <div className={styles.cardTop}>
-          
-          <div className={styles.namemenu}>
-          <div className={styles.cardUser}>
-            <h3>AWS</h3>
-            {/* <p>(Aadhaar / PAN)</p> */}
-          </div>
-          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
-            handleEdit(emp)
-            setselected(emp._id)
-          }}/> */}
-          </div>
-        </div>
-
-        <div className={styles.cardDivider}></div>
-
-        {/* Details */}
-
-        <div>
+                  </div>
+                  
+                  <div className={styles.employeeCard}>
+                    <div className={styles.cardTop}>
+                      <div className={styles.namemenu}>
+                        <div className={styles.cardUser}>
+                          <h3>AWS</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.cardDivider}></div>
+                    <div>
                       <span className={`${styles.statusBadge} ${styles.active}`}>
                         ● Active
                       </span>
                     </div>
-
-         <div className={styles.actionButtons}>
+                    <div className={styles.actionButtons}>
                       <button className={styles.actionBtn}>Editor</button>
                       <button className={styles.actionBtn}>Request</button>
                     </div>
-        </div>
-      <div className={styles.employeeCard}>
-        {/* Top */}
+                  </div>
 
-        <div className={styles.cardTop}>
-          
-          <div className={styles.namemenu}>
-          <div className={styles.cardUser}>
-            <h3>Slack</h3>
-            {/* <p>(Aadhaar / PAN)</p> */}
-          </div>
-          {/* <EllipsisVertical  color="white" onClick={()=>{setEditOverlay(true)
-            handleEdit(emp)
-            setselected(emp._id)
-          }}/> */}
-          </div>
-        </div>
-
-        <div className={styles.cardDivider}></div>
-
-        {/* Details */}
-
-        <div>
+                  <div className={styles.employeeCard}>
+                    <div className={styles.cardTop}>
+                      <div className={styles.namemenu}>
+                        <div className={styles.cardUser}>
+                          <h3>Slack</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.cardDivider}></div>
+                    <div>
                       <span className={`${styles.statusBadge} ${styles.pending}`}>
                         ● Pending
                       </span>
                     </div>
-
-         <div className={styles.actionButtons}>
+                    <div className={styles.actionButtons}>
                       <button className={styles.actionBtn}>Editor</button>
                       <button className={styles.actionBtn}>Request</button>
                     </div>
-        </div>
-                 </div>
+                  </div>
+                </div>
               </div>
 
               {/* Device Access */}

@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import PageLoader from "./PageLoader"; // Adjust the relative path if it's stored in a different folder like "../components/PageLoader"
 
 export default function EmployeeSupport() {
     const[tickets,setTickets]=useState([])
@@ -208,16 +209,9 @@ const handledetails = async(id) =>{
 // };
 
 
-const PageLoader = () => {
-  return (
-    <div className={styles.pageLoader}>
-      <div className={styles.loaderCard}>
-        <div className={styles.spinner}></div>
-        <p>Loading your workspace…</p>
-      </div>
-    </div>
-  );
-};
+if (pageLoading) {
+  return <PageLoader message="Loading your workspace…" />;
+}
 
 // Filter tickets based on selected filter
 const filteredTickets = ticketFilter === "All" 
