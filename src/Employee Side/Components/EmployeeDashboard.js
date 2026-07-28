@@ -23,6 +23,7 @@ import { useMemo } from "react";
 import DailyReportModal from "./DailyReportModal";
 import Createtask from "./CreateTask";
 import useWindowWidth from "../../useWindowWidth";
+import PageLoader from "./PageLoader"; // Adjust the relative path if it's stored in a different folder like "../components/PageLoader"
 
 
 export default function EmployeeDashboard() {
@@ -525,20 +526,9 @@ export default function EmployeeDashboard() {
 
 
 
-  const PageLoader = () => {
-    return (
-      <div className={styles.pageLoader}>
-        <div className={styles.loaderCard}>
-          <div className={styles.spinner}></div>
-          <p>Loading your workspace…</p>
-        </div>
-      </div>
-    );
-  };
-
-  if (pageLoading) {
-    return <PageLoader />;
-  }
+if (pageLoading) {
+  return <PageLoader message="Loading your workspace…" />;
+}
 
   /* ── Mobile layout ── */
   if (isMobile) {

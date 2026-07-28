@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Plus, SlidersHorizontal, Bell, CheckSquare }
 import axios from "axios";
 import { toast } from "react-toastify";
 import useWindowWidth from "../../useWindowWidth";
+import PageLoader from "./PageLoader"; // Adjust the relative path if it's stored in a different folder like "../components/PageLoader"
 
 /* ── Color map matching the image ── */
 const LEVEL_COLORS = {
@@ -198,14 +199,7 @@ export default function Calendarpage() {
 
   /* ── Loader ── */
   if (pageLoading) {
-    return (
-      <div className={styles.pageLoader}>
-        <div className={styles.loaderCard}>
-          <div className={styles.spinner} />
-          <p>Loading your workspace…</p>
-        </div>
-      </div>
-    );
+    return <PageLoader message="Loading your workspace…" />;
   }
 
   /* ================================================================

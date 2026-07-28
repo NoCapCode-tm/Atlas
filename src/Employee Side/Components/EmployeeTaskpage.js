@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import ECreatetaskmodal from "./EmployeeSubTask";
 import Createtask from "./CreateTask";
+import PageLoader from "./PageLoader"; // Adjust the relative path if it's stored in a different folder like "../components/PageLoader"
 
 /* ── Column config matching the image ── */
 const STATUS_COLUMNS = [
@@ -176,14 +177,7 @@ export default function EmployeeTaskpage() {
 
   /* ── Loader ── */
   if (pageLoading) {
-    return (
-      <div className={styles.pageLoader}>
-        <div className={styles.loaderCard}>
-          <div className={styles.spinner} />
-          <p>Loading your workspace…</p>
-        </div>
-      </div>
-    );
+    return <PageLoader message="Loading your workspace…" />;
   }
 
   const getFileMeta = (url) => {

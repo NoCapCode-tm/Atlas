@@ -12,6 +12,7 @@ import {
   Legend
 } from "chart.js";
 import Createtask from "./CreateTask";
+import PageLoader from "./PageLoader"; // Adjust the relative path if it's stored in a different folder like "../components/PageLoader"
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -273,21 +274,9 @@ const getFileIcon = (type) => {
 
 
 
-const PageLoader = () => {
-  return (
-    <div className={styles.pageLoader}>
-      <div className={styles.loaderCard}>
-        <div className={styles.spinner}></div>
-        <p>Loading your workspace…</p>
-      </div>
-    </div>
-  );
-};
-
 if (pageLoading) {
-  return <PageLoader />;
+  return <PageLoader message="Loading your workspace…" />;
 }
-
   return (
     <div className={styles.projectPage}>
 

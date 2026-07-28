@@ -222,6 +222,16 @@ const getNextDeadline = () => {
 };
 
 
+const today = new Date();
+  const currentDay = today.toLocaleDateString('en-US', { weekday: 'long' });
+  const currentDate = today.toLocaleDateString('en-GB', { 
+    day: 'numeric', 
+    month: 'long', 
+    year: 'numeric' 
+  });
+
+
+
 useEffect(() => {
   const deadline = getNextDeadline();
   const totalDuration = 24 * 60 * 60 * 1000; // 24 hours
@@ -255,7 +265,6 @@ useEffect(() => {
 
 
 
-
   return (
     <>
     <div className={styles.page}>
@@ -267,8 +276,8 @@ useEffect(() => {
         </div>
 
         <div className={styles.dateBox}>
-          <span>Saturday</span>
-          <small>20 December 2025</small>
+          <span>{currentDay}</span>
+          <small>{currentDate}</small>
         </div>
       </div>
 
