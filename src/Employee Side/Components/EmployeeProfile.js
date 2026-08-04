@@ -3,6 +3,7 @@ import styles from "../CSS/EmployeeProfile.module.css";
 import { User, Mail, Phone, Calendar, Users, Briefcase, FileText, Shield, Settings, Edit, Download, Eye, Upload, Plus, Pencil, Lock } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_URL } from "../../config";
 
 
 export default function EmployeeProfile() {

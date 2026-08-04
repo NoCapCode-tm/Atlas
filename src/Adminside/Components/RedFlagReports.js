@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styles from "../CSS/RedFlagsReport.module.css";
 import axios from "axios";
+import { API_URL } from "../../config";
 import {
   ResponsiveContainer,
   BarChart,

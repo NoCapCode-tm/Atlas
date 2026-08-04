@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../CSS/Entrypage.module.css";
 import { User, Briefcase, Users, ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../config";
 
 const AtlasRoleSelect = () => {
   const navigate = useNavigate();

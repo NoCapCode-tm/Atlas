@@ -5,6 +5,7 @@ import {
   Cell,
   ResponsiveContainer,
 } from "recharts";
+import { API_URL } from "../../config";
 
 const ProgressDonut = ({ percent }) => {
   const data = [

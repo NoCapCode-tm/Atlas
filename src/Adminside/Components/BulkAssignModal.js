@@ -3,6 +3,7 @@ import styles from "../CSS/BulkAssignModal.module.css";
 import { X } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_URL } from "../../config";
 
 const BulkAssignModal = ({ modal, setModal, roles }) => {
   const [search, setSearch] = useState("");

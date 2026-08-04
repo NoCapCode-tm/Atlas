@@ -13,6 +13,7 @@ import {
 } from "chart.js";
 import Createtask from "./CreateTask";
 import PageLoader from "./PageLoader"; // Adjust the relative path if it's stored in a different folder like "../components/PageLoader"
+import { API_URL } from "../../config";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

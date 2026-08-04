@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { toast } from 'react-toastify';
 import axios from "axios";
+import { API_URL } from "../../config";
 
 export default function Manager() {
 

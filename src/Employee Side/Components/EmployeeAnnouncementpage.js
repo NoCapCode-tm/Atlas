@@ -4,6 +4,7 @@ import { Megaphone, Check } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useMemo } from "react";
+import { API_URL } from "../../config";
 
 export default function EmployeeAnnouncementpage() {
  const[announcements,setAnnouncement]=useState(null)

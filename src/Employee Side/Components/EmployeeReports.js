@@ -3,6 +3,7 @@ import styles from "../CSS/DailyReports.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
+import { API_URL } from "../../config";
 
 import {
   Clock,

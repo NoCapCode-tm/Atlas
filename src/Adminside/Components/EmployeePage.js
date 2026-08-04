@@ -17,6 +17,7 @@ import {
 import axios from "axios";
 import { useNavigate ,useLocation} from "react-router";
 import { toast } from "react-toastify";
+import { API_URL } from "../../config";
 
 function CustomDropdown({ label, options, value, onChange }) {
   const [open, setOpen] = useState(false);

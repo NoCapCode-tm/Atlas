@@ -4,7 +4,7 @@ import { Calendar, Clock, Users, X } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { InfoTooltip } from "./InfoTooltip";
-
+import { API_URL } from "../../config";
 
 export default function Announcementpage() {
   // CREATE tab stat

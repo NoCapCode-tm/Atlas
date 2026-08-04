@@ -3,6 +3,7 @@ import styles from "../CSS/EmployeeProjectpage.module.css";
 import { FolderOpen, Target, AlertTriangle, CheckCircle } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../config";
 
 const todayDateOnly = () => {
   const d = new Date();

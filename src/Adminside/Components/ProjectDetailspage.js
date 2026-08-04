@@ -13,6 +13,7 @@ import {
 } from "chart.js";
 import Createtaskmodal from "./Createtaskmodal";
 import useWindowWidth from "./usewindowwidth";
+import { API_URL } from "../../config";
 // import Createtask from "./CreateTask";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
