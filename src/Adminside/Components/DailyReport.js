@@ -84,7 +84,7 @@ export default function DailyReport() {
       try {
         setLoading(true);
         const res = await axios.get(
-          "${API_URL}admin/getalluser",
+          `${API_URL}admin/getalluser`,
           { withCredentials: true }
         );
         setUsers(res.data.message || []);
@@ -97,7 +97,7 @@ export default function DailyReport() {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "${API_URL}admin/getreports",
+        `${API_URL}admin/getreports`,
         { withCredentials: true }
       );
       setReports(res.data.message || []);
