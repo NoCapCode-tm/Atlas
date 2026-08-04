@@ -64,10 +64,10 @@ export default function EmployeeTaskpage() {
       const startTime = Date.now();
       try {
         const [userRes, taskRes, projectRes, subtaskRes] = await Promise.all([
-          axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
-          axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask"),
-          axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject"),
-          axios.get("https://b-atlas-ncc.onrender.com/api/v1/employee/getsubtask"),
+          axios.get(`${API_URL}/admin/getuser`, { withCredentials: true }),
+          axios.get(`${API_URL}/admin/getalltask`),
+          axios.get(`${API_URL}/admin/getallproject`),
+          axios.get(`${API_URL}/employee/getsubtask`),
         ]);
         if (!mounted) return;
         setUser(userRes.data.message);
@@ -129,7 +129,7 @@ export default function EmployeeTaskpage() {
       fd.append("file", file);
       fd.append("taskId", selectedTask._id);
       await axios.post(
-        "https://b-atlas-ncc.onrender.com/api/v1/employee/task/upload-attachment",
+        `${API_URL}/employee/task/upload-attachment`,
         fd, { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }
       );
       toast.success("Attachment uploaded");
@@ -139,7 +139,7 @@ export default function EmployeeTaskpage() {
   /* ── Comment ── */
   const handlecomment = async () => {
     try {
-      await axios.post("https://b-atlas-ncc.onrender.com/api/v1/employee/commentsend",
+      await axios.post(`${API_URL}/employee/commentsend`,
         { comment, taskid: selectedTask._id, userid: user._id },
         { withCredentials: true }
       );
@@ -151,7 +151,7 @@ export default function EmployeeTaskpage() {
   /* ── Complete / Review ── */
   const handlecomplete = async () => {
     try {
-      await axios.post("https://b-atlas-ncc.onrender.com/api/v1/employee/complete-task",
+      await axios.post(`${API_URL}/employee/complete-task`,
         { taskid: selectedTask._id, userid: user._id }
       );
       toast.success("Task completed");
@@ -161,7 +161,7 @@ export default function EmployeeTaskpage() {
 
   const handlereview = async () => {
     try {
-      await axios.post("https://b-atlas-ncc.onrender.com/api/v1/employee/review-task",
+      await axios.post(`${API_URL}/employee/review-task`,
         { taskid: selectedTask._id, userid: user._id }
       );
       toast.success("Sent for review");
@@ -230,7 +230,7 @@ export default function EmployeeTaskpage() {
                 if (!draggedTask || draggedTask.status === col.key) return;
                 try {
                   await axios.put(
-                    `https://b-atlas-ncc.onrender.com/api/v1/employee/updatetask/${draggedTask._id}`,
+                    `${API_URL}/employee/updatetask/${draggedTask._id}`,
                     { status: col.key },
                     { withCredentials: true }
                   );

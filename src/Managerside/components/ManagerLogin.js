@@ -16,7 +16,7 @@ const ManagerLogin = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await axios.post("b-atlas-ncc.onrender.com/api/v1/manager/login", {
+      const response = await axios.post(`${API_URL}/manager/login`, {
         userid: email,
         password: password
       }, { withCredentials: true });

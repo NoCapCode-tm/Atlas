@@ -39,8 +39,8 @@ useEffect(() => {
         userRes,
         announceres
       ] = await Promise.all([
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getannouncements")
+        axios.get(`${API_URL}/admin/getuser`, { withCredentials: true }),
+        axios.get(`${API_URL}/admin/getannouncements`)
       ]);
 
       if (!mounted) return;
@@ -75,7 +75,7 @@ useEffect(() => {
 
 const handleacknowledge = async(id)=>{
   try {
-    const response = await axios.post("https://b-atlas-ncc.onrender.com/api/v1/employee/acknowledged",{
+    const response = await axios.post(`${API_URL}/employee/acknowledged`,{
       user : user._id,
       id:id
     },{withCredentials:true})

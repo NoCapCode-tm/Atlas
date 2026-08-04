@@ -95,11 +95,11 @@ export default function Calendarpage() {
       const startTime = Date.now();
       try {
         const [userRes, taskRes, projectRes, attendanceRes, reportRes] = await Promise.all([
-          axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
-          axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask"),
-          axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject"),
-          axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getattendance"),
-          axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getreports"),
+          axios.get(`${API_URL}/admin/getuser`, { withCredentials: true }),
+          axios.get(`${API_URL}/admin/getalltask`),
+          axios.get(`${API_URL}/admin/getallproject`),
+          axios.get(`${API_URL}/admin/getattendance`),
+          axios.get(`${API_URL}/admin/getreports`),
         ]);
         if (!mounted) return;
         setUser(userRes.data.message);

@@ -16,7 +16,7 @@ const HRLogin = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await axios.post("b-atlas-ncc.onrender.com/api/v1/hr/login", {
+      const response = await axios.post(`${API_URL}/hr/login`, {
         userid: email,
         password: password
       }, { withCredentials: true });
