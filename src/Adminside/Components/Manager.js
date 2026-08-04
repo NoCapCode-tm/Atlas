@@ -28,19 +28,19 @@ export default function Manager() {
    const[loading,setLoading]=useState("false")
 
     useEffect(() => {
-        axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`, { withCredentials: true })
+        axios.get(`${API_URL}admin/getalluser`, { withCredentials: true })
           .then(res => setEmployees(res.data.message || []));
       }, []);
 
      useEffect(() => {
-    axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject`)
+    axios.get(`${API_URL}admin/getallproject`)
       .then(res => setprojects(res.data.message || []));
   }, []);
 
   const handeladdu=async()=>{
     try {
       setLoading(true)
-      const response = await axios.put("https://b-atlas-ncc.onrender.com/api/v1/admin/updateemployee",{
+      const response = await axios.put(`${API_URL}admin/updateemployee`,{
         id:employee,
         manager:reporting
       },{withCredentials:true})

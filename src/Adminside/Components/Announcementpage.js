@@ -48,7 +48,7 @@ const [publishStep, setPublishStep] = useState("");
   useEffect(() => {
     (async () => {
       try {
-        const r = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject`);
+        const r = await axios.get(`${API_URL}admin/getallproject`);
         if (r?.data?.message) setTeams(r.data.message);
       } catch (e) {
         console.log("roles fetch error", e.message);
@@ -57,7 +57,7 @@ const [publishStep, setPublishStep] = useState("");
 
     (async () => {
       try {
-        const r = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`, { withCredentials: true });
+        const r = await axios.get(`${API_URL}admin/getalluser`, { withCredentials: true });
         if (r?.data?.message) setEmployees(r.data.message);
       } catch (e) {
         console.log("users fetch error", e.message);
@@ -69,7 +69,7 @@ const [publishStep, setPublishStep] = useState("");
   useEffect(() => {
     (async () => {
       try {
-        const r = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getannouncements`);
+        const r = await axios.get(`${API_URL}admin/getannouncements`);
         if (r?.data?.message) setAnnouncements(r.data.message);
       } catch (e) {
         console.log("announcements fetch error", e.message);
@@ -81,7 +81,7 @@ const [publishStep, setPublishStep] = useState("");
   useEffect(() => {
     (async () => {
       try {
-        const r = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getredflags`, { withCredentials: true });
+        const r = await axios.get(`${API_URL}admin/getredflags`, { withCredentials: true });
         const today = new Date().toISOString().split("T")[0];
         const todays = (r?.data?.message || []).filter((f) => {
           const flagDate = new Date(f.date).toISOString().split("T")[0];
@@ -162,7 +162,7 @@ selectedPeople:
     setPublishStep("Sending emails");
 
     const r = await axios.post(
-      `https://b-atlas-ncc.onrender.com/api/v1/admin/announcement`,
+      `${API_URL}admin/announcement`,
       payload,
       { withCredentials: true }
     );

@@ -35,7 +35,7 @@ function Navbar() {
     (async () => {
       try {
         const response = await axios.get(
-          "https://b-atlas-ncc.onrender.com/api/v1/admin/getuser",
+          `${API_URL}admin/getuser`,
           { withCredentials: true }
         );
         console.log(response.data.message);
@@ -99,7 +99,7 @@ function Navbar() {
   const handlelogout = async () => {
     try {
       const response = await axios.get(
-        "https://b-atlas-ncc.onrender.com/api/v1/admin/logout",
+        `${API_URL}admin/logout`,
         { withCredentials: true }
       );
       toast.success("Logout Successfull");
@@ -141,7 +141,7 @@ function Navbar() {
     if (timerStatus === "PUNCH_IN") return;
 
     await axios.post(
-      "https://b-atlas-ncc.onrender.com/api/v1/employee/start-attendance",
+      `${API_URL}employee/start-attendance`,
       { userId: user._id },
       { withCredentials: true }
     );
@@ -168,7 +168,7 @@ function Navbar() {
     const workedSeconds = Math.floor((Date.now() - startTime) / 1000);
 
     await axios.post(
-      "https://b-atlas-ncc.onrender.com/api/v1/employee/save-time",
+      `${API_URL}employee/save-time`,
       { userId: user._id, seconds: workedSeconds },
       { withCredentials: true }
     );
@@ -190,7 +190,7 @@ function Navbar() {
       }
 
       await axios.post(
-        "https://b-atlas-ncc.onrender.com/api/v1/employee/punchout",
+        `${API_URL}employee/punchout`,
         {
           userId: user._id,
           seconds: workedSeconds || 0,

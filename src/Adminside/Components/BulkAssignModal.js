@@ -19,7 +19,7 @@ const BulkAssignModal = ({ modal, setModal, roles }) => {
     const fetchemployees = async () => {
       try {
         const response = await axios.get(
-          `https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`,
+          `${API_URL}admin/getalluser`,
           { withCredentials: true }
         );
         setUsers(response.data.message);
@@ -89,7 +89,7 @@ const BulkAssignModal = ({ modal, setModal, roles }) => {
         console.log(selectedRole)
         console.log(selectedUsers)
       await axios.post(
-        `https://b-atlas-ncc.onrender.com/api/v1/admin/assignrole`,
+        `${API_URL}admin/assignrole`,
         { role: selectedRole, users: selectedUsers },
         { withCredentials: true }
       );

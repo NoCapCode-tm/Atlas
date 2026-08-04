@@ -65,7 +65,7 @@ const Projects = () => {
 useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject`);
+        const res = await axios.get(`${API_URL}admin/getallproject`);
         setProjects(res.data.message || []);
       } catch (err) {
         console.log("Error fetching projects:", err);
@@ -77,7 +77,7 @@ useEffect(() => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`);
+        const res = await axios.get(`${API_URL}admin/getalluser`);
         setEmployees(res.data.message || []);
       } catch (err) {
         console.log("Error fetching users:", err);
@@ -187,7 +187,7 @@ const riskProgress = (atRisk / total) * 100;
       setLoadingUsers(true);
       try {
         const res = await axios.get(
-          `https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`,
+          `${API_URL}admin/getalluser`,
           { withCredentials: true }
         );
         setEmployees(res.data.message || []);
@@ -260,7 +260,7 @@ const riskProgress = (atRisk / total) * 100;
       setLoadingUsers(true)
       console.log(payload)
       const res = await axios.post(
-        `https://b-atlas-ncc.onrender.com/api/v1/admin/addproject`,
+        `${API_URL}admin/addproject`,
         payload,
         { withCredentials: true }
       );

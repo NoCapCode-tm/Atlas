@@ -15,7 +15,7 @@ import {
 import {  ChartNoAxesCombined, CircleCheckBig, Clock, TriangleAlert } from "lucide-react";
 import { InfoTooltip } from "./InfoTooltip";
 
-const API = `https://b-atlas-ncc.onrender.com/api/v1/admin`;
+const API = `${API_URL}admin`;
 const severityColors = {
   High: "rgba(239,68,68,1)",
   Medium: "rgba(255,179,51,1)",

@@ -37,7 +37,7 @@ const Rolepage = () => {
     try {
       setLoadingRoles(true);
       const res = await axios.get(
-        `https://b-atlas-ncc.onrender.com/api/v1/admin/getroles`
+        `${API_URL}admin/getroles`
       );
       setRole(res.data.message);
     } catch {
@@ -52,7 +52,7 @@ const Rolepage = () => {
     try {
       setLoadingUsers(true);
       const res = await axios.get(
-        `https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`,
+        `${API_URL}admin/getalluser`,
         { withCredentials: true }
       );
       setusers(res.data.message);
@@ -73,7 +73,7 @@ const Rolepage = () => {
     try {
       setSubmitting(true);
       await axios.post(
-        `https://b-atlas-ncc.onrender.com/api/v1/admin/createrole`,
+        `${API_URL}admin/createrole`,
         { rolename: roleName, details },
         { withCredentials: true }
       );
@@ -92,7 +92,7 @@ const Rolepage = () => {
     try {
       setSubmitting(true);
       await axios.put(
-        `https://b-atlas-ncc.onrender.com/api/v1/admin/updaterole`,
+        `${API_URL}admin/updaterole`,
         {
           roleid,
           rolename: eroleName,
@@ -139,7 +139,7 @@ const Rolepage = () => {
   const handledelete =async(id)=>{
      if (!window.confirm(`Delete Role "${eroleName}" ?`)) return;
     try {
-      const response = await axios.delete(`https://b-atlas-ncc.onrender.com/api/v1/admin/deleterole/${id}`,
+      const response = await axios.delete(`${API_URL}admin/deleterole/${id}`,
       {withCredentials:true}
       )
       console.log(response)

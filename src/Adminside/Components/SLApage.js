@@ -27,7 +27,7 @@ export default function SLAComplianceDashboard() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getsla`);
+        const res = await axios.get(`${API_URL}admin/getsla`);
         setSla(res.data.message || []);
       } catch (err) {
         console.error("SLA fetch error:", err);
@@ -41,13 +41,13 @@ export default function SLAComplianceDashboard() {
     async function fetchAll() {
       try {
         const [tRes, uRes, pRes] = await Promise.all([
-          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask`, {
+          axios.get(`${API_URL}admin/getalltask`, {
             withCredentials: true,
           }),
-          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`, {
+          axios.get(`${API_URL}admin/getalluser`, {
             withCredentials: true,
           }),
-          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject`, {
+          axios.get(`${API_URL}admin/getallproject`, {
             withCredentials: true,
           }),
         ]);

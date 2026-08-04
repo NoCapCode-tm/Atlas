@@ -1,100 +1,118 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styles from "../CSS/Login.module.css";
-import axios from "axios"
-import { useNavigate } from "react-router"
-import { User, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
-import { toast } from "react-toastify"
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Mail, Lock, Hexagon } from "lucide-react";
+import { toast } from "react-toastify";
 
 const Login = () => {
-  const [email, setemail] = useState("")
-  const [pass, setpass] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const navigate = useNavigate()
-  const [loading, setloading] = useState(false)
+  const [email, setemail] = useState("");
+  const [pass, setpass] = useState("");
+  const navigate = useNavigate();
+  const [loading, setloading] = useState(false);
 
-  const handlelogin = async () => {
+  const handlelogin = async (e) => {
+    e.preventDefault();
     try {
-      setloading(true)
-      const response = await axios.post("https://b-atlas-ncc.onrender.com/api/v1/admin/adminlogin", {
+      setloading(true);
+      const response = await axios.post(`${API_URL}admin/adminlogin`, {
         userid: email,
         password: pass
-      }, { withCredentials: true })
-      console.log(response.data.message)
-      toast.success("Login Successfull")
-      navigate("/dashboard")
+      }, { withCredentials: true });
+      console.log(response.data.message);
+      toast.success("Login Successful");
+      navigate("/dashboard");
     } catch (error) {
-      toast.error("Login Unsuccessfull")
+      toast.error("Login Unsuccessful");
     } finally {
-      setloading(false)
+      setloading(false);
     }
-  }
+  };
 
   return (
-    <div className={styles.loginWrapper}>
-      <div className={styles.loginContainer}>
-        <div className={styles.loginRight}>
-          <div className={styles.loginFormContainer}>
-            <div className={styles.logo}>
-              <img
-                src={require("../../Adminside/Components/atlas.png")}
-                alt="Atlas Workspace Logo"
+    <div className={styles.wrapper}>
+      {/* ── LEFT PANEL (Form) ── */}
+      <div className={styles.leftPanel}>
+        
+        <div className={styles.logo}>
+            <svg
+                width="28"
+                height="28"
+                viewBox="0 0 193 160"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-label="Atlas Workspace Logo"
+                role="img"
+              >
+              <path
+                d="M10.4258 149.295L94.4258 22.2947L182.426 149.295C116.552 108.217 78.9582 107.698 10.4258 149.295Z"
+                stroke="white"
+                strokeWidth="18"
               />
-              <span>Aτλας</span>
-            </div>
-
-            <div className={styles.formHeader}>
-              <h2>Admin Access</h2>
-              <p>Please enter your credentials to sign in</p>
-            </div>
-
-            <form onSubmit={(e) => { e.preventDefault(); handlelogin() }} className={styles.loginForm}>
-              <div className={styles.formGroup}>
-                <div className={styles.inputWrapper}>
-                  <User size={18} className={styles.inputIcon} />
-                  <input
-                    type="text"
-                    placeholder="Username"
-                    value={email}
-                    onChange={(e) => setemail(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className={styles.formGroup}>
-                <div className={styles.inputWrapper}>
-                  <Lock size={18} className={styles.inputIcon} />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    value={pass}
-                    onChange={(e) => setpass(e.target.value)}
-                    required
-                  />
-                  <button
-                    type="button"
-                    className={styles.passwordToggle}
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-              </div>
-
-              <button type='submit' className={styles.signInBtn}>
-                {loading ? 'Signing In...' : 'Login'}
-                <ArrowRight size={18} />
-              </button>
-
-              <div className={styles.formOptions}>
-                <a href="/reset-password" className={styles.forgotPassword}>Forgot Password?</a>
-              </div>
-            </form>
-          </div>
+            </svg>
+          <span>Aτλας</span>
         </div>
+
+        <div className={styles.formContainer}>
+          <h1 className={styles.heading}>Administrator Sign In</h1>
+
+          <form onSubmit={handlelogin} className={styles.form}>
+            
+            <div className={styles.inputGroup}>
+              <label>User Name</label>
+              <div className={`${styles.inputWrapper} ${email ? styles.activeInput : ''}`}>
+                <Mail size={18} className={styles.icon} color={email ? "#4F46E5" : "#6b7280"} />
+                <input
+                  type="text"
+                  placeholder="Enter User Name"
+                  value={email}
+                  onChange={(e) => setemail(e.target.value)}
+                  className={styles.input}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className={styles.inputGroup}>
+              <label>Password</label>
+              <div className={styles.inputWrapper}>
+                <Lock size={18} className={styles.icon} color="#6b7280" />
+                <input
+                  type="password"
+                  placeholder="Enter Password"
+                  value={pass}
+                  onChange={(e) => setpass(e.target.value)}
+                  className={styles.input}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className={styles.forgotPassword}>
+              <span onClick={() => navigate('/reset-password')}>FORGOT PASSWORD?</span>
+            </div>
+
+            <button type="submit" className={styles.submitBtn} disabled={loading}>
+              {loading ? 'SIGNING IN...' : 'SIGN IN'}
+            </button>
+            
+          </form>
+        </div>
+
+        {/* Updated Footer with Legal Links */}
+        <div className={styles.footer}>
+          <a href="https://nocapcode.cloud/terms/" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+          <span className={styles.divider}>|</span>
+          <a href="https://nocapcode.cloud/privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+          <span className={styles.divider}>|</span>
+          <a href="https://nocapcode.cloud/security/" target="_blank" rel="noopener noreferrer">Trust & Security</a>
+        </div>
+        
       </div>
-      <div className={styles.footerCopyright}>
-        Powered by NoCapCode
+
+      {/* ── RIGHT PANEL (Image Only) ── */}
+      <div className={styles.rightPanel}>
+        {/* Intentionally left blank as requested */}
       </div>
     </div>
   );

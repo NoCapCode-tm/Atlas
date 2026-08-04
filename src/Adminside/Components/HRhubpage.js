@@ -38,7 +38,7 @@ useEffect(() => {
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`);
+      const res = await axios.get(`${API_URL}admin/getalluser`);
       setEmployees(res.data.message);
     })();
   }, []);
