@@ -15,7 +15,7 @@ const EmployeeLogin = () => {
   const handlelogin = async () => {
     try {
       setloading(true)
-      const response = await axios.post("https://b-atlas-ncc.onrender.com/api/v1/employee/login", {
+      const response = await axios.post(`${API_URL}/employee/login`, {
         userid: email,
         password: pass
       }, { withCredentials: true })

@@ -38,7 +38,7 @@ export default function EmployeeProfile() {
     try {
       // Pointing to the correct backend route /updateuser
       const response = await axios.put(
-        "https://b-atlas-ncc.onrender.com/api/v1/employee/updateuser", 
+        `${API_URL}/employee/updateuser`, 
         {
           id: user._id, // The backend controller requires the user id 
           password: passwordForm.newPassword // The backend expects the key to be 'password'
@@ -58,7 +58,7 @@ export default function EmployeeProfile() {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser",
+        `${API_URL}/admin/getalluser`,
         {
           withCredentials: true,
         }
@@ -78,7 +78,7 @@ export default function EmployeeProfile() {
       setPageLoading(true);
       try {
         const res = await axios.get(
-          "https://b-atlas-ncc.onrender.com/api/v1/admin/getuser",
+          `${API_URL}/admin/getuser`,
           { withCredentials: true }
         );
         setUser(res.data.message);
@@ -117,7 +117,7 @@ export default function EmployeeProfile() {
 
   const handleSaveProfile = async () => {
     try {
-     const response = await axios.put("https://b-atlas-ncc.onrender.com/api/v1/employee/updateuser",editForm,{withCredentials:true})
+     const response = await axios.put(`${API_URL}/employee/updateuser`,editForm,{withCredentials:true})
      console.log(response.data.message)
       window.location.reload()
       setUser({ ...user, ...editForm });

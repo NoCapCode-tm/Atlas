@@ -69,9 +69,9 @@ useEffect(() => {
         ticketres,
         usersres,
       ] = await Promise.all([
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getuser", { withCredentials: true }),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/gettickets"),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser")
+        axios.get(`${API_URL}/admin/getuser`, { withCredentials: true }),
+        axios.get(`${API_URL}/admin/gettickets`),
+        axios.get(`${API_URL}/admin/getalluser`)
       ]);
       if (!mounted) return;
      const currentUser = userRes.data.message;
@@ -141,7 +141,7 @@ useEffect(() => {
     setLoading(true);
 
     await axios.post(
-      `https://b-atlas-ncc.onrender.com/api/v1/admin/createticket`,
+      `${API_URL}/admin/createticket`,
       {
         title: form.title,
         category: form.category,
@@ -164,7 +164,7 @@ useEffect(() => {
 };
 
 const handledetails = async(id) =>{
-      const response = await axios.post(`https://b-atlas-ncc.onrender.com/api/v1/admin/ticketdetail`,{
+      const response = await axios.post(`${API_URL}/admin/ticketdetail`,{
             id:id
            },{withCredentials:true})
            console.log(response.data.message)
@@ -239,7 +239,7 @@ if (pageLoading) {
 
 const sendMessage =async() =>{
         try {
-            const response = await axios.post(`https://b-atlas-ncc.onrender.com/api/v1/admin/comment`,{
+            const response = await axios.post(`${API_URL}/admin/comment`,{
                 comment:comment,
                 id:ticket._id
             },{withCredentials:true})
@@ -258,7 +258,7 @@ const sendMessage =async() =>{
      const handlestatus = async(status)=>{
         setactivestatus(status)
         try {
-            const response = await axios.post(`https://b-atlas-ncc.onrender.com/api/v1/admin/updatestatus`,{
+            const response = await axios.post(`${API_URL}/admin/updatestatus`,{
                 id:ticket._id,
                 status:status
             },{withCredentials:true})
