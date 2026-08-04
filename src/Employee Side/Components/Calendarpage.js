@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import useWindowWidth from "../../useWindowWidth";
 import PageLoader from "./PageLoader"; // Adjust the relative path if it's stored in a different folder like "../components/PageLoader"
+import { API_URL } from "../../config";
 
 /* ── Color map matching the image ── */
 const LEVEL_COLORS = {

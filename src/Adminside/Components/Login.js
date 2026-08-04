@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock, Hexagon } from "lucide-react";
 import { toast } from "react-toastify";
+import { API_URL } from "../../config";
 
 const Login = () => {
   const [email, setemail] = useState("");

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import styles from "../CSS/HRhubpage.module.css";
 import axios from "axios";
   import { useLocation } from "react-router";
+  import { API_URL } from "../../config";
 
 export default function HRhubpage() {
   const [employees, setEmployees] = useState([]);

@@ -4,6 +4,7 @@ import axios from "axios"
 import { useNavigate } from "react-router"
 import { toast } from "react-toastify"
 import { User, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { API_URL } from "../../config";
 
 const EmployeeLogin = () => {
   const [email, setemail] = useState("")

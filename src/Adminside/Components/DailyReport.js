@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import styles from "../CSS/Dailyreport.module.css";
+import { API_URL } from "../../config";
 import {
   ResponsiveContainer,
   AreaChart,

@@ -3,7 +3,7 @@ import styles from "../CSS/Performanceheatmap.module.css";
 import axios from "axios";
 import { InfoTooltip } from "./InfoTooltip";
 import { ChevronDown, SlidersHorizontal } from "lucide-react";
-
+import { API_URL } from "../../config";
 
 const COLORS = [
   "#000000",

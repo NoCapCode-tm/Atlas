@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../CSS/Reports.module.css";
+import { API_URL } from "../../config";
 import {
   generateReportAPI,
   fetchReportsAPI

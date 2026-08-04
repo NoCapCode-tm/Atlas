@@ -24,6 +24,7 @@ import DailyReportModal from "./DailyReportModal";
 import Createtask from "./CreateTask";
 import useWindowWidth from "../../useWindowWidth";
 import PageLoader from "./PageLoader"; // Adjust the relative path if it's stored in a different folder like "../components/PageLoader"
+import { API_URL } from "../../config";
 
 
 export default function EmployeeDashboard() {

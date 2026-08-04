@@ -4,6 +4,7 @@ import styles from "../CSS/HRLogin.module.css";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_URL } from "../../config";
 
 const HRLogin = () => {
   const [email, setEmail] = useState('');

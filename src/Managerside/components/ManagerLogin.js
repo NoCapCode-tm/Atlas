@@ -4,6 +4,7 @@ import styles from "./css/ManagerLogin.module.css";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_URL } from "../../config";
 
 const ManagerLogin = () => {
   const [email, setEmail] = useState('');

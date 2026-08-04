@@ -8,6 +8,7 @@ import {
 import { useNavigate, useLocation } from "react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_URL } from "../../config";
 
 function Navbar() {
   const [menuopen, setMenuopen] = useState(false);

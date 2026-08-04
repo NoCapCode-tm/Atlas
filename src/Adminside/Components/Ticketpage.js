@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import styles from "../CSS/Ticketpage.module.css"; // adjust path to your project
 import { ChartNoAxesCombined, Clock, Filter, LayoutDashboard, Pencil, Search, Ticket } from "lucide-react";
 import axios from "axios";
+import { API_URL } from "../../config";
 import {useNavigate} from "react-router-dom"
 import { toast } from "react-toastify";
 import { InfoTooltip } from "./InfoTooltip";
@@ -25,6 +26,7 @@ const [selectedEmployee, setSelectedEmployee] = useState("");
 const [createTicketOpen, setCreateTicketOpen] = useState(false);
 // const[selectedticket,setselectedticket]=useState({})
 const[comments1,setComments1]=useState([])
+
 const [pageLoading, setPageLoading] = useState(true);
 const [actionLoading, setActionLoading] = useState(false);
 

@@ -9,6 +9,7 @@ import { BotMessageSquare, Calendar, CircleDot, Clock, Folder, Mail, Menu, Phone
 // import ScheduleTaskModal from "../../components/ScheduleTaskModal";
 // import SendMailModal from "../../components/SendMailModal";
 import {toast} from "react-toastify";
+import { API_URL } from "../../config";
 
 
 const EmployeeDetails = () => {
