@@ -40,8 +40,8 @@ useEffect(() => {
         userRes,
         announceres
       ] = await Promise.all([
-        axios.get(`${API_URL}/admin/getuser`, { withCredentials: true }),
-        axios.get(`${API_URL}/admin/getannouncements`)
+        axios.get(`${API_URL}admin/getuser`, { withCredentials: true }),
+        axios.get(`${API_URL}admin/getannouncements`)
       ]);
 
       if (!mounted) return;
@@ -76,7 +76,7 @@ useEffect(() => {
 
 const handleacknowledge = async(id)=>{
   try {
-    const response = await axios.post(`${API_URL}/employee/acknowledged`,{
+    const response = await axios.post(`${API_URL}employee/acknowledged`,{
       user : user._id,
       id:id
     },{withCredentials:true})
