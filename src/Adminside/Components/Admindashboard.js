@@ -100,13 +100,13 @@ useEffect(() => {
         metricsRes,
         redflagsRes,
     ] = await Promise.all([
-        axios.get(`${API_URL}/admin/getalluser`, {
+        axios.get(`${API_URL}admin/getalluser`, {
           withCredentials: true,
         }),
-        axios.get(`${API_URL}/admin/getuser`, {
+        axios.get(`${API_URL}admin/getuser`, {
           withCredentials: true,
         }),
-        axios.get(`${API_URL}/admin/getalltask`, {
+        axios.get(`${API_URL}admin/getalltask`, {
           withCredentials: true,
         }),
         axios.get(`${API_URL}admin/getattendance`, {

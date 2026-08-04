@@ -47,7 +47,7 @@ const Createtask = ({ modal, setModal, user, projects }) => {
     try {
       setLoading(true);
       await axios.post(
-        `${API_URL}/admin/assigntask`,
+        `${API_URL}admin/assigntask`,
         {
           title: form.title,
           description: form.description,
