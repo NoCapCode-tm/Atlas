@@ -92,13 +92,13 @@ export default function EmployeeDashboard() {
           announceres,
           subtaskRes
         ] = await Promise.all([
-          axios.get(`${API_URL}/admin/getuser`, { withCredentials: true }),
-          axios.get(`${API_URL}/admin/getalltask`),
-          axios.get(`${API_URL}/admin/getallproject`),
-          axios.get(`${API_URL}/admin/getattendance`),
-          axios.get(`${API_URL}/admin/getreports`),
-          axios.get(`${API_URL}/admin/getannouncements`),
-          axios.get(`${API_URL}/employee/getsubtask`)
+          axios.get(`${API_URL}admin/getuser`, { withCredentials: true }),
+          axios.get(`${API_URL}admin/getalltask`),
+          axios.get(`${API_URL}admin/getallproject`),
+          axios.get(`${API_URL}admin/getattendance`),
+          axios.get(`${API_URL}admin/getreports`),
+          axios.get(`${API_URL}admin/getannouncements`),
+          axios.get(`${API_URL}employee/getsubtask`)
         ]);
 
         if (!mounted) return;
@@ -172,7 +172,7 @@ export default function EmployeeDashboard() {
     if (timerStatus === "PUNCH_IN") return;
 
     await axios.post(
-      `${API_URL}/employee/start-attendance`,
+      `${API_URL}employee/start-attendance`,
       { userId: user._id },
       { withCredentials: true }
     );
@@ -200,7 +200,7 @@ export default function EmployeeDashboard() {
     const workedSeconds = Math.floor((Date.now() - startTime) / 1000);
 
     await axios.post(
-      `${API_URL}/employee/save-time`,
+      `${API_URL}employee/save-time`,
       { userId: user._id, seconds: workedSeconds },
       { withCredentials: true }
     );
@@ -226,7 +226,7 @@ export default function EmployeeDashboard() {
       }
 
       await axios.post(
-        `${API_URL}/employee/punchout`,
+        `${API_URL}employee/punchout`,
         {
           userId: user._id,
           seconds: workedSeconds || 0,
@@ -381,7 +381,7 @@ export default function EmployeeDashboard() {
     if (!user?._id) return;
 
     (async () => {
-      const res = await axios.get(`${API_URL}/admin/getattendance`);
+      const res = await axios.get(`${API_URL}admin/getattendance`);
       setAttendance(
         res.data.message.filter(a => String(a.user) === String(user._id))
       );
@@ -392,7 +392,7 @@ export default function EmployeeDashboard() {
     if (!user?._id) return;
 
     (async () => {
-      const res = await axios.get(`${API_URL}/admin/getreports`);
+      const res = await axios.get(`${API_URL}admin/getreports`);
       setReports(
         res.data.message.filter(r => String(r.user) === String(user._id))
       );
@@ -1056,7 +1056,7 @@ function TaskRow({ task }) {
 
     try {
       await axios.post(
-        `${API_URL}/employee/completedtask`,
+        `${API_URL}employee/completedtask`,
         { taskid: task._id },
         { withCredentials: true }
       );
@@ -1124,7 +1124,7 @@ function Announcement({ createdon, name, text }) {
     const fetchemployees = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/admin/getalluser`,
+          `${API_URL}admin/getalluser`,
           { withCredentials: true }
         );
         const emp = response.data.message?.find(e => e?.name === name)

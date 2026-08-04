@@ -48,8 +48,8 @@ useEffect(() => {
         userRes,
         taskRes,
       ] = await Promise.all([
-        axios.get(`${API_URL}/admin/getuser`, { withCredentials: true }),
-        axios.get(`${API_URL}/admin/getalltask`),
+        axios.get(`${API_URL}admin/getuser`, { withCredentials: true }),
+        axios.get(`${API_URL}admin/getalltask`),
       ]);
 
       if (!mounted) return;
@@ -116,7 +116,7 @@ useEffect(() => {
   const fetchReports = async () => {
     try {
       const res = await axios.get(
-        `${API_URL}/admin/getreports`,
+        `${API_URL}admin/getreports`,
         { withCredentials: true }
       );
 
@@ -186,7 +186,7 @@ const handleSubmitReport = async () => {
     setSubmitting(true);
      console.log(summary)
     await axios.post(
-      `${API_URL}/employee/submitreport`,
+      `${API_URL}employee/submitreport`,
       {
         user: user._id,
         summary:summary,

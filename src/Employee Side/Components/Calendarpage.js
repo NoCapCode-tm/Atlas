@@ -96,11 +96,11 @@ export default function Calendarpage() {
       const startTime = Date.now();
       try {
         const [userRes, taskRes, projectRes, attendanceRes, reportRes] = await Promise.all([
-          axios.get(`${API_URL}/admin/getuser`, { withCredentials: true }),
-          axios.get(`${API_URL}/admin/getalltask`),
-          axios.get(`${API_URL}/admin/getallproject`),
-          axios.get(`${API_URL}/admin/getattendance`),
-          axios.get(`${API_URL}/admin/getreports`),
+          axios.get(`${API_URL}admin/getuser`, { withCredentials: true }),
+          axios.get(`${API_URL}admin/getalltask`),
+          axios.get(`${API_URL}admin/getallproject`),
+          axios.get(`${API_URL}admin/getattendance`),
+          axios.get(`${API_URL}admin/getreports`),
         ]);
         if (!mounted) return;
         setUser(userRes.data.message);

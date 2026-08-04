@@ -105,11 +105,11 @@ useEffect(() => {
         alluserRes,
         projectsRes,
       ] = await Promise.all([
-        axios.get(`${API_URL}/admin/getuser`, { withCredentials: true }),
-        axios.get(`${API_URL}/admin/getalltask`),
-        axios.get(`${API_URL}/admin/getprojectdetails/${id}`),
-        axios.get(`${API_URL}/admin/getalluser`),
-        axios.get(`${API_URL}/admin/getallproject`),
+        axios.get(`${API_URL}admin/getuser`, { withCredentials: true }),
+        axios.get(`${API_URL}admin/getalltask`),
+        axios.get(`${API_URL}admin/getprojectdetails/${id}`),
+        axios.get(`${API_URL}admin/getalluser`),
+        axios.get(`${API_URL}admin/getallproject`),
       ]);
 
       if (!mounted) return;
