@@ -45,6 +45,7 @@ jobs:
         run: npm run build
         env:
           CI: false # Prevents warnings from being treated as fatal compilation errors
+          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}  # INJECTS VARIABLE HERE
 
       # 6. Securely deploy compiled assets to the target gh-pages branch
       - name: Deploy Assets to GitHub Pages
