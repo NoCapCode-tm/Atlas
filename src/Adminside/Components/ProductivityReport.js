@@ -34,7 +34,7 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://b-atlas-ncc.onrender.com/api/v1/admin/getmetrics"
+        `${API_URL}admin/getmetrics`
       );
       setMetrics(res.data.message || []);
     })();
@@ -43,7 +43,7 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://b-atlas-ncc.onrender.com/api/v1/admin/getattendance"
+        `${API_URL}admin/getattendance`
       );
       setAttendance(res.data.message || []);
     })();
@@ -52,7 +52,7 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser",
+        `${API_URL}admin/getalluser`,
         { withCredentials: true }
       );
       setEmployees(res.data.message || []);
@@ -62,7 +62,7 @@ const ProductivityReport = () => {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask",
+        `${API_URL}admin/getalltask`,
         { withCredentials: true }
       );
       setTasks(res.data.message || []);

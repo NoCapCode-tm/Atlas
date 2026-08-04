@@ -61,7 +61,7 @@ const [creating, setCreating] = useState(false);
     setLoading(true);
 
     await axios.post(
-      `https://b-atlas-ncc.onrender.com/api/v1/admin/createticket`,
+      `${API_URL}admin/createticket`,
       {
         title: form.title,
         category: form.category,
@@ -94,7 +94,7 @@ const [creating, setCreating] = useState(false);
     const fetchemployees = async () => {
       try {
         const response = await axios.get(
-          `https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`,
+          `${API_URL}admin/getalluser`,
           { withCredentials: true }
         );
 
@@ -109,7 +109,7 @@ const [creating, setCreating] = useState(false);
     const fetchTickets = async () => {
   try {
     const response = await axios.get(
-      `https://b-atlas-ncc.onrender.com/api/v1/admin/gettickets`
+      `${API_URL}admin/gettickets`
     );
     setTickets(response.data.data);
   } catch (error) {
@@ -160,7 +160,7 @@ useEffect(() => {
   const handlestatus = async(status)=>{
         setactivestatus(status)
         try {
-            const response = await axios.post(`https://b-atlas-ncc.onrender.com/api/v1/admin/updatestatus`,{
+            const response = await axios.post(`${API_URL}admin/updatestatus`,{
                 id:ticket._id,
                 status:status
             },{withCredentials:true})
@@ -176,7 +176,7 @@ useEffect(() => {
 
     const sendMessage =async() =>{
         try {
-            const response = await axios.post(`https://b-atlas-ncc.onrender.com/api/v1/admin/comment`,{
+            const response = await axios.post(`${API_URL}admin/comment`,{
                 comment:comment,
                 id:ticket._id
             },{withCredentials:true})
@@ -194,7 +194,7 @@ useEffect(() => {
 
     useEffect(()=>{
         (async()=>{
-           const response = await axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getroles`)
+           const response = await axios.get(`${API_URL}admin/getroles`)
            console.log(response)
            setRole(response.data.message)
     
@@ -805,7 +805,7 @@ const currentTickets = filteredTickets.slice(
           onClick={async () => {
             try {
               const response = await axios.post(
-                `https://b-atlas-ncc.onrender.com/api/v1/admin/assign`,
+                `${API_URL}admin/assign`,
                 { id: ticket._id, assignedto: selectedEmployee },
                 { withCredentials: true }
               );

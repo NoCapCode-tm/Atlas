@@ -14,8 +14,6 @@ import {
 import { format } from "date-fns";
 import { InfoTooltip } from "./InfoTooltip";
 
-const API_PROJECTS = "api/v1/admin/getallproject";
-const API_USERS = "api/v1/admin/getalluser";
 
 const severityColor = {
   Critical: "#e53e3e",
@@ -41,8 +39,8 @@ export default function ProjectSuccessReports() {
     (async () => {
       try {
         const [pRes, uRes] = await Promise.all([
-          axios.get(`https://b-atlas-ncc.onrender.com/${API_PROJECTS}`),
-          axios.get(`https://b-atlas-ncc.onrender.com/${API_USERS}`),
+          axios.get(`${API_URL}admin/getallproject`),
+          axios.get(`${API_URL}admin/getalluser`),
         ]);
         // assuming API returns { message: [...] } like your earlier responses
         console.log(pRes.data.message)

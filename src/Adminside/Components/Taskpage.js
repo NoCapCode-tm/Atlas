@@ -59,7 +59,7 @@ const [draggedTask, setDraggedTask] = useState(null);
 
   try {
     await axios.put(
-      `https://b-atlas-ncc.onrender.com/api/v1/admin/updatetask/${draggedTask._id}`,
+      `${API_URL}admin/updatetask/${draggedTask._id}`,
       {
         status: newStatus,
       },
@@ -94,9 +94,9 @@ const [draggedTask, setDraggedTask] = useState(null);
       try {
         setLoading(true);
         const [tRes, uRes, pRes] = await Promise.all([
-          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask`, { withCredentials: true }),
-          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser`, { withCredentials: true }),
-          axios.get(`https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject`, { withCredentials: true }),
+          axios.get(`${API_URL}admin/getalltask`, { withCredentials: true }),
+          axios.get(`${API_URL}admin/getalluser`, { withCredentials: true }),
+          axios.get(`${API_URL}admin/getallproject`, { withCredentials: true }),
         ]);
 
         if (!mounted) return;
@@ -150,7 +150,7 @@ const [draggedTask, setDraggedTask] = useState(null);
     if (!window.confirm(`Delete task "${task.title}" ?`)) return;
     try {
       // replace with real API if exists:
-      await axios.delete(`https://b-atlas-ncc.onrender.com/api/v1/admin/deletetask/${task._id}`, { withCredentials: true });
+      await axios.delete(`${API_URL}admin/deletetask/${task._id}`, { withCredentials: true });
       setTasks((prev) => prev.filter((t) => String(t._id) !== String(task._id)));
       toast.success("Task deleted");
       window.location.reload()
@@ -329,7 +329,7 @@ const getDueText = (due) => {
 
       const handlecomment = async () => {
     try {
-      await axios.post("https://b-atlas-ncc.onrender.com/api/v1/employee/commentsend",
+      await axios.post(`${API_URL}employee/commentsend`,
         { comment, taskid: selectedTask, userid: user },
         { withCredentials: true }
       );
@@ -346,7 +346,7 @@ const getDueText = (due) => {
       fd.append("file", file);
       fd.append("taskId", selectedTask);
       await axios.post(
-        "https://b-atlas-ncc.onrender.com/api/v1/employee/task/upload-attachment",
+        `${API_URL}employee/task/upload-attachment`,
         fd, { withCredentials: true, headers: { "Content-Type": "multipart/form-data" } }
       );
       toast.success("Attachment uploaded");
@@ -356,7 +356,7 @@ const getDueText = (due) => {
   /* ── Complete / Review ── */
   const handlecomplete = async () => {
     try {
-      await axios.post("https://b-atlas-ncc.onrender.com/api/v1/employee/complete-task",
+      await axios.post(`${API_URL}employee/complete-task`,
         { taskid: selectedTask, userid: user}
       );
       toast.success("Task completed");
@@ -366,7 +366,7 @@ const getDueText = (due) => {
 
   const handlereview = async () => {
     try {
-      await axios.post("https://b-atlas-ncc.onrender.com/api/v1/employee/review-task",
+      await axios.post(`${API_URL}employee/review-task`,
         { taskid: selectedTask, userid: user}
       );
       toast.success("Sent for review");
@@ -682,7 +682,7 @@ const TaskColumn = ({
         onClick={async () => {
           try {
             await axios.put(
-              `https://b-atlas-ncc.onrender.com/api/v1/admin/updatetask/${selectedTask._id}`,
+              `${API_URL}admin/updatetask/${selectedTask._id}`,
               form,
               { withCredentials: true }
             );

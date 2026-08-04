@@ -100,24 +100,24 @@ useEffect(() => {
         metricsRes,
         redflagsRes,
     ] = await Promise.all([
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser", {
+        axios.get(`${API_URL}/admin/getalluser`, {
           withCredentials: true,
         }),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getuser", {
+        axios.get(`${API_URL}/admin/getuser`, {
           withCredentials: true,
         }),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask", {
+        axios.get(`${API_URL}/admin/getalltask`, {
           withCredentials: true,
         }),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getattendance", {
+        axios.get(`${API_URL}admin/getattendance`, {
           withCredentials: true,
         }),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getreports", {
+        axios.get(`${API_URL}admin/getreports`, {
           withCredentials: true,
         }),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject"),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getmetrics"),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getredflags"),
+        axios.get(`${API_URL}admin/getallproject`),
+        axios.get(`${API_URL}admin/getmetrics`),
+        axios.get(`${API_URL}admin/getredflags`),
       ]);
 
       setEmployees(employeesRes.data.message || []);
@@ -157,7 +157,7 @@ useEffect(() => {
     setLoading(true);
 
     const response = await axios.post(
-      "https://b-atlas-ncc.onrender.com/api/v1/admin/addemployee",
+      `${API_URL}admin/addemployee`,
       {
         name: fullName,
         email: email,

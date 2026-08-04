@@ -51,7 +51,7 @@ const [showModal, setShowModal] = useState(false);
     const fetchEmployee = async () => {
       try {
         const res = await axios.get(
-          `https://b-atlas-ncc.onrender.com/api/v1/admin/getuserdetails/${id}`,
+          `${API_URL}admin/getuserdetails/${id}`,
           { withCredentials: true }
         );
         setEmployee(res.data.message);
@@ -73,8 +73,8 @@ const [showModal, setShowModal] = useState(false);
   const loadDashboard = async () => {
     try {
       const [taskRes, reportRes] = await Promise.all([
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalltask"),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getreports"),
+        axios.get(`${API_URL}admin/getalltask`),
+        axios.get(`${API_URL}admin/getreports`),
       ]);
 
       if (!mounted) return;
@@ -125,7 +125,7 @@ const [showModal, setShowModal] = useState(false);
   //       try {
   //         setSummaryLoading(true);
   //         const res = await axios.post(
-  //           `https://b-atlas-ncc.onrender.com/api/v1/manager/getaisummary`,
+  //           `${API_URL}manager/getaisummary`,
   //           { id: employee._id },
   //           { withCredentials: true }
   //         );
@@ -146,7 +146,7 @@ const [showModal, setShowModal] = useState(false);
       if (!employee?._id) return;
       try {
         const response = await axios.get(
-          "https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject",
+          `${API_URL}admin/getallproject`,
           { withCredentials: true }
         );
         const myProjects = response.data.message.filter((proj) =>
@@ -165,7 +165,7 @@ const [showModal, setShowModal] = useState(false);
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          'https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser',
+          `${API_URL}admin/getalluser`,
           { withCredentials: true }
         );
         const allUsersData = response.data.message;
@@ -254,7 +254,7 @@ const [showModal, setShowModal] = useState(false);
 const updateTaskStatus = async (taskId, newStatus) => {
   try {
     await axios.put(
-      `https://b-atlas-ncc.onrender.com/api/v1/employee/updatetask/${taskId}`,
+      `${API_URL}employee/updatetask/${taskId}`,
       { status: newStatus },
       { withCredentials: true }
     );

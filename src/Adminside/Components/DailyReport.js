@@ -72,7 +72,7 @@ export default function DailyReport() {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://b-atlas-ncc.onrender.com/api/v1/admin/getmetrics"
+        `${API_URL}admin/getmetrics`
       );
       setMetrics(res.data.message || []);
     })();
@@ -83,7 +83,7 @@ export default function DailyReport() {
       try {
         setLoading(true);
         const res = await axios.get(
-          "https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser",
+          "${API_URL}admin/getalluser",
           { withCredentials: true }
         );
         setUsers(res.data.message || []);
@@ -96,7 +96,7 @@ export default function DailyReport() {
   useEffect(() => {
     (async () => {
       const res = await axios.get(
-        "https://b-atlas-ncc.onrender.com/api/v1/admin/getreports",
+        "${API_URL}admin/getreports",
         { withCredentials: true }
       );
       setReports(res.data.message || []);

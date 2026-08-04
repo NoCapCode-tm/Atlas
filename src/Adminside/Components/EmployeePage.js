@@ -174,7 +174,7 @@ const handleUpdate = async () => {
     setLoading(true);
   
     await axios.put(
-      `https://b-atlas-ncc.onrender.com/api/v1/admin/updateemployee`,
+      `${API_URL}admin/updateemployee`,
       { id:selectedEmployee._id,manager,onboardingstatus, role, status ,workmode,start,end,department,designation },
       { withCredentials: true }
     );
@@ -198,7 +198,7 @@ const handleDelete = async()=>{
         label: "Yes",
         onClick: async () => {
           try {
-            await axios.delete(`https://b-atlas-ncc.onrender.com/api/v1/admin/deleteemp/${selectedemp}`,{withCredentials:true});
+            await axios.delete(`${API_URL}admin/deleteemp/${selectedemp}`,{withCredentials:true});
             toast.success("Employee deleted successfully");
           } catch (err) {
             toast.error("Delete failed");
@@ -220,10 +220,10 @@ const handleDelete = async()=>{
         employeesRes,
         projectsRes,
     ] = await Promise.all([
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getalluser", {
+        axios.get(`${API_URL}admin/getalluser`, {
           withCredentials: true,
         }),
-        axios.get("https://b-atlas-ncc.onrender.com/api/v1/admin/getallproject"),
+        axios.get(`${API_URL}admin/getallproject`),
       ]);
       
       setEmployees(employeesRes.data.message.filter((emp)=>emp.deleted === false) || []);
@@ -241,7 +241,7 @@ const handleDelete = async()=>{
     try {
       setLoading(true);
       await axios.post(
-        `https://b-atlas-ncc.onrender.com/api/v1/admin/addemployee`,
+        `${API_URL}admin/addemployee`,
         { name:fullName, email:email, password:password, dob:dob,gender:gender ,role},
         { withCredentials: true }
       );
