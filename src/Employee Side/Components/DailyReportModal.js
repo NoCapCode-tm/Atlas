@@ -40,7 +40,7 @@ export default function DailyReportModal({
     setSubmitting(true);
 
     await axios.post(
-      `${API_URL}/employee/submitreport`,
+      `${API_URL}employee/submitreport`,
       {
         user: user._id,
         summary,

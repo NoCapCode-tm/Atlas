@@ -48,7 +48,7 @@ const Projects = () => {
     (async () => {
       try {
         const res = await axios.get(
-          `${API_URL}/admin/getuser`,
+          `${API_URL}admin/getuser`,
           { withCredentials: true }
         );
         setUser(res.data.message || []);
@@ -63,7 +63,7 @@ const Projects = () => {
     (async () => {
       try {
         const res = await axios.get(
-          `${API_URL}/admin/getallproject`
+          `${API_URL}admin/getallproject`
         );
         const employeeProjects = res.data.message.filter(
           (p) =>
@@ -82,7 +82,7 @@ const Projects = () => {
     (async () => {
       try {
         const res = await axios.get(
-          `${API_URL}/admin/getalluser`
+          `${API_URL}admin/getalluser`
         );
         setEmployees(res.data.message || []);
       } catch (err) {
