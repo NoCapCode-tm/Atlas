@@ -1,0 +1,1139 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap");
+.mainContainer {
+  background: #050505;
+  width: calc(100% - 260px);
+  padding: 28px 50px;
+  margin-left: 260px;
+  box-sizing: border-box;
+  transition: width 0.25s ease, margin-left 0.25s ease;
+}
+
+.mainContainerCollapsed {
+  width: calc(100% - 76px);
+  margin-left: 76px;
+}
+
+.topcontainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+.topleft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.topleft1 {
+  color: #ddddff;
+  font-family: "Outfit", sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -0.32px;
+}
+
+.topleft2 {
+  color: #c3c6d6;
+  font-size: 15px;
+}
+
+.topright {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topright1 {
+  padding: 10px 15px;
+  background-color: #0050b8;
+  color: #ddddff;
+  border: 1px solid #6d78ff;
+  font-weight: 400;
+  font-size: 13.3px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* ── New: HR dashboard stat cards ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 24px;
+}
+
+@media screen and (max-width: 1200px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .cards {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .mainContainer {
+    padding: 20px 16px;
+  }
+}
+
+.card {
+  background: #0e0f13;
+  border: 1px solid #23262d;
+  border-radius: 14px;
+  padding: 20px;
+  min-height: 90px;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3);
+}
+
+.cardTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.cardIcon {
+  color: #ddddff;
+}
+
+.cardChange {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #22c55e;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cardTitle {
+  color: #ffffff;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.cardValue {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.cardSubtitle {
+  color: #ffffff;
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .mainContainer {
+    width: calc(100% - 220px);
+    margin-left: 220px;
+  }
+  .topcontainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+/* ── Organizational Health + Pulse Sentiment row ── */
+.healthRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 4px;
+}
+
+.healthCard {
+  flex: 2;
+}
+
+.pulseCard {
+  flex: 1;
+}
+
+@media screen and (max-width: 900px) {
+  .healthCard,
+  .pulseCard {
+    flex: 1 1 100%;
+  }
+}
+
+.healthCard,
+.pulseCard {
+  background: #0e0f13;
+  border: 1px solid #23262d;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+/* Organizational Health */
+.healthCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(160, 160, 160, 0.3);
+  margin-bottom: 24px;
+}
+
+.healthTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  color: #e1e2ec;
+}
+
+.healthSubtitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.6px;
+  color: #c3c6d6;
+  margin-top: 2px;
+}
+
+.healthIcon {
+  color: #0056d2;
+}
+
+.healthStats {
+  display: flex;
+  align-items: flex-end;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.statBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.statNumberBlue {
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 40px;
+  letter-spacing: -0.8px;
+  color: #0056d2;
+}
+
+.statPercentSign {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.statNumberRed {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 32px;
+  letter-spacing: -0.32px;
+  color: #ff5447;
+}
+
+.statLabel {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.6px;
+  color: #c3c6d6;
+}
+
+.statDivider {
+  width: 1px;
+  height: 48px;
+  background: rgba(160, 160, 160, 0.3);
+}
+
+.trendBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 120px;
+}
+
+.trendLabel {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.6px;
+  color: #c3c6d6;
+}
+
+.trendBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 32px;
+  opacity: 0.9;
+}
+
+.trendBar {
+  flex: 1;
+  background: #484949;
+  border-radius: 2px 2px 0 0;
+}
+
+.trendBarActive {
+  flex: 1;
+  background: #0056d2;
+  border-radius: 2px 2px 0 0;
+}
+
+/* Pulse Sentiment */
+.pulseHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(160, 160, 160, 0.3);
+  margin-bottom: 16px;
+}
+
+.pulseTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #e1e2ec;
+}
+
+.pulseIcon {
+  color: #c3c6d6;
+}
+
+.pulseRows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pulseRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pulseTopLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pulseLabelWrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pulseDotBlue,
+.pulseDotGrey,
+.pulseDotRed {
+  width: 8px;
+  height: 8px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.pulseDotBlue {
+  background: #0056d2;
+}
+
+.pulseDotGrey {
+  background: #484949;
+}
+
+.pulseDotRed {
+  background: #ff5447;
+}
+
+.pulseLabel {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.6px;
+  color: #e1e2ec;
+}
+
+.pulsePercent {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.6px;
+  color: #c3c6d6;
+}
+
+.pulseBarTrack {
+  width: 100%;
+  height: 6px;
+  background: #191b23;
+  border: 1px solid rgba(160, 160, 160, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pulseBarFillBlue,
+.pulseBarFillGrey,
+.pulseBarFillRed {
+  height: 100%;
+  border-radius: 12px;
+}
+
+.pulseBarFillBlue {
+  background: #0056d2;
+}
+
+.pulseBarFillGrey {
+  background: #484949;
+}
+
+.pulseBarFillRed {
+  background: #ff5447;
+}
+/* ── Ops row: Action Center / Leaves & Exits / Doc Verification ── */
+.opsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.actionCard {
+  flex: 1.2;
+}
+
+.leavesCard,
+.docCard {
+  flex: 1;
+}
+
+@media screen and (max-width: 900px) {
+  .actionCard,
+  .leavesCard,
+  .docCard {
+    flex: 1 1 100%;
+  }
+}
+
+.actionCard,
+.leavesCard,
+.docCard {
+  background: #0e0f13;
+  border: 1px solid #23262d;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+/* Action Center */
+.actionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.actionHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionHeaderIcon {
+  color: #ff5447;
+}
+
+.actionHeaderTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #e1e2ec;
+}
+
+.viewAllLink {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: #6d78ff;
+  cursor: pointer;
+}
+
+.actionList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.actionItem {
+  display: flex;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #191b23;
+  border: 1px solid transparent;
+}
+
+.actionItemRed {
+  border-color: #ff5447;
+  background: #191b23;
+}
+
+.actionItemOrange {
+  border-color: #ffb020;
+  background: #191b23;
+}
+
+.actionItemBlue {
+  border-color: #0056d2;
+  background: #191b23;
+}
+
+.actionItemIconRed {
+  color: #ff5447;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.actionItemIconOrange {
+  color: #ffb020;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.actionItemIconBlue {
+  color: #0056d2;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.actionItemBody {
+  flex: 1;
+}
+
+.actionItemTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionItemTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #e1e2ec;
+}
+
+.actionBadge {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.actionBadgeRed {
+  color: #6d78ff;
+  background: transparent;
+}
+
+.actionBadgeOrange {
+  color: #ffb020;
+  background: transparent;
+}
+
+.actionBadgeBlue {
+  color: #6d9bff;
+  background: transparent;
+}
+
+.actionItemText {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* Leaves & Exits */
+.leavesHeader {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #e1e2ec;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(160, 160, 160, 0.3);
+  margin-bottom: 16px;
+}
+
+.leavesBlock {
+  text-align: center;
+  padding: 12px 0;
+}
+
+.leavesNumber {
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  color: #ffffff;
+}
+
+.exitsNumber {
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: #ff5447;
+}
+
+.leavesLabel {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+.leavesDivider {
+  height: 1px;
+  background: rgba(160, 160, 160, 0.3);
+  margin: 4px 0;
+}
+
+.processExitsBtn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px;
+  background: transparent;
+  color: #6d9bff;
+  border: 1px solid #0056d2;
+  border-radius: 8px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.processExitsBtn:hover {
+  background: rgba(0, 86, 210, 0.1);
+}
+
+/* Doc Verification */
+.docHeader {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #e1e2ec;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(160, 160, 160, 0.3);
+  margin-bottom: 16px;
+}
+
+.docList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.docRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: rgba(160, 160, 160, 0.05);
+  border: 1px solid transparent;
+  border-radius: 8px;
+}
+
+.docRowAlert {
+  border-color: #ff5447;
+  background: rgba(255, 84, 71, 0.06);
+}
+
+.docLabel {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  color: #e1e2ec;
+}
+
+.docValue {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #e1e2ec;
+}
+
+.docValueGreen {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #22c55e;
+}
+
+.docValueRed {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #ff5447;
+}
+
+.reviewQueueBtn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px;
+  background: transparent;
+  color: #e1e2ec;
+  border: 1px solid #23262d;
+  border-radius: 8px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.reviewQueueBtn:hover {
+  background: rgba(160, 160, 160, 0.08);
+}
+/* ── Pipeline row: Onboarding / Payroll Cycle / Ticket Overview ── */
+.pipelineRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.pipelineCard {
+  flex: 1.6;
+}
+
+.payrollCard,
+.ticketCard {
+  flex: 1;
+}
+
+@media screen and (max-width: 900px) {
+  .pipelineCard,
+  .payrollCard,
+  .ticketCard {
+    flex: 1 1 100%;
+  }
+}
+
+.pipelineCard,
+.payrollCard,
+.ticketCard {
+  background: #0e0f13;
+  border: 1px solid #23262d;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+/* Onboarding Pipeline */
+.pipelineHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(160, 160, 160, 0.3);
+  margin-bottom: 20px;
+}
+
+.pipelineTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: #e1e2ec;
+}
+
+.pipelineLegend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: #c3c6d6;
+}
+
+.legendDotGrey,
+.legendDotBlue {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legendDotGrey {
+  background: #484949;
+}
+
+.legendDotBlue {
+  background: #0056d2;
+}
+
+.legendDotOutline {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid #c3c6d6;
+}
+
+.pipelineList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pipelineDept {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  color: #e1e2ec;
+  margin-bottom: 8px;
+}
+
+.pipelineBarTrack {
+  width: 100%;
+  height: 8px;
+  background: #23262d;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pipelineBarFill {
+  height: 100%;
+  background: #0056d2;
+  border-radius: 12px;
+}
+
+/* Payroll Cycle */
+.payrollCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.payrollHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(160, 160, 160, 0.3);
+  margin-bottom: 20px;
+}
+
+.payrollTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #e1e2ec;
+}
+
+.payrollIcon {
+  color: #c3c6d6;
+}
+
+.payrollRingWrap {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.payrollPercentLabel {
+  position: absolute;
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: #ffffff;
+}
+
+.payrollProcessed {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  color: #e1e2ec;
+  margin-bottom: 8px;
+}
+
+.payrollMeta {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.viewBatchBtn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px;
+  background: transparent;
+  color: #e1e2ec;
+  border: 1px solid #23262d;
+  border-radius: 8px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.viewBatchBtn:hover {
+  background: rgba(160, 160, 160, 0.08);
+}
+
+/* Ticket Overview */
+.ticketHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(160, 160, 160, 0.3);
+  margin-bottom: 16px;
+}
+
+.ticketTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #e1e2ec;
+}
+
+.ticketHeaderIcon {
+  color: #c3c6d6;
+}
+
+.ticketList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ticketRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: #15171d;
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+}
+
+.ticketRowBlue {
+  border-left-color: #0056d2;
+  background: rgba(0, 86, 210, 0.06);
+}
+
+.ticketRowRed {
+  border-left-color: #ff5447;
+  background: rgba(255, 84, 71, 0.06);
+}
+
+.ticketLabelWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ticketIconGrey {
+  color: #94a3b8;
+}
+
+.ticketIconBlue {
+  color: #0056d2;
+}
+
+.ticketIconRed {
+  color: #ffb020;
+}
+
+.ticketLabel {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  color: #e1e2ec;
+}
+
+.ticketValue {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #e1e2ec;
+}
+
+.ticketValueBlue {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #6d9bff;
+}
+
+.ticketValueRed {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #ff5447;
+}
+/* ── Performance Risk Monitor ── */
+.riskCard {
+  background: #0e0f13;
+  border: 1px solid #23262d;
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.riskHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(160, 160, 160, 0.3);
+  margin-bottom: 20px;
+}
+
+.riskHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.riskHeaderIcon {
+  color: #e1e2ec;
+}
+
+.riskTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #e1e2ec;
+}
+
+.riskPeriod {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.riskGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media screen and (max-width: 900px) {
+  .riskGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.riskTile {
+  background: #15171d;
+  border: 1px solid #23262d;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.riskTileLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  color: #ff5447;
+  margin-bottom: 14px;
+}
+
+.riskTileLabelGreen {
+  color: #22c55e;
+}
+
+.riskTileRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.riskTileValue {
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: #ffffff;
+}
+
+.riskTileUnit {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.riskTileDivider {
+  height: 1px;
+  background: rgba(160, 160, 160, 0.15);
+  margin: 12px 0;
+}
+
+.riskTileNote {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+.actionIconBadgeRed {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255, 84, 71, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
