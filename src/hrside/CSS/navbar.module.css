@@ -19,16 +19,14 @@
   width: 76px;
 }
 
-.sidebarCollapsed .dashboardmenu span,
-.sidebarCollapsed .dashboardmenucolor span,
-.sidebarCollapsed .logomenu span {
-  display: none;
-}
-
-.sidebarCollapsed .dashboardmenu,
-.sidebarCollapsed .dashboardmenucolor {
+.sidebarCollapsed .navItem {
   justify-content: center;
   padding: 10px 0;
+}
+
+.sidebarCollapsed .navText,
+.sidebarCollapsed .navTextActive {
+  display: none;
 }
 
 .logomenu {
@@ -53,7 +51,7 @@
 .dashboardmenu {
   display: flex;
   align-items: center;
-  padding: 10px 30px;
+  padding: 10px 16px;
   gap: 12px;
   font-family: "Outfit", sans-serif;
   font-weight: 400;
@@ -64,6 +62,7 @@
   opacity: 0.6;
   cursor: pointer;
   transition: all 0.3s ease;
+  border-radius: 10px;
   box-sizing: border-box;
 }
 
@@ -79,13 +78,14 @@
   color: #ffffff;
   opacity: 1;
   cursor: pointer;
-  padding: 10px 30px;
+  padding: 10px 16px;
   gap: 12px;
   font-family: "Outfit", sans-serif;
   font-weight: 400;
   font-size: 15px;
   line-height: 20px;
   background-color: #0050b8;
+  border-radius: 10px;
   box-sizing: border-box;
 }
 
@@ -268,4 +268,46 @@
   .container { padding: 8px 12px; }
   .searchWrapper { width: 150px; }
   .profilepic { width: 30px; height: 30px; font-size: 12px; }
+}
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 12px;
+  width: 100%;
+  color: #ffffff;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  box-sizing: border-box;
+}
+
+.navItem:hover {
+  opacity: 1;
+}
+
+.navItem svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.navText {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.navTextActive {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: #0050b8;
+  color: #ffffff;
 }
