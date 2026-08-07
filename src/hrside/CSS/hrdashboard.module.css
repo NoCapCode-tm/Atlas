@@ -1073,9 +1073,9 @@
 }
 
 .riskTile {
-  background: #15171d;
-  border: 1px solid #23262d;
-  border-radius: 10px;
+  background: #191b23;
+  border: 1px solid rgba(160, 160, 160, 0.1);
+  border-radius: 4px;
   padding: 16px;
 }
 
