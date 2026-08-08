@@ -1,0 +1,190 @@
+/* ==========================================================================
+   MANAGER SIDEBAR CSS MODULE
+   ========================================================================== */
+
+.sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: clamp(230px, 17vw, 280px);
+  min-width: clamp(230px, 17vw, 280px);
+  padding: 0 0 24px;
+  background: #0f0f0f;
+  border-right: 1.25px solid #E2E8F0;
+  box-sizing: border-box;
+  transition: width 0.25s ease, min-width 0.25s ease;
+}
+
+.sidebarCollapsed {
+  width: 76px;
+  min-width: 76px;
+}
+
+.sidebarCollapsed .navItem span,
+.sidebarCollapsed .supportItem span,
+.sidebarCollapsed .profileDetails {
+  display: none;
+}
+
+.sidebarCollapsed .navItem,
+.sidebarCollapsed .supportItem,
+.sidebarCollapsed .profileBox {
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.sidebarCollapsed .navMenu,
+.sidebarCollapsed .sidebarBottom {
+  padding: 0 10px;
+}
+
+.sidebarTop {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.logomenu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: clamp(120px, 8.5vw, 140px);
+  background: transparent;
+  border-bottom: 1.25px solid #E2E8F0;
+  font-size: clamp(11px, 0.95vw, 15px);
+  color: #ffffff;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.navMenu {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 0.5vw, 10px);
+  padding: 0 clamp(16px, 1.3vw, 22px);
+}
+
+.navItem,
+.supportItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(11px, 0.9vw, 14px);
+  font-weight: 500;
+  color: #EEEEFF;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.navItem {
+  padding: clamp(12px, 0.9vw, 16px) clamp(16px, 1.2vw, 20px);
+  border-radius: 10px;
+}
+
+.supportItem {
+  padding: clamp(10px, 0.8vw, 14px) clamp(12px, 1vw, 16px);
+  border-radius: 8px;
+}
+
+.navItem:hover,
+.supportItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.activeNavItem {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.sidebarBottom {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 1.2vw, 22px);
+  padding: 0 clamp(16px, 1.3vw, 22px);
+}
+
+.profileBox {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1vw, 16px);
+  padding: clamp(12px, 1vw, 16px);
+  border-radius: 12px;
+}
+
+.profileAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(36px, 2.7vw, 44px);
+  height: clamp(36px, 2.7vw, 44px);
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border-radius: 50%;
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(9px, 0.95vw, 15px);
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.profileDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profileName {
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(10px, 0.95vw, 15px);
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.profileRole {
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(8.5px, 0.8vw, 12.5px);
+  color: #94a3b8;
+}
+
+/* TABLET: 426px - 768px */
+@media (max-width: 768px) {
+  .sidebarCollapsed {
+    width: 60px;
+    min-width: 60px;
+  }
+
+  .logomenu {
+    height: 80px;
+  }
+
+  .logomenu svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .sidebarCollapsed .profileAvatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .sidebarCollapsed .navMenu,
+  .sidebarCollapsed .sidebarBottom {
+    padding: 0 6px;
+  }
+}
+
+/* MOBILE: <= 425px */
+@media (max-width: 425px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+

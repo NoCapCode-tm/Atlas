@@ -1,215 +1,553 @@
-import React from "react";
-import "../components/css/ManagerDashboard.css"; 
+import React, { useState, useEffect } from "react";
+import styles from "../css/ManagerDashboard.module.css";
+import useWindowWidth from "../../useWindowWidth";
 import {
-  Search, Bell, Plus, Filter, Grid, List, MoreVertical,
-  Paperclip, ArrowUpRight, Folder, Clock, AlertCircle,
-  CheckCircle, Calendar, LayoutDashboard, Users, FileText,
-  CreditCard, LogOut, Briefcase, BarChart2, Megaphone, Wrench, Key
+  Users,
+  Bell,
+  Plus,
+  Briefcase,
+  Clock,
+  AlertCircle,
+  TrendingUp,
+  Check,
+  X,
+  AlertTriangle
 } from "lucide-react";
+import atlasLogo from "../../Adminside/Components/atlas.png";
+import ManagerSidebar from "../components/ManagerSidebar";
+import MobileNavbar from "../components/MobileNavbar";
 
-function App() {
-  const projects = [
+function ManagerDashboard() {
+  const width = useWindowWidth();
+  const isMobile = width <= 425;
+  const isTablet = width > 425 && width <= 768;
+
+  // Logged-in manager name — read from localStorage, fallback to "Om Vashishtha"
+  const storedName = localStorage.getItem("managerName") || "Om Vashishtha";
+  const firstName = storedName.split(" ")[0];
+  const initials = storedName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+
+  const [activeTab, setActiveTab] = useState("Dashboard");
+  const [collapsed, setCollapsed] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [modalForm, setModalForm] = useState({ title: "", assignee: "", priority: "", description: "" });
+
+  const handleModalClose = () => setShowModal(false);
+  const handleModalSubmit = (e) => {
+    e.preventDefault();
+    // TODO: wire to API
+    setShowModal(false);
+    setModalForm({ title: "", assignee: "", priority: "", description: "" });
+  };
+
+  useEffect(() => {
+    if (width > 0 && width <= 768) {
+      setCollapsed(true);
+    }
+  }, [width]);
+  const [approvalsList, setApprovalsList] = useState([
+    { id: 1, type: "Task Approval", subtitle: "Lisa M. · Homepage Redesign V2", initials: "LM" },
+    { id: 2, type: "Task Approval", subtitle: "Lisa M. · Homepage Redesign V2", initials: "LM" },
+    { id: 3, type: "Task Approval", subtitle: "Lisa M. · Homepage Redesign V2", initials: "LM" }
+  ]);
+
+
+  const stats = [
     {
-      title: "Q3 Marketing Campaign",
-      dept: "Marketing",
-      status: "On Track",
-      statusClass: "status-ontrack",
-      progress: 75,
-      date: "Oct 24, 2024",
-      avatars: ["blue", "purple", "pink"],
+      title: "Team Size",
+      value: "24",
+      subtext: "+2 this month",
+      icon: <Users size={24} />
     },
     {
-      title: "Mobile App Redesign",
-      dept: "Design",
-      status: "At Risk",
-      statusClass: "status-atrisk",
-      progress: 45,
-      risk: "3 Risks",
-      date: "Nov 12, 2024",
-      avatars: ["purple", "pink"],
+      title: "Projects Assigned",
+      value: "12",
+      subtext: "3 nearing deadlines",
+      icon: <Briefcase size={24} />
     },
     {
-      title: "Internal API Migration",
-      dept: "Development",
-      status: "Completed",
-      statusClass: "status-completed",
-      progress: 90,
-      date: "Sep 30, 2024",
-      avatars: ["purple"],
+      title: "Tasks Pending",
+      value: "148",
+      subtext: "15 high priority",
+      icon: <Clock size={24} />
     },
     {
-      title: "Website Refresh",
-      dept: "Design",
-      status: "Delayed",
-      statusClass: "status-delayed",
-      progress: 30,
-      risk: "1 Risks",
-      date: "Dec 05, 2024",
-      avatars: ["purple", "blue", "pink"],
-    },
-    {
-      title: "Customer Portal V2",
-      dept: "Development",
-      status: "On Track",
-      statusClass: "status-ontrack",
-      progress: 15,
-      date: "Jan 10, 2025",
-      avatars: ["blue", "purple"],
-    },
+      title: "Missed Reports",
+      value: "3",
+      subtext: "Requires attention",
+      icon: <AlertCircle size={24} className={styles.dangerIcon} />
+    }
   ];
 
+  const teamMembers = [
+    { name: "Alice Freeman", role: "Designer", initials: "AF", status: "online" },
+    { name: "Alice Freeman", role: "Designer", initials: "AF", status: "online" },
+    { name: "Bob Smith", role: "Developer", initials: "BS", status: "online" },
+    { name: "Bob Smith", role: "Developer", initials: "BS", status: "online" },
+    { name: "Charlie Day", role: "Manager", initials: "CD", status: "away" },
+    { name: "Charlie Day", role: "Manager", initials: "CD", status: "away" },
+    { name: "Diana Prince", role: "Marketing", initials: "DP", status: "away" },
+    { name: "Diana Prince", role: "Marketing", initials: "DP", status: "away" },
+    { name: "Evan Wright", role: "Developer", initials: "EW", status: "online" },
+    { name: "Evan Wright", role: "Developer", initials: "EW", status: "online" }
+  ];
+
+  const criticalTasks = [
+    { title: "Server Migration Sign-off", priority: "High", due: "Due 5:00 PM", assignee: "David L.", avatar: "DL" },
+    { title: "Server Migration Sign-off", priority: "Med", due: "Due 5:00 PM", assignee: "David L.", avatar: "DL" },
+    { title: "Server Migration Sign-off", priority: "Med", due: "Due 5:00 PM", assignee: "David L.", avatar: "DL" },
+    { title: "Server Migration Sign-off", priority: "High", due: "Due 5:00 PM", assignee: "David L.", avatar: "DL" }
+  ];
+
+  const dailyUpdates = [
+    {
+      user: "Emily R.",
+      action: "submitted daily report",
+      time: "10:30 AM",
+      quote: '"Completed the UI mockups for the new dashboard."',
+      nodeClass: styles.nodePurple
+    },
+    {
+      user: "James T.",
+      action: "updated task status",
+      time: "11:15 AM",
+      quote: '"Moved API Integration In Progress."',
+      nodeClass: styles.nodeBlue
+    },
+    {
+      user: "Emily R.",
+      action: "submitted daily report",
+      time: "10:30 AM",
+      quote: '"Completed Pending Tasks."',
+      nodeClass: styles.nodeOrange
+    }
+  ];
+
+  const taskStatus = [
+    { name: "To Do", tasks: "12 Tasks", width: "60%", barClass: styles.barBlue, pillClass: styles.pillBlue },
+    { name: "In Progress", tasks: "8 Tasks", width: "55%", barClass: styles.barPurple, pillClass: styles.pillPurple },
+    { name: "Review", tasks: "5 Tasks", width: "50%", barClass: styles.barRed, pillClass: styles.pillOrange },
+    { name: "Completed", tasks: "24 Tasks", width: "72%", barClass: styles.barGreen, pillClass: styles.pillGreen }
+  ];
+
+  const escalations = [
+    { title: "API Gateway Timeout", time: "10m ago", severity: "CRITICAL", badgeClass: styles.badgeCritical },
+    { title: "Login Dependency Block", time: "1h ago", severity: "HIGH", badgeClass: styles.badgeHighEsc },
+    { title: "License Expiry Warning", time: "3h ago", severity: "MEDIUM", badgeClass: styles.badgeMediumEsc }
+  ];
+
+  const handleAction = (id) => {
+    setApprovalsList(prev => prev.filter(item => item.id !== id));
+  };
+
   return (
-    <div className="container">
-      {/* Sidebar */}
-      <aside className="sidebar">
-        <div className="logo">
-          <div className="logo-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22H22L12 2Z" /></svg>
+    <div className={styles.dashboardContainer}>
+      {/* SIDEBAR — hidden on mobile via CSS */}
+      <ManagerSidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        collapsed={collapsed}
+        setCollapsed={setCollapsed}
+      />
+
+      {/* MAIN CONTENT AREA */}
+      <main className={styles.mainContent}>
+
+        {/* MOBILE TOP NAVBAR — only visible on ≤ 425px */}
+        {isMobile && (
+          <MobileNavbar userName={storedName} initials={initials} />
+        )}
+
+        {/* HEADER */}
+        <header className={styles.dashboardHeader}>
+          <div className={styles.headerTitleGroup}>
+            <h1 className={styles.headerTitle}>Dashboard</h1>
+            <p className={styles.headerSubtitle}>
+              {isMobile ? `Welcome back, ${firstName}` : "Welcome back, here's what's happening today."}
+            </p>
           </div>
-          PRISM
-        </div>
 
-        <nav className="nav-menu">
-          <div className="nav-item"><LayoutDashboard size={20} /> Dashboard</div>
-          <div className="nav-item"><Users size={20} /> Onboarding</div>
-          <div className="nav-item"><FileText size={20} /> Documentation</div>
-          <div className="nav-item"><CreditCard size={20} /> Payroll</div>
-          <div className="nav-item"><LogOut size={20} /> Leave & Exit</div>
-          <div className="nav-item"><Briefcase size={20} /> Employee Experience</div>
-          <div className="nav-item"><BarChart2 size={20} /> Performance</div>
-          <div className="nav-item"><Megaphone size={20} /> Announcements</div>
-          <div className="nav-item"><Wrench size={20} /> HR notes</div>
-          <div className="nav-item active"><Key size={20} /> Support Tickets</div>
-          <div className="nav-item"><CreditCard size={20} /> Reports</div>
-        </nav>
-      </aside>
-
-      {/* Main Content */}
-      <main className="main-content">
-        {/* Header */}
-        <header className="top-header">
-          <h1>Projects</h1>
-          <div className="header-actions">
-            <div className="search-bar">
-              <Search size={18} className="search-icon" />
-              <input type="text" placeholder="Search projects..." />
-            </div>
-            <div className="icon-btn"><Bell size={20} /></div>
-            <button className="btn-primary"><Plus size={18} /> New Project</button>
-            <div className="profile">
-              <div className="profile-info">
-                <h4>Om Vashishtha</h4>
-                <p>Manager</p>
-              </div>
-              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100" alt="Profile" />
-            </div>
+          <div className={styles.headerActions}>
+            {/* Bell shown only on non-mobile (mobile has it in MobileNavbar) */}
+            {!isMobile && (
+              <button className={styles.notificationBtn} title="Notifications">
+                <Bell size={18} />
+                <span className={styles.notificationBadge} />
+              </button>
+            )}
+            <button className={styles.quickAssignBtn} onClick={() => setShowModal(true)}>
+              <Plus size={16} />
+              <span>Quick Assign</span>
+            </button>
           </div>
         </header>
 
-        {/* Stats Cards */}
-        <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-info">
-              <span className="stat-label">Total Projects</span>
-              <span className="stat-value">12</span>
-            </div>
-            <div className="stat-icon purple"><Folder size={24} /></div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-info">
-              <span className="stat-label">In Progress</span>
-              <span className="stat-value">8</span>
-            </div>
-            <div className="stat-icon blue"><Clock size={24} /></div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-info">
-              <span className="stat-label">At Risk</span>
-              <span className="stat-value">3</span>
-            </div>
-            <div className="stat-icon red"><AlertCircle size={24} /></div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-info">
-              <span className="stat-label">Completed</span>
-              <span className="stat-value">24</span>
-            </div>
-            <div className="stat-icon green"><CheckCircle size={24} /></div>
-          </div>
-        </div>
-
-        {/* Filters */}
-        <div className="filter-section">
-          <div className="tabs">
-            <button className="tab active">All Projects</button>
-            <button className="tab">Active</button>
-            <button className="tab">At Risk</button>
-          </div>
-          <div className="view-actions">
-            <button className="view-btn"><Filter size={16} /> Filter</button>
-            <button className="view-btn icon-only"><Grid size={16} /></button>
-            <button className="view-btn icon-only"><List size={16} /></button>
-          </div>
-        </div>
-
-        {/* Projects Grid */}
-        <div className="projects-grid">
-          {projects.map((p, idx) => (
-            <div className="project-card" key={idx}>
-              <div className="card-top">
-                <span className={`status-badge ${p.statusClass}`}>{p.status}</span>
-                <MoreVertical size={16} className="more-icon" />
+        {/* 4 STATS CARDS */}
+        <section className={styles.statsGrid}>
+          {stats.map((stat, idx) => (
+            <div key={idx} className={styles.statCard}>
+              <div className={styles.statCardTop}>
+                <span className={styles.statTitle}>{stat.title}</span>
               </div>
-              
-              <div className="card-title">
-                <h3>{p.title}</h3>
-                <p>{p.dept}</p>
+              <div className={styles.statCardMiddle}>
+                <div className={styles.statValue}>{stat.value}</div>
+                <div className={styles.statIconWrap}>{stat.icon}</div>
               </div>
-
-              <div className="progress-section">
-                <div className="progress-labels">
-                  <span>Progress</span>
-                  <span>{p.progress}%</span>
-                </div>
-                <div className="progress-track">
-                  <div 
-                    className={`progress-fill ${p.statusClass}`} 
-                    style={{ width: `${p.progress}%` }}
-                  ></div>
-                </div>
-              </div>
-
-              <div className="card-footer">
-                <div className="avatars">
-                  {p.avatars.map((c, i) => <div key={i} className={`avatar ${c}`}></div>)}
-                  <div className="avatar more">+2</div>
-                </div>
-                
-                <div className="meta-info">
-                  <div className="date"><Calendar size={14} /> {p.date}</div>
-                  {p.risk && <div className="risk-tag"><AlertCircle size={14} /> {p.risk}</div>}
-                </div>
-
-                <div className="card-actions">
-                  <Paperclip size={16} />
-                  <ArrowUpRight size={16} />
-                </div>
+              <div className={styles.statCardBottom}>
+                <span className={styles.statSubtext}>{stat.subtext}</span>
               </div>
             </div>
           ))}
+        </section>
 
-          {/* New Project Placeholder */}
-          <div className="project-card new-project">
-            <div className="add-icon-circle">
-              <Plus size={24} />
+        {/* MAIN DASHBOARD SECTIONS GRID */}
+        <div className={styles.dashboardMainGrid}>
+          {/* ROW 1: Team Performance & Team Activity */}
+          <div className={`${styles.gridRow} ${styles.rowTwoColumns}`}>
+            {/* Team Performance */}
+            <div className={styles.cardBlock}>
+              <div className={styles.cardHeader}>
+                <h2 className={styles.cardTitle}>Team Performance</h2>
+                <span className={styles.badgeGreen}>
+                  <TrendingUp size={12} /> +12%
+                </span>
+              </div>
+
+              <div className={styles.performanceMetrics}>
+                <div className={`${styles.metricMiniCard} ${styles.bgPurple}`}>
+                  <span className={styles.metricLabel}>Average Score</span>
+                  <span className={styles.metricVal}>92/100</span>
+                </div>
+                <div className={`${styles.metricMiniCard} ${styles.bgBlue}`}>
+                  <span className={styles.metricLabel}>Consistency</span>
+                  <span className={styles.metricVal}>98%</span>
+                </div>
+                <div className={`${styles.metricMiniCard} ${styles.bgPeach}`}>
+                  <span className={styles.metricLabel}>Top Performer</span>
+                  <span className={styles.metricVal}>
+                    S. Miller <span className={styles.performerIndicator} />
+                  </span>
+                </div>
+              </div>
+
+              {/* Smooth Area Wave Chart */}
+              <div className={styles.chartContainer}>
+                <svg className={styles.svgChart} viewBox="0 0 500 135" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="waveGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#6d78ff" stopOpacity="0.3" />
+                      <stop offset="100%" stopColor="#2035FF" stopOpacity="1" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* 5 dashed grid lines spanning full width */}
+                  <line x1="0" y1="4"   x2="500" y2="4"   stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
+                  <line x1="0" y1="36"  x2="500" y2="36"  stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
+                  <line x1="0" y1="68"  x2="500" y2="68"  stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
+                  <line x1="0" y1="100" x2="500" y2="100" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
+                  <line x1="0" y1="132" x2="500" y2="132" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
+
+                  {/* Filled Area under curve — matches Figma wave */}
+                  <path
+                    d="M 0 78 C 50 56 90 42 140 50 C 178 57 210 72 260 75 C 298 78 330 60 370 44 C 402 30 450 20 500 22 L 500 132 L 0 132 Z"
+                    fill="url(#waveGradient)"
+                  />
+
+                  {/* Wave Stroke Line — Figma: 3px solid #5C83F6 */}
+                  <path
+                    d="M 0 78 C 50 56 90 42 140 50 C 178 57 210 72 260 75 C 298 78 330 60 370 44 C 402 30 450 20 500 22"
+                    fill="none"
+                    stroke="#5C83F6"
+                    strokeWidth="3"
+                  />
+                </svg>
+
+                <div className={styles.chartAxis}>
+                  <span>Tue</span>
+                  <span>Wed</span>
+                  <span>Thu</span>
+                  <span>Fri</span>
+                  <span>Sun</span>
+                </div>
+              </div>
             </div>
-            <h3>Create New Project</h3>
-            <p>Start a new initiative</p>
+
+            {/* Team Activity */}
+            <div className={styles.cardBlock}>
+              <div className={styles.cardHeader}>
+                <h2 className={styles.cardTitle}>Team Activity</h2>
+                <span className={styles.badgeBlue}>24 Online</span>
+              </div>
+
+              <div className={styles.activityGrid}>
+                {(isTablet
+                  ? [teamMembers[0], teamMembers[4], teamMembers[8], teamMembers[2]]
+                  : teamMembers
+                ).map((member, index) => (
+                  <div key={index} className={styles.memberItem}>
+                    <div className={styles.avatarWrapper}>
+                      <div className={styles.memberAvatar}>{member.initials}</div>
+                      <span className={member.status === "online" ? styles.statusDotGreen : styles.statusDotOrange} />
+                    </div>
+                    <div className={styles.memberInfo}>
+                      <span className={styles.memberName}>{member.name}</span>
+                      <span className={styles.memberRole}>{member.role}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ROW 2: Critical Tasks / Daily Updates / Task Status & Action Center / Escalations */}
+          <div className={`${styles.gridRow} ${styles.rowEqualColumns}`}>
+            {/* LEFT COLUMN */}
+            <div className={styles.columnGroup}>
+              {/* Critical Tasks */}
+              <div className={styles.cardBlock}>
+                <div className={styles.criticalHeader}>
+                  <div className={styles.cardTitleWrap}>
+                    <AlertTriangle size={15} color="#ef4444" />
+                    <h2 className={styles.cardTitle}>Critical Tasks</h2>
+                  </div>
+                  <span className={styles.badgeRedTag}>3 Due Today</span>
+                </div>
+                <div className={styles.cardDivider} />
+
+                <div className={styles.tasksGrid}>
+                  {criticalTasks.map((task, idx) => (
+                    <div key={idx} className={styles.taskCardItem}>
+                      <div className={styles.taskAvatar}>{task.avatar}</div>
+                      <div className={styles.taskContent}>
+                        <div className={styles.taskTopRow}>
+                          <span className={styles.taskTitleText}>{task.title}</span>
+                          <span className={task.priority === "High" ? styles.badgeHigh : styles.badgeMed}>
+                            {task.priority}
+                          </span>
+                        </div>
+                        <div className={styles.taskMetaGroup}>
+                          <div className={styles.taskDueRow}>
+                            <Clock size={12} />
+                            <span>{task.due}</span>
+                          </div>
+                          <span className={styles.taskAssignee}>{task.assignee}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Daily Updates */}
+              <div className={styles.cardBlock}>
+                <div className={styles.cardHeader}>
+                  <h2 className={styles.cardTitle}>Daily Updates</h2>
+                </div>
+
+                <div className={styles.timelineList}>
+                  {dailyUpdates.map((update, idx) => (
+                    <div key={idx} className={styles.timelineItem}>
+                      <div className={update.nodeClass} />
+                      <div className={styles.timelineContent}>
+                        <div className={styles.timelineTextGroup}>
+                          <span className={styles.timelineUser}>{update.user}</span>
+                          <span className={styles.timelineAction}>{update.action}</span>
+                        </div>
+                        <span className={styles.timelineTime}>{update.time}</span>
+                        <div className={styles.speechCard}>{update.quote}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Task Status */}
+              <div className={styles.cardBlock}>
+                <div className={`${styles.cardHeader} ${styles.statusHeader}`}>
+                  <h2 className={`${styles.cardTitle} ${styles.statusCardTitle}`}>Task Status</h2>
+                </div>
+
+                <div className={styles.statusRows}>
+                  {taskStatus.map((status, idx) => (
+                    <div key={idx} className={styles.statusRowItem}>
+                      <div className={styles.statusLabelGroup}>
+                        <span className={styles.statusName}>{status.name}</span>
+                        <span className={`${styles.statusBadgePill} ${status.pillClass}`}>{status.tasks}</span>
+                      </div>
+                      <div className={styles.progressBarTrack}>
+                        <div className={status.barClass} style={{ width: status.width }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN */}
+            <div className={styles.columnGroup}>
+              {/* Action Center */}
+              <div className={styles.cardBlock}>
+                <div className={styles.cardHeader}>
+                  <h2 className={`${styles.cardTitle} ${styles.actionCardTitle}`}>Action Center</h2>
+                  <span className={styles.badgePending}>{approvalsList.length} Pending</span>
+                </div>
+
+                <div className={styles.actionList}>
+                  {approvalsList.map((item) => (
+                    <div key={item.id} className={styles.actionCardItem}>
+                      <div className={styles.actionLeft}>
+                        <div className={styles.actionAvatar}>{item.initials}</div>
+                        <div className={styles.actionMeta}>
+                          <span className={styles.actionType}>{item.type}</span>
+                          <span className={styles.actionSub}>{item.subtitle}</span>
+                        </div>
+                      </div>
+                      <div className={styles.actionBtns}>
+                        <button
+                          className={styles.btnReject}
+                          title="Reject"
+                          onClick={() => handleAction(item.id)}
+                        >
+                          <X size={14} />
+                        </button>
+                        <button
+                          className={styles.btnApprove}
+                          title="Approve"
+                          onClick={() => handleAction(item.id)}
+                        >
+                          <Check size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Escalations */}
+              <div className={styles.cardBlock}>
+                <div className={styles.cardHeader}>
+                  <div className={styles.cardTitleWrap}>
+                    <AlertCircle size={15} color="#ef4444" />
+                    <h2 className={styles.cardTitle}>Escalations</h2>
+                  </div>
+                </div>
+
+                <div className={styles.escalationsList}>
+                  {escalations.map((item, idx) => (
+                    <div key={idx} className={styles.escalationCard}>
+                      <div className={styles.escalationLeft}>
+                        <AlertCircle size={14} className={styles.escalationIcon} />
+                        <div className={styles.escalationInfo}>
+                          <span className={styles.escalationTitle}>{item.title}</span>
+                          <span className={styles.escalationTime}>{item.time}</span>
+                        </div>
+                      </div>
+                      <span className={item.badgeClass}>{item.severity}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </main>
+
+      {/* ── QUICK ASSIGN MODAL ── */}
+      {showModal && (
+        <div className={styles.modalOverlay} onClick={handleModalClose}>
+          <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
+
+            {/* Header */}
+            <div className={styles.modalHeader}>
+              <div>
+                <h2 className={styles.modalTitle}>Quick Assign Task</h2>
+                <p className={styles.modalSubtitle}>Assign a new task to a team member instantly.</p>
+              </div>
+              <button className={styles.modalCloseBtn} onClick={handleModalClose} title="Close">
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Form */}
+            <form className={styles.modalForm} onSubmit={handleModalSubmit}>
+
+              {/* Task Title */}
+              <div className={styles.modalField}>
+                <label className={styles.modalLabel}>Task Title</label>
+                <input
+                  className={styles.modalInput}
+                  type="text"
+                  placeholder="eg. make the dashboard"
+                  value={modalForm.title}
+                  onChange={(e) => setModalForm(f => ({ ...f, title: e.target.value }))}
+                  required
+                />
+              </div>
+
+              {/* Assignee + Priority row */}
+              <div className={styles.modalRow}>
+                <div className={styles.modalField}>
+                  <label className={styles.modalLabel}>Assignee</label>
+                  <select
+                    className={styles.modalSelect}
+                    value={modalForm.assignee}
+                    onChange={(e) => setModalForm(f => ({ ...f, assignee: e.target.value }))}
+                    required
+                  >
+                    <option value="" disabled>Select</option>
+                    <option>Alice Freeman</option>
+                    <option>Bob Smith</option>
+                    <option>Charlie Day</option>
+                    <option>Diana Prince</option>
+                    <option>Evan Wright</option>
+                  </select>
+                </div>
+
+                <div className={styles.modalField}>
+                  <label className={styles.modalLabel}>Priority</label>
+                  <select
+                    className={styles.modalSelect}
+                    value={modalForm.priority}
+                    onChange={(e) => setModalForm(f => ({ ...f, priority: e.target.value }))}
+                    required
+                  >
+                    <option value="" disabled>Select</option>
+                    <option>High</option>
+                    <option>Medium</option>
+                    <option>Low</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className={styles.modalField}>
+                <label className={styles.modalLabel}>Description :</label>
+                <textarea
+                  className={styles.modalTextarea}
+                  rows={4}
+                  value={modalForm.description}
+                  onChange={(e) => setModalForm(f => ({ ...f, description: e.target.value }))}
+                />
+              </div>
+
+              {/* Actions */}
+              <div className={styles.modalActions}>
+                <button type="button" className={styles.modalCancelBtn} onClick={handleModalClose}>Cancel</button>
+                <button type="submit" className={styles.modalSubmitBtn}>Assign Task</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
 
-export default App;
+export default ManagerDashboard;

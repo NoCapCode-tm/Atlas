@@ -34,8 +34,12 @@ import ProjectWorkspace from "./Employee Side/Components/ProjectWorkspace";
 import EmployeesProjectpage from "./Employee Side/Components/EmployeesProjectpage"
 import EmployeeDetails from "./Adminside/Components/EmployeeDetailspage";
 import EmployeeProfile from "./Employee Side/Components/EmployeeProfile";
-import ManagerLogin from "./Managerside/components/ManagerLogin";
+import ManagerLogin from "./Managerside/pages/ManagerLogin";
+import ManagerDashboard from "./Managerside/pages/ManagerDashboard";
 import HRLogin from "./hrside/Components/HRLogin";
+import HRNavbar from "./hrside/Components/HRNavbar";
+import HRDashboard from "./hrside/Components/HRDashboard";
+import { SidebarProvider } from "./hrside/Components/SidebarContext";
 import Manager from "./Adminside/Components/Manager";
 import Activity from "./Adminside/Components/Activity";
 
@@ -43,12 +47,13 @@ import Activity from "./Adminside/Components/Activity";
 function Layout({ children }) {
   const location = useLocation();
 
-  const hideNavbarRoutes = ["/","/login","/employeelogin","/managerlogin","/hrlogin"];
+  const hideNavbarRoutes = ["/","/login","/employeelogin","/managerlogin","/hrlogin","/manager/dashboard"];
   const hideNavbar = hideNavbarRoutes.includes(location.pathname);
+  const isHRRoute = location.pathname.startsWith("/hr/");
 
   return (
     <>
-      {!hideNavbar && <Navbar />}
+      {!hideNavbar && (isHRRoute ? <HRNavbar /> : <Navbar />)}
       {children}
     </>
   );
@@ -58,9 +63,10 @@ function Layout({ children }) {
 function App() {
   return (
     <>
-      <Router>
-        <Layout>
-          <Routes>
+      <SidebarProvider>
+        <Router>
+          <Layout>
+            <Routes>
             <Route path="/" element={<SelectPosition/>} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Admindashboard />} />
@@ -98,12 +104,15 @@ function App() {
 
             {/* manager */}
             <Route path="/managerlogin" element={<ManagerLogin/>} />
+            <Route path="/manager/dashboard" element={<ManagerDashboard/>} />
 
             {/* hr */}
             <Route path="/hrlogin" element={<HRLogin/>} />
+            <Route path="/hr/dashboard" element={<HRDashboard/>} />
           </Routes>
         </Layout>
       </Router>
+      </SidebarProvider>
 
       <ToastContainer position="top-center" autoClose={3000} />
     </>

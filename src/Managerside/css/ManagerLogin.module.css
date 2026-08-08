@@ -9,7 +9,7 @@
   position: relative;
   height: auto;
   min-height: 100vh;
-  background: url("../../../Adminside/Components/entrybg.png") no-repeat center/cover;
+  background: url("../../Adminside/Components/entrybg.png") no-repeat center/cover;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,8 +27,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeInUp {
@@ -36,6 +41,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -47,6 +53,7 @@
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
