@@ -68,8 +68,8 @@ const Projects = () => {
           `${API_URL}admin/getallproject`
         );
         const allProjects = res.data.message || [];
-        
-        // Use .some() to check inside the assignedMembers array
+
+        // Filter projects where team.assignedMembers includes user._id
         const employeeProjects = allProjects.filter((p) =>
           p.team?.assignedMembers?.some(
             (member) => String(member?.userId ?? member) === String(user._id)
