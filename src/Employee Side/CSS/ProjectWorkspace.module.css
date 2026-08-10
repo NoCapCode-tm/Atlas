@@ -851,3 +851,96 @@
     gap: 8px;
   }
 }
+
+
+/* Breadcrumb Styles */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #6E768F;
+  margin-bottom: 24px;
+}
+
+.breadcrumbLink {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbLink:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.breadcrumbCurrent {
+  color: #F1F3F8;
+  font-weight: 500;
+}
+
+/* --- MILESTONE OVERLAY STYLES --- */
+
+.milestonesSection {
+  position: relative;
+  /* Keep any existing padding/margins you already have here */
+}
+
+/* The blue frosted glass background */
+.lockedOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(35, 35, 35, 0.44); /* Subtle blue tint */
+  backdrop-filter: blur(4px); /* Blurs the milestones behind it */
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 12px;
+}
+
+/* The central message box */
+.lockedContent {
+  background: #161A23;
+  padding: 32px 48px;
+  border-radius: 16px;
+  border: 1px solid #6767679e;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  max-width: 420px;
+  animation: popIn 0.3s ease-out forwards;
+}
+
+.lockedIcon {
+  color: #6366f1; /* Matching your theme blue */
+  margin-bottom: 16px;
+}
+
+.lockedContent h3 {
+  margin: 0 0 8px 0;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.lockedContent p {
+  margin: 0;
+  color: #6E768F;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Optional: Smooth entrance animation */
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
