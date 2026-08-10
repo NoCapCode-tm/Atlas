@@ -1,0 +1,38 @@
+/* Add this to your global index.css or App.css */
+
+:root {
+  /* Match your dashboard's dark backgrounds */
+  --toastify-color-dark: #353535;
+  --toastify-text-color-dark: #F1F3F8;
+  
+  /* Status Colors */
+  --toastify-color-error: #ef4444;     
+  --toastify-color-success: #10b981;   
+  
+  /* Typography and Shape */
+  --toastify-font-family: "Inter", sans-serif;
+  --toastify-toast-bd-radius: 8px; /* Slightly sharper for a minimal feel */
+}
+
+/* 1. Override the bulky default size and add a subtle border */
+.Toastify__toast {
+  min-height: 48px !important; 
+  padding: 8px 16px !important;
+  border: 1px solid #232836;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important; /* Much softer shadow */
+}
+
+/* 2. Vertically center the text and icon perfectly */
+.Toastify__toast-body {
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* 3. Shrink the icon slightly so it doesn't overpower the text */
+.Toastify__toast-icon {
+  width: 18px;
+  height: 18px;
+}
