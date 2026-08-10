@@ -39,7 +39,7 @@ const avatarUrl = (uid) => {
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [employees, setEmployees] = useState([]);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [range, setRange] = useState(30);
   const navigate = useNavigate();
 
@@ -51,7 +51,7 @@ const Projects = () => {
           `${API_URL}admin/getuser`,
           { withCredentials: true }
         );
-        setUser(res.data.message || []);
+        setUser(res.data.message || null);
       } catch (err) {
         console.log("Error fetching user:", err);
       }
@@ -60,22 +60,28 @@ const Projects = () => {
 
   /* ── Fetch projects assigned to this employee ── */
   useEffect(() => {
+    if (!user?._id) return; // Wait until current user is loaded
+
     (async () => {
       try {
         const res = await axios.get(
           `${API_URL}admin/getallproject`
         );
-        const employeeProjects = res.data.message.filter(
-          (p) =>
-            p.team?.assignedMembers &&
-            p.team.assignedMembers.userId === user?._id
+        const allProjects = res.data.message || [];
+
+        // Filter projects where team.assignedMembers includes user._id
+        const employeeProjects = allProjects.filter((p) =>
+          p.team?.assignedMembers?.some(
+            (member) => String(member?.userId ?? member) === String(user._id)
+          )
         );
+
         setProjects(employeeProjects);
       } catch (err) {
         console.log("Error fetching projects:", err);
       }
     })();
-  }, []);
+  }, [user?._id]); // Re-run when user._id becomes available
 
   /* ── Fetch all users for avatar stack ── */
   useEffect(() => {
