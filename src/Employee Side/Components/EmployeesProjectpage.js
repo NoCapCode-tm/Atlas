@@ -60,7 +60,7 @@ const Projects = () => {
 
   /* ── Fetch projects assigned to this employee ── */
   useEffect(() => {
-    if (!user?._id) return; // Wait until current user is loaded
+    if (!user?._id) return; // Wait until user ID is loaded
 
     (async () => {
       try {
@@ -81,7 +81,7 @@ const Projects = () => {
         console.log("Error fetching projects:", err);
       }
     })();
-  }, [user?._id]); // Re-run when user._id becomes available
+  }, [user?._id]); // Re-run once user._id becomes available
 
   /* ── Fetch all users for avatar stack ── */
   useEffect(() => {
