@@ -36,6 +36,9 @@ import EmployeeDetails from "./Adminside/Components/EmployeeDetailspage";
 import EmployeeProfile from "./Employee Side/Components/EmployeeProfile";
 import ManagerLogin from "./Managerside/components/ManagerLogin";
 import HRLogin from "./hrside/Components/HRLogin";
+import HRNavbar from "./hrside/Components/HRNavbar";
+import HRDashboard from "./hrside/Components/HRDashboard";
+import { SidebarProvider } from "./hrside/Components/SidebarContext";
 import Manager from "./Adminside/Components/Manager";
 import Activity from "./Adminside/Components/Activity";
 
@@ -45,10 +48,11 @@ function Layout({ children }) {
 
   const hideNavbarRoutes = ["/","/login","/employeelogin","/managerlogin","/hrlogin"];
   const hideNavbar = hideNavbarRoutes.includes(location.pathname);
+  const isHRRoute = location.pathname.startsWith("/hr/");
 
   return (
     <>
-      {!hideNavbar && <Navbar />}
+      {!hideNavbar && (isHRRoute ? <HRNavbar /> : <Navbar />)}
       {children}
     </>
   );
@@ -58,6 +62,7 @@ function Layout({ children }) {
 function App() {
   return (
     <>
+      <SidebarProvider>
       <Router>
         <Layout>
           <Routes>
@@ -101,9 +106,11 @@ function App() {
 
             {/* hr */}
             <Route path="/hrlogin" element={<HRLogin/>} />
+            <Route path="/hr/dashboard" element={<HRDashboard />} />
           </Routes>
         </Layout>
       </Router>
+      </SidebarProvider>
 
       <ToastContainer 
         position="top-center" 
@@ -119,7 +126,3 @@ function App() {
 }
 
 export default App;
-
-
-
- 
