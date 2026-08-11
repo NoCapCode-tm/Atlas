@@ -17,7 +17,7 @@ const HRLogin = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await axios.post(`${API_URL}/hr/login`, {
+      const response = await axios.post(`${API_URL}hr/login`, {
         userid: email,
         password: password
       }, { withCredentials: true });

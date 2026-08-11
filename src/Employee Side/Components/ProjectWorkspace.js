@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import styles from "../CSS/ProjectWorkspace.module.css";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useParams } from "react-router";
-import { CircleAlert, CircleCheck, Clock, File, FileSpreadsheet, FileText, ImageIcon } from 'lucide-react';
+import { useParams, useNavigate } from "react-router-dom";
+import { CircleAlert, CircleCheck, Clock, File, FileSpreadsheet, FileText, ImageIcon, Lock } from 'lucide-react';
 import { Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -56,6 +56,7 @@ function TaskStatusDonut({
 
 export default function ProjectWorkspace() {
     const {id} = useParams()
+    const navigate = useNavigate();
       const[user,setUser] = useState("")
       const[alluser,setalluser]=useState([])
       const[tasks,setTasks]=useState([])
@@ -105,11 +106,11 @@ useEffect(() => {
         alluserRes,
         projectsRes,
       ] = await Promise.all([
-        axios.get(`${API_URL}/admin/getuser`, { withCredentials: true }),
-        axios.get(`${API_URL}/admin/getalltask`),
-        axios.get(`${API_URL}/admin/getprojectdetails/${id}`),
-        axios.get(`${API_URL}/admin/getalluser`),
-        axios.get(`${API_URL}/admin/getallproject`),
+        axios.get(`${API_URL}admin/getuser`, { withCredentials: true }),
+        axios.get(`${API_URL}admin/getalltask`),
+        axios.get(`${API_URL}admin/getprojectdetails/${id}`),
+        axios.get(`${API_URL}admin/getalluser`),
+        axios.get(`${API_URL}admin/getallproject`),
       ]);
 
       if (!mounted) return;
@@ -283,7 +284,23 @@ if (pageLoading) {
 
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        My Tasks › Project › {project?.projectname}
+        <span 
+          className={styles.breadcrumbLink} 
+          onClick={() => navigate("/employees/tasks")}
+        >
+          My Tasks
+        </span>
+        {' › '}
+        <span 
+          className={styles.breadcrumbLink} 
+          onClick={() => navigate("/employee/projects")}
+        >
+          Projects
+        </span>
+        {' › '}
+        <span className={styles.breadcrumbCurrent}>
+          {project?.projectname}
+        </span>
       </div>
 
       {/* Header */}
@@ -304,17 +321,22 @@ if (pageLoading) {
 
             <div className={styles.avatars}>
               {(() => {
-                const projectUsers = alluser.filter(u =>
-                  u?.Projects?.includes(project._id)
-                );
+                // 1. Get the members from the project object (same as EmployeesProjectpage)
+                const assignedMembers = project?.team?.assignedMembers || [];
+                
+                // 2. Map those IDs to the actual user objects from alluser
+                const projectUsers = assignedMembers.map(member => {
+                  const userId = member?.userId ?? member;
+                  return alluser.find(u => String(u._id) === String(userId));
+                }).filter(Boolean); // filter out undefined if a user wasn't found
 
                 const visibleUsers = projectUsers.slice(0, 4);
                 const remainingCount = projectUsers.length - visibleUsers.length;
 
                 return (
                   <>
-                    {visibleUsers.map((u) => (
-                      <div key={u._id} className={styles.avatar}>
+                    {visibleUsers.map((u, index) => (
+                      <div key={u._id || index} className={styles.avatar}>
                         {u.profilepicture ? (
                           <img
                             src={u.profilepicture}
@@ -326,7 +348,7 @@ if (pageLoading) {
                               ?.split(" ")
                               .map(n => n[0])
                               .join("")
-                              .toUpperCase()}
+                              .toUpperCase() || "U"}
                           </span>
                         )}
                       </div>
@@ -583,6 +605,15 @@ if (pageLoading) {
         </div>
       ):(
         <div className={styles.milestonesSection}>
+         {/* NEW LOCKED OVERLAY */}
+          <div className={styles.lockedOverlay}>
+            <div className={styles.lockedContent}>
+              <Lock size={40} className={styles.lockedIcon} />
+              <h3>Milestones Locked</h3>
+              <p>Milestone management is restricted to managers. You can view the progress here.</p>
+            </div>
+          </div>
+          
           <div className={styles.timeline}>
             {project?.milestones && project.milestones.length > 0 ? (
               project.milestones.map((milestone, index) => {

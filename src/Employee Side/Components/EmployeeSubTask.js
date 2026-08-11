@@ -27,7 +27,7 @@ const ECreatetaskmodal = ({ modal, setModal, tasks}) => {
       setLoading(true);
       console.log(form)
       await axios.post(
-        `${API_URL}/employee/addsubtask`,
+        `${API_URL}employee/addsubtask`,
         form,
         { withCredentials: true }
       );
