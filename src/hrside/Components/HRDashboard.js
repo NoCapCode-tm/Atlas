@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../CSS/hrdashboard.module.css";
-import { useSidebar } from "./SidebarContext";
+
 import {
   Users,
   UserPlus,
@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 
 function HRDashboard() {
-  const { collapsed } = useSidebar();
   const pipeline = [
     { dept: "Engineering (12)", percent: 65 },
     { dept: "Sales (8)", percent: 75 },
@@ -89,7 +88,7 @@ function HRDashboard() {
   ];
 
   return (
-    <div className={`${styles.mainContainer} ${collapsed ? styles.mainContainerCollapsed : ""}`}>
+    <div className={styles.mainContainer}>
       <div className={styles.topcontainer}>
         <div className={styles.topleft}>
           <div className={styles.topleft1}>Dashboard</div>
@@ -266,8 +265,14 @@ function HRDashboard() {
               </div>
               <div className={styles.actionItemBody}>
                 <div className={styles.actionItemTopRow}>
-                  <span className={styles.actionItemTitle}>Compliance Escalation</span>
-                  <span className={`${styles.actionBadge} ${styles.actionBadgeRed}`}>Review</span>
+                  <span className={styles.actionItemTitle}>
+                    Compliance Escalation
+                  </span>
+                  <span
+                    className={`${styles.actionBadge} ${styles.actionBadgeRed}`}
+                  >
+                    Review
+                  </span>
                 </div>
                 <p className={styles.actionItemText}>
                   I-9 verification delayed for 3 new hires in EU region.
@@ -279,10 +284,18 @@ function HRDashboard() {
               <Clock size={16} className={styles.actionItemIconOrange} />
               <div className={styles.actionItemBody}>
                 <div className={styles.actionItemTopRow}>
-                  <span className={styles.actionItemTitle}>SLA Breach Warning</span>
-                  <span className={`${styles.actionBadge} ${styles.actionBadgeOrange}`}>Assign</span>
+                  <span className={styles.actionItemTitle}>
+                    SLA Breach Warning
+                  </span>
+                  <span
+                    className={`${styles.actionBadge} ${styles.actionBadgeOrange}`}
+                  >
+                    Assign
+                  </span>
                 </div>
-                <p className={styles.actionItemText}>4 payroll tickets nearing 48h limit.</p>
+                <p className={styles.actionItemText}>
+                  4 payroll tickets nearing 48h limit.
+                </p>
               </div>
             </div>
 
@@ -290,10 +303,18 @@ function HRDashboard() {
               <UserCog size={16} className={styles.actionItemIconBlue} />
               <div className={styles.actionItemBody}>
                 <div className={styles.actionItemTopRow}>
-                  <span className={styles.actionItemTitle}>Onboarding Stalled</span>
-                  <span className={`${styles.actionBadge} ${styles.actionBadgeBlue}`}>Nudge</span>
+                  <span className={styles.actionItemTitle}>
+                    Onboarding Stalled
+                  </span>
+                  <span
+                    className={`${styles.actionBadge} ${styles.actionBadgeBlue}`}
+                  >
+                    Nudge
+                  </span>
                 </div>
-                <p className={styles.actionItemText}>2 hires haven't completed day-1 tasks.</p>
+                <p className={styles.actionItemText}>
+                  2 hires haven't completed day-1 tasks.
+                </p>
               </div>
             </div>
           </div>
@@ -517,7 +538,9 @@ function HRDashboard() {
               <span className={styles.riskTileUnit}>Employees</span>
             </div>
             <div className={styles.riskTileDivider} />
-            <div className={styles.riskTileNote}>Requires PIP review within 14 days.</div>
+            <div className={styles.riskTileNote}>
+              Requires PIP review within 14 days.
+            </div>
           </div>
 
           <div className={styles.riskTile}>
@@ -541,11 +564,15 @@ function HRDashboard() {
               <span className={styles.riskTileUnit}>Incidents</span>
             </div>
             <div className={styles.riskTileDivider} />
-            <div className={styles.riskTileNote}>Peer review anomalies detected.</div>
+            <div className={styles.riskTileNote}>
+              Peer review anomalies detected.
+            </div>
           </div>
 
           <div className={styles.riskTile}>
-            <div className={`${styles.riskTileLabel} ${styles.riskTileLabelGreen}`}>
+            <div
+              className={`${styles.riskTileLabel} ${styles.riskTileLabelGreen}`}
+            >
               <svg
                 width="13"
                 height="12"
@@ -565,7 +592,9 @@ function HRDashboard() {
               <span className={styles.riskTileUnit}>Of Workforce</span>
             </div>
             <div className={styles.riskTileDivider} />
-            <div className={styles.riskTileNote}>Showing sustained low activity levels.</div>
+            <div className={styles.riskTileNote}>
+              Showing sustained low activity levels.
+            </div>
           </div>
         </div>
       </div>

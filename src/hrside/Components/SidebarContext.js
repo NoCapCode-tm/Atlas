@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState } from "react";
 const SidebarContext = createContext();
 
 export function SidebarProvider({ children }) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   return (
     <SidebarContext.Provider value={{ collapsed, setCollapsed }}>
       {children}
