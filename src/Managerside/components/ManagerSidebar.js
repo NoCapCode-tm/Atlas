@@ -11,31 +11,35 @@ import styles from "../css/ManagerSidebar.module.css";
 
 function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
   const navItems = [
-    { name: "Dashboard", icon: <LayoutGrid size={18} /> },
-    { name: "My Team", icon: <Users size={18} /> },
-    { name: "Work", icon: <FolderKanban size={18} /> },
-    { name: "Performance", icon: <BarChart2 size={18} /> },
-    { name: "Requests / Support", icon: <Workflow size={18} /> }
+    { name: "Dashboard", icon: <LayoutGrid size={24} /> },
+    { name: "My Team", icon: <Users size={24} /> },
+    { name: "Work", icon: <FolderKanban size={24} /> },
+    { name: "Performance", icon: <BarChart2 size={24} /> },
+    { name: "Requests / Support", icon: <Workflow size={24} /> }
   ];
 
   return (
-    <aside className={`${styles.sidebar} ${collapsed ? styles.sidebarCollapsed : ""}`}>
+    <>
+      {!collapsed && (
+        <div
+          className={styles.sidebarOverlay}
+          onClick={() => setCollapsed(true)}
+          title="Close sidebar"
+        />
+      )}
+      <aside className={`${styles.sidebar} ${collapsed ? styles.sidebarCollapsed : ""}`}>
       <div className={styles.sidebarTop}>
         <div
           className={styles.logomenu}
-          onClick={() => {
-            if (window.innerWidth > 768) {
-              setCollapsed((prev) => !prev);
-            }
-          }}
-          style={{ cursor: window.innerWidth > 768 ? "pointer" : "default" }}
-          title={window.innerWidth > 768 ? (collapsed ? "Expand sidebar" : "Collapse sidebar") : ""}
+          onClick={() => setCollapsed(true)}
+          style={{ cursor: "pointer" }}
+          title="Collapse sidebar"
         >
-          <svg width="48" height="48" viewBox="0 0 67 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="40" height="40" viewBox="0 0 67 57" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M4.24084 51.7974L32.5664 9.06055L62.2408 51.7974C40.0276 37.9745 27.3506 37.7995 4.24084 51.7974Z"
-              stroke="#FFFFFF"
-              strokeWidth="8"
+              stroke="#DDDDFF"
+              strokeWidth="10.1754"
             />
           </svg>
         </div>
@@ -65,11 +69,12 @@ function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
         </div>
 
         <button className={styles.supportItem} title="Support">
-          <Headphones size={18} />
+          <Headphones size={24} />
           <span>Support</span>
         </button>
       </div>
     </aside>
+  </>
   );
 }
 

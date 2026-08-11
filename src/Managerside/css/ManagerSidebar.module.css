@@ -1,42 +1,46 @@
-/* ==========================================================================
-   MANAGER SIDEBAR CSS MODULE
-   ========================================================================== */
+/* Sidebar Layout */
 
 .sidebar {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: clamp(230px, 17vw, 280px);
-  min-width: clamp(230px, 17vw, 280px);
+  width: 300px;
+  min-width: 300px;
   padding: 0 0 24px;
   background: #0f0f0f;
-  border-right: 1.25px solid #E2E8F0;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
-  transition: width 0.25s ease, min-width 0.25s ease;
+  transition: transform 0.3s ease, width 0.3s ease, min-width 0.3s ease;
 }
 
-.sidebarCollapsed {
-  width: 76px;
-  min-width: 76px;
+.sidebarOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  animation: fadeInOverlay 0.2s ease-out;
 }
 
-.sidebarCollapsed .navItem span,
-.sidebarCollapsed .supportItem span,
-.sidebarCollapsed .profileDetails {
-  display: none;
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.sidebarCollapsed .navItem,
-.sidebarCollapsed .supportItem,
-.sidebarCollapsed .profileBox {
-  justify-content: center;
-  padding: 10px 0;
-}
-
-.sidebarCollapsed .navMenu,
-.sidebarCollapsed .sidebarBottom {
-  padding: 0 10px;
+.sidebar.sidebarCollapsed {
+  transform: translateX(-300px);
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  border-right: none;
+  overflow: hidden;
 }
 
 .sidebarTop {
@@ -50,73 +54,70 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: clamp(120px, 8.5vw, 140px);
+  height: 80px;
   background: transparent;
-  border-bottom: 1.25px solid #E2E8F0;
-  font-size: clamp(11px, 0.95vw, 15px);
   color: #ffffff;
   cursor: pointer;
   box-sizing: border-box;
-  transition: all 0.2s ease;
+}
+
+.logomenu svg {
+  width: 40px;
+  height: 40px;
 }
 
 .navMenu {
   display: flex;
   flex-direction: column;
-  gap: clamp(6px, 0.5vw, 10px);
-  padding: 0 clamp(16px, 1.3vw, 22px);
+  gap: 10px;
+  padding: 0;
 }
 
 .navItem,
 .supportItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  width: 100%;
+  gap: 15px;
+  width: 95%;
+  align-self: center;
   background: transparent;
   border: none;
   font-family: "Outfit", sans-serif;
-  font-size: clamp(11px, 0.9vw, 14px);
-  font-weight: 500;
-  color: #EEEEFF;
+  font-size: 15px;
+  font-weight: 400;
+  color: #94a3b8;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s ease;
-}
-
-.navItem {
-  padding: clamp(12px, 0.9vw, 16px) clamp(16px, 1.2vw, 20px);
+  transition: all 0.3s ease;
   border-radius: 10px;
-}
-
-.supportItem {
-  padding: clamp(10px, 0.8vw, 14px) clamp(12px, 1vw, 16px);
-  border-radius: 8px;
+  padding: 10px 30px;
+  box-sizing: border-box;
 }
 
 .navItem:hover,
 .supportItem:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(99, 102, 241, 0.1);
   color: #ffffff;
 }
 
 .activeNavItem {
-  background: #2563eb;
+  background: #0050B8;
   color: #ffffff;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .sidebarBottom {
   display: flex;
   flex-direction: column;
-  gap: clamp(16px, 1.2vw, 22px);
-  padding: 0 clamp(16px, 1.3vw, 22px);
+  gap: 15px;
+  padding: 0 16px;
 }
 
 .profileBox {
   display: flex;
   align-items: center;
-  gap: clamp(12px, 1vw, 16px);
-  padding: clamp(12px, 1vw, 16px);
+  gap: 9px;
+  padding: 10px 24px;
   border-radius: 12px;
 }
 
@@ -124,14 +125,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(36px, 2.7vw, 44px);
-  height: clamp(36px, 2.7vw, 44px);
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  width: 36px;
+  height: 36px;
+  background-color: #2b2b52;
+  color: #6d64fa;
   border-radius: 50%;
   font-family: "Outfit", sans-serif;
-  font-size: clamp(9px, 0.95vw, 15px);
+  font-size: 14px;
   font-weight: 600;
-  color: #ffffff;
 }
 
 .profileDetails {
@@ -142,49 +143,35 @@
 
 .profileName {
   font-family: "Outfit", sans-serif;
-  font-size: clamp(10px, 0.95vw, 15px);
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
   color: #ffffff;
 }
 
 .profileRole {
   font-family: "Outfit", sans-serif;
-  font-size: clamp(8.5px, 0.8vw, 12.5px);
+  font-size: 12px;
   color: #94a3b8;
 }
 
-/* TABLET: 426px - 768px */
-@media (max-width: 768px) {
-  .sidebarCollapsed {
-    width: 60px;
-    min-width: 60px;
-  }
-
+/* Mobile Media Query overrides */
+@media (max-width: 480px) {
   .logomenu {
-    height: 80px;
+    height: 60px;
   }
-
-  .logomenu svg {
-    width: 28px;
-    height: 28px;
+  
+  .profileAvatar {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
   }
-
-  .sidebarCollapsed .profileAvatar {
-    width: 32px;
-    height: 32px;
+  
+  .profileName {
+    font-size: 13px;
   }
-
-  .sidebarCollapsed .navMenu,
-  .sidebarCollapsed .sidebarBottom {
-    padding: 0 6px;
-  }
-}
-
-/* MOBILE: <= 425px */
-@media (max-width: 425px) {
-  .sidebar {
-    display: none;
+  
+  .profileBox {
+    padding-left: 27px;
+    gap: 12px;
   }
 }
-
-

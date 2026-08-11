@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../css/ManagerDashboard.module.css";
 import useWindowWidth from "../../useWindowWidth";
 import {
   Users,
-  Bell,
   Plus,
   Briefcase,
   Clock,
@@ -13,16 +12,14 @@ import {
   X,
   AlertTriangle
 } from "lucide-react";
-import atlasLogo from "../../Adminside/Components/atlas.png";
 import ManagerSidebar from "../components/ManagerSidebar";
-import MobileNavbar from "../components/MobileNavbar";
+import ManagerHeader from "../components/ManagerHeader";
 
 function ManagerDashboard() {
   const width = useWindowWidth();
   const isMobile = width <= 425;
   const isTablet = width > 425 && width <= 768;
 
-  // Logged-in manager name — read from localStorage, fallback to "Om Vashishtha"
   const storedName = localStorage.getItem("managerName") || "Om Vashishtha";
   const firstName = storedName.split(" ")[0];
   const initials = storedName
@@ -40,22 +37,23 @@ function ManagerDashboard() {
   const handleModalClose = () => setShowModal(false);
   const handleModalSubmit = (e) => {
     e.preventDefault();
-    // TODO: wire to API
     setShowModal(false);
     setModalForm({ title: "", assignee: "", priority: "", description: "" });
   };
 
+  const prevWidthRef = useRef(width);
   useEffect(() => {
-    if (width > 0 && width <= 768) {
+    if (prevWidthRef.current > 768 && width <= 768) {
       setCollapsed(true);
     }
+    prevWidthRef.current = width;
   }, [width]);
+
   const [approvalsList, setApprovalsList] = useState([
     { id: 1, type: "Task Approval", subtitle: "Lisa M. · Homepage Redesign V2", initials: "LM" },
     { id: 2, type: "Task Approval", subtitle: "Lisa M. · Homepage Redesign V2", initials: "LM" },
     { id: 3, type: "Task Approval", subtitle: "Lisa M. · Homepage Redesign V2", initials: "LM" }
   ]);
-
 
   const stats = [
     {
@@ -86,15 +84,15 @@ function ManagerDashboard() {
 
   const teamMembers = [
     { name: "Alice Freeman", role: "Designer", initials: "AF", status: "online" },
-    { name: "Alice Freeman", role: "Designer", initials: "AF", status: "online" },
-    { name: "Bob Smith", role: "Developer", initials: "BS", status: "online" },
     { name: "Bob Smith", role: "Developer", initials: "BS", status: "online" },
     { name: "Charlie Day", role: "Manager", initials: "CD", status: "away" },
-    { name: "Charlie Day", role: "Manager", initials: "CD", status: "away" },
-    { name: "Diana Prince", role: "Marketing", initials: "DP", status: "away" },
     { name: "Diana Prince", role: "Marketing", initials: "DP", status: "away" },
     { name: "Evan Wright", role: "Developer", initials: "EW", status: "online" },
-    { name: "Evan Wright", role: "Developer", initials: "EW", status: "online" }
+    { name: "Fiona Gallagher", role: "HR Specialist", initials: "FG", status: "online" },
+    { name: "George Clark", role: "Product Manager", initials: "GC", status: "away" },
+    { name: "Hannah Abbott", role: "QA Engineer", initials: "HA", status: "online" },
+    { name: "Ian Malcolm", role: "Data Analyst", initials: "IM", status: "online" },
+    { name: "Julia Roberts", role: "UX Researcher", initials: "JR", status: "away" }
   ];
 
   const criticalTasks = [
@@ -147,7 +145,6 @@ function ManagerDashboard() {
 
   return (
     <div className={styles.dashboardContainer}>
-      {/* SIDEBAR — hidden on mobile via CSS */}
       <ManagerSidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -155,39 +152,22 @@ function ManagerDashboard() {
         setCollapsed={setCollapsed}
       />
 
-      {/* MAIN CONTENT AREA */}
       <main className={styles.mainContent}>
+        <ManagerHeader
+          title="Dashboard"
+          subtitle={isMobile ? `Welcome back, ${firstName}` : "Welcome back, here's what's happening today."}
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+          isMobile={isMobile}
+          userName={storedName}
+          initials={initials}
+        >
+          <button className={styles.quickAssignBtn} onClick={() => setShowModal(true)}>
+            <Plus size={16} />
+            <span>Quick Assign</span>
+          </button>
+        </ManagerHeader>
 
-        {/* MOBILE TOP NAVBAR — only visible on ≤ 425px */}
-        {isMobile && (
-          <MobileNavbar userName={storedName} initials={initials} />
-        )}
-
-        {/* HEADER */}
-        <header className={styles.dashboardHeader}>
-          <div className={styles.headerTitleGroup}>
-            <h1 className={styles.headerTitle}>Dashboard</h1>
-            <p className={styles.headerSubtitle}>
-              {isMobile ? `Welcome back, ${firstName}` : "Welcome back, here's what's happening today."}
-            </p>
-          </div>
-
-          <div className={styles.headerActions}>
-            {/* Bell shown only on non-mobile (mobile has it in MobileNavbar) */}
-            {!isMobile && (
-              <button className={styles.notificationBtn} title="Notifications">
-                <Bell size={18} />
-                <span className={styles.notificationBadge} />
-              </button>
-            )}
-            <button className={styles.quickAssignBtn} onClick={() => setShowModal(true)}>
-              <Plus size={16} />
-              <span>Quick Assign</span>
-            </button>
-          </div>
-        </header>
-
-        {/* 4 STATS CARDS */}
         <section className={styles.statsGrid}>
           {stats.map((stat, idx) => (
             <div key={idx} className={styles.statCard}>
@@ -205,11 +185,8 @@ function ManagerDashboard() {
           ))}
         </section>
 
-        {/* MAIN DASHBOARD SECTIONS GRID */}
         <div className={styles.dashboardMainGrid}>
-          {/* ROW 1: Team Performance & Team Activity */}
           <div className={`${styles.gridRow} ${styles.rowTwoColumns}`}>
-            {/* Team Performance */}
             <div className={styles.cardBlock}>
               <div className={styles.cardHeader}>
                 <h2 className={styles.cardTitle}>Team Performance</h2>
@@ -235,7 +212,6 @@ function ManagerDashboard() {
                 </div>
               </div>
 
-              {/* Smooth Area Wave Chart */}
               <div className={styles.chartContainer}>
                 <svg className={styles.svgChart} viewBox="0 0 500 135" preserveAspectRatio="none">
                   <defs>
@@ -245,20 +221,17 @@ function ManagerDashboard() {
                     </linearGradient>
                   </defs>
 
-                  {/* 5 dashed grid lines spanning full width */}
                   <line x1="0" y1="4"   x2="500" y2="4"   stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
                   <line x1="0" y1="36"  x2="500" y2="36"  stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
                   <line x1="0" y1="68"  x2="500" y2="68"  stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
                   <line x1="0" y1="100" x2="500" y2="100" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
                   <line x1="0" y1="132" x2="500" y2="132" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
 
-                  {/* Filled Area under curve — matches Figma wave */}
                   <path
                     d="M 0 78 C 50 56 90 42 140 50 C 178 57 210 72 260 75 C 298 78 330 60 370 44 C 402 30 450 20 500 22 L 500 132 L 0 132 Z"
                     fill="url(#waveGradient)"
                   />
 
-                  {/* Wave Stroke Line — Figma: 3px solid #5C83F6 */}
                   <path
                     d="M 0 78 C 50 56 90 42 140 50 C 178 57 210 72 260 75 C 298 78 330 60 370 44 C 402 30 450 20 500 22"
                     fill="none"
@@ -277,7 +250,6 @@ function ManagerDashboard() {
               </div>
             </div>
 
-            {/* Team Activity */}
             <div className={styles.cardBlock}>
               <div className={styles.cardHeader}>
                 <h2 className={styles.cardTitle}>Team Activity</h2>
@@ -286,8 +258,10 @@ function ManagerDashboard() {
 
               <div className={styles.activityGrid}>
                 {(isTablet
-                  ? [teamMembers[0], teamMembers[4], teamMembers[8], teamMembers[2]]
-                  : teamMembers
+                  ? teamMembers.slice(0, 4)
+                  : isMobile
+                  ? teamMembers.slice(0, 8)
+                  : teamMembers.slice(0, 10)
                 ).map((member, index) => (
                   <div key={index} className={styles.memberItem}>
                     <div className={styles.avatarWrapper}>
@@ -304,11 +278,8 @@ function ManagerDashboard() {
             </div>
           </div>
 
-          {/* ROW 2: Critical Tasks / Daily Updates / Task Status & Action Center / Escalations */}
           <div className={`${styles.gridRow} ${styles.rowEqualColumns}`}>
-            {/* LEFT COLUMN */}
             <div className={styles.columnGroup}>
-              {/* Critical Tasks */}
               <div className={styles.cardBlock}>
                 <div className={styles.criticalHeader}>
                   <div className={styles.cardTitleWrap}>
@@ -343,7 +314,6 @@ function ManagerDashboard() {
                 </div>
               </div>
 
-              {/* Daily Updates */}
               <div className={styles.cardBlock}>
                 <div className={styles.cardHeader}>
                   <h2 className={styles.cardTitle}>Daily Updates</h2>
@@ -366,7 +336,6 @@ function ManagerDashboard() {
                 </div>
               </div>
 
-              {/* Task Status */}
               <div className={styles.cardBlock}>
                 <div className={`${styles.cardHeader} ${styles.statusHeader}`}>
                   <h2 className={`${styles.cardTitle} ${styles.statusCardTitle}`}>Task Status</h2>
@@ -388,9 +357,7 @@ function ManagerDashboard() {
               </div>
             </div>
 
-            {/* RIGHT COLUMN */}
             <div className={styles.columnGroup}>
-              {/* Action Center */}
               <div className={styles.cardBlock}>
                 <div className={styles.cardHeader}>
                   <h2 className={`${styles.cardTitle} ${styles.actionCardTitle}`}>Action Center</h2>
@@ -428,7 +395,6 @@ function ManagerDashboard() {
                 </div>
               </div>
 
-              {/* Escalations */}
               <div className={styles.cardBlock}>
                 <div className={styles.cardHeader}>
                   <div className={styles.cardTitleWrap}>
@@ -457,12 +423,9 @@ function ManagerDashboard() {
         </div>
       </main>
 
-      {/* ── QUICK ASSIGN MODAL ── */}
       {showModal && (
         <div className={styles.modalOverlay} onClick={handleModalClose}>
           <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
-
-            {/* Header */}
             <div className={styles.modalHeader}>
               <div>
                 <h2 className={styles.modalTitle}>Quick Assign Task</h2>
@@ -473,10 +436,7 @@ function ManagerDashboard() {
               </button>
             </div>
 
-            {/* Form */}
             <form className={styles.modalForm} onSubmit={handleModalSubmit}>
-
-              {/* Task Title */}
               <div className={styles.modalField}>
                 <label className={styles.modalLabel}>Task Title</label>
                 <input
@@ -489,7 +449,6 @@ function ManagerDashboard() {
                 />
               </div>
 
-              {/* Assignee + Priority row */}
               <div className={styles.modalRow}>
                 <div className={styles.modalField}>
                   <label className={styles.modalLabel}>Assignee</label>
@@ -524,7 +483,6 @@ function ManagerDashboard() {
                 </div>
               </div>
 
-              {/* Description */}
               <div className={styles.modalField}>
                 <label className={styles.modalLabel}>Description :</label>
                 <textarea
@@ -535,17 +493,14 @@ function ManagerDashboard() {
                 />
               </div>
 
-              {/* Actions */}
               <div className={styles.modalActions}>
                 <button type="button" className={styles.modalCancelBtn} onClick={handleModalClose}>Cancel</button>
                 <button type="submit" className={styles.modalSubmitBtn}>Assign Task</button>
               </div>
-
             </form>
           </div>
         </div>
       )}
-
     </div>
   );
 }
