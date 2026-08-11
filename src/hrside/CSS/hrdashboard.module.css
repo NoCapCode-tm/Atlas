@@ -1,16 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap");
 .mainContainer {
   background: #050505;
-  width: calc(100% - 260px);
+  width: 100%;
   padding: 28px 50px;
-  margin-left: 260px;
   box-sizing: border-box;
-  transition: width 0.25s ease, margin-left 0.25s ease;
-}
-
-.mainContainerCollapsed {
-  width: calc(100% - 76px);
-  margin-left: 76px;
 }
 
 .topcontainer {
@@ -147,10 +140,6 @@
 }
 
 @media (max-width: 768px) {
-  .mainContainer {
-    width: calc(100% - 220px);
-    margin-left: 220px;
-  }
   .topcontainer {
     flex-direction: column;
     align-items: flex-start;
