@@ -157,6 +157,13 @@
     align-items: flex-start;
   }
 }
+
+@media screen and (min-width: 601px) and (max-width: 768px) {
+  .topcontainer {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
 /* ── Organizational Health + Pulse Sentiment row ── */
 .healthRow {
   display: flex;
@@ -440,6 +447,16 @@
 @media screen and (max-width: 900px) {
   .actionCard,
   .leavesCard,
+  .docCard {
+    flex: 1 1 100%;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 900px) {
+  .actionCard,
+  .leavesCard {
+    flex: 1 1 calc(50% - 12px);
+  }
   .docCard {
     flex: 1 1 100%;
   }
