@@ -112,7 +112,15 @@ function App() {
       </Router>
       </SidebarProvider>
 
-      <ToastContainer position="top-center" autoClose={3000} />
+      <ToastContainer 
+        position="top-center" 
+        autoClose={2500}
+        hideProgressBar={true}       /* Removes the colored bar at the bottom */
+        closeButton={false}          /* Removes the 'X' icon */
+        theme="dark"
+        pauseOnHover={false}
+        limit={3}                    /* Prevents screen clutter */
+      />
     </>
   );
 }

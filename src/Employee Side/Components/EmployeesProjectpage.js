@@ -259,7 +259,7 @@ const Projects = () => {
                   {/* Footer */}
                   <div className={styles.projectFooter}>
                     <div className={styles.avatarGroup}>{avatarStack(p)}</div>
-                    <div className={styles.projectDate}>📅 {formatRange(p)}</div>
+                    <div className={styles.projectDate}> {formatRange(p)}</div>
                   </div>
                 </div>
               );
