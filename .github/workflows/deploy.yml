@@ -54,4 +54,3 @@ jobs:
           folder: build
           branch: gh-pages
           clean: true
-          
