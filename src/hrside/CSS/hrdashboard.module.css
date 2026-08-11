@@ -84,6 +84,13 @@
   .mainContainer {
     padding: 20px 16px;
   }
+  .topright {
+    width: 100%;
+  }
+  .topright1 {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .card {
