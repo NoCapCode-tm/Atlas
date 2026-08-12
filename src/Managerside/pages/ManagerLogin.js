@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { User, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
-import styles from "./css/ManagerLogin.module.css";
+import styles from "../css/ManagerLogin.module.css";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { toast } from "react-toastify";
