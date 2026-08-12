@@ -1,9 +1,27 @@
 import React, { useEffect, useState } from "react";
 import styles from "../CSS/navbar.module.css";
 import {
-  Menu, Bell, LayoutDashboard, Users, FolderKanban, SquareCheckBig, 
-  Heart, ChartNoAxesColumnIncreasing, Megaphone, Wrench, KeyRound, 
-  UserCircle, Settings, LogOut, ChevronDown, Pause, Play, User, House, Square 
+  Menu,
+  Bell,
+  LayoutDashboard,
+  Users,
+  FolderKanban,
+  SquareCheckBig,
+  Heart,
+  ChartNoAxesColumnIncreasing,
+  Megaphone,
+  Wrench,
+  KeyRound,
+  UserCircle,
+  Settings,
+  LogOut,
+  ChevronDown,
+  Pause,
+  Play,
+  User,
+  House,
+  Square,
+  Search,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router";
 import axios from "axios";
@@ -23,6 +41,7 @@ function Navbar() {
   const [seconds, setSeconds] = useState(0);
   const timerRef = React.useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [search, setSearch] = useState("");
 
   // Create refs for the dropdown wrappers
   const timerDropdownRef = React.useRef(null);
@@ -35,10 +54,9 @@ function Navbar() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}admin/getuser`,
-          { withCredentials: true }
-        );
+        const response = await axios.get(`${API_URL}admin/getuser`, {
+          withCredentials: true,
+        });
         console.log(response.data.message);
         setuser(response.data.message);
       } catch (error) {
@@ -52,25 +70,30 @@ function Navbar() {
   useEffect(() => {
     const handleClickOutside = (event) => {
       // If the timer dropdown is open and we click outside of its wrapper, close it
-      if (timerDropdownRef.current && !timerDropdownRef.current.contains(event.target)) {
+      if (
+        timerDropdownRef.current &&
+        !timerDropdownRef.current.contains(event.target)
+      ) {
         setShowDropdown(false);
       }
-      
+
       // If the profile dropdown is open and we click outside of its wrapper, close it
-      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
+      if (
+        profileDropdownRef.current &&
+        !profileDropdownRef.current.contains(event.target)
+      ) {
         setinfo(false);
       }
     };
 
     // Bind the event listener
     document.addEventListener("mousedown", handleClickOutside);
-    
+
     // Unbind the event listener on cleanup
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
 
   useEffect(() => {
     const status = localStorage.getItem("prism_timer_status");
@@ -99,10 +122,9 @@ function Navbar() {
 
   const handlelogout = async () => {
     try {
-      const response = await axios.get(
-        `${API_URL}admin/logout`,
-        { withCredentials: true }
-      );
+      const response = await axios.get(`${API_URL}admin/logout`, {
+        withCredentials: true,
+      });
       toast.success("Logout Successfull");
       navigate("/");
     } catch (error) {
@@ -144,7 +166,7 @@ function Navbar() {
     await axios.post(
       `${API_URL}employee/start-attendance`,
       { userId: user._id },
-      { withCredentials: true }
+      { withCredentials: true },
     );
 
     const startTime = Date.now();
@@ -171,7 +193,7 @@ function Navbar() {
     await axios.post(
       `${API_URL}employee/save-time`,
       { userId: user._id, seconds: workedSeconds },
-      { withCredentials: true }
+      { withCredentials: true },
     );
     localStorage.setItem("prism_timer_status", "BREAK");
     localStorage.removeItem("prism_timer_start");
@@ -196,7 +218,7 @@ function Navbar() {
           userId: user._id,
           seconds: workedSeconds || 0,
         },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       clearInterval(timerRef.current);
@@ -218,10 +240,9 @@ function Navbar() {
 
   const isOpen = menuopen || empmenu;
 
-return (
+  return (
     <>
       <div className={styles.container}>
-        
         {/* LOGO - Search bar wrapper completely removed */}
         <div className={styles.logo} onClick={handlesidebar}>
           <svg
@@ -238,14 +259,33 @@ return (
             />
           </svg>
         </div>
-        
+
+        {/* SEARCH BAR */}
+        <div className={styles.searchBarWrap}>
+          <Search size={18} className={styles.searchIcon} />
+          <input
+            type="text"
+            className={styles.searchInput}
+            placeholder="Search Employees, Project, Tasks"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
         {/* RIGHT SIDE ITEMS */}
         <div className={styles.right}>
           {isEmployee && (
             <div className={styles.timerBoxWrapper} ref={timerDropdownRef}>
-              <div className={styles.timerBox} onClick={() => setShowDropdown(!showDropdown)}>
+              <div
+                className={styles.timerBox}
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
                 <button className={styles.playPauseBtn}>
-                  {timerStatus === "PUNCH_IN" ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
+                  {timerStatus === "PUNCH_IN" ? (
+                    <Pause size={18} fill="currentColor" />
+                  ) : (
+                    <Play size={18} fill="currentColor" />
+                  )}
                 </button>
 
                 <div className={styles.timerTextWrap}>
@@ -253,8 +293,8 @@ return (
                     {timerStatus === "PUNCH_IN"
                       ? "WORKING"
                       : timerStatus === "BREAK"
-                      ? "ON BREAK"
-                      : "PUNCH OUT"}
+                        ? "ON BREAK"
+                        : "PUNCH OUT"}
                   </p>
                   <b className={styles.timerValue}>{formatTimer(seconds)}</b>
                 </div>
@@ -263,7 +303,9 @@ return (
                   size={16}
                   color="white"
                   className={styles.chevron}
-                  style={{ transform: showDropdown ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                  style={{
+                    transform: showDropdown ? "rotate(180deg)" : "rotate(0deg)",
+                  }}
                 />
               </div>
 
@@ -282,7 +324,7 @@ return (
               )}
             </div>
           )}
-          
+
           <div className={styles.notification}>
             <Bell size={20} />
           </div>
@@ -303,25 +345,31 @@ return (
                 user?.name?.charAt(0).toUpperCase() || "U"
               )}
             </div>
-            <span className={styles.profileName}>{user?.name?.split(" ")[0]}</span>
-            <ChevronDown 
-              size={14} 
+            <span className={styles.profileName}>
+              {user?.name?.split(" ")[0]}
+            </span>
+            <ChevronDown
+              size={14}
               className={styles.profileChevron}
-              style={{ transform: info ? 'rotate(180deg)' : 'rotate(0deg)' }}
+              style={{ transform: info ? "rotate(180deg)" : "rotate(0deg)" }}
             />
-            
+
             {info && (
               <div className={styles.info}>
-                <button 
-                  className={styles.options} 
-                  onClick={() => navigate(isEmployee ? '/employee/profile' : '/profile')}
+                <button
+                  className={styles.options}
+                  onClick={() =>
+                    navigate(isEmployee ? "/employee/profile" : "/profile")
+                  }
                 >
                   <UserCircle size={18} color="#6d64fa" />
                   Profile
                 </button>
-                <button 
-                  className={styles.options} 
-                  onClick={() => navigate(isEmployee ? '/employee/profile' : '/setting')}
+                <button
+                  className={styles.options}
+                  onClick={() =>
+                    navigate(isEmployee ? "/employee/profile" : "/setting")
+                  }
                 >
                   <Settings size={18} color="#6d64fa" />
                   Settings
@@ -373,7 +421,7 @@ return (
                   settoggle("dashboard");
                 }}
               >
-                <House  />
+                <House />
                 Home
               </div>
               {/* <div className={
@@ -639,69 +687,65 @@ return (
               </div>
 
               {/* System MAIN MENU */}
-             <div
-className={
-getActive([
-"/role",
-"/announcement",
-"/support"
-])
-?styles.dashboardmenucolor
-:styles.dashboardmenu
-}
-onClick={()=>{
-setdropdown(prev=>prev==="system"?"":"system");
+              <div
+                className={
+                  getActive(["/role", "/announcement", "/support"])
+                    ? styles.dashboardmenucolor
+                    : styles.dashboardmenu
+                }
+                onClick={() => {
+                  setdropdown((prev) => (prev === "system" ? "" : "system"));
 
-if(
-location.pathname!=="/role" &&
-location.pathname!=="/announcement" &&
-location.pathname!=="/support"
-){
-navigate("/role");
-}
-}}
->
-<KeyRound/>
-System ▾
-</div>
+                  if (
+                    location.pathname !== "/role" &&
+                    location.pathname !== "/announcement" &&
+                    location.pathname !== "/support"
+                  ) {
+                    navigate("/role");
+                  }
+                }}
+              >
+                <KeyRound />
+                System ▾
+              </div>
 
               {/* DROPDOWN ITEMS */}
-             <div className={`${styles.reportsDropdown} ${dropdown==="system"?styles.showDropdown:""}`}>
+              <div
+                className={`${styles.reportsDropdown} ${dropdown === "system" ? styles.showDropdown : ""}`}
+              >
+                <div
+                  className={
+                    location.pathname === "/role"
+                      ? styles.dashboardmenucolor
+                      : styles.reportItem
+                  }
+                  onClick={() => navigate("/role")}
+                >
+                  Roles & Permissions
+                </div>
 
-<div
-className={
-location.pathname==="/role"
-?styles.dashboardmenucolor
-:styles.reportItem
-}
-onClick={()=>navigate("/role")}
->
-Roles & Permissions
-</div>
+                <div
+                  className={
+                    location.pathname === "/announcement"
+                      ? styles.dashboardmenucolor
+                      : styles.reportItem
+                  }
+                  onClick={() => navigate("/announcement")}
+                >
+                  Announcement
+                </div>
 
-<div
-className={
-location.pathname==="/announcement"
-?styles.dashboardmenucolor
-:styles.reportItem
-}
-onClick={()=>navigate("/announcement")}
->
-Announcement
-</div>
-
-<div
-className={
-location.pathname==="/support"
-?styles.dashboardmenucolor
-:styles.reportItem
-}
-onClick={()=>navigate("/support")}
->
-Support Tickets
-</div>
-
-</div>
+                <div
+                  className={
+                    location.pathname === "/support"
+                      ? styles.dashboardmenucolor
+                      : styles.reportItem
+                  }
+                  onClick={() => navigate("/support")}
+                >
+                  Support Tickets
+                </div>
+              </div>
 
               {/* <div className={
                 getActive("/performance")
