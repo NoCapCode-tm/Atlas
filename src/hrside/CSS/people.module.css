@@ -1,0 +1,555 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap");
+
+.mainContainer {
+  background: #050505;
+  width: 100%;
+  padding: 28px 50px;
+  box-sizing: border-box;
+}
+
+/* ── Header ── */
+.topcontainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .topcontainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 768px) {
+  .topcontainer {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+.topleft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.topleft1 {
+  color: #ddddff;
+  font-family: "Outfit", sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -0.32px;
+}
+
+.topleft2 {
+  color: #c3c6d6;
+  font-size: 15px;
+}
+
+.topright {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.exportBtn {
+  padding: 10px 15px;
+  background-color: transparent;
+  color: #e1e2ec;
+  border: 1px solid #23262d;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 13.3px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.exportBtn:hover {
+  background: rgba(160, 160, 160, 0.08);
+}
+
+.addEmployeeBtn {
+  padding: 10px 15px;
+  background-color: #0050b8;
+  color: #ddddff;
+  border: 1px solid #6d78ff;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 13.3px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.addEmployeeBtn:hover {
+  filter: brightness(1.1);
+}
+
+@media screen and (max-width: 480px) {
+  .mainContainer {
+    padding: 20px 16px;
+  }
+  .topright {
+    width: 100%;
+  }
+  .exportBtn,
+  .addEmployeeBtn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+/* ── Search bar ── */
+.searchBarWrap {
+  box-sizing: border-box;
+  width: 455px;
+  max-width: 100%;
+  height: 47px;
+  background: #292929;
+  border: 0.5px solid #a5a5a5;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+}
+
+.searchIcon {
+  color: #eeeeff;
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: "Outfit", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 130.18%;
+  color: #eeeeff;
+}
+
+.searchInput::placeholder {
+  color: #a5a5a5;
+}
+
+@media screen and (max-width: 480px) {
+  .searchBarWrap {
+    width: 100%;
+  }
+}
+
+/* ── Filters row ── */
+.filtersCard {
+  background: #0e0f13;
+  border: 1px solid #23262d;
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filterBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 160px;
+  flex: 1;
+}
+
+.filterLabel {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  color: #94a3b8;
+}
+
+.selectWrap {
+  height: 38px;
+  box-sizing: border-box;
+  background: #191b23;
+  border: 1px solid #23262d;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.filterSelect {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0 32px 0 12px;
+  margin: 0;
+  color: #e1e2ec;
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23c3c6d6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.resetBtn {
+  padding: 0 15px;
+  height: 38px;
+  margin: 0;
+  box-sizing: border-box;
+  background: transparent;
+  color: #c3c6d6;
+  border: 1px solid #23262d;
+  border-radius: 8px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease;
+  vertical-align: top;
+}
+
+.resetBtn:hover {
+  background: rgba(160, 160, 160, 0.08);
+}
+
+.moreFiltersBtn {
+  padding: 0 15px;
+  height: 38px;
+  margin: 0;
+  box-sizing: border-box;
+  background: #191b23;
+  color: #e1e2ec;
+  border: 1px solid #23262d;
+  border-radius: 8px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease;
+  vertical-align: top;
+}
+
+.moreFiltersBtn:hover {
+  background: rgba(160, 160, 160, 0.12);
+}
+
+@media screen and (max-width: 768px) {
+  .filtersCard {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filterBlock {
+    min-width: 100%;
+  }
+  .resetBtn,
+  .moreFiltersBtn {
+    justify-content: center;
+  }
+}
+
+/* ── Employee list (tile rows) ── */
+.tableCard {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+.tableScroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.employeeListHead {
+  display: grid;
+  grid-template-columns: 2.2fr 1.8fr 1.2fr 1.4fr 0.5fr;
+  gap: 12px;
+  padding: 0 20px 10px;
+  min-width: 720px;
+}
+
+.tableHeadCell {
+  text-align: left;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.employeeList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 720px;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 2.2fr 1.8fr 1.2fr 1.4fr 0.5fr;
+  gap: 12px;
+  align-items: center;
+  background: #0e0f13;
+  border: 1px solid #23262d;
+  padding: 14px 20px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.tableRow:hover {
+  background: #14161c;
+  border-color: #2c303a;
+}
+
+.tableCell {
+  min-width: 0;
+}
+
+.employeeCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.employeeInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.employeeName {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: #e1e2ec;
+}
+
+.employeeEmail {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.roleTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  color: #e1e2ec;
+  margin-bottom: 6px;
+}
+
+.deptBadge {
+  display: inline-block;
+  padding: 3px 8px;
+  background: #191b23;
+  border: 1px solid #23262d;
+  border-radius: 6px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 10.5px;
+  color: #c3c6d6;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 11.5px;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.statusActive {
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+}
+
+.statusActive .statusDot {
+  background: #22c55e;
+}
+
+.statusOnboarding {
+  background: rgba(255, 174, 76, 0.12);
+  color: #ffae4c;
+}
+
+.statusOnboarding .statusDot {
+  background: #ffae4c;
+}
+
+.statusExitPending {
+  background: rgba(255, 84, 71, 0.12);
+  color: #ff5447;
+}
+
+.statusExitPending .statusDot {
+  background: #ff5447;
+}
+
+.managerCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.managerAvatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 9.5px;
+  color: #ffffff;
+  background: #23262d;
+  flex-shrink: 0;
+}
+
+.managerName {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 12.5px;
+  color: #c3c6d6;
+}
+
+.actionsBtn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.actionsBtn:hover {
+  background: rgba(160, 160, 160, 0.1);
+  color: #e1e2ec;
+}
+
+/* ── Pagination ── */
+.paginationRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px 0;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.paginationInfo {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 12.5px;
+  color: #94a3b8;
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pageBtn {
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  background: transparent;
+  border: 1px solid #23262d;
+  border-radius: 6px;
+  color: #c3c6d6;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background: rgba(160, 160, 160, 0.08);
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pageBtnActive {
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  background: #0050b8;
+  border: 1px solid #6d78ff;
+  border-radius: 6px;
+  color: #ddddff;
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.pageEllipsis {
+  color: #94a3b8;
+  font-size: 12.5px;
+  padding: 0 4px;
+}
