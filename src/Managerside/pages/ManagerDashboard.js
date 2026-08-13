@@ -10,7 +10,8 @@ import {
   TrendingUp,
   Check,
   X,
-  AlertTriangle
+  AlertTriangle,
+  ChevronDown
 } from "lucide-react";
 import ManagerSidebar from "../components/ManagerSidebar";
 import ManagerHeader from "../components/ManagerHeader";
@@ -33,11 +34,22 @@ function ManagerDashboard() {
   const [collapsed, setCollapsed] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [modalForm, setModalForm] = useState({ title: "", assignee: "", priority: "", description: "" });
+  const [openDropdown, setOpenDropdown] = useState(null); // 'assignee' | 'priority' | null
+  const assigneeRef = useRef(null);
+  const priorityRef = useRef(null);
 
-  const handleModalClose = () => setShowModal(false);
+  const handleModalClose = () => {
+    setShowModal(false);
+    setOpenDropdown(null);
+  };
   const handleModalSubmit = (e) => {
     e.preventDefault();
+    if (!modalForm.assignee || !modalForm.priority) {
+      alert("Please select both Assignee and Priority.");
+      return;
+    }
     setShowModal(false);
+    setOpenDropdown(null);
     setModalForm({ title: "", assignee: "", priority: "", description: "" });
   };
 
@@ -49,10 +61,26 @@ function ManagerDashboard() {
     prevWidthRef.current = width;
   }, [width]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        (assigneeRef.current && !assigneeRef.current.contains(event.target)) &&
+        (priorityRef.current && !priorityRef.current.contains(event.target))
+      ) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const [approvalsList, setApprovalsList] = useState([
     { id: 1, type: "Task Approval", subtitle: "Lisa M. · Homepage Redesign V2", initials: "LM" },
     { id: 2, type: "Task Approval", subtitle: "Lisa M. · Homepage Redesign V2", initials: "LM" },
-    { id: 3, type: "Task Approval", subtitle: "Lisa M. · Homepage Redesign V2", initials: "LM" }
+    { id: 3, type: "Task Approval", subtitle: "Lisa M. · Homepage Redesign V2", initials: "LM" },
+    { id: 4, type: "Task Approval", subtitle: "John D. · API Integration", initials: "JD" }
   ]);
 
   const stats = [
@@ -92,7 +120,21 @@ function ManagerDashboard() {
     { name: "George Clark", role: "Product Manager", initials: "GC", status: "away" },
     { name: "Hannah Abbott", role: "QA Engineer", initials: "HA", status: "online" },
     { name: "Ian Malcolm", role: "Data Analyst", initials: "IM", status: "online" },
-    { name: "Julia Roberts", role: "UX Researcher", initials: "JR", status: "away" }
+    { name: "Julia Roberts", role: "UX Researcher", initials: "JR", status: "away" },
+    { name: "Kevin Bacon", role: "Designer", initials: "KB", status: "online" },
+    { name: "Lisa Simpson", role: "Developer", initials: "LS", status: "online" },
+    { name: "Matt Damon", role: "Product Manager", initials: "MD", status: "away" },
+    { name: "Natalie Portman", role: "Designer", initials: "NP", status: "online" },
+    { name: "Owen Wilson", role: "Developer", initials: "OW", status: "online" },
+    { name: "Penelope Cruz", role: "HR Specialist", initials: "PC", status: "away" },
+    { name: "Quincy Jones", role: "QA Engineer", initials: "QJ", status: "online" },
+    { name: "Rihanna Fenty", role: "Marketing", initials: "RF", status: "online" },
+    { name: "Sam Wilson", role: "Developer", initials: "SW", status: "away" },
+    { name: "Taylor Swift", role: "Data Analyst", initials: "TS", status: "online" },
+    { name: "Uma Thurman", role: "UX Researcher", initials: "UT", status: "online" },
+    { name: "Vin Diesel", role: "Developer", initials: "VD", status: "away" },
+    { name: "Will Smith", role: "QA Engineer", initials: "WS", status: "online" },
+    { name: "Zach Galifianakis", role: "Designer", initials: "ZG", status: "online" }
   ];
 
   const criticalTasks = [
@@ -136,7 +178,8 @@ function ManagerDashboard() {
   const escalations = [
     { title: "API Gateway Timeout", time: "10m ago", severity: "CRITICAL", badgeClass: styles.badgeCritical },
     { title: "Login Dependency Block", time: "1h ago", severity: "HIGH", badgeClass: styles.badgeHighEsc },
-    { title: "License Expiry Warning", time: "3h ago", severity: "MEDIUM", badgeClass: styles.badgeMediumEsc }
+    { title: "License Expiry Warning", time: "3h ago", severity: "MEDIUM", badgeClass: styles.badgeMediumEsc },
+    { title: "Database Disk Full", time: "5m ago", severity: "CRITICAL", badgeClass: styles.badgeCritical }
   ];
 
   const handleAction = (id) => {
@@ -145,28 +188,30 @@ function ManagerDashboard() {
 
   return (
     <div className={styles.dashboardContainer}>
-      <ManagerSidebar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
+      <ManagerHeader
+        title="Dashboard"
+        subtitle={isMobile ? `Welcome back, ${firstName}` : "Welcome back, here's what's happening today."}
         collapsed={collapsed}
         setCollapsed={setCollapsed}
-      />
+        isMobile={isMobile}
+        userName={storedName}
+        initials={initials}
+      >
+        <button className={styles.quickAssignBtn} onClick={() => setShowModal(true)}>
+          <Plus size={16} />
+          <span>Quick Assign</span>
+        </button>
+      </ManagerHeader>
 
-      <main className={styles.mainContent}>
-        <ManagerHeader
-          title="Dashboard"
-          subtitle={isMobile ? `Welcome back, ${firstName}` : "Welcome back, here's what's happening today."}
+      <div className={styles.dashboardBody}>
+        <ManagerSidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
           collapsed={collapsed}
           setCollapsed={setCollapsed}
-          isMobile={isMobile}
-          userName={storedName}
-          initials={initials}
-        >
-          <button className={styles.quickAssignBtn} onClick={() => setShowModal(true)}>
-            <Plus size={16} />
-            <span>Quick Assign</span>
-          </button>
-        </ManagerHeader>
+        />
+
+        <main className={styles.mainContent}>
 
         <section className={styles.statsGrid}>
           {stats.map((stat, idx) => (
@@ -221,9 +266,9 @@ function ManagerDashboard() {
                     </linearGradient>
                   </defs>
 
-                  <line x1="0" y1="4"   x2="500" y2="4"   stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
-                  <line x1="0" y1="36"  x2="500" y2="36"  stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
-                  <line x1="0" y1="68"  x2="500" y2="68"  stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
+                  <line x1="0" y1="4" x2="500" y2="4" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
+                  <line x1="0" y1="36" x2="500" y2="36" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
+                  <line x1="0" y1="68" x2="500" y2="68" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
                   <line x1="0" y1="100" x2="500" y2="100" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
                   <line x1="0" y1="132" x2="500" y2="132" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="6 4" />
 
@@ -250,30 +295,27 @@ function ManagerDashboard() {
               </div>
             </div>
 
-            <div className={styles.cardBlock}>
+            <div className={`${styles.cardBlock} ${styles.teamActivityCard}`}>
               <div className={styles.cardHeader}>
                 <h2 className={styles.cardTitle}>Team Activity</h2>
                 <span className={styles.badgeBlue}>24 Online</span>
               </div>
 
-              <div className={styles.activityGrid}>
-                {(isTablet
-                  ? teamMembers.slice(0, 4)
-                  : isMobile
-                  ? teamMembers.slice(0, 8)
-                  : teamMembers.slice(0, 10)
-                ).map((member, index) => (
-                  <div key={index} className={styles.memberItem}>
-                    <div className={styles.avatarWrapper}>
-                      <div className={styles.memberAvatar}>{member.initials}</div>
-                      <span className={member.status === "online" ? styles.statusDotGreen : styles.statusDotOrange} />
+              <div className={styles.activityScrollContainer}>
+                <div className={styles.activityGrid}>
+                  {teamMembers.map((member, index) => (
+                    <div key={index} className={styles.memberItem}>
+                      <div className={styles.avatarWrapper}>
+                        <div className={styles.memberAvatar}>{member.initials}</div>
+                        <span className={member.status === "online" ? styles.statusDotGreen : styles.statusDotOrange} />
+                      </div>
+                      <div className={styles.memberInfo}>
+                        <span className={styles.memberName}>{member.name}</span>
+                        <span className={styles.memberRole}>{member.role}</span>
+                      </div>
                     </div>
-                    <div className={styles.memberInfo}>
-                      <span className={styles.memberName}>{member.name}</span>
-                      <span className={styles.memberRole}>{member.role}</span>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -283,34 +325,36 @@ function ManagerDashboard() {
               <div className={styles.cardBlock}>
                 <div className={styles.criticalHeader}>
                   <div className={styles.cardTitleWrap}>
-                    <AlertTriangle size={15} color="#ef4444" />
-                    <h2 className={styles.cardTitle}>Critical Tasks</h2>
+                    <AlertTriangle size={19} color="#ef4444" />
+                    <h2 className={`${styles.cardTitle} ${styles.criticalCardTitle}`}>Critical Tasks</h2>
                   </div>
                   <span className={styles.badgeRedTag}>3 Due Today</span>
                 </div>
                 <div className={styles.cardDivider} />
 
-                <div className={styles.tasksGrid}>
-                  {criticalTasks.map((task, idx) => (
-                    <div key={idx} className={styles.taskCardItem}>
-                      <div className={styles.taskAvatar}>{task.avatar}</div>
-                      <div className={styles.taskContent}>
-                        <div className={styles.taskTopRow}>
-                          <span className={styles.taskTitleText}>{task.title}</span>
-                          <span className={task.priority === "High" ? styles.badgeHigh : styles.badgeMed}>
-                            {task.priority}
-                          </span>
-                        </div>
-                        <div className={styles.taskMetaGroup}>
-                          <div className={styles.taskDueRow}>
-                            <Clock size={12} />
-                            <span>{task.due}</span>
+                <div className={styles.tasksScrollContainer}>
+                  <div className={styles.tasksGrid}>
+                    {criticalTasks.map((task, idx) => (
+                      <div key={idx} className={styles.taskCardItem}>
+                        <div className={styles.taskAvatar}>{task.avatar}</div>
+                        <div className={styles.taskContent}>
+                          <div className={styles.taskTopRow}>
+                            <span className={styles.taskTitleText}>{task.title}</span>
+                            <span className={task.priority === "High" ? styles.badgeHigh : styles.badgeMed}>
+                              {task.priority}
+                            </span>
                           </div>
-                          <span className={styles.taskAssignee}>{task.assignee}</span>
+                          <div className={styles.taskMetaGroup}>
+                            <div className={styles.taskDueRow}>
+                              <Clock size={12} />
+                              <span>{task.due}</span>
+                            </div>
+                            <span className={styles.taskAssignee}>{task.assignee}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -338,7 +382,7 @@ function ManagerDashboard() {
 
               <div className={styles.cardBlock}>
                 <div className={`${styles.cardHeader} ${styles.statusHeader}`}>
-                  <h2 className={`${styles.cardTitle} ${styles.statusCardTitle}`}>Task Status</h2>
+                  <h2 className={styles.cardTitle}>Task Status</h2>
                 </div>
 
                 <div className={styles.statusRows}>
@@ -360,38 +404,40 @@ function ManagerDashboard() {
             <div className={styles.columnGroup}>
               <div className={styles.cardBlock}>
                 <div className={styles.cardHeader}>
-                  <h2 className={`${styles.cardTitle} ${styles.actionCardTitle}`}>Action Center</h2>
+                  <h2 className={styles.cardTitle}>Action Center</h2>
                   <span className={styles.badgePending}>{approvalsList.length} Pending</span>
                 </div>
 
-                <div className={styles.actionList}>
-                  {approvalsList.map((item) => (
-                    <div key={item.id} className={styles.actionCardItem}>
-                      <div className={styles.actionLeft}>
-                        <div className={styles.actionAvatar}>{item.initials}</div>
-                        <div className={styles.actionMeta}>
-                          <span className={styles.actionType}>{item.type}</span>
-                          <span className={styles.actionSub}>{item.subtitle}</span>
+                <div className={styles.actionScrollContainer}>
+                  <div className={styles.actionList}>
+                    {approvalsList.map((item) => (
+                      <div key={item.id} className={styles.actionCardItem}>
+                        <div className={styles.actionLeft}>
+                          <div className={styles.actionAvatar}>{item.initials}</div>
+                          <div className={styles.actionMeta}>
+                            <span className={styles.actionType}>{item.type}</span>
+                            <span className={styles.actionSub}>{item.subtitle}</span>
+                          </div>
+                        </div>
+                        <div className={styles.actionBtns}>
+                          <button
+                            className={styles.btnReject}
+                            title="Reject"
+                            onClick={() => handleAction(item.id)}
+                          >
+                            <X size={14} />
+                          </button>
+                          <button
+                            className={styles.btnApprove}
+                            title="Approve"
+                            onClick={() => handleAction(item.id)}
+                          >
+                            <Check size={14} />
+                          </button>
                         </div>
                       </div>
-                      <div className={styles.actionBtns}>
-                        <button
-                          className={styles.btnReject}
-                          title="Reject"
-                          onClick={() => handleAction(item.id)}
-                        >
-                          <X size={14} />
-                        </button>
-                        <button
-                          className={styles.btnApprove}
-                          title="Approve"
-                          onClick={() => handleAction(item.id)}
-                        >
-                          <Check size={14} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -403,25 +449,28 @@ function ManagerDashboard() {
                   </div>
                 </div>
 
-                <div className={styles.escalationsList}>
-                  {escalations.map((item, idx) => (
-                    <div key={idx} className={styles.escalationCard}>
-                      <div className={styles.escalationLeft}>
-                        <AlertCircle size={14} className={styles.escalationIcon} />
-                        <div className={styles.escalationInfo}>
-                          <span className={styles.escalationTitle}>{item.title}</span>
-                          <span className={styles.escalationTime}>{item.time}</span>
+                <div className={styles.escalationScrollContainer}>
+                  <div className={styles.escalationsList}>
+                    {escalations.map((item, idx) => (
+                      <div key={idx} className={styles.escalationCard}>
+                        <div className={styles.escalationLeft}>
+                          <AlertCircle size={14} className={styles.escalationIcon} />
+                          <div className={styles.escalationInfo}>
+                            <span className={styles.escalationTitle}>{item.title}</span>
+                            <span className={styles.escalationTime}>{item.time}</span>
+                          </div>
                         </div>
+                        <span className={item.badgeClass}>{item.severity}</span>
                       </div>
-                      <span className={item.badgeClass}>{item.severity}</span>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </main>
+      </div>
 
       {showModal && (
         <div className={styles.modalOverlay} onClick={handleModalClose}>
@@ -450,36 +499,66 @@ function ManagerDashboard() {
               </div>
 
               <div className={styles.modalRow}>
-                <div className={styles.modalField}>
+                <div className={styles.modalField} ref={assigneeRef}>
                   <label className={styles.modalLabel}>Assignee</label>
-                  <select
-                    className={styles.modalSelect}
-                    value={modalForm.assignee}
-                    onChange={(e) => setModalForm(f => ({ ...f, assignee: e.target.value }))}
-                    required
-                  >
-                    <option value="" disabled>Select</option>
-                    <option>Alice Freeman</option>
-                    <option>Bob Smith</option>
-                    <option>Charlie Day</option>
-                    <option>Diana Prince</option>
-                    <option>Evan Wright</option>
-                  </select>
+                  <div className={styles.customSelectContainer}>
+                    <div
+                      className={`${styles.customSelectHeader} ${openDropdown === "assignee" ? styles.customSelectHeaderOpen : ""}`}
+                      onClick={() => setOpenDropdown(openDropdown === "assignee" ? null : "assignee")}
+                    >
+                      <span style={{ color: modalForm.assignee ? "#ffffff" : "#94a3b8" }}>
+                        {modalForm.assignee || "Select"}
+                      </span>
+                      <ChevronDown size={14} style={{ color: "#94a3b8" }} />
+                    </div>
+                    {openDropdown === "assignee" && (
+                      <div className={styles.customSelectDropdown}>
+                        {["Alice Freeman", "Bob Smith", "Charlie Day", "Diana Prince", "Evan Wright"].map((item) => (
+                          <div
+                            key={item}
+                            className={`${styles.customSelectOption} ${modalForm.assignee === item ? styles.customSelectOptionSelected : ""}`}
+                            onClick={() => {
+                              setModalForm((f) => ({ ...f, assignee: item }));
+                              setOpenDropdown(null);
+                            }}
+                          >
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
-                <div className={styles.modalField}>
+                <div className={styles.modalField} ref={priorityRef}>
                   <label className={styles.modalLabel}>Priority</label>
-                  <select
-                    className={styles.modalSelect}
-                    value={modalForm.priority}
-                    onChange={(e) => setModalForm(f => ({ ...f, priority: e.target.value }))}
-                    required
-                  >
-                    <option value="" disabled>Select</option>
-                    <option>High</option>
-                    <option>Medium</option>
-                    <option>Low</option>
-                  </select>
+                  <div className={styles.customSelectContainer}>
+                    <div
+                      className={`${styles.customSelectHeader} ${openDropdown === "priority" ? styles.customSelectHeaderOpen : ""}`}
+                      onClick={() => setOpenDropdown(openDropdown === "priority" ? null : "priority")}
+                    >
+                      <span style={{ color: modalForm.priority ? "#ffffff" : "#94a3b8" }}>
+                        {modalForm.priority || "Select"}
+                      </span>
+                      <ChevronDown size={14} style={{ color: "#94a3b8" }} />
+                    </div>
+                    {openDropdown === "priority" && (
+                      <div className={styles.customSelectDropdown}>
+                        {["High", "Medium", "Low"].map((item) => (
+                          <div
+                            key={item}
+                            className={`${styles.customSelectOption} ${modalForm.priority === item ? styles.customSelectOptionSelected : ""}`}
+                            onClick={() => {
+                              setModalForm((f) => ({ ...f, priority: item }));
+                              setOpenDropdown(null);
+                            }}
+                          >
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 

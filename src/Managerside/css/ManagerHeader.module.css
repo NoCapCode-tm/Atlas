@@ -4,18 +4,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: auto;
+  width: 100%;
   min-height: 60px;
   height: auto;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding: 12px 35px;
   background-color: #0E0F13;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
-  margin-left: clamp(-48px, -2.5vw, -24px);
-  margin-right: clamp(-48px, -2.5vw, -24px);
-  padding-left: clamp(24px, 2.5vw, 48px);
-  padding-right: clamp(24px, 2.5vw, 48px);
+  position: sticky;
+  top: 0;
+  z-index: 1010;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .headerLeftSection {
@@ -261,7 +260,7 @@
 
 @media (max-width: 480px) {
   .headerTitle {
-    font-size: 20px;
+    font-size: 13px;
     font-weight: 700;
   }
   
