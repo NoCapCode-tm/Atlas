@@ -132,6 +132,7 @@ const [draggedTask, setDraggedTask] = useState(null);
       };
     });
   }, [tasks, users, projects])
+  console.log("Enriched",enriched)
 
 
   // actions (stubbed)
@@ -732,7 +733,12 @@ const TaskColumn = ({
             <div className={styles.panelMeta}>
               <div>
                 <span>ASSIGNEE</span>
-                <p>{user?.name}</p>
+                {(() => {
+                  const assigned = users.find((u)=>u._id === selectedTask.assignedto)
+                  return (
+                    <p>{assigned?.name}</p> 
+                  );
+                })()}
               </div>
               <div>
                 <span>DUE DATE</span>

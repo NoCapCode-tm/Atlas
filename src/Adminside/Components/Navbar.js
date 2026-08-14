@@ -260,17 +260,6 @@ function Navbar() {
           </svg>
         </div>
 
-        {/* SEARCH BAR */}
-        <div className={styles.searchBarWrap}>
-          <Search size={18} className={styles.searchIcon} />
-          <input
-            type="text"
-            className={styles.searchInput}
-            placeholder="Search Employees, Project, Tasks"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
 
         {/* RIGHT SIDE ITEMS */}
         <div className={styles.right}>
