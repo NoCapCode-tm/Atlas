@@ -52,13 +52,15 @@ function ManagerHeader({
           </div>
         </nav>
 
-        <div className={styles.mobileTitleSection}>
-          <div className={styles.headerTitleGroup}>
-            <h1 className={styles.headerTitle}>{title}</h1>
-            {subtitle && <p className={styles.headerSubtitle}>{subtitle}</p>}
+        {(title || subtitle || children) ? (
+          <div className={styles.mobileTitleSection}>
+            <div className={styles.headerTitleGroup}>
+              <h1 className={styles.headerTitle}>{title}</h1>
+              {subtitle && <p className={styles.headerSubtitle}>{subtitle}</p>}
+            </div>
+            {children && <div className={styles.mobileHeaderActions}>{children}</div>}
           </div>
-          {children && <div className={styles.mobileHeaderActions}>{children}</div>}
-        </div>
+        ) : null}
       </>
     );
   }

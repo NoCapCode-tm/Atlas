@@ -155,7 +155,7 @@
 }
 
 /* Mobile Media Query overrides */
-@media (max-width: 480px) {
+@media (max-width: 425px) {
   .logomenu {
     height: 60px;
   }

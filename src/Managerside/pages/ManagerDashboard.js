@@ -11,10 +11,12 @@ import {
   Check,
   X,
   AlertTriangle,
-  ChevronDown
+  ChevronDown,
+  Download
 } from "lucide-react";
 import ManagerSidebar from "../components/ManagerSidebar";
 import ManagerHeader from "../components/ManagerHeader";
+import ManagerTeam from "../components/ManagerTeam";
 
 function ManagerDashboard() {
   const width = useWindowWidth();
@@ -189,8 +191,12 @@ function ManagerDashboard() {
   return (
     <div className={styles.dashboardContainer}>
       <ManagerHeader
-        title="Dashboard"
-        subtitle={isMobile ? `Welcome back, ${firstName}` : "Welcome back, here's what's happening today."}
+        title={activeTab === "Dashboard" ? "Dashboard" : ""}
+        subtitle={
+          activeTab === "Dashboard"
+            ? (isMobile ? `Welcome back, ${firstName}` : "Welcome back, here's what's happening today.")
+            : ""
+        }
         collapsed={collapsed}
         setCollapsed={setCollapsed}
         isMobile={isMobile}
@@ -213,7 +219,9 @@ function ManagerDashboard() {
 
         <main className={styles.mainContent}>
 
-        <section className={styles.statsGrid}>
+        {activeTab === "Dashboard" && (
+          <>
+          <section className={styles.statsGrid}>
           {stats.map((stat, idx) => (
             <div key={idx} className={styles.statCard}>
               <div className={styles.statCardTop}>
@@ -469,6 +477,9 @@ function ManagerDashboard() {
             </div>
           </div>
         </div>
+        </>
+        )}
+        {activeTab === "My Team" && <ManagerTeam />}
       </main>
       </div>
 

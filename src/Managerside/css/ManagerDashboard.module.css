@@ -850,7 +850,7 @@
 .modalCard {
   position: relative;
   width: 100%;
-  max-width: 360px;
+  max-width: 320px;
   background-color: #12141C;
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 12px;
@@ -1017,9 +1017,11 @@
 .customSelectDropdown::-webkit-scrollbar {
   width: 5px;
 }
+
 .customSelectDropdown::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .customSelectDropdown::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
@@ -1286,13 +1288,13 @@
 .modalOverlay {
   position: fixed;
   inset: 0;
-  z-index: 999;
+  z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.72);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
   padding: 20px;
   box-sizing: border-box;
   animation: modalFadeIn 0.18s ease;
@@ -1302,19 +1304,29 @@
 /* --- Keyframe Animations --- */
 
 @keyframes modalFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes modalSlideUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 
-/* ==========================================================================
-   RESPONSIVE - TABLET (768px)
-   ========================================================================== */
+/*RESPONSIVE - TABLET (768px) */
 
 @media (max-width: 768px) {
 
@@ -1324,6 +1336,7 @@
     gap: 0;
     margin-left: 0;
   }
+
   .quickAssignBtn {
     padding: 8px 12px;
     font-size: 10px;
@@ -1341,18 +1354,22 @@
     padding: 0 16px;
     margin-top: 18px;
   }
+
   .statCard {
     padding: 14px 12px;
     min-height: 88px;
     border-radius: 10px;
   }
+
   .statTitle {
     font-size: 9px;
     white-space: normal;
   }
+
   .statValue {
     font-size: 20px;
   }
+
   .statSubtext {
     font-size: 8px;
     white-space: normal;
@@ -1365,19 +1382,23 @@
     padding: 0 16px 20px;
     margin-top: 18px;
   }
+
   .gridRow,
   .columnGroup {
     display: contents;
   }
+
   .cardBlock {
     grid-column: 1 / -1;
     padding: 14px 12px;
     border-radius: 12px;
     gap: 12px;
   }
+
   .cardTitle {
     font-size: 11px;
   }
+
   .criticalCardTitle {
     font-size: 14.5px;
   }
@@ -1387,18 +1408,22 @@
     font-size: 8px;
     padding: 2px 6px;
   }
+
   .badgeBlue {
     font-size: 8px;
     padding: 2px 6px;
   }
+
   .badgeRedTag {
     font-size: 11.5px;
     padding: 4px 10px;
   }
+
   .badgePending {
     font-size: 8px;
     padding: 3px 8px;
   }
+
   .badgeCritical,
   .badgeHighEsc,
   .badgeMediumEsc {
@@ -1410,26 +1435,32 @@
   .activityScrollContainer {
     max-height: 146px;
   }
+
   .activityGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px 8px;
   }
+
   .memberItem {
     gap: 7px;
   }
+
   .memberAvatar {
     width: 26px;
     height: 26px;
     font-size: 9px;
   }
+
   .statusDotGreen,
   .statusDotOrange {
     width: 5px;
     height: 5px;
   }
+
   .memberName {
     font-size: 10px;
   }
+
   .memberRole {
     font-size: 8px;
   }
@@ -1438,32 +1469,39 @@
   .tasksScrollContainer {
     max-height: 125px;
   }
+
   .tasksGrid {
     grid-template-columns: 1fr;
     gap: 14px 8px;
   }
+
   .taskCardItem {
     gap: 7px;
   }
+
   .taskAvatar {
     width: 30px;
     height: 30px;
     font-size: 12px;
   }
+
   .taskTitleText {
     font-size: 12px;
     max-width: none;
     white-space: normal;
     overflow-wrap: break-word;
   }
+
   .badgeHigh,
   .badgeMed {
     font-size: 9.5px;
     padding: 2px 6px;
   }
+
   .taskMetaGroup {
     margin-top: 8px;
   }
+
   .taskDueRow,
   .taskAssignee {
     font-size: 10.5px;
@@ -1474,25 +1512,31 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
   }
+
   .metricMiniCard {
     padding: 10px 8px;
     min-height: 58px;
     border-radius: 8px;
   }
+
   .metricLabel {
     font-size: 8px;
   }
+
   .metricVal {
     font-size: 11px;
     margin-top: 6px;
   }
+
   .chartContainer {
     padding: 0;
     margin-top: 12px;
   }
+
   .svgChart {
     height: 100px;
   }
+
   .chartAxis {
     font-size: 7.5px;
   }
@@ -1501,9 +1545,11 @@
   .timelineList {
     gap: 20px;
   }
+
   .timelineItem {
     gap: 8px;
   }
+
   .timelineContent {
     display: grid;
     grid-template-columns: minmax(58px, 76px) minmax(38px, 50px) minmax(70px, 1fr);
@@ -1514,22 +1560,27 @@
     width: 100%;
     box-sizing: border-box;
   }
+
   .timelineTextGroup {
     width: auto;
     max-width: none;
     min-width: 0;
   }
+
   .timelineUser {
     font-size: 9px;
     white-space: nowrap;
   }
+
   .timelineAction {
     font-size: 8px;
     white-space: normal;
   }
+
   .timelineTime {
     font-size: 7.5px;
   }
+
   .speechCard {
     font-size: 8px;
     padding: 8px 10px;
@@ -1544,13 +1595,16 @@
   .statusRows {
     gap: 14px;
   }
+
   .statusName {
     font-size: 10px;
   }
+
   .statusBadgePill {
     font-size: 8px;
     padding: 2px 8px;
   }
+
   .progressBarTrack {
     height: 5px;
   }
@@ -1559,29 +1613,35 @@
   .actionScrollContainer {
     max-height: 210px;
   }
+
   .actionList {
     gap: 16px;
   }
+
   .actionCardItem {
     min-height: auto;
     gap: 10px;
     flex-wrap: nowrap;
     align-items: center;
   }
+
   .actionLeft {
     gap: 10px;
     overflow: visible;
   }
+
   .actionAvatar {
     width: 28px;
     height: 28px;
     font-size: 10px;
     flex-shrink: 0;
   }
+
   .actionMeta {
     gap: 5px;
     overflow: visible;
   }
+
   .actionType {
     font-size: 10px;
     font-weight: 600;
@@ -1589,16 +1649,19 @@
     overflow: visible;
     text-overflow: unset;
   }
+
   .actionSub {
     font-size: 8px;
     white-space: normal;
     overflow: visible;
     text-overflow: unset;
   }
+
   .actionBtns {
     gap: 6px;
     flex-shrink: 0;
   }
+
   .btnReject,
   .btnApprove {
     width: 24px;
@@ -1610,19 +1673,24 @@
   .escalationScrollContainer {
     max-height: 185px;
   }
+
   .escalationsList {
     gap: 16px;
   }
+
   .escalationCard {
     min-height: auto;
     gap: 10px;
   }
+
   .escalationLeft {
     gap: 10px;
   }
+
   .escalationTitle {
     font-size: 10px;
   }
+
   .escalationTime {
     font-size: 8px;
     margin-top: 5px;
@@ -1632,30 +1700,37 @@
   .modalOverlay {
     padding: 12px;
   }
+
   .modalCard {
     padding: 16px 14px 14px;
     border-radius: 10px;
-    max-width: 100%;
   }
+
   .modalHeader {
     margin-bottom: 10px;
     gap: 8px;
   }
+
   .modalTitle {
     font-size: 14px;
   }
+
   .modalSubtitle {
     font-size: 10px;
   }
+
   .modalForm {
     gap: 10px;
   }
+
   .modalLabel {
     font-size: 11px;
   }
+
   .modalRow {
     grid-template-columns: 1fr 1fr;
   }
+
   .modalInput,
   .customSelectHeader,
   .customSelectOption,
@@ -1663,12 +1738,15 @@
     font-size: 10.5px;
     padding: 7px 10px;
   }
+
   .modalTextarea {
     min-height: 70px;
   }
+
   .modalActions {
     gap: 8px;
   }
+
   .modalCancelBtn,
   .modalSubmitBtn {
     font-size: 11px;
@@ -1680,44 +1758,54 @@
   .rowTwoColumns>.cardBlock:nth-child(1) {
     order: 1;
   }
+
   .rowTwoColumns>.cardBlock:nth-child(2) {
     order: 2;
   }
+
   .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(1) {
     order: 3;
   }
+
   .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(1) {
     order: 4;
   }
+
   .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(2) {
     order: 5;
   }
+
   .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(3) {
     order: 7;
   }
+
   .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(2) {
     order: 6;
   }
+
   .statIconWrap svg {
     width: 16px;
     height: 16px;
   }
+
   .escalationInfo {
     gap: 2.5px;
   }
+
   .btnReject svg,
   .btnApprove svg {
     width: 11px;
     height: 11px;
   }
+
   .quickAssignBtn svg {
     width: 11px;
     height: 11px;
   }
-  .rowTwoColumns,
-  .rowEqualColumns {
 
-  }
+  .rowTwoColumns,
+  .rowEqualColumns {}
+
   .rowTwoColumns>.cardBlock:nth-child(1),
   .rowTwoColumns>.cardBlock:nth-child(2),
   .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(1),
@@ -1734,9 +1822,7 @@
 }
 
 
-/* ==========================================================================
-   RESPONSIVE - MOBILE (425px)
-   ========================================================================== */
+/* RESPONSIVE - MOBILE (425px)*/
 
 @media (max-width: 425px) {
 
@@ -1746,6 +1832,7 @@
     gap: 0;
     margin-left: 0;
   }
+
   .quickAssignBtn {
     padding: 8px 12px;
     font-size: 10px;
@@ -1756,6 +1843,24 @@
     flex-shrink: 0;
   }
 
+  .quickAssignBtnSmall {
+    padding: clamp(5px, 1.5vw, 7px) clamp(6.5px, 2vw, 10px) !important;
+    font-size: clamp(7.8px, 2.2vw, 9.5px) !important;
+    gap: clamp(3.5px, 1vw, 5px) !important;
+    border-radius: 4px !important;
+    flex: 1 !important;
+    justify-content: center !important;
+  }
+  .quickAssignBtn svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .quickAssignBtnSmall svg {
+    width: clamp(9.5px, 2.5vw, 12px) !important;
+    height: clamp(9.5px, 2.5vw, 12px) !important;
+  }
+
   /* --- Stats --- */
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
@@ -1763,18 +1868,22 @@
     padding: 0 16px;
     margin-top: 18px;
   }
+
   .statCard {
     padding: 14px 12px;
     min-height: 88px;
     border-radius: 10px;
   }
+
   .statTitle {
     font-size: 9px;
     white-space: normal;
   }
+
   .statValue {
     font-size: 20px;
   }
+
   .statSubtext {
     font-size: 8px;
     white-space: normal;
@@ -1787,19 +1896,23 @@
     padding: 0 16px 20px;
     margin-top: 18px;
   }
+
   .gridRow,
   .columnGroup {
     display: contents;
   }
+
   .cardBlock {
     grid-column: 1 / -1;
     padding: 14px 12px;
     border-radius: 12px;
     gap: 12px;
   }
+
   .cardTitle {
     font-size: 11px;
   }
+
   .criticalCardTitle {
     font-size: 14.5px;
   }
@@ -1809,18 +1922,22 @@
     font-size: 8px;
     padding: 2px 6px;
   }
+
   .badgeBlue {
     font-size: 8px;
     padding: 2px 6px;
   }
+
   .badgeRedTag {
     font-size: 11.5px;
     padding: 4px 10px;
   }
+
   .badgePending {
     font-size: 8px;
     padding: 3px 8px;
   }
+
   .badgeCritical,
   .badgeHighEsc,
   .badgeMediumEsc {
@@ -1832,26 +1949,32 @@
   .activityScrollContainer {
     max-height: 146px;
   }
+
   .activityGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px 8px;
   }
+
   .memberItem {
     gap: 7px;
   }
+
   .memberAvatar {
     width: 26px;
     height: 26px;
     font-size: 9px;
   }
+
   .statusDotGreen,
   .statusDotOrange {
     width: 5px;
     height: 5px;
   }
+
   .memberName {
     font-size: 10px;
   }
+
   .memberRole {
     font-size: 8px;
   }
@@ -1860,32 +1983,39 @@
   .tasksScrollContainer {
     max-height: 125px;
   }
+
   .tasksGrid {
     grid-template-columns: 1fr;
     gap: 14px 8px;
   }
+
   .taskCardItem {
     gap: 7px;
   }
+
   .taskAvatar {
     width: 30px;
     height: 30px;
     font-size: 12px;
   }
+
   .taskTitleText {
     font-size: 12px;
     max-width: none;
     white-space: normal;
     overflow-wrap: break-word;
   }
+
   .badgeHigh,
   .badgeMed {
     font-size: 9.5px;
     padding: 2px 6px;
   }
+
   .taskMetaGroup {
     margin-top: 8px;
   }
+
   .taskDueRow,
   .taskAssignee {
     font-size: 10.5px;
@@ -1896,25 +2026,31 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
   }
+
   .metricMiniCard {
     padding: 10px 8px;
     min-height: 58px;
     border-radius: 8px;
   }
+
   .metricLabel {
     font-size: 8px;
   }
+
   .metricVal {
     font-size: 11px;
     margin-top: 6px;
   }
+
   .chartContainer {
     padding: 0;
     margin-top: 12px;
   }
+
   .svgChart {
     height: 100px;
   }
+
   .chartAxis {
     font-size: 7.5px;
   }
@@ -1923,9 +2059,11 @@
   .timelineList {
     gap: 20px;
   }
+
   .timelineItem {
     gap: 8px;
   }
+
   .timelineContent {
     display: grid;
     grid-template-columns: minmax(58px, 76px) minmax(38px, 50px) minmax(70px, 1fr);
@@ -1936,22 +2074,27 @@
     width: 100%;
     box-sizing: border-box;
   }
+
   .timelineTextGroup {
     width: auto;
     max-width: none;
     min-width: 0;
   }
+
   .timelineUser {
     font-size: 9px;
     white-space: nowrap;
   }
+
   .timelineAction {
     font-size: 8px;
     white-space: normal;
   }
+
   .timelineTime {
     font-size: 7.5px;
   }
+
   .speechCard {
     font-size: 8px;
     padding: 8px 10px;
@@ -1966,13 +2109,16 @@
   .statusRows {
     gap: 14px;
   }
+
   .statusName {
     font-size: 10px;
   }
+
   .statusBadgePill {
     font-size: 8px;
     padding: 2px 8px;
   }
+
   .progressBarTrack {
     height: 5px;
   }
@@ -1981,29 +2127,35 @@
   .actionScrollContainer {
     max-height: 210px;
   }
+
   .actionList {
     gap: 16px;
   }
+
   .actionCardItem {
     min-height: auto;
     gap: 10px;
     flex-wrap: nowrap;
     align-items: center;
   }
+
   .actionLeft {
     gap: 10px;
     overflow: visible;
   }
+
   .actionAvatar {
     width: 28px;
     height: 28px;
     font-size: 10px;
     flex-shrink: 0;
   }
+
   .actionMeta {
     gap: 5px;
     overflow: visible;
   }
+
   .actionType {
     font-size: 10px;
     font-weight: 600;
@@ -2011,16 +2163,19 @@
     overflow: visible;
     text-overflow: unset;
   }
+
   .actionSub {
     font-size: 8px;
     white-space: normal;
     overflow: visible;
     text-overflow: unset;
   }
+
   .actionBtns {
     gap: 6px;
     flex-shrink: 0;
   }
+
   .btnReject,
   .btnApprove {
     width: 24px;
@@ -2032,19 +2187,24 @@
   .escalationScrollContainer {
     max-height: 185px;
   }
+
   .escalationsList {
     gap: 16px;
   }
+
   .escalationCard {
     min-height: auto;
     gap: 10px;
   }
+
   .escalationLeft {
     gap: 10px;
   }
+
   .escalationTitle {
     font-size: 10px;
   }
+
   .escalationTime {
     font-size: 8px;
     margin-top: 5px;
@@ -2054,24 +2214,29 @@
   .modalOverlay {
     padding: 12px;
   }
+
   .modalCard {
     padding: 16px 14px 14px;
     border-radius: 10px;
-    max-width: 100%;
   }
+
   .modalHeader {
     margin-bottom: 10px;
     gap: 8px;
   }
+
   .modalTitle {
     font-size: 14px;
   }
+
   .modalSubtitle {
     font-size: 10px;
   }
+
   .modalRow {
     grid-template-columns: 1fr 1fr;
   }
+
   .modalInput,
   .customSelectHeader,
   .customSelectOption,
@@ -2079,6 +2244,7 @@
     font-size: 10.5px;
     padding: 7px 10px;
   }
+
   .modalActions {
     gap: 8px;
   }
@@ -2088,35 +2254,48 @@
     width: 11px;
     height: 11px;
   }
+
+  .quickAssignBtnSmall svg {
+    width: 9.5px !important;
+    height: 9.5px !important;
+  }
+
   .statIconWrap svg {
     width: 16px;
     height: 16px;
   }
-  .rowTwoColumns,
-  .rowEqualColumns {
 
-  }
+  .rowTwoColumns,
+  .rowEqualColumns {}
+
   .rowTwoColumns>.cardBlock:nth-child(1) {
     order: 1;
   }
+
   .rowTwoColumns>.cardBlock:nth-child(2) {
     order: 2;
   }
+
   .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(1) {
     order: 3;
   }
+
   .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(1) {
     order: 4;
   }
+
   .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(2) {
     order: 5;
   }
+
   .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(2) {
     order: 6;
   }
+
   .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(3) {
     order: 7;
   }
+
   .rowTwoColumns>.cardBlock:nth-child(1),
   .rowTwoColumns>.cardBlock:nth-child(2),
   .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(1),
@@ -2130,6 +2309,7 @@
     width: 100%;
     box-sizing: border-box;
   }
+
   .btnReject svg,
   .btnApprove svg {
     width: 11px;

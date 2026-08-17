@@ -7,7 +7,7 @@
   width: 100%;
   min-height: 60px;
   height: auto;
-  padding: 12px 35px;
+  padding: 12px 20px;
   background-color: #0E0F13;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
@@ -20,7 +20,7 @@
 .headerLeftSection {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 15px;
 }
 
 .headerLogoToggle {
@@ -258,13 +258,13 @@
   align-items: center;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 425px) {
   .headerTitle {
     font-size: 13px;
     font-weight: 700;
   }
   
   .headerSubtitle {
-    font-size: 11px;
+    font-size: 7px;
   }
 }
