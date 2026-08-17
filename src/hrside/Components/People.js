@@ -80,7 +80,10 @@ function People() {
   const [workStyle, setWorkStyle] = useState("Hybrid");
   const moreFiltersRef = useRef(null);
 
-  const skillOptions = ["React", "Node.js", "Python", "Figma", "AWS"];
+  const [openActionMenu, setOpenActionMenu] = useState(null);
+  const actionMenuRef = useRef(null);
+
+  const skillOptions = ["React", "Python", "Product Strategy", "UI Design"];
 
   const toggleSkill = (skill) => {
     setSelectedSkills((prev) =>
@@ -95,6 +98,12 @@ function People() {
         !moreFiltersRef.current.contains(event.target)
       ) {
         setShowMoreFilters(false);
+      }
+      if (
+        actionMenuRef.current &&
+        !actionMenuRef.current.contains(event.target)
+      ) {
+        setOpenActionMenu(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -292,7 +301,7 @@ function People() {
                   className={styles.popupResetLink}
                   onClick={handleMoreFiltersReset}
                 >
-                  Reset
+                  Clear All
                 </button>
                 <button
                   className={styles.popupApplyBtn}
@@ -349,10 +358,37 @@ function People() {
                     <span className={styles.managerName}>{emp.manager}</span>
                   </div>
                 </div>
-                <div className={styles.tableCell}>
-                  <button className={styles.actionsBtn}>
+                <div
+                  className={styles.tableCell}
+                  style={{ position: "relative" }}
+                  ref={openActionMenu === i ? actionMenuRef : null}
+                >
+                  <button
+                    className={styles.actionsBtn}
+                    onClick={() =>
+                      setOpenActionMenu(openActionMenu === i ? null : i)
+                    }
+                  >
                     <MoreVertical size={16} />
                   </button>
+
+                  {openActionMenu === i && (
+                    <div className={styles.actionsMenu}>
+                      <button
+                        className={styles.actionsMenuItem}
+                        onClick={() => setOpenActionMenu(null)}
+                      >
+                        View Profile
+                      </button>
+                      
+                      <button
+                        className={`${styles.actionsMenuItem} ${styles.actionsMenuItemDanger}`}
+                        onClick={() => setOpenActionMenu(null)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
