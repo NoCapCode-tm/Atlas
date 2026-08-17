@@ -147,10 +147,7 @@ function People() {
             <Download size={15} />
             Export
           </button>
-          <button className={styles.addEmployeeBtn}>
-            <Plus size={15} />
-            Add Employee
-          </button>
+          
         </div>
       </div>
 
