@@ -388,9 +388,9 @@
 .deptBadge {
   display: inline-block;
   padding: 3px 8px;
-  background: #191b23;
+  background: #282a32;
   border: 1px solid #23262d;
-  border-radius: 6px;
+  border-radius: 0;
   font-family: "Outfit", sans-serif;
   font-weight: 500;
   font-size: 10.5px;
@@ -398,47 +398,55 @@
 }
 
 .statusPill {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
   border-radius: 12px;
+  border: 1px solid transparent;
   font-family: "Outfit", sans-serif;
   font-weight: 500;
-  font-size: 11.5px;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.6px;
 }
 
 .statusDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .statusActive {
-  background: rgba(34, 197, 94, 0.12);
-  color: #22c55e;
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #34d399;
 }
 
 .statusActive .statusDot {
-  background: #22c55e;
+  background: #10b981;
 }
 
 .statusOnboarding {
-  background: rgba(255, 174, 76, 0.12);
-  color: #ffae4c;
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
 }
 
 .statusOnboarding .statusDot {
-  background: #ffae4c;
+  background: #f59e0b;
 }
 
 .statusExitPending {
-  background: rgba(255, 84, 71, 0.12);
-  color: #ff5447;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #f87171;
 }
 
 .statusExitPending .statusDot {
-  background: #ff5447;
+  background: #ef4444;
 }
 
 .managerCell {
