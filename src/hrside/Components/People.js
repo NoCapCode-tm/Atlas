@@ -250,7 +250,7 @@ function People() {
           </span>
           <div className={styles.paginationControls}>
             <button
-              className={styles.pageBtn}
+              className={styles.pageBtnNext}
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             >
