@@ -156,23 +156,33 @@
 
 /* ── Filters row ── */
 .filtersCard {
-  background: #0e0f13;
-  border: 1px solid #23262d;
-  border-radius: 14px;
+  background: #0A0A0A;
+  border: 0.5px solid #A5A5A5;
+  border-radius: 8px;
   padding: 16px 20px;
   margin-bottom: 20px;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto auto;
   align-items: flex-end;
   gap: 16px;
-  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 900px) {
+  .filtersCard {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (max-width: 480px) {
+  .filtersCard {
+    grid-template-columns: 1fr;
+  }
 }
 
 .filterBlock {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  min-width: 160px;
-  flex: 1;
+  min-width: 0;
 }
 
 .filterLabel {
@@ -263,19 +273,13 @@
   background: rgba(160, 160, 160, 0.12);
 }
 
-@media screen and (max-width: 768px) {
-  .filtersCard {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .filterBlock {
-    min-width: 100%;
-  }
+@media screen and (max-width: 480px) {
   .resetBtn,
   .moreFiltersBtn {
     justify-content: center;
   }
 }
+
 
 /* ── Employee list (tile rows) ── */
 .tableCard {
@@ -289,12 +293,24 @@
   overflow-x: auto;
 }
 
+@media screen and (max-width: 860px) {
+  .tableScroll {
+    overflow-x: visible;
+  }
+}
+
 .employeeListHead {
   display: grid;
   grid-template-columns: 2.2fr 1.8fr 1.2fr 1.4fr 0.5fr;
   gap: 12px;
   padding: 0 20px 10px;
   min-width: 720px;
+}
+
+@media screen and (max-width: 860px) {
+  .employeeListHead {
+    display: none;
+  }
 }
 
 .tableHeadCell {
@@ -314,15 +330,45 @@
   min-width: 720px;
 }
 
+@media screen and (max-width: 860px) {
+  .employeeList {
+    min-width: 0;
+  }
+}
 .tableRow {
   display: grid;
   grid-template-columns: 2.2fr 1.8fr 1.2fr 1.4fr 0.5fr;
   gap: 12px;
   align-items: center;
-  background: #0e0f13;
-  border: 1px solid #23262d;
+  background: #0A0A0A;
+  border: 0.5px solid #A5A5A5;
+  border-radius: 4px;
   padding: 14px 20px;
   transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+@media screen and (max-width: 860px) {
+  .tableRow {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 16px;
+  }
+  .tableCell {
+    width: 100%;
+  }
+   .tableCell:nth-child(3),
+  .tableCell:nth-child(4) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .tableCell:last-child {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .tableRow:hover {

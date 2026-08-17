@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "../CSS/people.module.css";
 import {
   Download,
@@ -69,6 +70,7 @@ function StatusPill({ status }) {
 }
 
 function People() {
+  const navigate = useNavigate();
   const [department, setDepartment] = useState("All Departments");
   const [roleLevel, setRoleLevel] = useState("All Levels");
   const [status, setStatus] = useState("Active");
@@ -376,7 +378,10 @@ function People() {
                     <div className={styles.actionsMenu}>
                       <button
                         className={styles.actionsMenuItem}
-                        onClick={() => setOpenActionMenu(null)}
+                        onClick={() => {
+                          setOpenActionMenu(null);
+                          navigate(`/hr/employees/${i}`);
+                        }}
                       >
                         View Profile
                       </button>
