@@ -221,7 +221,7 @@
   background: transparent;
   color: #c3c6d6;
   border: 1px solid #23262d;
-  border-radius: 8px;
+  border-radius: 0;
   font-family: "Outfit", sans-serif;
   font-weight: 400;
   font-size: 13px;
@@ -246,7 +246,7 @@
   background: #191b23;
   color: #e1e2ec;
   border: 1px solid #23262d;
-  border-radius: 8px;
+  border-radius: 0;
   font-family: "Outfit", sans-serif;
   font-weight: 400;
   font-size: 13px;
@@ -560,6 +560,197 @@
   color: #94a3b8;
   font-size: 12.5px;
   padding: 0 4px;
+}
+
+/* ── More Filters popup ── */
+.moreFiltersPopup {
+  position: absolute;
+  top: calc(100% - 30px);
+  right: 0;
+  width: 320px;
+  max-width: 90vw;
+  box-sizing: border-box;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+}
+
+.popupBody {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 24px;
+}
+
+.popupSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.popupLabel {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #a1a1aa;
+}
+
+.sliderWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+
+.slider {
+  width: 100%;
+  height: 6px;
+  background: #27272a;
+  border-radius: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #2563eb;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #2563eb;
+  cursor: pointer;
+  border: none;
+}
+
+.sliderLabels {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Outfit", sans-serif;
+  font-size: 10px;
+  color: #a1a1aa;
+}
+
+.tagsWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag,
+.tagSelected {
+  box-sizing: border-box;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  cursor: pointer;
+  border: 1px solid #27272a;
+  background: #161619;
+  color: #a1a1aa;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.tagSelected {
+  background: rgba(37, 99, 235, 0.2);
+  border-color: rgba(37, 99, 235, 0.3);
+  color: #2563eb;
+}
+
+.workStyleWrap {
+  display: flex;
+  gap: 8px;
+}
+
+.workStyleBtn,
+.workStyleBtnActive {
+  flex: 1;
+  box-sizing: border-box;
+  padding: 8px;
+  border-radius: 6px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #27272a;
+  background: #161619;
+  color: #a1a1aa;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.workStyleBtnActive {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.popupFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0 0 12px 12px;
+}
+
+.popupResetLink {
+  background: transparent;
+  border: none;
+  color: #a1a1aa;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.popupResetLink:hover {
+  color: #e1e2ec;
+}
+
+.popupApplyBtn {
+  background: #2563eb;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: #ffffff;
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0px 10px 15px -3px rgba(37, 99, 235, 0.2),
+    0px 4px 6px -4px rgba(37, 99, 235, 0.2);
+  transition: filter 0.2s ease;
+}
+
+.popupApplyBtn:hover {
+  filter: brightness(1.1);
+}
+
+@media (max-width: 480px) {
+  .moreFiltersPopup {
+    right: -20px;
+  }
 }
 
 .pageBtnNext {
