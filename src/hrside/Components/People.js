@@ -269,7 +269,7 @@ function People() {
             ))}
             <span className={styles.pageEllipsis}>...</span>
             <button
-              className={styles.pageBtn}
+              className={styles.pageBtnNext}
               disabled={currentPage === totalPages}
               onClick={() =>
                 setCurrentPage((p) => Math.min(totalPages, p + 1))
