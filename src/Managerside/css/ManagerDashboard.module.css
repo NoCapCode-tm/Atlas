@@ -1,3 +1,4 @@
+/* Root layout wrapper */
 .dashboardContainer {
   display: flex;
   flex-direction: column;
@@ -14,6 +15,7 @@
   position: relative;
 }
 
+/* Main scrollable content area (sits next to sidebar) */
 .mainContent {
   display: flex;
   flex-direction: column;
@@ -46,8 +48,13 @@
   background: #1d4ed8;
 }
 
-
-/* --- Stats --- */
+/* Stats row at the top of dashboard */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.4vw, 24px);
+  width: 100%;
+}
 
 .statCard {
   display: flex;
@@ -121,11 +128,7 @@
   white-space: nowrap;
 }
 
-
-/* --- Dashboard Cards Base --- */
-
-/* Dashboard Cards */
-
+/* Dashboard grid structure */
 .dashboardMainGrid,
 .gridRow,
 .columnGroup {
@@ -139,6 +142,17 @@
   align-items: start;
 }
 
+.gridRow {
+  align-items: stretch;
+}
+
+.rowTwoColumns,
+.rowEqualColumns {
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+}
+
+/* Card used across all dashboard sections */
 .cardBlock {
   display: flex;
   flex-direction: column;
@@ -183,9 +197,7 @@
   background: #e2e8f087;
 }
 
-
-/* --- Badges --- */
-
+/* Badges */
 .badgeBlue {
   background: #0050B8;
   color: #ffffff;
@@ -217,13 +229,38 @@
   color: #A2C5FF;
 }
 
-.badgeCritical {
-  background: #FFE2E2;
-  color: #C10007;
+.badgeGreen {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: clamp(4px, 0.4vw, 6px) clamp(10px, 0.8vw, 14px);
+  background: #19542B;
+  border-radius: 999px;
+  font-size: clamp(9px, 0.9vw, 14px);
+  font-weight: 600;
+  color: #63ED96;
 }
 
-/* Escalations */
+.badgeHigh,
+.badgeMed {
+  padding: clamp(2px, 0.2vw, 3px) clamp(6px, 0.6vw, 9px);
+  border-radius: 999px;
+  font-size: clamp(9px, 0.9vw, 12px);
+  font-weight: 600;
+  color: #ffffff;
+  flex-shrink: 0;
+  margin-left: 2px;
+}
 
+.badgeHigh {
+  background: #FF6900;
+}
+
+.badgeMed {
+  background: #FB2C36;
+}
+
+/* Escalation severity tags */
 .badgeCritical,
 .badgeHighEsc,
 .badgeMediumEsc {
@@ -235,17 +272,54 @@
   flex-shrink: 0;
 }
 
+.badgeCritical {
+  background: #FFE2E2;
+  color: #C10007;
+}
+
+.badgeHighEsc {
+  background: #FFEDD4;
+  color: #CA3500;
+}
+
 .badgeMediumEsc {
   background: #FEF9C2;
   color: #A65F00;
 }
 
-
-/* --- Team Activity --- */
-
+/* Team Activity card */
 .teamActivityCard {
   height: 100%;
   padding-bottom: 0;
+}
+
+.activityScrollContainer {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  box-sizing: border-box;
+  max-height: 270px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.05);
+}
+
+.activityScrollContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.activityScrollContainer::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.activityScrollContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+}
+
+.activityScrollContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .activityGrid {
@@ -296,6 +370,10 @@
   border-radius: 50%;
 }
 
+.statusDotGreen {
+  background: #10b981;
+}
+
 .statusDotOrange {
   background: #f97316;
 }
@@ -315,15 +393,19 @@
   text-overflow: ellipsis;
 }
 
+.memberName {
+  font-size: clamp(9px, 0.9vw, 14px);
+  font-weight: 600;
+  color: #ffffff;
+}
+
 .memberRole {
   font-size: clamp(8px, 0.8vw, 12px);
   font-weight: 400;
   color: #94a3b8;
 }
 
-
-/* --- Critical Tasks --- */
-
+/* Shared scroll containers for tasks, actions, escalations */
 .tasksScrollContainer,
 .actionScrollContainer,
 .escalationScrollContainer {
@@ -334,6 +416,57 @@
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.05);
+}
+
+.tasksScrollContainer::-webkit-scrollbar,
+.actionScrollContainer::-webkit-scrollbar,
+.escalationScrollContainer::-webkit-scrollbar,
+.timelineScrollContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tasksScrollContainer::-webkit-scrollbar-track,
+.actionScrollContainer::-webkit-scrollbar-track,
+.escalationScrollContainer::-webkit-scrollbar-track,
+.timelineScrollContainer::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.tasksScrollContainer::-webkit-scrollbar-thumb,
+.actionScrollContainer::-webkit-scrollbar-thumb,
+.escalationScrollContainer::-webkit-scrollbar-thumb,
+.timelineScrollContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+}
+
+.tasksScrollContainer::-webkit-scrollbar-thumb:hover,
+.actionScrollContainer::-webkit-scrollbar-thumb:hover,
+.escalationScrollContainer::-webkit-scrollbar-thumb:hover,
+.timelineScrollContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Critical Tasks */
+.criticalHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.tasksScrollContainer {
+  max-height: 145px;
+}
+
+.tasksGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(16px, 1.4vw, 22px) clamp(10px, 0.9vw, 14px);
+  width: 100%;
+  margin-top: 6px;
 }
 
 .taskCardItem {
@@ -385,24 +518,8 @@
   word-break: normal;
   overflow-wrap: normal;
   white-space: normal;
-  max-width: none;
   flex: 1;
   min-width: 0;
-}
-
-.badgeHigh,
-.badgeMed {
-  padding: clamp(2px, 0.2vw, 3px) clamp(6px, 0.6vw, 9px);
-  border-radius: 999px;
-  font-size: clamp(9px, 0.9vw, 12px);
-  font-weight: 600;
-  color: #ffffff;
-  flex-shrink: 0;
-  margin-left: 2px;
-}
-
-.badgeMed {
-  background: #FB2C36;
 }
 
 .taskMetaGroup {
@@ -419,12 +536,23 @@
   white-space: nowrap;
 }
 
+.taskDueRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .taskAssignee {
   font-weight: 500;
 }
 
-
-/* --- Team Performance --- */
+/* Team Performance section */
+.performanceMetrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(8px, 0.8vw, 14px);
+  width: 100%;
+}
 
 .metricMiniCard {
   display: flex;
@@ -511,17 +639,25 @@
   text-align: center;
 }
 
-
-/* --- Daily Updates --- */
-
-.timelineItem {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: clamp(8px, 0.8vw, 12px);
-  width: 100%;
+/* Daily Updates timeline */
+.timelineScrollContainer {
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px;
+  margin-right: -8px;
 }
 
+.timelineList {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 1.8vw, 28px);
+  width: 100%;
+  padding-left: 0;
+}
+
+/* Vertical connector line */
 .timelineList::before {
   content: "";
   position: absolute;
@@ -531,6 +667,14 @@
   z-index: 0;
   width: 2px;
   background: #e2e8f087;
+}
+
+.timelineItem {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(8px, 0.8vw, 12px);
+  width: 100%;
 }
 
 .nodePurple,
@@ -543,6 +687,10 @@
   border: 2px solid #000000;
   border-radius: 50%;
   flex-shrink: 0;
+}
+
+.nodePurple {
+  background: #a855f7;
 }
 
 .nodeBlue {
@@ -614,8 +762,10 @@
   overflow-wrap: break-word;
 }
 
-
-/* --- Task Status --- */
+/* Task Status section */
+.statusHeader {
+  margin-bottom: 16px;
+}
 
 .statusRows {
   display: flex;
@@ -686,6 +836,10 @@
   border-radius: 999px;
 }
 
+.barBlue {
+  background: #2563eb;
+}
+
 .barPurple {
   background: #7c3aed;
 }
@@ -698,9 +852,7 @@
   background: #10b981;
 }
 
-
-/* --- Action Center --- */
-
+/* Action Center */
 .actionScrollContainer {
   max-height: 210px;
 }
@@ -708,6 +860,10 @@
 .actionList {
   flex: 1;
   justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 1.4vw, 22px);
+  width: 100%;
 }
 
 .actionCardItem,
@@ -730,6 +886,10 @@
   gap: 10px;
   min-width: 0;
   flex: 1;
+}
+
+.actionLeft {
+  overflow: hidden;
 }
 
 .actionAvatar {
@@ -755,12 +915,22 @@
   flex: 1;
 }
 
+.actionMeta {
+  overflow: hidden;
+}
+
 .actionType,
 .actionSub,
 .escalationTime {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.actionType {
+  font-size: clamp(12px, 1vw, 16px);
+  font-weight: 600;
+  color: #FFFFFF;
 }
 
 .actionSub {
@@ -790,9 +960,9 @@
   flex-shrink: 0;
 }
 
-.btnApprove {
-  background: #2563eb;
-  color: #ffffff;
+.btnReject {
+  background: #FECDD3;
+  color: #991B1B;
 }
 
 .btnReject:hover {
@@ -800,20 +970,20 @@
   color: #881337;
 }
 
+.btnApprove {
+  background: #2563eb;
+  color: #ffffff;
+}
+
 .btnApprove:hover {
   background: #1d4ed8;
 }
 
-
-/* --- Escalations --- */
-
+/* Escalations */
 .escalationScrollContainer {
   max-height: 185px;
 }
 
-/* Action Center */
-
-.actionList,
 .escalationsList {
   display: flex;
   flex-direction: column;
@@ -844,14 +1014,30 @@
   color: #94a3b8;
 }
 
-
-/* --- Modal & Form Elements --- */
+/* Modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  padding: 20px;
+  box-sizing: border-box;
+  animation: modalFadeIn 0.18s ease;
+}
 
 .modalCard {
   position: relative;
   width: 100%;
   max-width: 320px;
-  background-color: #12141C;
+  background: linear-gradient(146.47deg, rgba(14, 15, 19, 0.58) 1.32%, rgba(89, 96, 121, 0.58) 100%),
+    linear-gradient(234.47deg, rgba(0, 0, 0, 0) -0.9%, rgba(0, 0, 0, 0.04) 86.88%);
+  backdrop-filter: blur(80px);
+  -webkit-backdrop-filter: blur(80px);
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 12px;
   padding: 20px 20px 18px;
@@ -963,8 +1149,7 @@
   background: rgba(255, 255, 255, 0.04);
 }
 
-/* --- Custom Select Dropdowns --- */
-
+/* Custom dropdown inside modal */
 .customSelectContainer {
   position: relative;
   width: 100%;
@@ -1013,7 +1198,6 @@
   overflow-y: auto;
 }
 
-/* Custom scrollbar for custom dropdown */
 .customSelectDropdown::-webkit-scrollbar {
   width: 5px;
 }
@@ -1088,221 +1272,7 @@
   background: #1d4ed8;
 }
 
-
-/* --- Miscellaneous --- */
-
-
-
-/* Stats */
-
-.statsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(14px, 1.4vw, 24px);
-  width: 100%;
-}
-
-.gridRow {
-  align-items: stretch;
-}
-
-.rowTwoColumns,
-.rowEqualColumns {
-  grid-template-columns: 1fr 1fr;
-  align-items: stretch;
-}
-
-/* Badges */
-
-.badgeGreen {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: clamp(4px, 0.4vw, 6px) clamp(10px, 0.8vw, 14px);
-  background: #19542B;
-  border-radius: 999px;
-  font-size: clamp(9px, 0.9vw, 14px);
-  font-weight: 600;
-  color: #63ED96;
-}
-
-.criticalHeader {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-/* Team Performance */
-
-.performanceMetrics {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(8px, 0.8vw, 14px);
-  width: 100%;
-}
-
-/* Team Activity */
-
-.activityScrollContainer {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  min-height: 0;
-  box-sizing: border-box;
-  max-height: 270px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.05);
-}
-
-.activityScrollContainer::-webkit-scrollbar {
-  width: 8px;
-}
-
-.activityScrollContainer::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-}
-
-.activityScrollContainer::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 4px;
-}
-
-.activityScrollContainer::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.6);
-}
-
-.tasksScrollContainer::-webkit-scrollbar,
-.actionScrollContainer::-webkit-scrollbar,
-.escalationScrollContainer::-webkit-scrollbar {
-  width: 8px;
-}
-
-.tasksScrollContainer::-webkit-scrollbar-track,
-.actionScrollContainer::-webkit-scrollbar-track,
-.escalationScrollContainer::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-}
-
-.tasksScrollContainer::-webkit-scrollbar-thumb,
-.actionScrollContainer::-webkit-scrollbar-thumb,
-.escalationScrollContainer::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 4px;
-}
-
-.tasksScrollContainer::-webkit-scrollbar-thumb:hover,
-.actionScrollContainer::-webkit-scrollbar-thumb:hover,
-.escalationScrollContainer::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.6);
-}
-
-.tasksScrollContainer {
-  max-height: 145px;
-}
-
-.statusDotGreen {
-  background: #10b981;
-}
-
-.memberName {
-  font-size: clamp(9px, 0.9vw, 14px);
-  font-weight: 600;
-  color: #ffffff;
-}
-
-/* Critical Tasks */
-
-.tasksGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(16px, 1.4vw, 22px) clamp(10px, 0.9vw, 14px);
-  width: 100%;
-  margin-top: 6px;
-}
-
-.badgeHigh {
-  background: #FF6900;
-}
-
-.taskDueRow {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* Daily Updates */
-
-.timelineList {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(20px, 1.8vw, 28px);
-  width: 100%;
-  padding-left: 0;
-}
-
-.nodePurple {
-  background: #a855f7;
-}
-
-/* Task Status */
-
-.statusHeader {
-  margin-bottom: 16px;
-}
-
-.barBlue {
-  background: #2563eb;
-}
-
-.actionLeft {
-  overflow: hidden;
-}
-
-.actionMeta {
-  overflow: hidden;
-}
-
-.actionType {
-  font-size: clamp(12px, 1vw, 16px);
-  font-weight: 600;
-  color: #FFFFFF;
-}
-
-.btnReject {
-  background: #FECDD3;
-  color: #991B1B;
-}
-
-.badgeHighEsc {
-  background: #FFEDD4;
-  color: #CA3500;
-}
-
-/* Modal */
-
-.modalOverlay {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.72);
-  backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(1px);
-  padding: 20px;
-  box-sizing: border-box;
-  animation: modalFadeIn 0.18s ease;
-}
-
-
-/* --- Keyframe Animations --- */
-
+/* Animations */
 @keyframes modalFadeIn {
   from {
     opacity: 0;
@@ -1325,12 +1295,8 @@
   }
 }
 
-
-/*RESPONSIVE - TABLET (768px) */
-
+/* Responsive Overrides */
 @media (max-width: 768px) {
-
-  /* --- Layout --- */
   .mainContent {
     padding: 0;
     gap: 0;
@@ -1347,7 +1313,6 @@
     flex-shrink: 0;
   }
 
-  /* --- Stats --- */
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -1375,7 +1340,6 @@
     white-space: normal;
   }
 
-  /* --- Dashboard Cards Base --- */
   .dashboardMainGrid {
     grid-template-columns: 1fr;
     gap: 14px;
@@ -1403,12 +1367,7 @@
     font-size: 14.5px;
   }
 
-  /* --- Badges --- */
-  .badgeGreen {
-    font-size: 8px;
-    padding: 2px 6px;
-  }
-
+  .badgeGreen,
   .badgeBlue {
     font-size: 8px;
     padding: 2px 6px;
@@ -1431,7 +1390,6 @@
     padding: 2px 6px;
   }
 
-  /* --- Team Activity --- */
   .activityScrollContainer {
     max-height: 146px;
   }
@@ -1465,7 +1423,6 @@
     font-size: 8px;
   }
 
-  /* --- Critical Tasks --- */
   .tasksScrollContainer {
     max-height: 125px;
   }
@@ -1507,7 +1464,6 @@
     font-size: 10.5px;
   }
 
-  /* --- Team Performance --- */
   .performanceMetrics {
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
@@ -1541,7 +1497,6 @@
     font-size: 7.5px;
   }
 
-  /* --- Daily Updates --- */
   .timelineList {
     gap: 20px;
   }
@@ -1591,7 +1546,6 @@
     white-space: normal;
   }
 
-  /* --- Task Status --- */
   .statusRows {
     gap: 14px;
   }
@@ -1609,7 +1563,6 @@
     height: 5px;
   }
 
-  /* --- Action Center --- */
   .actionScrollContainer {
     max-height: 210px;
   }
@@ -1669,7 +1622,6 @@
     border-radius: 6px;
   }
 
-  /* --- Escalations --- */
   .escalationScrollContainer {
     max-height: 185px;
   }
@@ -1696,7 +1648,10 @@
     margin-top: 5px;
   }
 
-  /* --- Modal & Form Elements --- */
+  .escalationInfo {
+    gap: 2.5px;
+  }
+
   .modalOverlay {
     padding: 12px;
   }
@@ -1754,7 +1709,21 @@
     border-radius: 6px;
   }
 
-  /* --- Miscellaneous --- */
+  /* Card ordering on tablet / mobile stacked layout */
+  .rowTwoColumns>.cardBlock:nth-child(1),
+  .rowTwoColumns>.cardBlock:nth-child(2),
+  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(1),
+  .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(1),
+  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(2),
+  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(3),
+  .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(2) {
+    grid-column: 1 / -1;
+    height: auto;
+    align-self: auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
   .rowTwoColumns>.cardBlock:nth-child(1) {
     order: 1;
   }
@@ -1775,74 +1744,25 @@
     order: 5;
   }
 
-  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(3) {
-    order: 7;
-  }
-
   .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(2) {
     order: 6;
   }
 
-  .statIconWrap svg {
-    width: 16px;
-    height: 16px;
+  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(3) {
+    order: 7;
   }
 
-  .escalationInfo {
-    gap: 2.5px;
-  }
-
+  .statIconWrap svg,
   .btnReject svg,
-  .btnApprove svg {
-    width: 11px;
-    height: 11px;
-  }
-
+  .btnApprove svg,
   .quickAssignBtn svg {
     width: 11px;
     height: 11px;
   }
-
-  .rowTwoColumns,
-  .rowEqualColumns {}
-
-  .rowTwoColumns>.cardBlock:nth-child(1),
-  .rowTwoColumns>.cardBlock:nth-child(2),
-  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(1),
-  .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(1),
-  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(2),
-  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(3),
-  .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(2) {
-    grid-column: 1 / -1;
-    height: auto;
-    align-self: auto;
-    width: 100%;
-    box-sizing: border-box;
-  }
 }
 
-
-/* RESPONSIVE - MOBILE (425px)*/
-
+/* Mobile-only overrides */
 @media (max-width: 425px) {
-
-  /* --- Layout --- */
-  .mainContent {
-    padding: 0;
-    gap: 0;
-    margin-left: 0;
-  }
-
-  .quickAssignBtn {
-    padding: 8px 12px;
-    font-size: 10px;
-    font-weight: 600;
-    gap: 5px;
-    border-radius: 8px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
   .quickAssignBtnSmall {
     padding: clamp(5px, 1.5vw, 7px) clamp(6.5px, 2vw, 10px) !important;
     font-size: clamp(7.8px, 2.2vw, 9.5px) !important;
@@ -1851,468 +1771,9 @@
     flex: 1 !important;
     justify-content: center !important;
   }
-  .quickAssignBtn svg {
-    width: 11px;
-    height: 11px;
-  }
 
   .quickAssignBtnSmall svg {
     width: clamp(9.5px, 2.5vw, 12px) !important;
     height: clamp(9.5px, 2.5vw, 12px) !important;
-  }
-
-  /* --- Stats --- */
-  .statsGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    padding: 0 16px;
-    margin-top: 18px;
-  }
-
-  .statCard {
-    padding: 14px 12px;
-    min-height: 88px;
-    border-radius: 10px;
-  }
-
-  .statTitle {
-    font-size: 9px;
-    white-space: normal;
-  }
-
-  .statValue {
-    font-size: 20px;
-  }
-
-  .statSubtext {
-    font-size: 8px;
-    white-space: normal;
-  }
-
-  /* --- Dashboard Cards Base --- */
-  .dashboardMainGrid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-    padding: 0 16px 20px;
-    margin-top: 18px;
-  }
-
-  .gridRow,
-  .columnGroup {
-    display: contents;
-  }
-
-  .cardBlock {
-    grid-column: 1 / -1;
-    padding: 14px 12px;
-    border-radius: 12px;
-    gap: 12px;
-  }
-
-  .cardTitle {
-    font-size: 11px;
-  }
-
-  .criticalCardTitle {
-    font-size: 14.5px;
-  }
-
-  /* --- Badges --- */
-  .badgeGreen {
-    font-size: 8px;
-    padding: 2px 6px;
-  }
-
-  .badgeBlue {
-    font-size: 8px;
-    padding: 2px 6px;
-  }
-
-  .badgeRedTag {
-    font-size: 11.5px;
-    padding: 4px 10px;
-  }
-
-  .badgePending {
-    font-size: 8px;
-    padding: 3px 8px;
-  }
-
-  .badgeCritical,
-  .badgeHighEsc,
-  .badgeMediumEsc {
-    font-size: 7px;
-    padding: 2px 6px;
-  }
-
-  /* --- Team Activity --- */
-  .activityScrollContainer {
-    max-height: 146px;
-  }
-
-  .activityGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px 8px;
-  }
-
-  .memberItem {
-    gap: 7px;
-  }
-
-  .memberAvatar {
-    width: 26px;
-    height: 26px;
-    font-size: 9px;
-  }
-
-  .statusDotGreen,
-  .statusDotOrange {
-    width: 5px;
-    height: 5px;
-  }
-
-  .memberName {
-    font-size: 10px;
-  }
-
-  .memberRole {
-    font-size: 8px;
-  }
-
-  /* --- Critical Tasks --- */
-  .tasksScrollContainer {
-    max-height: 125px;
-  }
-
-  .tasksGrid {
-    grid-template-columns: 1fr;
-    gap: 14px 8px;
-  }
-
-  .taskCardItem {
-    gap: 7px;
-  }
-
-  .taskAvatar {
-    width: 30px;
-    height: 30px;
-    font-size: 12px;
-  }
-
-  .taskTitleText {
-    font-size: 12px;
-    max-width: none;
-    white-space: normal;
-    overflow-wrap: break-word;
-  }
-
-  .badgeHigh,
-  .badgeMed {
-    font-size: 9.5px;
-    padding: 2px 6px;
-  }
-
-  .taskMetaGroup {
-    margin-top: 8px;
-  }
-
-  .taskDueRow,
-  .taskAssignee {
-    font-size: 10.5px;
-  }
-
-  /* --- Team Performance --- */
-  .performanceMetrics {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-
-  .metricMiniCard {
-    padding: 10px 8px;
-    min-height: 58px;
-    border-radius: 8px;
-  }
-
-  .metricLabel {
-    font-size: 8px;
-  }
-
-  .metricVal {
-    font-size: 11px;
-    margin-top: 6px;
-  }
-
-  .chartContainer {
-    padding: 0;
-    margin-top: 12px;
-  }
-
-  .svgChart {
-    height: 100px;
-  }
-
-  .chartAxis {
-    font-size: 7.5px;
-  }
-
-  /* --- Daily Updates --- */
-  .timelineList {
-    gap: 20px;
-  }
-
-  .timelineItem {
-    gap: 8px;
-  }
-
-  .timelineContent {
-    display: grid;
-    grid-template-columns: minmax(58px, 76px) minmax(38px, 50px) minmax(70px, 1fr);
-    align-items: center;
-    gap: 6px;
-    flex: 1;
-    min-width: 0;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .timelineTextGroup {
-    width: auto;
-    max-width: none;
-    min-width: 0;
-  }
-
-  .timelineUser {
-    font-size: 9px;
-    white-space: nowrap;
-  }
-
-  .timelineAction {
-    font-size: 8px;
-    white-space: normal;
-  }
-
-  .timelineTime {
-    font-size: 7.5px;
-  }
-
-  .speechCard {
-    font-size: 8px;
-    padding: 8px 10px;
-    min-height: unset;
-    width: auto;
-    max-width: none;
-    min-width: 0;
-    white-space: normal;
-  }
-
-  /* --- Task Status --- */
-  .statusRows {
-    gap: 14px;
-  }
-
-  .statusName {
-    font-size: 10px;
-  }
-
-  .statusBadgePill {
-    font-size: 8px;
-    padding: 2px 8px;
-  }
-
-  .progressBarTrack {
-    height: 5px;
-  }
-
-  /* --- Action Center --- */
-  .actionScrollContainer {
-    max-height: 210px;
-  }
-
-  .actionList {
-    gap: 16px;
-  }
-
-  .actionCardItem {
-    min-height: auto;
-    gap: 10px;
-    flex-wrap: nowrap;
-    align-items: center;
-  }
-
-  .actionLeft {
-    gap: 10px;
-    overflow: visible;
-  }
-
-  .actionAvatar {
-    width: 28px;
-    height: 28px;
-    font-size: 10px;
-    flex-shrink: 0;
-  }
-
-  .actionMeta {
-    gap: 5px;
-    overflow: visible;
-  }
-
-  .actionType {
-    font-size: 10px;
-    font-weight: 600;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: unset;
-  }
-
-  .actionSub {
-    font-size: 8px;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: unset;
-  }
-
-  .actionBtns {
-    gap: 6px;
-    flex-shrink: 0;
-  }
-
-  .btnReject,
-  .btnApprove {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-  }
-
-  /* --- Escalations --- */
-  .escalationScrollContainer {
-    max-height: 185px;
-  }
-
-  .escalationsList {
-    gap: 16px;
-  }
-
-  .escalationCard {
-    min-height: auto;
-    gap: 10px;
-  }
-
-  .escalationLeft {
-    gap: 10px;
-  }
-
-  .escalationTitle {
-    font-size: 10px;
-  }
-
-  .escalationTime {
-    font-size: 8px;
-    margin-top: 5px;
-  }
-
-  /* --- Modal & Form Elements --- */
-  .modalOverlay {
-    padding: 12px;
-  }
-
-  .modalCard {
-    padding: 16px 14px 14px;
-    border-radius: 10px;
-  }
-
-  .modalHeader {
-    margin-bottom: 10px;
-    gap: 8px;
-  }
-
-  .modalTitle {
-    font-size: 14px;
-  }
-
-  .modalSubtitle {
-    font-size: 10px;
-  }
-
-  .modalRow {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .modalInput,
-  .customSelectHeader,
-  .customSelectOption,
-  .modalTextarea {
-    font-size: 10.5px;
-    padding: 7px 10px;
-  }
-
-  .modalActions {
-    gap: 8px;
-  }
-
-  /* --- Miscellaneous --- */
-  .quickAssignBtn svg {
-    width: 11px;
-    height: 11px;
-  }
-
-  .quickAssignBtnSmall svg {
-    width: 9.5px !important;
-    height: 9.5px !important;
-  }
-
-  .statIconWrap svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .rowTwoColumns,
-  .rowEqualColumns {}
-
-  .rowTwoColumns>.cardBlock:nth-child(1) {
-    order: 1;
-  }
-
-  .rowTwoColumns>.cardBlock:nth-child(2) {
-    order: 2;
-  }
-
-  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(1) {
-    order: 3;
-  }
-
-  .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(1) {
-    order: 4;
-  }
-
-  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(2) {
-    order: 5;
-  }
-
-  .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(2) {
-    order: 6;
-  }
-
-  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(3) {
-    order: 7;
-  }
-
-  .rowTwoColumns>.cardBlock:nth-child(1),
-  .rowTwoColumns>.cardBlock:nth-child(2),
-  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(1),
-  .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(1),
-  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(2),
-  .rowEqualColumns>.columnGroup:nth-child(1)>.cardBlock:nth-child(3),
-  .rowEqualColumns>.columnGroup:nth-child(2)>.cardBlock:nth-child(2) {
-    grid-column: 1 / -1;
-    height: auto;
-    align-self: auto;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .btnReject svg,
-  .btnApprove svg {
-    width: 11px;
-    height: 11px;
   }
 }

@@ -108,7 +108,7 @@ function ManagerTeam({ mobileAction, isMobile }) {
       const csvBlob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(csvBlob);
-      link.setAttribute("download", `Team_Performance_Report_${new Date().toISOString().slice(0,10)}.csv`);
+      link.setAttribute("download", `Team_Performance_Report_${new Date().toISOString().slice(0, 10)}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -146,7 +146,7 @@ function ManagerTeam({ mobileAction, isMobile }) {
     };
 
     setMembers(prev => [...prev, newMember]);
-    
+
     // Add dynamic activity timeline entry for adding the member
     const newActivity = {
       user: newMember.name,
@@ -425,8 +425,8 @@ function ManagerTeam({ mobileAction, isMobile }) {
                 <AreaChart data={workloadData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
                   <defs>
                     <linearGradient id="workloadGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#6d78ff" stopOpacity={0.8}/>
-                      <stop offset="100%" stopColor="#2035ff" stopOpacity={0}/>
+                      <stop offset="0%" stopColor="#6d78ff" stopOpacity={0.8} />
+                      <stop offset="100%" stopColor="#2035ff" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <ReferenceLine y={100} stroke="rgba(255, 255, 255, 0.08)" strokeWidth={1} />
@@ -710,8 +710,8 @@ function ManagerTeam({ mobileAction, isMobile }) {
                 <label className={styles.modalLabel}>Include Sections</label>
                 {[
                   { key: "performance", label: "Team Performance Stats" },
-                  { key: "workload",    label: "Workload Analysis" },
-                  { key: "activity",   label: "Detailed Activity Logs" }
+                  { key: "workload", label: "Workload Analysis" },
+                  { key: "activity", label: "Detailed Activity Logs" }
                 ].map(({ key, label }) => (
                   <div
                     key={key}

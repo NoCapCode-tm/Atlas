@@ -371,20 +371,22 @@ function ManagerDashboard() {
                   <h2 className={styles.cardTitle}>Daily Updates</h2>
                 </div>
 
-                <div className={styles.timelineList}>
-                  {dailyUpdates.map((update, idx) => (
-                    <div key={idx} className={styles.timelineItem}>
-                      <div className={update.nodeClass} />
-                      <div className={styles.timelineContent}>
-                        <div className={styles.timelineTextGroup}>
-                          <span className={styles.timelineUser}>{update.user}</span>
-                          <span className={styles.timelineAction}>{update.action}</span>
+                <div className={styles.timelineScrollContainer}>
+                  <div className={styles.timelineList}>
+                    {dailyUpdates.map((update, idx) => (
+                      <div key={idx} className={styles.timelineItem}>
+                        <div className={update.nodeClass} />
+                        <div className={styles.timelineContent}>
+                          <div className={styles.timelineTextGroup}>
+                            <span className={styles.timelineUser}>{update.user}</span>
+                            <span className={styles.timelineAction}>{update.action}</span>
+                          </div>
+                          <span className={styles.timelineTime}>{update.time}</span>
+                          <div className={styles.speechCard}>{update.quote}</div>
                         </div>
-                        <span className={styles.timelineTime}>{update.time}</span>
-                        <div className={styles.speechCard}>{update.quote}</div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
 
