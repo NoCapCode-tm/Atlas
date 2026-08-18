@@ -27,6 +27,7 @@
   background: #292929;
   border: 0.5px solid #a5a5a5;
   border-radius: 14px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   margin-left: 24px;
@@ -42,16 +43,19 @@
 .searchInput {
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
   background: transparent;
   border: none;
   outline: none;
   padding-left: 52px;
+  padding-right: 16px;
   font-family: "Outfit", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
   line-height: 130.18%;
   color: #eeeeff;
+  text-overflow: ellipsis;
 }
 
 .searchInput::placeholder {
@@ -154,6 +158,8 @@
   top: calc(100% + 14px);
   right: 0;
   width: 160px;
+  max-width: 60vw;
+  box-sizing: border-box;
   background: #1c212d;
   border: 1px solid #2a3142;
   border-radius: 12px;
@@ -199,12 +205,20 @@
 
 .logomenu {
   width: 100%;
+  box-sizing: border-box;
   display: flex;
   padding: 20px 30px;
   gap: 75px;
   align-items: center;
   justify-content: center;
   color: #ffffff;
+}
+
+@media (max-width: 360px) {
+  .logomenu {
+    padding: 16px 20px;
+    gap: 40px;
+  }
 }
 
 .reportsDropdown {
@@ -221,12 +235,20 @@
 
 .reportItem {
   width: 90%;
+  box-sizing: border-box;
   color: #e2e8f0;
   padding: 10px 16px;
   margin: 6px 0;
   cursor: pointer;
   font-size: 14px;
   transition: all 0.3s ease;
+}
+
+@media (max-width: 360px) {
+  .reportItem {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
 }
 
 .reportItem:hover {
@@ -245,11 +267,13 @@
 .mobilemenu {
   position: relative;
   width: 300px;
+  max-width: 85vw;
   height: 100vh;
   background: #0f0f0f;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .dashboardmenu {
@@ -260,11 +284,20 @@
   font-weight: 400;
   font-size: 15px;
   width: 95%;
+  box-sizing: border-box;
   margin: 0 auto;
   color: #94a3b8;
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 10px;
+}
+
+@media (max-width: 360px) {
+  .dashboardmenu {
+    padding: 10px 16px;
+    gap: 10px;
+    font-size: 14px;
+  }
 }
 
 .dashboardmenu:hover {
@@ -275,6 +308,7 @@
 .dashboardmenucolor {
   display: flex;
   width: 80%;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
@@ -287,6 +321,15 @@
   font-size: 15px;
   background-color: #0050b8;
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+@media (max-width: 360px) {
+  .dashboardmenucolor {
+    width: 90%;
+    padding: 10px 16px;
+    gap: 10px;
+    font-size: 14px;
+  }
 }
 
 .employeeInfo {

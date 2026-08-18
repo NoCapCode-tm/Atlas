@@ -234,7 +234,7 @@ function People() {
             onClick={() => setShowMoreFilters(!showMoreFilters)}
           >
             <SlidersHorizontal size={13} />
-            More Filters
+            <span className={styles.moreFiltersLabel}>More Filters</span>
           </button>
 
           {showMoreFilters && (
@@ -318,6 +318,7 @@ function People() {
       </div>
 
       <div className={styles.tableCard}>
+        <div className={styles.desktopview}>
         <div className={styles.tableScroll}>
           <div className={styles.employeeListHead}>
             <span className={styles.tableHeadCell}>EMPLOYEE</span>
@@ -398,6 +399,58 @@ function People() {
               </div>
             ))}
           </div>
+        </div>
+        </div>
+
+        <div className={styles.mobileView}>
+          {employees.map((emp, i) => (
+            <div className={styles.employeeCard} key={i}>
+              <div className={styles.cardTop}>
+                <Avatar name={emp.name} src={emp.avatarUrl} size={48} fontSize={16} />
+                <div className={styles.cardUser}>
+                  <h3>{emp.name}</h3>
+                  <p>{emp.email}</p>
+                </div>
+                <span
+                  className={`${styles.mobileStatus} ${
+                    styles[
+                      (STATUS_CONFIG[emp.status] || STATUS_CONFIG.Active).className
+                    ]
+                  }`}
+                >
+                  {(STATUS_CONFIG[emp.status] || STATUS_CONFIG.Active).label}
+                </span>
+              </div>
+
+              <div className={styles.cardDivider} />
+
+              <div className={styles.cardGrid}>
+                <div>
+                  <span className={styles.cardLabel}>Role</span>
+                  <h4>{emp.role}</h4>
+                </div>
+                <div>
+                  <span className={styles.cardLabel}>Department</span>
+                  <h4>{emp.dept}</h4>
+                </div>
+                <div>
+                  <span className={styles.cardLabel}>Manager</span>
+                  <h4>{emp.manager}</h4>
+                </div>
+                <div>
+                  <span className={styles.cardLabel}>Actions</span>
+                  <h4>
+                    <button
+                      className={styles.actionsBtn}
+                      onClick={() => navigate(`/hr/employees/${i}`)}
+                    >
+                      View Profile
+                    </button>
+                  </h4>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className={styles.paginationRow}>

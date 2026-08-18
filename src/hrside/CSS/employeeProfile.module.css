@@ -3,8 +3,15 @@
 .mainContainer {
   background: #050505;
   width: 100%;
+  min-height: 100vh;
   padding: 28px 50px;
   box-sizing: border-box;
+}
+
+@media screen and (max-width: 900px) {
+  .mainContainer {
+    padding: 24px 32px;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -54,6 +61,12 @@
   gap: 20px;
 }
 
+@media screen and (max-width: 480px) {
+  .profileHeaderLeft {
+    gap: 14px;
+  }
+}
+
 .profileAvatar {
   width: 72px;
   height: 72px;
@@ -70,12 +83,26 @@
   flex-shrink: 0;
 }
 
+@media screen and (max-width: 480px) {
+  .profileAvatar {
+    width: 56px;
+    height: 56px;
+    font-size: 18px;
+  }
+}
+
 .profileName {
   font-family: "Outfit", sans-serif;
   font-weight: 700;
   font-size: 26px;
   color: #ddddff;
   letter-spacing: -0.26px;
+}
+
+@media screen and (max-width: 480px) {
+  .profileName {
+    font-size: 20px;
+  }
 }
 
 .profileRole {
@@ -225,6 +252,8 @@
   flex-wrap: wrap;
 }
 
+
+
 .contactCard {
   background: #0A0A0A;
   border: 0.85px solid #A5A5A5;
@@ -293,13 +322,14 @@
   flex: 2;
   min-width: 280px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 16px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 480px) {
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 }
 
@@ -327,6 +357,12 @@
   white-space: normal;
 }
 
+@media screen and (max-width: 480px) {
+  .statLabel {
+    max-width: none;
+  }
+}
+
 .statValueRow {
   display: flex;
   align-items: center;
@@ -342,6 +378,13 @@
   color: #e1e2ec;
 }
 
+@media screen and (max-width: 480px) {
+  .statValue {
+    font-size: 30px;
+    line-height: 36px;
+  }
+}
+
 .statValueGreen {
   font-family: "Outfit", sans-serif;
   font-weight: 700;
@@ -349,6 +392,13 @@
   line-height: 48px;
   letter-spacing: -0.8px;
   color: #2e8b5a;
+}
+
+@media screen and (max-width: 480px) {
+  .statValueGreen {
+    font-size: 30px;
+    line-height: 36px;
+  }
 }
 
 .statDeltaPositive {
@@ -391,6 +441,8 @@
   flex-wrap: wrap;
 }
 
+
+
 .orgCard {
   background: #0A0A0A;
   border: 0.85px solid #A5A5A5;
@@ -410,11 +462,19 @@
   align-items: center;
   gap: 16px;
   width: 100%;
-  height: 100px;
+  min-height: 100px;
   padding: 18px;
   background: #1a1a1a;
   border: 1px solid rgba(66, 70, 84, 0.15);
   border-radius: 4px;
+}
+
+@media screen and (max-width: 480px) {
+  .managerRow {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 14px;
+  }
 }
 
 .managerAvatar {
@@ -475,6 +535,13 @@
   align-items: flex-start;
   margin-top: 24px;
   padding: 0 4px;
+}
+
+@media screen and (max-width: 640px) {
+  .lifecycleTrack {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
 }
 
 .lifecycleStage {
@@ -575,6 +642,8 @@
   padding-bottom: 8px;
   margin-bottom: 18px;
   border-bottom: 1px solid rgba(66, 70, 84, 0.15);
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .notesHeader .cardTitle {
@@ -611,6 +680,12 @@
   z-index: 0;
 }
 
+@media screen and (max-width: 480px) {
+  .notesList::before {
+    left: 24px;
+  }
+}
+
 .noteItem {
   display: flex;
   gap: 12px;
@@ -638,6 +713,13 @@
   flex-shrink: 0;
   position: relative;
   z-index: 1;
+}
+
+@media screen and (max-width: 480px) {
+  .noteDot,
+  .noteDotActive {
+    margin-left: 20px;
+  }
 }
 
 .noteBody {
@@ -698,4 +780,50 @@
   font-size: 11.5px;
   color: #94a3b8;
   margin: 6px 0 0;
+}
+
+@media screen and (max-width: 900px) {
+  .mainContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .backBtn {
+    order: 0;
+  }
+
+  .profileHeader {
+    order: 1;
+    margin-bottom: 0;
+  }
+
+  .topGrid,
+  .secondGrid,
+  .rightColumn {
+    display: contents;
+  }
+
+  .contactCard {
+    order: 2;
+    flex: none;
+  }
+
+  .orgCard {
+    order: 3;
+    flex: none;
+  }
+
+  .statsGrid {
+    order: 4;
+  }
+
+  .lifecycleCard {
+    order: 5;
+  }
+
+  .notesCard {
+    order: 6;
+    flex: none;
+  }
 }
