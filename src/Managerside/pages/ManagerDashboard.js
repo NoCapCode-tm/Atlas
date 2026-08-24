@@ -17,6 +17,7 @@ import {
 import ManagerSidebar from "../components/ManagerSidebar";
 import ManagerHeader from "../components/ManagerHeader";
 import ManagerTeam from "../components/ManagerTeam";
+import ManagerWork, { initialTasks, kanbanTasks } from "../components/ManagerWork";
 
 function ManagerDashboard() {
   const width = useWindowWidth();
@@ -39,6 +40,9 @@ function ManagerDashboard() {
   const [openDropdown, setOpenDropdown] = useState(null); // 'assignee' | 'priority' | null
   const assigneeRef = useRef(null);
   const priorityRef = useRef(null);
+  
+  const [listTasks, setListTasks] = useState(initialTasks);
+  const [kanbanData, setKanbanData] = useState(kanbanTasks);
 
   const handleModalClose = () => {
     setShowModal(false);
@@ -50,6 +54,37 @@ function ManagerDashboard() {
       alert("Please select both Assignee and Priority.");
       return;
     }
+    
+    const getInitials = (name) => {
+      const parts = name.split(" ");
+      if (parts.length > 1) return (parts[0][0] + parts[1][0]).toUpperCase();
+      return name.substring(0, 2).toUpperCase();
+    };
+
+    const newTaskList = {
+      id: Date.now(),
+      title: modalForm.title,
+      desc: modalForm.description || "Newly assigned task",
+      assignee: modalForm.assignee,
+      priority: modalForm.priority,
+      status: "Todo",
+      dueDate: "Today",
+      sla: "1 days left",
+      slaStatus: "normal",
+      impact: 5,
+    };
+    
+    const newTaskKanban = {
+      id: `todo-${Date.now()}`,
+      title: modalForm.title,
+      priority: modalForm.priority,
+      assignee: getInitials(modalForm.assignee),
+      status: 'Todo'
+    };
+
+    setListTasks([newTaskList, ...listTasks]);
+    setKanbanData([newTaskKanban, ...kanbanData]);
+    
     setShowModal(false);
     setOpenDropdown(null);
     setModalForm({ title: "", assignee: "", priority: "", description: "" });
@@ -203,10 +238,12 @@ function ManagerDashboard() {
         userName={storedName}
         initials={initials}
       >
-        <button className={styles.quickAssignBtn} onClick={() => setShowModal(true)}>
-          <Plus size={16} />
-          <span>Quick Assign</span>
-        </button>
+        {!(activeTab === "Work" && width <= 768) && (
+          <button className={styles.quickAssignBtn} onClick={() => setShowModal(true)}>
+            <Plus size={16} />
+            <span>Quick Assign</span>
+          </button>
+        )}
       </ManagerHeader>
 
       <div className={styles.dashboardBody}>
@@ -482,6 +519,14 @@ function ManagerDashboard() {
         </>
         )}
         {activeTab === "My Team" && <ManagerTeam />}
+        {activeTab === "Work" && (
+          <ManagerWork 
+            listTasks={listTasks} 
+            setListTasks={setListTasks} 
+            kanbanData={kanbanData} 
+            setKanbanData={setKanbanData} 
+          />
+        )}
       </main>
       </div>
 

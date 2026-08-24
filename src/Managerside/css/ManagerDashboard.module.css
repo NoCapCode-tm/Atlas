@@ -300,26 +300,12 @@
   min-height: 0;
   box-sizing: border-box;
   max-height: 270px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.05);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .activityScrollContainer::-webkit-scrollbar {
-  width: 8px;
-}
-
-.activityScrollContainer::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-}
-
-.activityScrollContainer::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 4px;
-}
-
-.activityScrollContainer::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.6);
+  display: none;
 }
 
 .activityGrid {
@@ -405,7 +391,6 @@
   color: #94a3b8;
 }
 
-/* Shared scroll containers for tasks, actions, escalations */
 .tasksScrollContainer,
 .actionScrollContainer,
 .escalationScrollContainer {
@@ -414,38 +399,15 @@
   overflow-x: hidden;
   min-height: 0;
   box-sizing: border-box;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.05);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .tasksScrollContainer::-webkit-scrollbar,
 .actionScrollContainer::-webkit-scrollbar,
 .escalationScrollContainer::-webkit-scrollbar,
 .timelineScrollContainer::-webkit-scrollbar {
-  width: 8px;
-}
-
-.tasksScrollContainer::-webkit-scrollbar-track,
-.actionScrollContainer::-webkit-scrollbar-track,
-.escalationScrollContainer::-webkit-scrollbar-track,
-.timelineScrollContainer::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-}
-
-.tasksScrollContainer::-webkit-scrollbar-thumb,
-.actionScrollContainer::-webkit-scrollbar-thumb,
-.escalationScrollContainer::-webkit-scrollbar-thumb,
-.timelineScrollContainer::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 4px;
-}
-
-.tasksScrollContainer::-webkit-scrollbar-thumb:hover,
-.actionScrollContainer::-webkit-scrollbar-thumb:hover,
-.escalationScrollContainer::-webkit-scrollbar-thumb:hover,
-.timelineScrollContainer::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.6);
+  display: none;
 }
 
 /* Critical Tasks */
