@@ -52,13 +52,15 @@ function ManagerHeader({
           </div>
         </nav>
 
-        <div className={styles.mobileTitleSection}>
-          <div className={styles.headerTitleGroup}>
-            <h1 className={styles.headerTitle}>{title}</h1>
-            {subtitle && <p className={styles.headerSubtitle}>{subtitle}</p>}
+        {(title || subtitle || children) ? (
+          <div className={styles.mobileTitleSection}>
+            <div className={styles.headerTitleGroup}>
+              <h1 className={styles.headerTitle}>{title}</h1>
+              {subtitle && <p className={styles.headerSubtitle}>{subtitle}</p>}
+            </div>
+            {children && <div className={styles.mobileHeaderActions}>{children}</div>}
           </div>
-          {children && <div className={styles.mobileHeaderActions}>{children}</div>}
-        </div>
+        ) : null}
       </>
     );
   }
@@ -66,21 +68,19 @@ function ManagerHeader({
   return (
     <header className={styles.dashboardHeader}>
       <div className={styles.headerLeftSection}>
-        {collapsed && (
-          <div
-            className={styles.headerLogoToggle}
-            onClick={() => setCollapsed(false)}
-            title="Expand sidebar"
-          >
-            <svg width="30" height="30" viewBox="0 0 67 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M4.24084 51.7974L32.5664 9.06055L62.2408 51.7974C40.0276 37.9745 27.3506 37.7995 4.24084 51.7974Z"
-                stroke="#DDDDFF"
-                strokeWidth="10.1754"
-              />
-            </svg>
-          </div>
-        )}
+        <div
+          className={styles.headerLogoToggle}
+          onClick={() => setCollapsed(!collapsed)}
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          <svg width="30" height="30" viewBox="0 0 67 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M4.24084 51.7974L32.5664 9.06055L62.2408 51.7974C40.0276 37.9745 27.3506 37.7995 4.24084 51.7974Z"
+              stroke="#DDDDFF"
+              strokeWidth="10.1754"
+            />
+          </svg>
+        </div>
 
         <div className={styles.headerTitleGroup}>
           <h1 className={styles.headerTitle}>{title}</h1>

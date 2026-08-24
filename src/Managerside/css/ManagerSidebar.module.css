@@ -1,11 +1,9 @@
-/* Sidebar Layout */
-
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
-  z-index: 1000;
+  z-index: 1020;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -18,22 +16,6 @@
   transition: transform 0.3s ease, width 0.3s ease, min-width 0.3s ease;
 }
 
-.sidebarOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 999;
-  animation: fadeInOverlay 0.2s ease-out;
-}
-
-@keyframes fadeInOverlay {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
 .sidebar.sidebarCollapsed {
   transform: translateX(-300px);
   width: 0;
@@ -41,6 +23,17 @@
   padding: 0;
   border-right: none;
   overflow: hidden;
+}
+
+.sidebarOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1015;
+  animation: fadeInOverlay 0.2s ease-out;
 }
 
 .sidebarTop {
@@ -154,22 +147,32 @@
   color: #94a3b8;
 }
 
-/* Mobile Media Query overrides */
-@media (max-width: 480px) {
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 425px) {
   .logomenu {
     height: 60px;
   }
-  
+
   .profileAvatar {
     width: 30px;
     height: 30px;
     font-size: 12px;
   }
-  
+
   .profileName {
     font-size: 13px;
   }
-  
+
   .profileBox {
     padding-left: 27px;
     gap: 12px;

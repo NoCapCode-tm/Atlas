@@ -1,27 +1,24 @@
-/* Header Layout */
-
 .dashboardHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: auto;
+  width: 100%;
   min-height: 60px;
   height: auto;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  background-color: #0E0F13;
+  padding: 12px 20px;
+  background-color: #0e0f13;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
-  margin-left: clamp(-48px, -2.5vw, -24px);
-  margin-right: clamp(-48px, -2.5vw, -24px);
-  padding-left: clamp(24px, 2.5vw, 48px);
-  padding-right: clamp(24px, 2.5vw, 48px);
+  position: sticky;
+  top: 0;
+  z-index: 1010;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .headerLeftSection {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 15px;
 }
 
 .headerLogoToggle {
@@ -102,15 +99,15 @@
   border-radius: 50%;
 }
 
-/* Mobile Styles */
+/* Mobile top navigation layout */
 .mobileNavbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   height: 54px;
-  padding: 0 12px; /* Consistent with employee mobile container */
-  background: #0E0F13;
+  padding: 0 12px;
+  background: #0e0f13;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
   flex-shrink: 0;
@@ -133,7 +130,7 @@
 .navIcons {
   display: flex;
   align-items: center;
-  gap: 6px; /* Consistent with employee mobile right section */
+  gap: 6px;
 }
 
 .iconBtn {
@@ -210,41 +207,6 @@
   flex-shrink: 0;
 }
 
-/* Tablet Media Query overrides */
-@media (max-width: 768px) {
-  .dashboardHeader {
-    min-height: 56px;
-    padding-left: 16px;
-    padding-right: 16px;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  
-  .headerTitle {
-    font-size: 14px;
-  }
-  
-  .headerSubtitle {
-    font-size: 10px;
-  }
-
-  .notificationBtn {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .notificationBtn svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .notificationBadge {
-    top: 5px;
-    right: 5px;
-  }
-}
-
-/* Mobile Title Section */
 .mobileTitleSection {
   display: flex;
   align-items: center;
@@ -259,13 +221,45 @@
   align-items: center;
 }
 
-@media (max-width: 480px) {
+/* Responsive Overrides */
+@media (max-width: 768px) {
+  .dashboardHeader {
+    min-height: 56px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
   .headerTitle {
-    font-size: 20px;
+    font-size: 14px;
+  }
+
+  .headerSubtitle {
+    font-size: 10px;
+  }
+
+  .notificationBtn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .notificationBtn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .notificationBadge {
+    top: 5px;
+    right: 5px;
+  }
+}
+
+@media (max-width: 425px) {
+  .headerTitle {
+    font-size: 13px;
     font-weight: 700;
   }
-  
+
   .headerSubtitle {
-    font-size: 11px;
+    font-size: 7px;
   }
 }
