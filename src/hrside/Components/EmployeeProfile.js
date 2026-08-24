@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "../CSS/employeeProfile.module.css";
+import EditEmployeeModal from "./EditEmployeeModal";
 import {
   Search,
   ArrowLeft,
@@ -89,10 +90,12 @@ function EngagementIcon({ size = 20 }) {
     </svg>
   );
 }
+
 function EmployeeProfile() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [emailCopied, setEmailCopied] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(employee.email);
@@ -100,7 +103,6 @@ function EmployeeProfile() {
     setTimeout(() => setEmailCopied(false), 1500);
   };
 
-  // Placeholder data — swap for a real lookup (by `id`) once wired to your data source.
   const employee = {
     name: "Sarah Jenkins",
     role: "Senior Staff Engineer",
@@ -217,7 +219,10 @@ function EmployeeProfile() {
           </div>
         </div>
         <div className={styles.profileHeaderRight}>
-          <button className={styles.editProfileBtn}>
+          <button
+            className={styles.editProfileBtn}
+            onClick={() => setIsEditOpen(true)}
+          >
             <Pencil size={13} />
             Edit Profile
           </button>
@@ -290,7 +295,11 @@ function EmployeeProfile() {
       </div>
 
       <div className={styles.secondGrid}>
-        <div className={styles.orgCard} style={{ flex: 1 }}>
+        <div
+          className={styles.orgCard}
+          style={{ flex: 1, cursor: "pointer" }}
+          onClick={() => navigate(`/hr/employees/${id}/organization-insights`)}
+        >
           <div className={styles.cardTitle}>Organization</div>
           <div className={styles.managerRow}>
             <div className={styles.managerAvatar}>
@@ -419,6 +428,17 @@ function EmployeeProfile() {
           </div>
         </div>
       </div>
+
+      {isEditOpen && (
+        <EditEmployeeModal
+          employee={employee}
+          onClose={() => setIsEditOpen(false)}
+          onSave={(updated) => {
+            console.log("Saved:", updated);
+            setIsEditOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 }

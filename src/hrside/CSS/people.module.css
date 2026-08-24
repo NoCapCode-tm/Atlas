@@ -4,7 +4,7 @@
   background: #050505;
   width: 100%;
   min-height: 100vh;
-  padding: 28px 50px;
+  padding: 2% 6%;
   box-sizing: border-box;
 }
 
@@ -104,15 +104,9 @@
   filter: brightness(1.1);
 }
 
-@media screen and (max-width: 900px) {
-  .mainContainer {
-    padding: 24px 32px;
-  }
-}
-
 @media screen and (max-width: 480px) {
   .mainContainer {
-    padding: 20px 16px;
+    padding: 2% 4%;
   }
   .topright {
     width: 100%;
@@ -336,6 +330,18 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23c3c6d6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
+  color-scheme: dark;
+}
+
+.filterSelect option {
+  background-color: #191b23;
+  color: #e1e2ec;
+}
+
+.filterSelect option:checked,
+.filterSelect option:hover {
+  background-color: #0050b8;
+  color: #ddddff;
 }
 
 .resetBtn {
@@ -1007,44 +1013,162 @@
 
 .employeeCard{
     background:#101115;
-    border:0.5px solid #a5a5a5;
-    padding:18px;
+    border:1px solid #23262d;
+    border-radius:16px;
+    padding:20px;
     margin-bottom:16px;
 }
 .cardTop{ display:flex; align-items:center; gap:14px; }
-.cardUser{ flex:1; }
-.cardUser h3{ color:#fff; font-size:22px; font-weight:600; margin:0; }
-.cardUser p{ color:#9ca3af; font-size:14px; margin-top:4px; }
-.cardDivider{ width:100%; height:1px; background:#252831; margin:16px 0; }
-.cardGrid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.cardLabel{ display:block; color:#8f939b; font-size:13px; margin-bottom:8px; }
-.cardGrid h4{ margin:0; color:white; font-size:16px; font-weight:500; }
-.mobileStatus{
-    display:inline-flex; justify-content:center; align-items:center;
-    min-width:88px; height:32px; border-radius:999px;
-    padding: 0 14px;
-    white-space: nowrap;
-    font-size:12px; font-weight:600; text-transform:uppercase;
+.cardAvatarWrap{ position:relative; flex-shrink:0; }
+.presenceDot{
+  position:absolute;
+  bottom:0;
+  right:0;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  border:2px solid #101115;
 }
-.mobileStatus.statusActive {
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  color: #34d399;
+.cardUser{ flex:1; min-width:0; }
+.cardUser h3{ color:#fff; font-size:20px; font-weight:600; margin:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cardUser p{ color:#9ca3af; font-size:13.5px; margin-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cardDivider{ width:100%; height:1px; background:#252831; margin:18px 0; }
+
+.cardRoleBlock{
+  margin-top:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.cardRoleTitle{
+  margin:0;
+  color:#fff;
+  font-family:"Outfit", sans-serif;
+  font-size:19px;
+  font-weight:600;
+}
+.cardDeptBadge{
+  align-self:flex-start;
+  display:inline-block;
+  padding:5px 12px;
+  background:#282a32;
+  border:1px solid #23262d;
+  border-radius:6px;
+  font-family:"Outfit", sans-serif;
+  font-weight:500;
+  font-size:12px;
+  color:#c3c6d6;
 }
 
-.mobileStatus.statusOnboarding {
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  color: #fbbf24;
+.cardBottomRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
 }
-
-.mobileStatus.statusExitPending {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #f87171;
+.cardManager{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.cardManagerLabel{
+  font-family:"Outfit", sans-serif;
+  font-size:13px;
+  color:#94a3b8;
 }
 
 @media screen and (max-width: 860px){
   .desktopview{ display:none; opacity:0; }
   .mobileView{ display:block; opacity:1; padding:10px; }
+}
+
+@media screen and (max-width: 420px) {
+  .cardUser h3 {
+    font-size: 17px;
+  }
+
+  .cardManagerLabel {
+    display: none;
+  }
+}
+.customSelectWrap {
+  position: relative;
+}
+
+.customSelectTrigger {
+  width: 100%;
+  height: 38px;
+  box-sizing: border-box;
+  background: #191b23;
+  border: 1px solid #23262d;
+  border-radius: 0;
+  padding: 0 32px 0 12px;
+  margin: 0;
+  color: #e1e2ec;
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+}
+
+.customSelectTrigger span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.customSelectChevron {
+  color: #c3c6d6;
+  flex-shrink: 0;
+}
+
+.customDropdownList {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  min-width: 160px;
+  max-height: 240px;
+  overflow-y: auto;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  gap: 2px;
+}
+
+.customDropdownItem,
+.customDropdownItemActive {
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12.5px;
+  color: #e1e2ec;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.customDropdownItem:hover {
+  background: rgba(160, 160, 160, 0.1);
+}
+
+.customDropdownItemActive {
+  background: #0050b8;
+  color: #ddddff;
 }

@@ -1,0 +1,482 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap");
+
+/* ---------- SHELL ---------- */
+.shell {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: #050505;
+  font-family: "Outfit", sans-serif;
+}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: #0e1015;
+  border-right: 1px solid #23262d;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 0;
+  box-sizing: border-box;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 32px;
+}
+
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 16px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #9ca3af;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.navItem:hover {
+  background: #1a1c22;
+  color: #ddddff;
+}
+
+.navItemActive {
+  background: #0050b8;
+  color: #ffffff;
+}
+
+.navFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 16px;
+}
+
+/* ---------- MAIN ---------- */
+.main {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  min-height: 100vh;
+  background: #050505;
+  padding: 2% 2.5%;
+  box-sizing: border-box;
+}
+
+/* ---------- TOPBAR ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.searchBox {
+  flex: 1;
+  max-width: 480px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: #101115;
+  border: 1px solid #23262d;
+  border-radius: 8px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.searchBox input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ddddff;
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+}
+
+.searchBox input::placeholder {
+  color: #6b7280;
+}
+
+.avatarBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1a1c22;
+  border: 1px solid #23262d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ddddff;
+  flex-shrink: 0;
+}
+
+/* ---------- SECTION HEADER ---------- */
+.sectionHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #ddddff;
+}
+
+.viewAllLink {
+  font-size: 12.5px;
+  color: #4c8dff;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.viewAllLink:hover {
+  text-decoration: underline;
+}
+
+/* ---------- REQUISITION CARDS ---------- */
+.reqGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.reqCard {
+  background: linear-gradient(287.95deg, rgba(0, 80, 184, 0.5) 1.36%, rgba(18, 20, 28, 0.5) 100%);
+  border: 1px solid #23262d;
+  border-radius: 14px;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.reqCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3);
+  border-color: rgba(0, 80, 184, 0.5);
+}
+
+.reqTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.deptBadge {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.deptEngineering {
+  background: rgba(0, 80, 184, 0.15);
+  color: #6d9dff;
+}
+
+.deptDesign {
+  background: rgba(139, 92, 246, 0.15);
+  color: #a78bfa;
+}
+
+.deptMarketing {
+  background: rgba(245, 158, 11, 0.15);
+  color: #ffb34c;
+}
+
+.reqMenuDots {
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.reqTitle {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.reqLocation {
+  font-size: 11.5px;
+  color: #9ca3af;
+  margin-bottom: 16px;
+}
+
+.reqStatsRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 10px;
+}
+
+.reqStatItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* ---------- PIPELINE HEADER ---------- */
+.pipelineHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pipelineTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #ddddff;
+}
+
+.pipelineActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: #101115;
+  border: 1px solid #23262d;
+  border-radius: 8px;
+  color: #ddddff;
+  font-family: "Outfit", sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.filterBtn:hover {
+  background: #1a1c22;
+}
+
+.addCandidateBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: #0050b8;
+  border: 1px solid #6d78ff;
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: "Outfit", sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.addCandidateBtn:hover {
+  filter: brightness(1.1);
+}
+
+/* ---------- KANBAN ---------- */
+.kanbanBoard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .kanbanBoard {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .kanbanBoard {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kanbanColumn {
+  background: #0e1015;
+  border: 1px solid #23262d;
+  border-radius: 14px;
+  min-height: 560px;
+  padding: 14px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.kanbanColHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ddddff;
+  padding-bottom: 12px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #23262d;
+}
+
+.kanbanCount {
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+  font-size: 10px;
+  font-weight: 600;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- CANDIDATE CARD ---------- */
+.candidateCard {
+  background: #16181f;
+  border: 1px solid #23262d;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.candidateCard:hover {
+  transform: scale(1.015);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  border-color: rgba(0, 80, 184, 0.4);
+}
+
+.candidateTopRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.candidateAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #5b45df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.candidateInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.candidateName {
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.candidateRole {
+  font-size: 11px;
+  color: #9ca3af;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.candidateMetaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.candidateMeta {
+  font-size: 10.5px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.matchBadge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.matchHigh {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.matchMed {
+  background: rgba(245, 158, 11, 0.15);
+  color: #ffb34c;
+}
+
+.candidateRejected .candidateName,
+.candidateRejected .candidateRole {
+  color: #6b7280;
+}
+
+.rejectedTag {
+  font-size: 10.5px;
+  color: #ff5353;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: #23262d;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #0050b8;
+  border-radius: 999px;
+}
+
+.roundLabel {
+  font-size: 10px;
+  color: #6b7280;
+}
