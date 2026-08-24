@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../CSS/activeRequisitions.module.css";
+import AddCandidateModal from "./AddCandidateModal";
 import {
   Search,
   Home,
@@ -18,6 +19,7 @@ import {
 } from "lucide-react";
 
 function ActiveRequisitions() {
+  const [showAddCandidate, setShowAddCandidate] = useState(false);
   const requisitions = [
     {
       dept: "ENGINEERING",
@@ -166,7 +168,10 @@ function ActiveRequisitions() {
               <Filter size={13} />
               Filter
             </button>
-            <button className={styles.addCandidateBtn}>
+            <button
+              className={styles.addCandidateBtn}
+              onClick={() => setShowAddCandidate(true)}
+            >
               <Plus size={13} />
               Add Candidate
             </button>
@@ -228,6 +233,10 @@ function ActiveRequisitions() {
             </div>
           ))}
         </div>
+
+        {showAddCandidate && (
+          <AddCandidateModal onClose={() => setShowAddCandidate(false)} />
+        )}
     </div>
   );
 }
