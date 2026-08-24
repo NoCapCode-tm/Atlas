@@ -5,6 +5,7 @@ import {
   UserCircle,
   Settings,
   LogOut,
+  Search,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -135,6 +136,15 @@ function HRNavbar() {
               strokeWidth="10.1754"
             />
           </svg>
+        </div>
+
+        <div className={styles.searchBar}>
+          <Search size={18} className={styles.searchIcon} />
+          <input
+            type="text"
+            className={styles.searchInput}
+            placeholder="Search Employees, Project, Tasks"
+          />
         </div>
 
         <div className={styles.right}>

@@ -508,15 +508,36 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.actionList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.actionList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.actionList::-webkit-scrollbar-thumb {
+  background: #23262d;
+  border-radius: 8px;
+}
+
+.actionList::-webkit-scrollbar-thumb:hover {
+  background: #2c303a;
 }
 
 .actionItem {
   display: flex;
-  gap: 10px;
-  padding: 14px 16px;
-  border-radius: 10px;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: 0;
   background: #191b23;
   border: 1px solid transparent;
+  min-height: 100px;
 }
 
 .actionItemRed {
@@ -566,14 +587,14 @@
 .actionItemTitle {
   font-family: "Outfit", sans-serif;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
   color: #e1e2ec;
 }
 
 .actionBadge {
   font-family: "Outfit", sans-serif;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 13px;
   flex-shrink: 0;
   cursor: pointer;
 }
@@ -596,10 +617,10 @@
 .actionItemText {
   font-family: "Outfit", sans-serif;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 13px;
+  line-height: 1.5;
   color: #94a3b8;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 /* Leaves & Exits */
@@ -1160,9 +1181,9 @@
   color: #94a3b8;
 }
 .actionIconBadgeRed {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
   background: rgba(255, 84, 71, 0.14);
   display: flex;
   align-items: center;
@@ -1171,9 +1192,9 @@
 }
 
 .actionIconBadgeOrange {
-  width: 22.5px;
-  height: 24.25px;
-  border-radius: 6px;
+  width: 32px;
+  height: 34px;
+  border-radius: 8px;
   background: rgba(255, 174, 76, 0.1);
   display: flex;
   align-items: center;
@@ -1182,31 +1203,9 @@
 }
 
 .actionIconBadgeBlue {
-  width: 26px;
-  height: 21.33px;
-  border-radius: 6px;
-  background: rgba(0, 86, 210, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.actionIconBadgeOrange {
-  width: 22.5px;
-  height: 24.25px;
-  border-radius: 6px;
-  background: rgba(255, 174, 76, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.actionIconBadgeBlue {
-  width: 26px;
-  height: 21.33px;
-  border-radius: 6px;
+  width: 36px;
+  height: 30px;
+  border-radius: 8px;
   background: rgba(0, 86, 210, 0.1);
   display: flex;
   align-items: center;
