@@ -36,10 +36,17 @@ import EmployeeDetails from "./Adminside/Components/EmployeeDetailspage";
 import EmployeeProfile from "./Employee Side/Components/EmployeeProfile";
 import ManagerLogin from "./Managerside/pages/ManagerLogin";
 import ManagerDashboard from "./Managerside/pages/ManagerDashboard";
+import ManagerTeamPage from "./Managerside/pages/ManagerTeamPage";
+import ManagerWorkPage from "./Managerside/pages/ManagerWorkPage";
+import ManagerPerformancePage from "./Managerside/pages/ManagerPerformancePage";
 import HRLogin from "./hrside/Components/HRLogin";
 import HRNavbar from "./hrside/Components/HRNavbar";
 import HRDashboard from "./hrside/Components/HRDashboard";
 import People from "./hrside/Components/People";
+import HREmployeeProfile from "./hrside/Components/EmployeeProfile";
+import OrganizationInsights from "./hrside/Components/OrganizationInsights";
+import HiringModule from "./hrside/Components/hiringModule";
+import ActiveRequisitions from "./hrside/Components/ActiveRequisitions";
 import { SidebarProvider } from "./hrside/Components/SidebarContext";
 import Manager from "./Adminside/Components/Manager";
 import Activity from "./Adminside/Components/Activity";
@@ -48,13 +55,14 @@ import Activity from "./Adminside/Components/Activity";
 function Layout({ children }) {
   const location = useLocation();
 
-  const hideNavbarRoutes = ["/","/login","/employeelogin","/managerlogin","/hrlogin","/manager/dashboard"];
+  const hideNavbarRoutes = ["/", "/login", "/employeelogin", "/managerlogin", "/hrlogin"];
   const hideNavbar = hideNavbarRoutes.includes(location.pathname);
   const isHRRoute = location.pathname.startsWith("/hr/");
+  const isManagerRoute = location.pathname.startsWith("/manager/");
 
   return (
     <>
-      {!hideNavbar && (isHRRoute ? <HRNavbar /> : <Navbar />)}
+      {!hideNavbar && !isManagerRoute && (isHRRoute ? <HRNavbar /> : <Navbar />)}
       {children}
     </>
   );
@@ -104,13 +112,20 @@ function App() {
             <Route path="/employee/profile" element={<EmployeeProfile/>} />
 
             {/* manager */}
-            <Route path="/managerlogin" element={<ManagerLogin/>} />
-            <Route path="/manager/dashboard" element={<ManagerDashboard/>} />
+            <Route path="/managerlogin" element={<ManagerLogin />} />
+            <Route path="/manager/dashboard" element={<ManagerDashboard />} />
+            <Route path="/manager/team" element={<ManagerTeamPage />} />
+            <Route path="/manager/work" element={<ManagerWorkPage />} />
+            <Route path="/manager/performance" element={<ManagerPerformancePage />} />
 
             {/* hr */}
             <Route path="/hrlogin" element={<HRLogin/>} />
             <Route path="/hr/dashboard" element={<HRDashboard />} />
             <Route path="/hr/employees" element={<People />} />
+            <Route path="/hr/employees/:id" element={<HREmployeeProfile />} />
+            <Route path="/hr/employees/:id/organization-insights" element={<OrganizationInsights />} />
+            <Route path="/hr/hiring" element={<HiringModule />} />
+            <Route path="/hr/hiring/active-requisitions" element={<ActiveRequisitions />} />
           </Routes>
         </Layout>
       </Router>
