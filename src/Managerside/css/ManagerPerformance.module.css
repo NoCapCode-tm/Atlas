@@ -1,0 +1,1518 @@
+/* Page Header Actions */
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.teamHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.exportBtn,
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: clamp(9px, 0.8vw, 14px) clamp(16px, 1.4vw, 24px);
+  border-radius: 10px;
+  font-size: clamp(9.5px, 0.95vw, 15px);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.exportBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.exportBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.addBtn {
+  background: #2563eb;
+  border: none;
+  color: #ffffff;
+}
+
+.addBtn:hover {
+  background: #1d4ed8;
+}
+
+/* Stats Cards Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.4vw, 24px);
+  width: 100%;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: clamp(115px, 9vw, 150px);
+  padding: clamp(16px, 1.4vw, 24px) clamp(16px, 1.5vw, 24px);
+  background: #000000;
+  border: 1px solid #e2e8f087;
+  border-radius: 12px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.statCard:hover {
+  background: linear-gradient(125.56deg, rgba(18, 20, 28, 0.5) 13.57%, rgba(0, 80, 184, 0.5) 86.43%);
+  border-color: transparent;
+}
+
+.statCardTop,
+.statCardBottom {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.statCardMiddle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 6px 0 4px;
+}
+
+.statTitle {
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(10px, 1vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  color: #DCDCFF;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.statValue {
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(20px, 2vw, 34px);
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.statIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.statSubtext {
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(9px, 0.9vw, 14px);
+  font-weight: 400;
+  line-height: 1.3;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+/* Dashboard Layout Grid */
+.dashboardMainGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "trend attention contributors"
+    "heatmap attention contributors";
+  gap: clamp(14px, 1.4vw, 24px);
+  width: 100%;
+  margin-top: clamp(14px, 1.4vw, 24px);
+  align-items: start;
+}
+
+.trendCard { grid-area: trend; }
+.heatmapCard { grid-area: heatmap; }
+.attentionCard { grid-area: attention; }
+.contributorsCard { grid-area: contributors; }
+
+/* Base Card Block */
+.cardBlock {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.4vw, 22px);
+  padding: clamp(14px, 1.4vw, 24px);
+  background: #000000;
+  border: 1px solid #e2e8f087;
+  border-radius: 14px;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: clamp(11px, 1.1vw, 17px);
+  font-weight: 600;
+  color: #DDDDFF;
+}
+
+.cardSubtitle {
+  margin: 0;
+  font-size: clamp(10px, 0.8vw, 12px);
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.memberCardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 4px;
+  min-width: 0;
+}
+
+/* Trend Analysis Chart */
+.trendHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
+}
+
+.chartWrapper {
+  width: 100%;
+  margin-top: 10px;
+  height: clamp(220px, 18vw, 270px);
+  min-height: 220px;
+  overflow: visible;
+}
+
+.chartXAxisTick {
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(6px, 0.6vw, 9px);
+  letter-spacing: -0.3px;
+  font-weight: 600;
+  fill: #64748b;
+}
+
+.chartHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 0.8vw, 12px);
+  flex-shrink: 0;
+}
+
+.legendBadge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: clamp(8px, 0.7vw, 10px);
+  font-weight: 600;
+  color: #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.legendDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendDotVelocity { background: #2563eb; }
+.legendDotQuality { background: #fca5a5; }
+
+/* Activity Heatmap */
+.heatmapHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.heatmapHeaderTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: clamp(14px, 1.2vw, 18px);
+  line-height: 24px;
+  color: #ffffff;
+  letter-spacing: -0.18px;
+  margin: 0;
+}
+
+.heatmapChangeBadge {
+  border: 1px solid rgba(0, 228, 117, 0.5);
+  border-radius: 12px;
+  padding: 3px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+}
+
+.heatmapPercent {
+  font-family: "Outfit", sans-serif;
+  color: #00E475;
+  font-size: clamp(12px, 1vw, 15px);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.heatmapChangeLabel {
+  font-family: "Outfit", sans-serif;
+  font-size: 10px;
+  color: rgba(194, 198, 216, 0.8);
+  font-weight: 400;
+}
+
+.heatmapSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(12px, 1.4vw, 22px);
+  align-items: stretch;
+  width: 100%;
+}
+
+.heatmapLeftArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(6px, 0.6vw, 10px);
+  width: 100%;
+  min-width: 0;
+}
+
+.heatmapGridContainer {
+  display: flex;
+  flex-direction: row;
+  gap: clamp(6px, 0.7vw, 12px);
+  align-items: stretch;
+  width: 100%;
+}
+
+.heatmapLabelsColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: clamp(18px, 1.5vw, 26px);
+  opacity: 0.7;
+  padding: 2px 0;
+  box-sizing: border-box;
+}
+
+.heatmapLabelsColumn span {
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: clamp(7.5px, 0.7vw, 10.5px);
+  line-height: 1;
+  color: #C2C6D8;
+  text-transform: uppercase;
+  letter-spacing: -0.3px;
+}
+
+.heatmapGrid {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5px, 0.28vw, 5px);
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+}
+
+.heatmapMatrixRow {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  gap: clamp(2.5px, 0.28vw, 5px);
+  width: 100%;
+}
+
+.heatCell {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: clamp(1.5px, 0.15vw, 3px);
+  box-sizing: border-box;
+}
+
+.heatLegend {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: clamp(24px, 2.2vw, 38px);
+  box-sizing: border-box;
+  gap: clamp(4px, 0.4vw, 8px);
+  margin-top: 4px;
+}
+
+.legendScale {
+  display: flex;
+  align-items: center;
+  gap: clamp(3px, 0.35vw, 6px);
+}
+
+.legendLabel {
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(8px, 0.75vw, 12px);
+  color: #C2C6D8;
+  opacity: 0.6;
+  line-height: 1;
+}
+
+.legendBoxes {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5px, 0.15vw, 3px);
+}
+
+.legendBox {
+  width: clamp(6px, 0.6vw, 10px);
+  height: clamp(6px, 0.6vw, 10px);
+  border-radius: 1.5px;
+  flex-shrink: 0;
+}
+
+.legendTime {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: clamp(7.5px, 0.65vw, 10px);
+  color: #ffffff;
+  opacity: 0.4;
+  white-space: nowrap;
+}
+
+.insightBox {
+  background: #1F1F1F;
+  border: 1px solid rgba(66, 70, 86, 0.5);
+  box-shadow: inset 0px 2px 4px 1px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: clamp(10px, 1vw, 18px) clamp(10px, 1vw, 16px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(5px, 0.6vw, 10px);
+  min-height: clamp(90px, 7.5vw, 140px);
+  height: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.insightTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: clamp(8.5px, 0.8vw, 11px);
+  line-height: clamp(12px, 1.1vw, 16px);
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+  color: #E2E2E2;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.insightText {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: clamp(8px, 0.75vw, 10.5px);
+  line-height: clamp(1.4, 1.15vw, 1.65);
+  color: #C2C6D8;
+  margin: 0;
+}
+
+.insightHighlight {
+  color: #00E475;
+  font-weight: 500;
+}
+
+/* Attention Required */
+.attentionHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ef4444;
+  font-size: clamp(12px, 1.2vw, 16px);
+  font-weight: 600;
+}
+
+.attentionScroll {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+  max-height: 482px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.attentionScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.attentionItem {
+  background: #93000A1A;
+  border: 1px solid #FFB4AB33;
+  border-radius: 10px;
+  padding: clamp(12px, 1.1vw, 16px) clamp(12px, 1vw, 16px);
+  min-height: clamp(110px, 6vw, 110px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.attentionItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.attentionName {
+  font-size: clamp(9.5px, 0.8vw, 11.5px);
+  font-weight: 600;
+  color: #E5E2E1;
+  white-space: nowrap;
+}
+
+.attentionBadge {
+  font-size: clamp(7.5px, 0.65vw, 9px);
+  font-weight: 600;
+  color: #ef4444;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.attentionDesc {
+  font-size: clamp(8.5px, 0.7vw, 10px);
+  color: #DDDDFF;
+  line-height: 1.5;
+}
+
+.attentionAction {
+  font-size: clamp(9px, 0.75vw, 10.5px);
+  color: #DDDDFF;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  margin-top: 4px;
+  font-family: inherit;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.attentionAction:hover {
+  opacity: 0.8;
+}
+
+/* Top Contributors */
+.contributorScroll {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+  max-height: 290px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.contributorScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.contributorItem {
+  background: #1C1B1B;
+  border-radius: 10px;
+  padding: clamp(10px, 1vw, 15px) clamp(10px, 0.9vw, 14px);
+  min-height: clamp(52px, 4.5vw, 62px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  gap: 8px;
+}
+
+.contributorLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.contributorAvatar {
+  width: clamp(26px, 2vw, 32px);
+  height: clamp(26px, 2vw, 32px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.contributorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.contributorName {
+  font-size: clamp(9.5px, 0.8vw, 11.5px);
+  font-weight: 600;
+  color: #E5E2E1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contributorRole {
+  font-size: clamp(8px, 0.65vw, 9.5px);
+  font-weight: 400;
+  color: #C4C5DA;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contributorRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.contributorChart {
+  width: 32px;
+  height: 12px;
+}
+
+.contributorScore {
+  font-size: clamp(9.5px, 0.8vw, 11.5px);
+  font-weight: 600;
+  color: #DDDDFF;
+  line-height: 1;
+}
+
+.viewFullReportBtn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: clamp(10.5px, 0.85vw, 12.5px);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  margin-top: 10px;
+  box-sizing: border-box;
+}
+
+.viewFullReportBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Modal - Add Report */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 16px;
+  box-sizing: border-box;
+  animation: modalFadeIn 0.18s ease;
+}
+
+.modalCard {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  background: linear-gradient(146.47deg, rgba(14, 15, 19, 0.58) 1.32%, rgba(89, 96, 121, 0.58) 100%),
+    linear-gradient(234.47deg, rgba(0, 0, 0, 0) -0.9%, rgba(0, 0, 0, 0.04) 86.88%);
+  backdrop-filter: blur(80px);
+  -webkit-backdrop-filter: blur(80px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 12px;
+  padding: 22px 20px 18px;
+  box-sizing: border-box;
+  animation: modalSlideUp 0.2s ease;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 8px;
+}
+
+.modalTitle {
+  margin: 0 0 4px;
+  font-family: "Outfit", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.modalSubtitle {
+  margin: 0;
+  font-family: "Outfit", sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.modalCloseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.modalCloseBtn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modalSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modalSectionTitle {
+  font-family: "Outfit", sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.checklistCounter {
+  font-family: "Outfit", sans-serif;
+  font-size: 9.5px;
+  color: #94a3b8;
+}
+
+.checklistCard {
+  background-color: #12141C;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  padding: 12px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.checklistItems {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 88px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+}
+
+.checklistItems::-webkit-scrollbar {
+  width: 4px;
+}
+
+.checklistItems::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.checklistItems::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+}
+
+.checklistItems::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.customCheckbox {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.customCheckboxChecked {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.checklistText {
+  font-family: "Outfit", sans-serif;
+  font-size: 10px;
+  color: #e2e8f0;
+  line-height: 1.3;
+  transition: all 0.15s ease;
+}
+
+.checklistTextCompleted {
+  color: #64748b;
+  text-decoration: line-through;
+}
+
+.checklistDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 6px 0;
+}
+
+.addExtraTaskRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.addExtraTaskInput {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-family: "Outfit", sans-serif;
+  font-size: 9.5px;
+  color: #ffffff;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.addExtraTaskInput::placeholder {
+  color: #64748b;
+}
+
+.addExtraTaskInput:focus {
+  border-color: rgba(99, 102, 241, 0.7);
+}
+
+.addExtraTaskBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+  padding: 6px 11px;
+  font-family: "Outfit", sans-serif;
+  font-size: 9.5px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.addExtraTaskBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.workSummaryCard {
+  background-color: #12141C;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+}
+
+.workSummaryTextarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: vertical;
+  font-family: "Outfit", sans-serif;
+  font-size: 9.5px;
+  color: #ffffff;
+  line-height: 1.45;
+  min-height: 75px;
+  box-sizing: border-box;
+}
+
+.workSummaryTextarea::placeholder {
+  color: #64748b;
+}
+
+.workSummaryFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.markdownSupported {
+  font-family: "Outfit", sans-serif;
+  font-size: 8px;
+  color: #64748b;
+}
+
+.savedTimestamp {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Outfit", sans-serif;
+  font-size: 8px;
+  color: #64748b;
+}
+
+.modalFooterDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 8px -20px 0;
+}
+
+.modalActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modalCancelBtn,
+.modalSubmitBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border: none;
+  border-radius: 6px;
+  font-family: "Outfit", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modalCancelBtn {
+  background: #12141d;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.modalCancelBtn:hover {
+  background: #1e2130;
+}
+
+.modalSubmitBtn {
+  background: #2563eb;
+}
+
+.modalSubmitBtn:hover {
+  background: #1d4ed8;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive Tablet Overrides */
+@media (max-width: 768px) {
+  .dashboardMainGrid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "trend heatmap"
+      "contributors attention";
+    gap: 12px;
+    padding: 0 14px 20px 14px;
+    margin-top: 14px;
+    align-items: stretch;
+  }
+
+  .cardBlock {
+    padding: 12px;
+    gap: 10px;
+    border-radius: 10px;
+    height: 100%;
+  }
+
+  .cardTitle {
+    font-size: 10px;
+    line-height: 13px;
+  }
+
+  .cardSubtitle {
+    font-size: 7.5px;
+    line-height: 10px;
+  }
+
+  .trendHeader,
+  .chartHeaderActions {
+    gap: 6px;
+  }
+
+  .legendBadge {
+    font-size: 7px;
+    gap: 3px;
+  }
+
+  .legendDot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .chartWrapper {
+    flex: 1;
+    height: 100%;
+    min-height: 160px;
+  }
+
+  .chartXAxisTick {
+    font-size: 5.5px !important;
+    letter-spacing: -0.5px;
+  }
+
+  .pageHeader {
+    padding: 0 14px;
+    flex-wrap: nowrap;
+    margin-top: 14px;
+  }
+
+  .exportBtn,
+  .addBtn {
+    padding: 6px 10px;
+    font-size: 9px;
+    gap: 4px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 0 14px;
+    margin-top: 14px;
+  }
+
+  .heatmapHeader {
+    margin-bottom: 8px;
+    gap: 4px;
+  }
+
+  .heatmapHeaderTitle {
+    font-size: 10px;
+    line-height: 13px;
+    white-space: nowrap;
+  }
+
+  .heatmapChangeBadge {
+    padding: 1.5px 5px;
+    gap: 3px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .heatmapPercent {
+    font-size: 8.5px;
+  }
+
+  .heatmapChangeLabel {
+    font-size: 6.5px;
+    white-space: nowrap;
+  }
+
+  .heatmapSection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .heatmapLeftArea {
+    align-items: center;
+    gap: 6px;
+  }
+
+  .heatmapGridContainer {
+    width: auto;
+    justify-content: center;
+    gap: clamp(6px, 1.2vw, 12px);
+  }
+
+  .heatmapGrid {
+    flex: initial;
+    width: auto;
+    gap: clamp(2px, 0.4vw, 4px);
+  }
+
+  .heatmapMatrixRow {
+    width: auto;
+    grid-template-columns: repeat(15, clamp(7.5px, 1.7vw, 13.5px));
+    gap: clamp(2px, 0.4vw, 4px);
+  }
+
+  .heatCell {
+    width: clamp(7.5px, 1.7vw, 13.5px);
+    height: clamp(7.5px, 1.7vw, 13.5px);
+    border-radius: 2px;
+  }
+
+  .heatmapLabelsColumn {
+    width: clamp(16px, 2.2vw, 24px);
+  }
+
+  .heatmapLabelsColumn span {
+    font-size: clamp(7px, 1.1vw, 9.5px);
+  }
+
+  .heatLegend {
+    width: auto;
+    justify-content: center;
+    padding-left: 0;
+    gap: clamp(8px, 1.5vw, 16px);
+    margin-top: clamp(4px, 0.8vw, 8px);
+  }
+
+  .legendScale {
+    gap: clamp(2px, 0.4vw, 4px);
+  }
+
+  .legendLabel {
+    font-size: clamp(7.5px, 1.1vw, 10px);
+  }
+
+  .legendBox {
+    width: clamp(5px, 0.9vw, 8px);
+    height: clamp(5px, 0.9vw, 8px);
+  }
+
+  .legendTime {
+    font-size: clamp(7px, 0.9vw, 9px);
+  }
+
+  .insightBox {
+    padding: 8px 10px;
+    min-height: auto;
+  }
+
+  .insightTitle {
+    font-size: 8px;
+  }
+
+  .insightText {
+    font-size: 7.5px;
+  }
+
+  .contributorsCard {
+    height: auto;
+    align-self: start;
+  }
+
+  .contributorScroll {
+    margin-top: 4px;
+    gap: 8px;
+  }
+
+  .contributorItem {
+    padding: 6px 8px;
+  }
+
+  .contributorName {
+    font-size: 9.5px;
+  }
+
+  .contributorRole {
+    font-size: 7.5px;
+  }
+
+  .contributorScore {
+    font-size: 9px;
+  }
+
+  .viewFullReportBtn {
+    margin-top: 10px;
+    padding: 7px 10px;
+    font-size: 9.5px;
+  }
+
+  .attentionItem {
+    padding: 8px 10px;
+    min-height: 100px;
+  }
+
+  .attentionName {
+    font-size: 9.5px;
+  }
+
+  .attentionBadge {
+    font-size: 7px;
+    padding: 2px 5px;
+  }
+
+  .attentionDesc {
+    font-size: 8px;
+  }
+
+  .attentionAction {
+    font-size: 8px;
+  }
+}
+
+/* Responsive Mobile Overrides */
+@media (max-width: 425px) {
+  .pageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .teamHeaderActions {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 4px;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .teamHeaderActions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .exportBtn,
+  .addBtn {
+    padding: 4px 8px;
+    font-size: 8px;
+    gap: 4px;
+    border-radius: 5px;
+    height: 26px;
+    box-sizing: border-box;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .exportBtn svg,
+  .addBtn svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .statCard {
+    padding: 14px 12px;
+    min-height: 88px;
+    border-radius: 10px;
+  }
+
+  .statTitle {
+    font-size: 10px;
+  }
+
+  .statValue {
+    font-size: 17px;
+  }
+
+  .statIconWrap svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .statSubtext {
+    font-size: 8px;
+  }
+
+  .dashboardMainGrid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "trend"
+      "heatmap"
+      "contributors"
+      "attention";
+    gap: 14px;
+  }
+
+  .trendCard { order: 1; }
+  .heatmapCard { order: 2; }
+  .contributorsCard { order: 3; }
+  .attentionCard { order: 4; }
+
+  .cardBlock {
+    padding: 14px;
+    gap: 12px;
+    border-radius: 12px;
+    height: auto;
+  }
+
+  .cardTitle {
+    font-size: 13px;
+    line-height: 16px;
+  }
+
+  .cardSubtitle {
+    font-size: 9.5px;
+    line-height: 13px;
+  }
+
+  .trendHeader,
+  .chartHeaderActions {
+    gap: 8px;
+  }
+
+  .legendBadge {
+    font-size: 8px;
+    gap: 4px;
+  }
+
+  .legendDot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .chartWrapper {
+    height: 170px;
+    min-height: 150px;
+  }
+
+  .chartXAxisTick {
+    font-size: 7.5px !important;
+    letter-spacing: -0.2px;
+  }
+
+  .heatmapHeaderTitle {
+    font-size: 13px;
+  }
+
+  .heatmapChangeBadge {
+    padding: 2.5px 6px;
+    gap: 4px;
+  }
+
+  .heatmapPercent {
+    font-size: 10px;
+  }
+
+  .heatmapChangeLabel {
+    font-size: 8px;
+  }
+
+  .heatmapMatrixRow {
+    grid-template-columns: repeat(15, clamp(9px, 3.8vw, 15px));
+    gap: clamp(2px, 0.8vw, 3.5px);
+  }
+
+  .heatCell {
+    width: clamp(9px, 3.8vw, 15px);
+    height: clamp(9px, 3.8vw, 15px);
+  }
+
+  .heatmapLabelsColumn {
+    width: 20px;
+  }
+
+  .heatmapLabelsColumn span {
+    font-size: 8px;
+  }
+
+  .insightTitle {
+    font-size: 8.5px;
+  }
+
+  .insightText {
+    font-size: 8px;
+  }
+
+  .contributorScroll {
+    max-height: 224px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 8px;
+    padding-right: 2px;
+  }
+
+  .contributorScroll::-webkit-scrollbar {
+    width: 4px;
+    display: block;
+  }
+
+  .contributorScroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .contributorScroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 4px;
+  }
+
+  .contributorItem {
+    padding: 8px 10px;
+  }
+
+  .contributorName {
+    font-size: 11px;
+  }
+
+  .contributorRole {
+    font-size: 8.5px;
+  }
+
+  .contributorScore {
+    font-size: 10px;
+  }
+
+  .attentionScroll {
+    max-height: 345px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 10px;
+    padding-right: 2px;
+  }
+
+  .attentionScroll::-webkit-scrollbar {
+    width: 4px;
+    display: block;
+  }
+
+  .attentionScroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .attentionScroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 4px;
+  }
+
+  .attentionItem {
+    padding: 10px 12px;
+    min-height: auto;
+  }
+
+  .attentionName {
+    font-size: 11px;
+  }
+
+  .attentionBadge {
+    font-size: 8px;
+  }
+
+  .attentionDesc {
+    font-size: 9px;
+  }
+
+  .attentionAction {
+    font-size: 8.5px;
+  }
+
+  /* Modal Mobile Overrides */
+  .modalOverlay {
+    padding: 12px;
+  }
+
+  .modalCard {
+    padding: 14px 14px 12px;
+    max-width: 100%;
+  }
+
+  .modalTitle {
+    font-size: 13.5px;
+  }
+
+  .modalSubtitle {
+    font-size: 9px;
+  }
+
+  .modalSectionTitle {
+    font-size: 10.5px;
+  }
+
+  .checklistText {
+    font-size: 9px;
+  }
+
+  .addExtraTaskInput {
+    font-size: 9px;
+    padding: 4px 6px;
+  }
+
+  .addExtraTaskBtn {
+    font-size: 9px;
+    padding: 4px 8px;
+  }
+
+  .workSummaryTextarea {
+    font-size: 9px;
+    min-height: 55px;
+  }
+
+  .modalCancelBtn,
+  .modalSubmitBtn {
+    padding: 6px 12px;
+    font-size: 9.5px;
+  }
+}

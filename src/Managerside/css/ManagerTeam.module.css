@@ -175,8 +175,8 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 4px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.05);
+  scrollbar-width: none; /* Hide for Firefox */
+  -ms-overflow-style: none; /* Hide for IE/Edge */
   max-height: 380px;
   min-height: 0;
   box-sizing: border-box;
@@ -184,21 +184,7 @@
 }
 
 .scrollContainer::-webkit-scrollbar {
-  width: 8px;
-}
-
-.scrollContainer::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-}
-
-.scrollContainer::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 4px;
-}
-
-.scrollContainer::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.6);
+  display: none; /* Hide for Chrome, Safari, Edge */
 }
 
 /* Team members table */
@@ -847,10 +833,6 @@
   .dashboardMainGrid {
     padding: 0 16px 20px 16px;
     margin-top: 18px;
-  }
-
-  .rowEqualColumns {
-    grid-template-columns: 1fr;
   }
 
   .cardBlock {
