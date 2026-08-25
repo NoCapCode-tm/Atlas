@@ -10,6 +10,7 @@ function ManagerHeader({
   isMobile,
   userName = "Om Vashishtha",
   initials = "OV",
+  userRole = "Manager",
   showBell = true,
   children
 }) {
@@ -55,7 +56,7 @@ function ManagerHeader({
         {(title || subtitle || children) ? (
           <div className={styles.mobileTitleSection}>
             <div className={styles.headerTitleGroup}>
-              <h1 className={styles.headerTitle}>{title}</h1>
+              {title && <h1 className={styles.headerTitle}>{title}</h1>}
               {subtitle && <p className={styles.headerSubtitle}>{subtitle}</p>}
             </div>
             {children && <div className={styles.mobileHeaderActions}>{children}</div>}
@@ -82,20 +83,37 @@ function ManagerHeader({
           </svg>
         </div>
 
-        <div className={styles.headerTitleGroup}>
-          <h1 className={styles.headerTitle}>{title}</h1>
-          {subtitle && <p className={styles.headerSubtitle}>{subtitle}</p>}
-        </div>
+        {(title || subtitle) ? (
+          <div className={styles.headerTitleGroup}>
+            {title && <h1 className={styles.headerTitle}>{title}</h1>}
+            {subtitle && <p className={styles.headerSubtitle}>{subtitle}</p>}
+          </div>
+        ) : null}
       </div>
 
-      <div className={styles.headerActions}>
-        {showBell && (
-          <button className={styles.notificationBtn} title="Notifications">
-            <Bell size={20} />
-            <span className={styles.notificationBadge} />
-          </button>
-        )}
+      <div className={styles.headerRightSection}>
         {children}
+
+        <div className={styles.headerUserControls}>
+          {showBell && (
+            <button className={styles.notificationBtn} title="Notifications">
+              <Bell size={18} />
+              <span className={styles.notificationBadge} />
+            </button>
+          )}
+
+          <div className={styles.headerDivider} />
+
+          <div className={styles.headerUserProfile}>
+            <div className={styles.headerUserInfo}>
+              <span className={styles.headerUserName}>{userName}</span>
+              <span className={styles.headerUserRole}>{userRole}</span>
+            </div>
+            <div className={styles.headerUserAvatar} title={userName}>
+              {initials}
+            </div>
+          </div>
+        </div>
       </div>
     </header>
   );
