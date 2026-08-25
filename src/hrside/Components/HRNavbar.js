@@ -231,12 +231,12 @@ function HRNavbar() {
 
               <div
                 className={
-                  getActive("/hr/attendance")
+                  getActive("/hr/hiring")
                     ? styles.dashboardmenucolor
                     : styles.dashboardmenu
                 }
                 onClick={() => {
-                  navigate("/hr/attendance");
+                  navigate("/hr/hiring");
                   setMenuopen(false);
                 }}
               >

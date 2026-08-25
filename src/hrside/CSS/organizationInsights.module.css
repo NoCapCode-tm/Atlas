@@ -1,0 +1,694 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap");
+
+.mainContainer {
+  background: #050505;
+  width: 100%;
+  min-height: 100vh;
+  padding: 3% 4%;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 900px) {
+  .mainContainer {
+    padding: 4% 5%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .mainContainer {
+    padding: 5% 4%;
+  }
+}
+
+/* ── Shared card base ── */
+.card {
+  background: #0a0a0a;
+  border: 0.85px solid #a5a5a5;
+  border-radius: 8px;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3);
+}
+
+.cardHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #E3E2E8;
+}
+
+.cardTitleIcon {
+  color: #8d90a0;
+  flex-shrink: 0;
+}
+
+.pulseCard .cardTitle {
+  color: #E3E2E8;
+}
+
+.aiCard .cardTitle svg {
+  color: #FF5447;
+}
+
+.trendingCard .cardTitle svg {
+  color: #C3C6D5;
+}
+
+.cardSubtitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: #8d90a0;
+  margin-top: 4px;
+}
+
+.updatedTag {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+/* ── Row 1: Sentiment + Pulse ── */
+.rowOne {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.sentimentCard {
+  width: 65%;
+  flex: 1;
+  min-width: 320px;
+}
+
+.pulseCard {
+  width: 35%;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media screen and (max-width: 900px) {
+  .sentimentCard,
+  .pulseCard {
+    width: 100%;
+  }
+}
+
+.toggleGroup {
+  display: flex;
+  gap: 6px;
+}
+
+.toggleBtn {
+  padding: 5px 12px;
+  border-radius: 0;
+  border: 1px solid rgba(66, 70, 84, 0.3);
+  background: transparent;
+  color: #8d90a0;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.toggleBtnActive {
+  padding: 5px 12px;
+  border-radius: 0;
+  border: 1px solid #0056d2;
+  background: #0050b8;
+  color: #ddddff;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Bar chart */
+.barChart {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  height: 150px;
+  margin: 28px 0 20px;
+  padding: 8px 8px 4px;
+  background: linear-gradient(180deg, rgba(176, 198, 255, 0.1) 0%, rgba(176, 198, 255, 0) 100%);
+  border-bottom: 1px solid #b0c6ff;
+  border-radius: 0 0 4px 4px;
+}
+
+.bar {
+  flex: 1;
+  background: #343439;
+  border: 1px solid #000000;
+  border-radius: 2px 2px 0 0;
+  min-width: 20px;
+  transition: transform 0.2s ease;
+}
+
+
+.bar:hover {
+  transform: scaleY(1.03);
+}
+
+.barActive {
+  flex: 1;
+  background: #0050b8;
+  border-top: 1px solid #b0c6ff;
+  border-radius: 2px 2px 0 0;
+  min-width: 20px;
+}
+
+.sentimentStatsRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(66, 70, 84, 0.15);
+  padding-top: 16px;
+}
+
+.sentimentStat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sentimentStatLabel {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #8d90a0;
+}
+
+.sentimentStatValue {
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #2E8B5A;
+}
+
+.sentimentStatValueMuted {
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #E3E2E8;
+}
+.sentimentStatValue span {
+  font-size: 13px;
+  font-weight: 400;
+  color: #8d90a0;
+}
+
+.deltaNegative {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: #ff5447;
+}
+
+/* Pulse survey items */
+.pulseItem {
+  background: #101115;
+  border: 1px solid rgba(66, 70, 84, 0.3);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pulseItemDraft {
+  background: #101115;
+  border: 1px dashed rgba(66, 70, 84, 0.4);
+  border-radius: 8px;
+  padding: 14px 16px;
+  opacity: 0.7;
+}
+
+.pulseTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.pulseTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #e1e2ec;
+}
+
+.pulseBadge {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 15px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  background: #343439;
+  border: 1px solid rgba(165, 165, 165, 0.15);
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+.pulseBadgeDraft {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 0;
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.pulseMetaRow {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Outfit", sans-serif;
+  font-size: 11px;
+  color: #8d90a0;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 6px;
+  background: #23262d;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #0056d2;
+  border-radius: 4px;
+}
+
+.pulseSubtext {
+  font-family: "Outfit", sans-serif;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.reminderBtn {
+  width: 100%;
+  padding: 8px;
+  background: transparent;
+  border: 1px solid rgba(66, 70, 84, 0.4);
+  border-radius: 6px;
+  color: #e1e2ec;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.reminderBtn:hover {
+  background: rgba(160, 160, 160, 0.08);
+}
+
+.launchBtn {
+  width: 100%;
+  padding: 12px;
+  background: #0050b8;
+  border: 1px solid #6d78ff;
+  border-radius: 8px;
+  color: #ddddff;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+  margin-top: auto;
+}
+
+.launchBtn:hover {
+  filter: brightness(1.1);
+}
+
+/* ── Row 2: AI Insights ── */
+.aiCard {
+  margin-bottom: 20px;
+}
+
+.insightGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.insightItem {
+  background: #1E1E1E;
+  border: 1px solid rgba(66, 70, 84, 0.3);
+  border-radius: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.insightDotRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.insightDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dotRed {
+  background: #ff5447;
+}
+
+.dotBlue {
+  background: #4c8dff;
+}
+
+.insightTitle {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #e1e2ec;
+}
+
+.insightDesc {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #8d90a0;
+}
+
+.insightAction {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: #B0C6FF;
+  cursor: pointer;
+  margin-top: 4px;
+  width: fit-content;
+}
+
+.insightAction:hover {
+  text-decoration: underline;
+}
+
+/* ── Row 3: Trending Topics + Anonymous Feed ── */
+.rowThree {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.trendingCard {
+  width: 60%;
+  flex: 1;
+  min-width: 320px;
+}
+
+.feedCard .cardTitle svg {
+  color: #C3C6D5;
+}
+
+.feedCard {
+  width: 40%;
+  min-width: 280px;
+  max-height: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 900px) {
+  .trendingCard,
+  .feedCard {
+    width: 100%;
+  }
+}
+
+.topicList {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 20px;
+}
+
+.topicRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topicTopRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.topicLabel {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #e1e2ec;
+}
+
+.topicStatus {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.statusNegative {
+  color: #ff5447;
+}
+
+.statusPositive {
+  color: #B0C6FF;
+  font-weight: 400;
+}
+
+.statusNeutral {
+  color: #C3C6D5;
+  font-weight: 400;
+}
+
+.topicBarTrack {
+  width: 100%;
+  height: 6px;
+  background: #23262d;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.topicBarFillNegative {
+  height: 100%;
+  background: #ff5447;
+  border-radius: 4px;
+}
+
+.topicBarFillPositive {
+  height: 100%;
+  background: #0050B8;
+  border-radius: 4px;
+}
+
+.topicBarFillNeutral {
+  height: 100%;
+  background: #4c8dff;
+  border-radius: 4px;
+}
+
+.topicMentioned {
+  display: block;
+  text-align: right;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 11.5px;
+  color: #6b7280;
+}
+
+/* Anonymous feed */
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: transparent;
+  border: 1px solid rgba(165, 165, 165, 0.15);
+  border-radius: 2px;
+  color: #E3E2E8;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.filterBtn:hover {
+  background: rgba(160, 160, 160, 0.08);
+}
+
+.feedList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding-right: 2px;
+}
+
+.feedList::-webkit-scrollbar {
+  display: none;
+}
+
+.feedItem {
+  background: rgba(30, 30, 30, 0.5);
+  border-radius: 4px;
+  padding: 12px;
+  border-width: 1px 1px 1px 2px;
+  border-style: solid;
+  border-color: #484949;
+  transition: transform 0.2s ease;
+}
+
+.feedItem:hover {
+  transform: scale(1.01);
+}
+
+.borderUrgent {
+  border-color: #FF5447;
+}
+
+.borderPositive {
+  border-color: #34d399;
+}
+
+.borderConcern {
+  border-color: #FF5447;
+}
+
+.feedTagsRow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.tagBase {
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.tagUrgent {
+  background: rgba(147, 0, 10, 0.2);
+  border: 1px solid rgba(255, 180, 171, 0.3);
+  color: #FFB4AB;
+}
+
+.tagPositive {
+  background: rgba(52, 211, 153, 0.12);
+  color: #34d399;
+}
+
+.tagConcern {
+  background: rgba(147, 0, 10, 0.2);
+  border: 1px solid rgba(255, 180, 171, 0.3);
+  color: #FFB4AB;
+}
+
+.tagNeutral {
+  background: #343439;
+  border: 1px solid rgba(165, 165, 165, 0.15);
+  color: #C3C6D5;
+}
+
+.feedText {
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #E3E2E8;
+  margin: 0 0 10px;
+}
+
+.feedMeta {
+  display: block;
+  text-align: right;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  color: #C3C6D5;
+}
+
+/* ── Responsive ladder ── */
+@media screen and (max-width: 1100px) {
+  .insightGrid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .barChart {
+    height: 110px;
+  }
+  .sentimentStatValue {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .rowOne,
+  .rowThree {
+    flex-direction: column;
+  }
+}

@@ -59,6 +59,12 @@ const STATUS_CONFIG = {
   "Exit Pending": { label: "Exit Pending", className: "statusExitPending" },
 };
 
+const STATUS_DOT_COLORS = {
+  Active: "#10b981",
+  Onboarding: "#f59e0b",
+  "Exit Pending": "#ef4444",
+};
+
 function StatusPill({ status }) {
   const config = STATUS_CONFIG[status] || STATUS_CONFIG.Active;
   return (
@@ -69,11 +75,59 @@ function StatusPill({ status }) {
   );
 }
 
+function CustomSelect({ options, value, onChange, className = "" }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const wrapRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (wrapRef.current && !wrapRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className={`${styles.customSelectWrap} ${className}`} ref={wrapRef}>
+      <button
+        type="button"
+        className={styles.customSelectTrigger}
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        <span>{value}</span>
+        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" className={styles.customSelectChevron}>
+          <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div className={styles.customDropdownList}>
+          {options.map((option) => (
+            <button
+              type="button"
+              key={option}
+              className={option === value ? styles.customDropdownItemActive : styles.customDropdownItem}
+              onClick={() => {
+                onChange(option);
+                setIsOpen(false);
+              }}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function People() {
   const navigate = useNavigate();
   const [department, setDepartment] = useState("All Departments");
   const [roleLevel, setRoleLevel] = useState("All Levels");
-  const [status, setStatus] = useState("Active");
+  const [status, setStatus] = useState("All Status");
   const [currentPage, setCurrentPage] = useState(1);
 
   const [showMoreFilters, setShowMoreFilters] = useState(false);
@@ -84,6 +138,9 @@ function People() {
 
   const [openActionMenu, setOpenActionMenu] = useState(null);
   const actionMenuRef = useRef(null);
+
+  const [openMobileActionMenu, setOpenMobileActionMenu] = useState(null);
+  const mobileActionMenuRef = useRef(null);
 
   const skillOptions = ["React", "Python", "Product Strategy", "UI Design"];
 
@@ -106,6 +163,12 @@ function People() {
         !actionMenuRef.current.contains(event.target)
       ) {
         setOpenActionMenu(null);
+      }
+      if (
+        mobileActionMenuRef.current &&
+        !mobileActionMenuRef.current.contains(event.target)
+      ) {
+        setOpenMobileActionMenu(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -135,13 +198,20 @@ function People() {
     { name: "Elena Rodriguez", email: "elena.r@hrsentinel.com", role: "Marketing Manager", dept: "Marketing", status: "Exit Pending", manager: "T. Baker" },
   ];
 
-  const rangeStart = (currentPage - 1) * pageSize + 1;
-  const rangeEnd = Math.min(currentPage * pageSize, totalEntries);
+  const filteredEmployees = employees.filter((emp) => {
+    const matchesDept =
+      department === "All Departments" || emp.dept === department;
+    const matchesStatus = status === "All Status" || emp.status === status;
+    return matchesDept && matchesStatus;
+  });
+
+  const rangeStart = filteredEmployees.length === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+  const rangeEnd = Math.min(currentPage * pageSize, filteredEmployees.length);
 
   const handleReset = () => {
     setDepartment("All Departments");
     setRoleLevel("All Levels");
-    setStatus("Active");
+    setStatus("All Status");
   };
 
   return (
@@ -165,50 +235,29 @@ function People() {
       <div className={styles.filtersCard}>
         <div className={styles.filterBlock}>
           <label className={styles.filterLabel}>DEPARTMENT</label>
-          <div className={styles.selectWrap}>
-            <select
-              className={styles.filterSelect}
-              value={department}
-              onChange={(e) => setDepartment(e.target.value)}
-            >
-              <option>All Departments</option>
-              <option>Engineering</option>
-              <option>Design</option>
-              <option>Marketing</option>
-            </select>
-          </div>
+          <CustomSelect
+            options={["All Departments", "Engineering", "Design", "Marketing"]}
+            value={department}
+            onChange={setDepartment}
+          />
         </div>
 
         <div className={styles.filterBlock}>
           <label className={styles.filterLabel}>ROLE LEVEL</label>
-          <div className={styles.selectWrap}>
-            <select
-              className={styles.filterSelect}
-              value={roleLevel}
-              onChange={(e) => setRoleLevel(e.target.value)}
-            >
-              <option>All Levels</option>
-              <option>Junior</option>
-              <option>Mid</option>
-              <option>Senior</option>
-              <option>Manager</option>
-            </select>
-          </div>
+          <CustomSelect
+            options={["All Levels", "Junior", "Mid", "Senior", "Manager"]}
+            value={roleLevel}
+            onChange={setRoleLevel}
+          />
         </div>
 
         <div className={styles.filterBlock}>
           <label className={styles.filterLabel}>STATUS</label>
-          <div className={styles.selectWrap}>
-            <select
-              className={styles.filterSelect}
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option>Active</option>
-              <option>Onboarding</option>
-              <option>Exit Pending</option>
-            </select>
-          </div>
+          <CustomSelect
+            options={["All Status", "Active", "Onboarding", "Exit Pending"]}
+            value={status}
+            onChange={setStatus}
+          />
         </div>
 
         <div className={styles.filterBlock} style={{ flex: "0 0 auto" }}>
@@ -329,7 +378,7 @@ function People() {
           </div>
 
           <div className={styles.employeeList}>
-            {employees.map((emp, i) => (
+            {filteredEmployees.map((emp, i) => (
               <div className={styles.tableRow} key={i}>
                 <div className={styles.tableCell}>
                   <div className={styles.employeeCell}>
@@ -403,59 +452,98 @@ function People() {
         </div>
 
         <div className={styles.mobileView}>
-          {employees.map((emp, i) => (
-            <div className={styles.employeeCard} key={i}>
-              <div className={styles.cardTop}>
-                <Avatar name={emp.name} src={emp.avatarUrl} size={48} fontSize={16} />
-                <div className={styles.cardUser}>
-                  <h3>{emp.name}</h3>
-                  <p>{emp.email}</p>
-                </div>
-                <span
-                  className={`${styles.mobileStatus} ${
-                    styles[
-                      (STATUS_CONFIG[emp.status] || STATUS_CONFIG.Active).className
-                    ]
-                  }`}
-                >
-                  {(STATUS_CONFIG[emp.status] || STATUS_CONFIG.Active).label}
-                </span>
-              </div>
+          {filteredEmployees.map((emp, i) => {
+            const statusInfo = STATUS_CONFIG[emp.status] || STATUS_CONFIG.Active;
+            return (
+              <div className={styles.employeeCard} key={i}>
+                <div className={styles.cardTop}>
+                  <div className={styles.cardAvatarWrap}>
+                    <Avatar name={emp.name} src={emp.avatarUrl} size={56} fontSize={18} />
+                    <span
+                      className={styles.presenceDot}
+                      style={{
+                        background:
+                          STATUS_DOT_COLORS[emp.status] || STATUS_DOT_COLORS.Active,
+                      }}
+                    />
+                  </div>
+                  <div className={styles.cardUser}>
+                    <h3>{emp.name}</h3>
+                    <p>{emp.email}</p>
+                  </div>
 
-              <div className={styles.cardDivider} />
-
-              <div className={styles.cardGrid}>
-                <div>
-                  <span className={styles.cardLabel}>Role</span>
-                  <h4>{emp.role}</h4>
-                </div>
-                <div>
-                  <span className={styles.cardLabel}>Department</span>
-                  <h4>{emp.dept}</h4>
-                </div>
-                <div>
-                  <span className={styles.cardLabel}>Manager</span>
-                  <h4>{emp.manager}</h4>
-                </div>
-                <div>
-                  <span className={styles.cardLabel}>Actions</span>
-                  <h4>
+                  <div
+                    style={{ position: "relative" }}
+                    ref={openMobileActionMenu === i ? mobileActionMenuRef : null}
+                  >
                     <button
                       className={styles.actionsBtn}
-                      onClick={() => navigate(`/hr/employees/${i}`)}
+                      onClick={() =>
+                        setOpenMobileActionMenu(
+                          openMobileActionMenu === i ? null : i
+                        )
+                      }
                     >
-                      View Profile
+                      <MoreVertical size={18} />
                     </button>
-                  </h4>
+
+                    {openMobileActionMenu === i && (
+                      <div className={styles.actionsMenu}>
+                        <button
+                          className={styles.actionsMenuItem}
+                          onClick={() => {
+                            setOpenMobileActionMenu(null);
+                            navigate(`/hr/employees/${i}`);
+                          }}
+                        >
+                          View Profile
+                        </button>
+
+                        <button
+                          className={`${styles.actionsMenuItem} ${styles.actionsMenuItemDanger}`}
+                          onClick={() => setOpenMobileActionMenu(null)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className={styles.cardRoleBlock}>
+                  <h4 className={styles.cardRoleTitle}>{emp.role}</h4>
+                  <span className={styles.cardDeptBadge}>{emp.dept}</span>
+                </div>
+
+                <div className={styles.cardDivider} />
+
+                <div className={styles.cardBottomRow}>
+                  <span
+                    className={`${styles.statusPill} ${styles[statusInfo.className]}`}
+                  >
+                    <span className={styles.statusDot} />
+                    {statusInfo.label}
+                  </span>
+
+                  <div className={styles.cardManager}>
+                    <span className={styles.cardManagerLabel}>Manager:</span>
+                    <Avatar
+                      name={emp.manager}
+                      size={22}
+                      fontSize={9.5}
+                      className={styles.managerAvatar}
+                    />
+                    <span className={styles.managerName}>{emp.manager}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className={styles.paginationRow}>
           <span className={styles.paginationInfo}>
-            Showing {rangeStart} to {rangeEnd} of {totalEntries} entries
+            Showing {rangeStart} to {rangeEnd} of {filteredEmployees.length} entries
           </span>
           <div className={styles.paginationControls}>
             <button
