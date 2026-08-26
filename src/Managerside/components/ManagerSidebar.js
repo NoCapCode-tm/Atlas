@@ -19,7 +19,7 @@ function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
     { name: "My Team", icon: <Users size={24} />, path: "/manager/team" },
     { name: "Work", icon: <FolderKanban size={24} />, path: "/manager/work" },
     { name: "Performance", icon: <BarChart2 size={24} />, path: "/manager/performance" },
-    { name: "Requests / Support", icon: <Workflow size={24} /> }
+    { name: "Requests / Support", icon: <Workflow size={24} />, path: "/manager/requests" }
   ];
 
   const isActive = (item) => {
