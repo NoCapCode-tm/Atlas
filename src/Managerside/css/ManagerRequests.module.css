@@ -16,13 +16,11 @@
   --border-card: #e2e8f087;
   --primary: #0759D9;
   --primary-dark: #17268F;
-  --danger: #FF1F32;
-  --warning: #FF8A00;
-  --success: #00D66F;
-  --cyan: #53D6E8;
 }
 
-/* Header Row */
+/* =========================================================================
+   HEADER ROW
+   ========================================================================= */
 .headerRow {
   display: flex;
   justify-content: space-between;
@@ -37,7 +35,7 @@
   flex-direction: column;
   gap: 4px;
   min-width: 0;
-  flex: 1 1 280px;
+  flex: 1 1 auto;
 }
 
 .title {
@@ -65,8 +63,9 @@
   flex-shrink: 0;
 }
 
-.supportBtn {
-  display: none;
+.supportBtn,
+.statusBtn,
+.createBtn {
   align-items: center;
   justify-content: center;
   gap: 8px;
@@ -79,29 +78,17 @@
   transition: all 0.2s ease;
   font-family: inherit;
   box-sizing: border-box;
+}
+
+.supportBtn {
+  display: none;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #F1F0FF;
 }
 
-.statusBtn,
-.createBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: clamp(11px, 0.9vw, 13px);
-  font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-  box-sizing: border-box;
-}
-
 .statusBtn {
+  display: inline-flex;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #F1F0FF;
@@ -115,6 +102,7 @@
 }
 
 .createBtn {
+  display: inline-flex;
   background: #0759D9;
   border: none;
   color: #FFFFFF;
@@ -129,7 +117,7 @@
 }
 
 /* =========================================================================
-   STAT CARDS SECTION (Matching ManagerPerformance exactly)
+   STAT CARDS SECTION
    ========================================================================= */
 .statsGrid {
   display: grid;
@@ -158,6 +146,7 @@
 }
 
 .statCardTop,
+.statCardMiddle,
 .statCardBottom {
   display: flex;
   align-items: center;
@@ -166,15 +155,10 @@
 }
 
 .statCardMiddle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
   margin: 6px 0 4px;
 }
 
 .statTitle {
-  font-family: "Outfit", sans-serif;
   font-size: clamp(10px, 1vw, 15px);
   font-weight: 500;
   letter-spacing: 0.1px;
@@ -184,7 +168,6 @@
 }
 
 .statValue {
-  font-family: "Outfit", sans-serif;
   font-size: clamp(20px, 2vw, 34px);
   font-weight: 700;
   line-height: 1;
@@ -199,7 +182,6 @@
 }
 
 .statSubtext {
-  font-family: "Outfit", sans-serif;
   font-size: clamp(9px, 0.9vw, 14px);
   font-weight: 600;
   line-height: 1.3;
@@ -208,7 +190,7 @@
 }
 
 /* =========================================================================
-   REQUESTS TABLE SECTION (Matching ManagerWork List View exactly)
+   REQUESTS BOX & FILTERS
    ========================================================================= */
 .requestsBox {
   width: 100%;
@@ -271,7 +253,9 @@
   color: var(--text-primary);
 }
 
-/* Table */
+/* =========================================================================
+   DESKTOP / TABLET TABLE
+   ========================================================================= */
 .tableContainer {
   width: 100%;
   background: transparent;
@@ -282,10 +266,7 @@
   display: none;
 }
 
-.tableScroll {
-  width: 100%;
-}
-
+.tableScroll,
 .tableInner {
   width: 100%;
 }
@@ -317,21 +298,29 @@
   scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
 }
 
-.tableBody::-webkit-scrollbar {
+.tableBody::-webkit-scrollbar,
+.mobileCardList::-webkit-scrollbar,
+.customSelectDropdown::-webkit-scrollbar {
   width: 5px;
   display: block;
 }
 
-.tableBody::-webkit-scrollbar-track {
+.tableBody::-webkit-scrollbar-track,
+.mobileCardList::-webkit-scrollbar-track,
+.customSelectDropdown::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.tableBody::-webkit-scrollbar-thumb {
+.tableBody::-webkit-scrollbar-thumb,
+.mobileCardList::-webkit-scrollbar-thumb,
+.customSelectDropdown::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.25);
   border-radius: 4px;
 }
 
-.tableBody::-webkit-scrollbar-thumb:hover {
+.tableBody::-webkit-scrollbar-thumb:hover,
+.mobileCardList::-webkit-scrollbar-thumb:hover,
+.customSelectDropdown::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.45);
 }
 
@@ -353,7 +342,6 @@
   background: rgba(255, 255, 255, 0.02);
 }
 
-/* Row Columns */
 .colTicketId {
   font-size: clamp(11.5px, 0.95vw, 13.5px);
   font-weight: 500;
@@ -398,33 +386,22 @@
   text-overflow: ellipsis;
 }
 
-.colPriority {
-  display: flex;
-  align-items: center;
-}
-
-.priorityUrgent {
-  color: #ef4444;
-  font-weight: 600;
-  font-size: clamp(10.5px, 0.9vw, 12.5px);
-}
-
-.priorityMedium {
-  color: #f59e0b;
-  font-weight: 600;
-  font-size: clamp(10.5px, 0.9vw, 12.5px);
-}
-
-.priorityLow {
-  color: #10b981;
-  font-weight: 600;
-  font-size: clamp(10.5px, 0.9vw, 12.5px);
-}
-
+.colPriority,
 .colStatus {
   display: flex;
   align-items: center;
 }
+
+.priorityUrgent,
+.priorityMedium,
+.priorityLow {
+  font-weight: 600;
+  font-size: clamp(10.5px, 0.9vw, 12.5px);
+}
+
+.priorityUrgent { color: #ef4444; }
+.priorityMedium { color: #f59e0b; }
+.priorityLow { color: #10b981; }
 
 .statusBadge {
   display: inline-flex;
@@ -435,17 +412,9 @@
   white-space: nowrap;
 }
 
-.statusPending {
-  color: #f59e0b;
-}
-
-.statusApproved {
-  color: #10b981;
-}
-
-.statusRejected {
-  color: #ef4444;
-}
+.statusPending { color: #f59e0b; }
+.statusApproved { color: #10b981; }
+.statusRejected { color: #ef4444; }
 
 .colSubmitted {
   display: flex;
@@ -493,7 +462,7 @@
 }
 
 /* =========================================================================
-   MODAL STYLES (Matching Quick Assign Task Box Exactly)
+   COMMON MODAL OVERLAY & HEADER
    ========================================================================= */
 .modalOverlay {
   position: fixed;
@@ -510,21 +479,6 @@
   animation: modalFadeIn 0.18s ease;
 }
 
-.modalCard {
-  position: relative;
-  width: 100%;
-  max-width: 320px;
-  background: linear-gradient(146.47deg, rgba(14, 15, 19, 0.58) 1.32%, rgba(89, 96, 121, 0.58) 100%),
-    linear-gradient(234.47deg, rgba(0, 0, 0, 0) -0.9%, rgba(0, 0, 0, 0.04) 86.88%);
-  backdrop-filter: blur(80px);
-  -webkit-backdrop-filter: blur(80px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: 12px;
-  padding: 20px 20px 18px;
-  box-sizing: border-box;
-  animation: modalSlideUp 0.2s ease;
-}
-
 .modalHeader {
   display: flex;
   align-items: flex-start;
@@ -533,28 +487,13 @@
   gap: 12px;
 }
 
-.modalTitleGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
 .modalTitle {
   margin: 0;
-  font-family: "Outfit", sans-serif;
+  font-family: inherit;
   font-size: 16px;
   font-weight: 700;
   color: #ffffff;
   line-height: 1.2;
-}
-
-.modalSubtitle {
-  margin: 0;
-  font-family: "Outfit", sans-serif;
-  font-size: 11px;
-  font-weight: 400;
-  color: #94a3b8;
-  line-height: 1.45;
 }
 
 .modalCloseBtn {
@@ -577,215 +516,9 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-.modalForm {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.modalField {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.modalLabel {
-  font-family: "Outfit", sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  color: #ffffff;
-}
-
-.modalInput,
-.modalTextarea {
-  width: 100%;
-  background-color: #12141C;
-  border: 1.5px solid rgba(255, 255, 255, 0.22);
-  border-radius: 8px;
-  padding: 9px 12px;
-  font-family: "Outfit", sans-serif;
-  font-size: 11.5px;
-  color: #ffffff;
-  outline: none;
-  box-sizing: border-box;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.modalInput::placeholder,
-.modalTextarea::placeholder {
-  color: #4f5a72;
-}
-
-.modalInput:focus,
-.modalTextarea:focus {
-  border-color: rgba(99, 102, 241, 0.7);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.modalTextarea {
-  resize: vertical;
-  min-height: 85px;
-  line-height: 1.5;
-}
-
-/* Custom dropdown inside modal */
-.customSelectContainer {
-  position: relative;
-  width: 100%;
-}
-
-.customSelectHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  background-color: #12141C;
-  border: 1.5px solid rgba(255, 255, 255, 0.22);
-  border-radius: 8px;
-  padding: 9px 12px;
-  font-family: "Outfit", sans-serif;
-  font-size: 11.5px;
-  color: #ffffff;
-  cursor: pointer;
-  box-sizing: border-box;
-  user-select: none;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.customSelectHeader:hover {
-  border-color: rgba(255, 255, 255, 0.35);
-}
-
-.customSelectHeaderOpen {
-  border-color: rgba(99, 102, 241, 0.7);
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.customSelectDropdown {
-  position: absolute;
-  top: calc(100% + 5px);
-  left: 0;
-  width: 100%;
-  background-color: #12141C;
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
-  z-index: 100;
-  padding: 4px;
-  box-sizing: border-box;
-  max-height: 180px;
-  overflow-y: auto;
-}
-
-.customSelectDropdown::-webkit-scrollbar {
-  width: 5px;
-}
-
-.customSelectDropdown::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.customSelectDropdown::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-}
-
-.customSelectOption {
-  padding: 8px 12px;
-  font-family: "Outfit", sans-serif;
-  font-size: 11.5px;
-  color: #ffffff;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background-color 0.15s ease;
-}
-
-.customSelectOption:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-.customSelectOptionSelected {
-  background-color: rgba(99, 102, 241, 0.15);
-  color: #818cf8;
-}
-
-.modalActions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 6px;
-}
-
-.modalCancelBtn {
-  padding: 9px 20px;
-  background: #12141d;
-  border: none;
-  border-radius: 8px;
-  font-family: "Outfit", sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: #ffffff;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.modalCancelBtn:hover {
-  background: #1e2130;
-}
-
-.modalSubmitBtn {
-  padding: 9px 20px;
-  background: #2563eb;
-  border: none;
-  border-radius: 8px;
-  font-family: "Outfit", sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: #ffffff;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.modalSubmitBtn:hover {
-  background: #1d4ed8;
-}
-
-.modalApproveBtn {
-  padding: 9px 20px;
-  background: #10b981;
-  border: none;
-  border-radius: 8px;
-  font-family: "Outfit", sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: #ffffff;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.modalApproveBtn:hover {
-  background: #059669;
-}
-
-.modalRejectBtn {
-  padding: 9px 20px;
-  background: #ef4444;
-  border: none;
-  border-radius: 8px;
-  font-family: "Outfit", sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: #ffffff;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.modalRejectBtn:hover {
-  background: #dc2626;
-}
-
-/* Status Modal Specific Styles (Leave Request Status #07DB5F - Slim & Taller Vertical Layout) */
+/* =========================================================================
+   STATUS MODAL (LEAVE / RESOURCE STATUS)
+   ========================================================================= */
 .statusModalCard {
   position: relative;
   width: 100%;
@@ -820,10 +553,9 @@
   color: #ffffff;
 }
 
-.statusPillApproved {
-  background: #D4F7DF;
-  color: #00823B;
-  border: 1.5px solid #00873E;
+.statusPillApproved,
+.statusPillPending,
+.statusPillRejected {
   padding: 3.5px 12px;
   border-radius: 6px;
   font-size: 11px;
@@ -832,34 +564,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.statusPillApproved {
+  background: #D4F7DF;
+  color: #00823B;
+  border: 1.5px solid #00873E;
 }
 
 .statusPillPending {
   background: #FEF3C7;
   color: #B45309;
   border: 1.5px solid #D97706;
-  padding: 3.5px 12px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .statusPillRejected {
   background: #FEE2E2;
   color: #B91C1C;
   border: 1.5px solid #DC2626;
-  padding: 3.5px 12px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .statusDatesGrid {
@@ -933,13 +655,181 @@
   margin-top: 4px;
 }
 
+/* =========================================================================
+   CREATE REQUEST MODAL
+   ========================================================================= */
+.modalCard {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  background: linear-gradient(146.47deg, rgba(14, 15, 19, 0.58) 1.32%, rgba(89, 96, 121, 0.58) 100%),
+    linear-gradient(234.47deg, rgba(0, 0, 0, 0) -0.9%, rgba(0, 0, 0, 0.04) 86.88%);
+  backdrop-filter: blur(80px);
+  -webkit-backdrop-filter: blur(80px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 12px;
+  padding: 20px 20px 18px;
+  box-sizing: border-box;
+  animation: modalSlideUp 0.2s ease;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modalField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modalLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.modalInput,
+.modalTextarea {
+  width: 100%;
+  background-color: #12141C;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 11.5px;
+  color: #ffffff;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.modalInput::placeholder,
+.modalTextarea::placeholder {
+  color: #4f5a72;
+}
+
+.modalInput:focus,
+.modalTextarea:focus {
+  border-color: rgba(99, 102, 241, 0.7);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.modalTextarea {
+  resize: vertical;
+  min-height: 85px;
+  line-height: 1.5;
+}
+
+.customSelectContainer {
+  position: relative;
+  width: 100%;
+}
+
+.customSelectHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #12141C;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 11.5px;
+  color: #ffffff;
+  cursor: pointer;
+  box-sizing: border-box;
+  user-select: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.customSelectHeader:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.customSelectHeaderOpen {
+  border-color: rgba(99, 102, 241, 0.7);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.customSelectDropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 100%;
+  background-color: #12141C;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  padding: 4px;
+  box-sizing: border-box;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.customSelectOption {
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 11.5px;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.15s ease;
+}
+
+.customSelectOption:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.customSelectOptionSelected {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: #818cf8;
+}
+
+.modalActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.modalCancelBtn,
+.modalSubmitBtn {
+  padding: 9px 20px;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modalCancelBtn {
+  background: #12141d;
+}
+
+.modalCancelBtn:hover {
+  background: #1e2130;
+}
+
+.modalSubmitBtn {
+  background: #2563eb;
+}
+
+.modalSubmitBtn:hover {
+  background: #1d4ed8;
+}
+
 @keyframes modalFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes modalSlideUp {
@@ -954,10 +844,10 @@
 }
 
 /* =========================================================================
-   RESPONSIVE MEDIA QUERIES (1 Desktop, 2 Tablet, 3 Mobile)
+   RESPONSIVE MEDIA QUERIES
    ========================================================================= */
 
-/* 2: Tablet Overrides (max-width: 768px) */
+/* Tablet Overrides (max-width: 768px) */
 @media (max-width: 768px) {
   .requestsContainer {
     padding: 14px;
@@ -970,25 +860,19 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     gap: 8px;
-    width: 100%;
   }
 
   .headerLeft {
-    flex: 1 1 auto;
-    min-width: 0;
     gap: 5px;
   }
 
   .title {
     font-size: 14px;
-    font-weight: 700;
     white-space: nowrap;
-    line-height: 1.2;
   }
 
   .subtitle {
     font-size: 10px;
-    white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -997,11 +881,7 @@
   }
 
   .headerRight {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
     gap: 4px;
-    flex-shrink: 0;
   }
 
   .supportBtn {
@@ -1014,8 +894,6 @@
     padding: 7px 9px;
     gap: 4px;
     font-size: 8.5px;
-    font-weight: 500;
-    white-space: nowrap;
     border-radius: 6px;
   }
 
@@ -1026,7 +904,6 @@
     height: 9px !important;
   }
 
-  /* Stat cards 2x2 grid for tablet (matching ManagerPerformance) */
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -1038,24 +915,15 @@
     border-radius: 8px;
   }
 
-  .statTitle {
-    font-size: 9px;
-  }
-
-  .statValue {
-    font-size: 18px;
-  }
+  .statTitle { font-size: 9px; }
+  .statValue { font-size: 18px; }
+  .statSubtext { font-size: 7.5px; }
 
   .statIconWrap svg {
     width: 14px;
     height: 14px;
   }
 
-  .statSubtext {
-    font-size: 7.5px;
-  }
-
-  /* Requests box header & filter pills */
   .requestsBoxHeader {
     padding: 10px 12px;
     gap: 8px;
@@ -1063,13 +931,13 @@
     overflow-x: auto;
   }
 
-  .requestsBoxHeader::-webkit-scrollbar {
+  .requestsBoxHeader::-webkit-scrollbar,
+  .filterPills::-webkit-scrollbar {
     display: none;
   }
 
   .boxTitle {
     font-size: 11px;
-    white-space: nowrap;
   }
 
   .filterPills {
@@ -1081,18 +949,7 @@
     padding: clamp(2px, 0.5vw, 4px) clamp(4px, 1vw, 9px);
     gap: clamp(2px, 0.5vw, 4px);
     font-size: clamp(6.5px, 1.1vw, 9.5px);
-    white-space: nowrap;
     border-radius: 4px;
-  }
-
-  /* Table compact columns matching Work page list view */
-  .tableScroll {
-    width: 100%;
-    overflow-x: auto;
-  }
-
-  .tableInner {
-    min-width: 100%;
   }
 
   .tableHeader, 
@@ -1102,10 +959,7 @@
     gap: 10px;
   }
 
-  .tableHeader {
-    font-size: 8px;
-  }
-
+  .tableHeader { font-size: 8px; }
   .colTicketId { font-size: 8.5px; }
   .colType { font-size: 8px; }
   .employeeName { font-size: 9px; }
@@ -1121,77 +975,31 @@
 
   .tableBody {
     max-height: 235px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
-  }
-
-  .tableBody::-webkit-scrollbar {
-    width: 5px;
-    display: block;
-  }
-
-  .tableBody::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .tableBody::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 4px;
-  }
-
-  .tableBody::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.45);
-  }
-
-  /* Modal Tablet Overrides */
-  .modalCard {
-    max-width: 320px;
-    padding: 16px 16px 14px;
-    border-radius: 10px;
-  }
-
-  .modalTitle {
-    font-size: 14px;
-  }
-
-  .modalLabel {
-    font-size: 11px;
-  }
-
-  .modalInput,
-  .customSelectHeader,
-  .customSelectOption,
-  .modalTextarea {
-    font-size: 10.5px;
-    padding: 7px 10px;
-  }
-
-  .modalTextarea {
-    min-height: 70px;
-  }
-
-  .modalActions {
-    gap: 8px;
-  }
-
-  .modalCancelBtn,
-  .modalSubmitBtn,
-  .modalApproveBtn,
-  .modalRejectBtn {
-    font-size: 11px;
-    padding: 8px 16px;
-    border-radius: 6px;
   }
 }
 
-/* 3: Mobile Overrides (max-width: 425px) */
+/* Mobile Overrides (max-width: 425px) */
 @media (max-width: 425px) {
+  .requestsContainer {
+    padding: 12px 10px;
+    gap: 12px;
+  }
+
   .headerRow {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 8px;
+  }
+
+  .headerLeft {
+    flex: none;
+    width: 100%;
+    gap: 2px;
+  }
+
+  .title {
+    font-size: 15px;
+    line-height: 1.2;
   }
 
   .subtitle {
@@ -1200,8 +1008,7 @@
 
   .headerRight {
     width: 100%;
-    justify-content: flex-end;
-    margin-top: 4px;
+    margin-top: 2px;
     flex-wrap: wrap;
     gap: 6px;
   }
@@ -1210,7 +1017,6 @@
   .statusBtn,
   .createBtn {
     flex: 1;
-    justify-content: center;
     padding: 8.5px 8px;
     font-size: 8px;
     border-radius: 6px;
@@ -1227,21 +1033,13 @@
     border-radius: 8px;
   }
 
-  .statTitle {
-    font-size: 8.5px;
-  }
-
-  .statValue {
-    font-size: 16px;
-  }
+  .statTitle { font-size: 8.5px; }
+  .statValue { font-size: 16px; }
+  .statSubtext { font-size: 7px; }
 
   .statIconWrap svg {
     width: 12px;
     height: 12px;
-  }
-
-  .statSubtext {
-    font-size: 7px;
   }
 
   .requestsBox {
@@ -1262,10 +1060,6 @@
     overflow-x: auto;
     padding-bottom: 4px;
     flex-wrap: nowrap;
-  }
-
-  .filterPills::-webkit-scrollbar {
-    display: none;
   }
 
   .filterPill {
@@ -1295,24 +1089,6 @@
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
     padding-right: 2px;
-  }
-
-  .mobileCardList::-webkit-scrollbar {
-    width: 4px;
-    display: block;
-  }
-
-  .mobileCardList::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .mobileCardList::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 4px;
-  }
-
-  .mobileCardList::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.45);
   }
 
   .mobileCard {
@@ -1363,10 +1139,9 @@
     text-overflow: ellipsis;
   }
 
-  .mobileStatusPending {
-    background: rgba(245, 158, 11, 0.12);
-    border: 1px solid rgba(245, 158, 11, 0.45);
-    color: #F59E0B;
+  .mobileStatusPending,
+  .mobileStatusApproved,
+  .mobileStatusRejected {
     padding: 2.5px 7px;
     border-radius: 3px;
     font-size: 7.5px;
@@ -1374,32 +1149,24 @@
     letter-spacing: 0.3px;
     text-transform: uppercase;
     flex-shrink: 0;
+  }
+
+  .mobileStatusPending {
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.45);
+    color: #F59E0B;
   }
 
   .mobileStatusApproved {
     background: rgba(7, 219, 95, 0.12);
     border: 1px solid rgba(7, 219, 95, 0.45);
     color: #07DB5F;
-    padding: 2.5px 7px;
-    border-radius: 3px;
-    font-size: 7.5px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-    flex-shrink: 0;
   }
 
   .mobileStatusRejected {
     background: rgba(239, 68, 68, 0.12);
     border: 1px solid rgba(239, 68, 68, 0.45);
     color: #EF4444;
-    padding: 2.5px 7px;
-    border-radius: 3px;
-    font-size: 7.5px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-    flex-shrink: 0;
   }
 
   .mobileEmployeeRow {
@@ -1483,26 +1250,17 @@
     letter-spacing: 0.4px;
   }
 
-  .mobilePrioUrgent {
-    font-size: 8.5px;
-    font-weight: 700;
-    color: #EF4444;
-    text-transform: uppercase;
-  }
-
-  .mobilePrioMedium {
-    font-size: 8.5px;
-    font-weight: 700;
-    color: #FF8A00;
-    text-transform: uppercase;
-  }
-
+  .mobilePrioUrgent,
+  .mobilePrioMedium,
   .mobilePrioLow {
     font-size: 8.5px;
     font-weight: 700;
-    color: #07DB5F;
     text-transform: uppercase;
   }
+
+  .mobilePrioUrgent { color: #EF4444; }
+  .mobilePrioMedium { color: #FF8A00; }
+  .mobilePrioLow { color: #07DB5F; }
 
   .mobileMetaValue {
     font-size: 8.5px;
