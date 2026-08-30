@@ -23,7 +23,12 @@ function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
   ];
 
   const isActive = (item) => {
-    if (item.path) return location.pathname === item.path;
+    if (item.path) {
+      if (item.name === "Work") {
+        return location.pathname === "/manager/work" || location.pathname === "/manager/daily-updates";
+      }
+      return location.pathname === item.path;
+    }
     return activeTab === item.name;
   };
 

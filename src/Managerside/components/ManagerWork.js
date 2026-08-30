@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Filter, Plus, List, LayoutGrid, MoreVertical, Clock, X, ChevronDown, ChevronUp } from "lucide-react";
 import styles from "../css/ManagerWork.module.css";
 import dashboardStyles from "../css/ManagerDashboard.module.css";
@@ -162,6 +163,7 @@ export const kanbanTasks = [
 ];
 
 function ManagerWork({ listTasks, setListTasks, kanbanData, setKanbanData }) {
+  const navigate = useNavigate();
   const [viewMode, setViewMode] = useState("list");
   const [activeFilter, setActiveFilter] = useState("All");
   const [showAssignModal, setShowAssignModal] = useState(false);
@@ -301,7 +303,10 @@ function ManagerWork({ listTasks, setListTasks, kanbanData, setKanbanData }) {
           <p className={styles.subtitle}>Manage, track and assign tasks to your team members.</p>
         </div>
         <div className={styles.headerRight}>
-          <button className={styles.filterBtn}>
+          <button
+            className={styles.filterBtn}
+            onClick={() => navigate("/manager/daily-updates")}
+          >
             Daily Updates
           </button>
           <button className={styles.filterBtn}>
