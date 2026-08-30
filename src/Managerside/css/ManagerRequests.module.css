@@ -81,7 +81,7 @@
 }
 
 .supportBtn {
-  display: none;
+  display: inline-flex;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #F1F0FF;
@@ -981,7 +981,7 @@
 /* Mobile Overrides (max-width: 425px) */
 @media (max-width: 425px) {
   .requestsContainer {
-    padding: 12px 10px;
+    padding: 16px;
     gap: 12px;
   }
 

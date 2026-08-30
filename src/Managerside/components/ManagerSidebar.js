@@ -6,13 +6,20 @@ import {
   FolderKanban,
   BarChart2,
   Workflow,
-  Headphones
+  Headphones,
+  ChevronDown,
+  Megaphone
 } from "lucide-react";
 import styles from "../css/ManagerSidebar.module.css";
 
 function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isTeamActive =
+    location.pathname.startsWith("/manager/team") ||
+    location.pathname.startsWith("/manager/announcements");
+  const [teamDropdownOpen, setTeamDropdownOpen] = React.useState(false);
 
   const navItems = [
     { name: "Dashboard", icon: <LayoutGrid size={24} />, path: "/manager/dashboard" },
@@ -67,17 +74,76 @@ function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
           </div>
 
           <nav className={styles.navMenu}>
-            {navItems.map((item) => (
-              <button
-                key={item.name}
-                className={`${styles.navItem} ${isActive(item) ? styles.activeNavItem : ""}`}
-                onClick={() => handleNavClick(item)}
-                title={item.name}
-              >
-                {item.icon}
-                <span>{item.name}</span>
-              </button>
-            ))}
+            {navItems.map((item) => {
+              if (item.name === "My Team") {
+                return (
+                  <div
+                    key="My Team"
+                    className={`${styles.teamDropdownContainer} ${
+                      isTeamActive ? styles.activeTeamDropdown : ""
+                    }`}
+                  >
+                    <div
+                      className={styles.teamMainRow}
+                      onClick={() => {
+                        navigate("/manager/team");
+                        setTeamDropdownOpen((prev) => !prev);
+                      }}
+                      title="My Team"
+                    >
+                      <div className={styles.teamMainLeft}>
+                        <Users size={22} />
+                        <span>My Team</span>
+                      </div>
+                      <div
+                        className={`${styles.chevronIcon} ${
+                          teamDropdownOpen ? styles.chevronRotated : ""
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setTeamDropdownOpen(!teamDropdownOpen);
+                        }}
+                        title={teamDropdownOpen ? "Collapse My Team" : "Expand My Team"}
+                      >
+                        <ChevronDown size={18} />
+                      </div>
+                    </div>
+
+                    {teamDropdownOpen && (
+                      <div className={styles.teamSubMenu}>
+                        <button
+                          className={`${styles.teamSubItem} ${
+                            location.pathname.startsWith("/manager/announcements")
+                              ? styles.activeSubItem
+                              : ""
+                          }`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate("/manager/announcements");
+                          }}
+                          title="Announcements"
+                        >
+                          <Megaphone size={22} />
+                          <span>Announcements</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <button
+                  key={item.name}
+                  className={`${styles.navItem} ${isActive(item) ? styles.activeNavItem : ""}`}
+                  onClick={() => handleNavClick(item)}
+                  title={item.name}
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                </button>
+              );
+            })}
           </nav>
         </div>
 
@@ -90,7 +156,13 @@ function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
             </div>
           </div>
 
-          <button className={styles.supportItem} title="Support">
+          <button 
+            className={`${styles.supportItem} ${
+              location.pathname.startsWith("/manager/support-ticket") ? styles.activeNavItem : ""
+            }`} 
+            title="Support"
+            onClick={() => navigate("/manager/support-ticket")}
+          >
             <Headphones size={24} />
             <span>Support</span>
           </button>
