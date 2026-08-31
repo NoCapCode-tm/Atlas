@@ -9,7 +9,8 @@ function ManagerWorkPage() {
   const width = useWindowWidth();
   const isMobile = width <= 425;
 
-  const storedName = localStorage.getItem("managerName") || "Om Vashishtha";
+  const rawName = localStorage.getItem("managerName");
+  const storedName = (!rawName || rawName === "Om Vashishtha") ? "Sarah Wilson" : rawName;
   const initials = storedName
     .split(" ")
     .map((n) => n[0])

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Headphones, Bell } from "lucide-react";
 import styles from "../css/ManagerHeader.module.css";
 
@@ -8,12 +9,40 @@ function ManagerHeader({
   collapsed,
   setCollapsed,
   isMobile,
-  userName = "Om Vashishtha",
-  initials = "OV",
-  userRole = "Manager",
+  userName = "Sarah Wilson",
+  initials = "SW",
+  userRole = "HR Manager",
   showBell = true,
   children
 }) {
+  const navigate = useNavigate();
+
+  const [profileName, setProfileName] = useState(userName || "Sarah Wilson");
+  const [profileRole, setProfileRole] = useState(userRole || "HR Manager");
+
+  useEffect(() => {
+    const handleProfileUpdate = (e) => {
+      if (e.detail) {
+        if (e.detail.name) setProfileName(e.detail.name);
+        if (e.detail.role) setProfileRole(e.detail.role);
+      }
+    };
+
+    window.addEventListener("managerProfileUpdated", handleProfileUpdate);
+    return () => {
+      window.removeEventListener("managerProfileUpdated", handleProfileUpdate);
+    };
+  }, []);
+
+  const displayUserName = profileName;
+  const displayRole = profileRole;
+  const displayInitials = displayUserName
+    .split(" ")
+    .filter(Boolean)
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2) || "SW";
   if (isMobile) {
     return (
       <>
@@ -45,10 +74,12 @@ function ManagerHeader({
 
             <div
               className={styles.userAvatar}
-              title={userName}
-              aria-label={`Logged in as ${userName}`}
+              title={displayUserName}
+              aria-label={`Logged in as ${displayUserName}`}
+              onClick={() => navigate("/manager/profile")}
+              style={{ cursor: "pointer" }}
             >
-              {initials}
+              {displayInitials}
             </div>
           </div>
         </nav>
@@ -104,13 +135,18 @@ function ManagerHeader({
 
           <div className={styles.headerDivider} />
 
-          <div className={styles.headerUserProfile}>
+          <div
+            className={styles.headerUserProfile}
+            onClick={() => navigate("/manager/profile")}
+            style={{ cursor: "pointer" }}
+            title="My Account"
+          >
             <div className={styles.headerUserInfo}>
-              <span className={styles.headerUserName}>{userName}</span>
-              <span className={styles.headerUserRole}>{userRole}</span>
+              <span className={styles.headerUserName}>{displayUserName}</span>
+              <span className={styles.headerUserRole}>{displayRole}</span>
             </div>
-            <div className={styles.headerUserAvatar} title={userName}>
-              {initials}
+            <div className={styles.headerUserAvatar} title={displayUserName}>
+              {displayInitials}
             </div>
           </div>
         </div>

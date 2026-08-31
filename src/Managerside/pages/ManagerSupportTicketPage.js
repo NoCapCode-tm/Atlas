@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import ManagerHeader from "../components/ManagerHeader";
 import ManagerSidebar from "../components/ManagerSidebar";
-import ManagerPerformance from "../components/ManagerPerformance";
+import ManagerSupportTicket from "../components/ManagerSupportTicket";
 import styles from "../css/ManagerDashboard.module.css";
 import useWindowWidth from "../../useWindowWidth";
 
-function ManagerPerformancePage() {
+function ManagerSupportTicketPage() {
   const width = useWindowWidth();
   const isMobile = width <= 425;
 
@@ -47,11 +47,11 @@ function ManagerPerformancePage() {
         />
 
         <main className={styles.mainContent}>
-          <ManagerPerformance isMobile={isMobile} />
+          <ManagerSupportTicket isMobile={isMobile} />
         </main>
       </div>
     </div>
   );
 }
 
-export default ManagerPerformancePage;
+export default ManagerSupportTicketPage;

@@ -1,0 +1,831 @@
+.announcementsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 2.5vw, 36px);
+  width: 100%;
+  box-sizing: border-box;
+  font-family: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --page-bg: #000000;
+  --surface: #050505;
+  --text-primary: #F1F0FF;
+  --text-secondary: #C6C5D0;
+  --text-muted: #8C8B96;
+  --border: rgb(255 255 255 / 57%);
+  --primary: #0759D9;
+  --primary-dark: #17268F;
+  --danger: #FF1F32;
+  --warning: #FF8A00;
+  --success: #00D66F;
+  --cyan: #53D6E8;
+}
+
+/* Header Row */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 16px;
+  margin-bottom: 2px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title {
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.createBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: clamp(8px, 0.8vw, 10px) clamp(14px, 1.4vw, 18px);
+  border-radius: 8px;
+  font-size: clamp(11px, 0.85vw, 13px);
+  font-weight: 500;
+  font-family: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  background: var(--primary);
+  border: none;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+.createBtn:hover {
+  background: #064bb8;
+}
+
+/* Main 2-Column Layout (Desktop/Laptop) */
+.mainLayoutGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: clamp(20px, 2.5vw, 32px);
+  align-items: start;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Left Column: Recent Announcements */
+.announcementsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+}
+
+.cardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Announcement Card */
+.announcementCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.announcementCard:hover {
+  border-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.cardLeft {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Colored Icon Boxes */
+.iconBox {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconBoxOrange {
+  border: 1px solid #FF8A00;
+  background: rgba(255, 138, 0, 0.08);
+  color: #FF8A00;
+}
+
+.iconBoxPurple {
+  border: 1px solid #A855F7;
+  background: rgba(168, 85, 247, 0.08);
+  color: #A855F7;
+}
+
+.iconBoxBlue {
+  border: 1px solid #3B82F6;
+  background: rgba(59, 130, 246, 0.08);
+  color: #3B82F6;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardSubtitle {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.cardRight {
+  flex-shrink: 0;
+}
+
+.cardDate {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* Right Column: Recent Achievements */
+.achievementsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.achievementsCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.achievementItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.achievementIcon {
+  color: #FF8A00;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.achievementDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.achievementName {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.achievementDate {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.achievementDivider {
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  margin: 18px 0;
+  width: 100%;
+}
+
+/* Modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  padding: 20px;
+  box-sizing: border-box;
+  animation: modalFadeIn 0.18s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalCard {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  background: linear-gradient(146.47deg, rgba(14, 15, 19, 0.58) 1.32%, rgba(89, 96, 121, 0.58) 100%),
+    linear-gradient(234.47deg, rgba(0, 0, 0, 0) -0.9%, rgba(0, 0, 0, 0.04) 86.88%);
+  backdrop-filter: blur(80px);
+  -webkit-backdrop-filter: blur(80px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 26px 28px 24px;
+  box-sizing: border-box;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+  animation: modalSlideUp 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.modalTitle {
+  margin: 0;
+  font-family: "Outfit", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modalField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalLabel {
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.typePillsRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.typePill {
+  padding: 8px 18px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 10px;
+  color: #ffffff;
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.typePill:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.typePillActive {
+  background: #0050B8 !important;
+  border-color: #0050B8 !important;
+  color: #ffffff !important;
+}
+
+.modalInput,
+.modalTextarea {
+  width: 100%;
+  background-color: #12141C;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+  color: #ffffff;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.modalInput::placeholder,
+.modalTextarea::placeholder {
+  color: #5a657c;
+}
+
+.modalInput:focus,
+.modalTextarea:focus {
+  border-color: #0050B8;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.modalTextarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.5;
+}
+
+.modalActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.publishBtn {
+  flex: 1;
+  padding: 12px 24px;
+  background: #0050B8;
+  border: none;
+  border-radius: 10px;
+  font-family: "Outfit", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s ease;
+}
+
+.publishBtn:hover {
+  background: #004299;
+}
+
+.cancelBtn {
+  padding: 12px 28px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  font-family: "Outfit", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   MEDIA QUERIES (3 Breakpoints: Laptop 1024px, Tablet 768px, Mobile 425px)
+   ========================================================================== */
+
+/* Laptop View (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .mainLayoutGrid {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+  }
+
+  .announcementCard {
+    padding: 16px 20px;
+  }
+
+  .achievementsCard {
+    padding: 20px;
+  }
+}
+
+/* Tablet View (max-width: 768px) */
+@media (max-width: 768px) {
+  .announcementsContainer {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .headerRow {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  .headerRight {
+    gap: 8px;
+  }
+
+  .createBtn {
+    padding: 5px 10px;
+    gap: 4px;
+    font-size: 9px;
+    border-radius: 4px;
+  }
+
+  .createBtn svg {
+    width: 10px !important;
+    height: 10px !important;
+  }
+
+  .mainLayoutGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .cardsList {
+    gap: 12px;
+  }
+
+  .announcementCard {
+    padding: 14px 16px;
+    border-radius: 8px;
+    gap: 12px;
+  }
+
+  .iconBox {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+
+  .iconBox svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .cardLeft {
+    gap: 14px;
+  }
+
+  .cardTitle {
+    font-size: 12.5px;
+  }
+
+  .cardSubtitle {
+    font-size: 10.5px;
+  }
+
+  .cardDate {
+    font-size: 10.5px;
+  }
+
+  .achievementsColumn {
+    gap: 10px;
+  }
+
+  .achievementsCard {
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .achievementItem {
+    gap: 12px;
+  }
+
+  .achievementIcon svg,
+  .achievementIcon {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  .achievementName {
+    font-size: 11.5px;
+  }
+
+  .achievementDate {
+    font-size: 10px;
+  }
+
+  .achievementDivider {
+    margin: 12px 0;
+  }
+
+  .modalCard {
+    max-width: 480px;
+    padding: 22px 22px 20px;
+    gap: 14px;
+  }
+
+  .modalTitle {
+    font-size: 16px;
+  }
+
+  .typePill {
+    padding: 7px 14px;
+    font-size: 12px;
+  }
+
+  .modalInput,
+  .modalTextarea {
+    font-size: 12px;
+    padding: 9px 12px;
+  }
+
+  .publishBtn,
+  .cancelBtn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile View (max-width: 425px) */
+@media (max-width: 425px) {
+  .announcementsContainer {
+    padding: 16px;
+    gap: 14px;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+  .headerRow {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 6px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .title {
+    font-size: clamp(13px, 3.5vw, 15px);
+  }
+
+  .createBtn {
+    padding: 4px 10px;
+    gap: 4px;
+    font-size: 8.5px;
+    border-radius: 5px;
+  }
+
+  .createBtn svg {
+    width: 9px !important;
+    height: 9px !important;
+  }
+
+  .mainLayoutGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .sectionTitle {
+    font-size: 10.5px;
+    margin-bottom: 6px;
+  }
+
+  .cardsList {
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .announcementCard {
+    padding: 10px 12px;
+    border-radius: 8px;
+    gap: 8px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .cardLeft {
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .iconBox {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .iconBox svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  .cardInfo {
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cardTitle {
+    font-size: clamp(10.5px, 3.2vw, 11.5px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cardSubtitle {
+    font-size: 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cardRight {
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .cardDate {
+    font-size: 9px;
+    white-space: nowrap;
+  }
+
+  .achievementsColumn {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .achievementsCard {
+    padding: 12px 12px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .achievementItem {
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .achievementIcon svg,
+  .achievementIcon {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .achievementDetails {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .achievementName {
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .achievementDate {
+    font-size: 9px;
+  }
+
+  .achievementDivider {
+    margin: 10px 0;
+  }
+
+  .modalOverlay {
+    padding: 12px;
+  }
+
+  .modalCard {
+    max-width: 100%;
+    padding: 18px 16px;
+    border-radius: 12px;
+    gap: 12px;
+  }
+
+  .modalTitle {
+    font-size: 15px;
+  }
+
+  .typePillsRow {
+    gap: 6px;
+  }
+
+  .typePill {
+    padding: 6px 12px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+
+  .modalLabel {
+    font-size: 11.5px;
+  }
+
+  .modalInput,
+  .modalTextarea {
+    font-size: 11.5px;
+    padding: 8px 10px;
+    border-radius: 6px;
+  }
+
+  .modalTextarea {
+    min-height: 80px;
+  }
+
+  .modalActions {
+    gap: 8px;
+  }
+
+  .publishBtn,
+  .cancelBtn {
+    padding: 10px 14px;
+    font-size: 12px;
+    border-radius: 8px;
+  }
+}

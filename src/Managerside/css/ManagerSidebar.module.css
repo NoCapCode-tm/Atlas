@@ -16,7 +16,7 @@
   transition: transform 0.3s ease, width 0.3s ease, min-width 0.3s ease;
 }
 
-.sidebar.sidebarCollapsed {
+.sidebarCollapsed {
   transform: translateX(-300px);
   width: 0;
   min-width: 0;
@@ -99,6 +99,103 @@
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
+/* My Team Dropdown Menu Styles (matches Image 1) */
+.teamDropdownContainer {
+  width: 95%;
+  align-self: center;
+  border-radius: 12px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.activeTeamDropdown {
+  background: #0050B8;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.teamMainRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 11px 24px;
+  background: transparent;
+  border: none;
+  font-family: "Outfit", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #94a3b8;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.activeTeamDropdown .teamMainRow {
+  color: #ffffff;
+}
+
+.teamMainRow:hover {
+  color: #ffffff;
+}
+
+.teamMainLeft {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.chevronIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease;
+  color: inherit;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.chevronIcon:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.chevronRotated {
+  transform: rotate(180deg);
+}
+
+.teamSubMenu {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px 14px 24px;
+  gap: 10px;
+}
+
+.teamSubItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-family: "Outfit", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  padding: 4px 0;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.teamSubItem:hover {
+  color: #ffffff;
+}
+
+.activeSubItem {
+  color: #ffffff;
+  font-weight: 600;
+}
+
 .sidebarBottom {
   display: flex;
   flex-direction: column;
@@ -112,6 +209,16 @@
   gap: 9px;
   padding: 10px 24px;
   border-radius: 12px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.profileBox:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.activeProfileBox {
+  background: rgba(0, 80, 184, 0.18);
+  border: 1px solid rgba(0, 80, 184, 0.45);
 }
 
 .profileAvatar {

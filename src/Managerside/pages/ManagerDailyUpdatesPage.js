@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import ManagerHeader from "../components/ManagerHeader";
 import ManagerSidebar from "../components/ManagerSidebar";
-import ManagerPerformance from "../components/ManagerPerformance";
+import ManagerDailyUpdates from "../components/ManagerDailyUpdates";
 import styles from "../css/ManagerDashboard.module.css";
 import useWindowWidth from "../../useWindowWidth";
 
-function ManagerPerformancePage() {
+function ManagerDailyUpdatesPage() {
   const width = useWindowWidth();
   const isMobile = width <= 425;
 
@@ -19,8 +19,8 @@ function ManagerPerformancePage() {
     .slice(0, 2);
 
   const [collapsed, setCollapsed] = useState(true);
-
   const prevWidthRef = useRef(width);
+
   useEffect(() => {
     if (prevWidthRef.current > 768 && width <= 768) {
       setCollapsed(true);
@@ -47,11 +47,11 @@ function ManagerPerformancePage() {
         />
 
         <main className={styles.mainContent}>
-          <ManagerPerformance isMobile={isMobile} />
+          <ManagerDailyUpdates />
         </main>
       </div>
     </div>
   );
 }
 
-export default ManagerPerformancePage;
+export default ManagerDailyUpdatesPage;

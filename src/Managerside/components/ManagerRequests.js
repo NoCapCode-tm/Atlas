@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FolderKanban,
   CheckCircle2,
@@ -177,6 +178,7 @@ const requestTypeOptions = [
 ];
 
 function ManagerRequests({ isMobile }) {
+  const navigate = useNavigate();
   const [requests, setRequests] = useState(initialRequests);
   const [activeFilter, setActiveFilter] = useState("All");
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -315,8 +317,8 @@ function ManagerRequests({ isMobile }) {
       rawId: requests.length + 1,
       type: newType,
       category: category,
-      employeeName: "Om Vashishtha",
-      employeeProfession: "Manager",
+      employeeName: "Sarah Wilson",
+      employeeProfession: "HR Manager",
       description: newShortDesc.trim(),
       fullDescription: newDetailedInfo.trim() || newShortDesc.trim(),
       priority: "Urgent",
@@ -392,7 +394,7 @@ function ManagerRequests({ isMobile }) {
         <div className={styles.headerRight}>
           <button 
             className={styles.supportBtn}
-            onClick={() => toast.info("Support ticket channel is active.")}
+            onClick={() => navigate("/manager/support-ticket")}
           >
             Support Ticket
           </button>

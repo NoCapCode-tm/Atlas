@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   LayoutGrid,
@@ -6,13 +6,45 @@ import {
   FolderKanban,
   BarChart2,
   Workflow,
-  Headphones
+  Headphones,
+  ChevronDown,
+  Megaphone
 } from "lucide-react";
 import styles from "../css/ManagerSidebar.module.css";
 
 function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [sidebarName, setSidebarName] = useState("Sarah Wilson");
+  const [sidebarRole, setSidebarRole] = useState("HR Manager");
+
+  useEffect(() => {
+    const handleProfileUpdate = (e) => {
+      if (e.detail) {
+        if (e.detail.name) setSidebarName(e.detail.name);
+        if (e.detail.role) setSidebarRole(e.detail.role);
+      }
+    };
+
+    window.addEventListener("managerProfileUpdated", handleProfileUpdate);
+    return () => {
+      window.removeEventListener("managerProfileUpdated", handleProfileUpdate);
+    };
+  }, []);
+
+  const sidebarInitials = sidebarName
+    .split(" ")
+    .filter(Boolean)
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2) || "SW";
+
+  const isTeamActive =
+    location.pathname.startsWith("/manager/team") ||
+    location.pathname.startsWith("/manager/announcements");
+  const [teamDropdownOpen, setTeamDropdownOpen] = React.useState(false);
 
   const navItems = [
     { name: "Dashboard", icon: <LayoutGrid size={24} />, path: "/manager/dashboard" },
@@ -23,7 +55,12 @@ function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
   ];
 
   const isActive = (item) => {
-    if (item.path) return location.pathname === item.path;
+    if (item.path) {
+      if (item.name === "Work") {
+        return location.pathname === "/manager/work" || location.pathname === "/manager/daily-updates";
+      }
+      return location.pathname === item.path;
+    }
     return activeTab === item.name;
   };
 
@@ -62,30 +99,102 @@ function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
           </div>
 
           <nav className={styles.navMenu}>
-            {navItems.map((item) => (
-              <button
-                key={item.name}
-                className={`${styles.navItem} ${isActive(item) ? styles.activeNavItem : ""}`}
-                onClick={() => handleNavClick(item)}
-                title={item.name}
-              >
-                {item.icon}
-                <span>{item.name}</span>
-              </button>
-            ))}
+            {navItems.map((item) => {
+              if (item.name === "My Team") {
+                return (
+                  <div
+                    key="My Team"
+                    className={`${styles.teamDropdownContainer} ${
+                      isTeamActive ? styles.activeTeamDropdown : ""
+                    }`}
+                  >
+                    <div
+                      className={styles.teamMainRow}
+                      onClick={() => {
+                        navigate("/manager/team");
+                        setTeamDropdownOpen((prev) => !prev);
+                      }}
+                      title="My Team"
+                    >
+                      <div className={styles.teamMainLeft}>
+                        <Users size={22} />
+                        <span>My Team</span>
+                      </div>
+                      <div
+                        className={`${styles.chevronIcon} ${
+                          teamDropdownOpen ? styles.chevronRotated : ""
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setTeamDropdownOpen(!teamDropdownOpen);
+                        }}
+                        title={teamDropdownOpen ? "Collapse My Team" : "Expand My Team"}
+                      >
+                        <ChevronDown size={18} />
+                      </div>
+                    </div>
+
+                    {teamDropdownOpen && (
+                      <div className={styles.teamSubMenu}>
+                        <button
+                          className={`${styles.teamSubItem} ${
+                            location.pathname.startsWith("/manager/announcements")
+                              ? styles.activeSubItem
+                              : ""
+                          }`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate("/manager/announcements");
+                          }}
+                          title="Announcements"
+                        >
+                          <Megaphone size={22} />
+                          <span>Announcements</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <button
+                  key={item.name}
+                  className={`${styles.navItem} ${isActive(item) ? styles.activeNavItem : ""}`}
+                  onClick={() => handleNavClick(item)}
+                  title={item.name}
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                </button>
+              );
+            })}
           </nav>
         </div>
 
         <div className={styles.sidebarBottom}>
-          <div className={styles.profileBox} title="Om Vashishtha">
-            <div className={styles.profileAvatar}>OV</div>
+          <div
+            className={`${styles.profileBox} ${
+              location.pathname.startsWith("/manager/profile") ? styles.activeProfileBox : ""
+            }`}
+            title={`${sidebarName} - My Account`}
+            onClick={() => navigate("/manager/profile")}
+            style={{ cursor: "pointer" }}
+          >
+            <div className={styles.profileAvatar}>{sidebarInitials}</div>
             <div className={styles.profileDetails}>
-              <span className={styles.profileName}>Om Vashishtha</span>
-              <span className={styles.profileRole}>Manager</span>
+              <span className={styles.profileName}>{sidebarName}</span>
+              <span className={styles.profileRole}>{sidebarRole}</span>
             </div>
           </div>
 
-          <button className={styles.supportItem} title="Support">
+          <button 
+            className={`${styles.supportItem} ${
+              location.pathname.startsWith("/manager/support-ticket") ? styles.activeNavItem : ""
+            }`} 
+            title="Support"
+            onClick={() => navigate("/manager/support-ticket")}
+          >
             <Headphones size={24} />
             <span>Support</span>
           </button>
