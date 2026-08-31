@@ -24,7 +24,8 @@ function ManagerDashboard() {
   const isMobile = width <= 425;
   const isTablet = width > 425 && width <= 768;
 
-  const storedName = localStorage.getItem("managerName") || "Om Vashishtha";
+  const rawName = localStorage.getItem("managerName");
+  const storedName = (!rawName || rawName === "Om Vashishtha") ? "Sarah Wilson" : rawName;
   const firstName = storedName.split(" ")[0];
   const initials = storedName
     .split(" ")
