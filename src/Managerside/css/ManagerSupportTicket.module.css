@@ -21,9 +21,7 @@
   --success: #00D66F;
 }
 
-/* =========================================================================
-   HEADER ROW
-   ========================================================================= */
+/* Header */
 .headerRow {
   display: flex;
   justify-content: space-between;
@@ -108,9 +106,7 @@
   transform: translateY(-1px);
 }
 
-/* =========================================================================
-   STAT CARDS SECTION
-   ========================================================================= */
+/* Stat cards */
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -204,9 +200,7 @@
   color: #00D66F;
 }
 
-/* =========================================================================
-   ALL TICKETS BOX & FILTERS
-   ========================================================================= */
+/* Tickets table and filters */
 .ticketsBox {
   width: 100%;
   background: #000000;
@@ -262,16 +256,14 @@
   color: var(--text-primary);
 }
 
-.filterPill.activeFilter {
+.activeFilter {
   background: transparent;
-  border-color: #FFFFFF;
-  color: #FFFFFF;
+  border-color: #FFFFFF !important;
+  color: #FFFFFF !important;
   font-weight: 600;
 }
 
-/* =========================================================================
-   TABLE VIEW (Desktop / Tablet)
-   ========================================================================= */
+/* Table */
 .tableContainer {
   width: 100%;
   background: transparent;
@@ -454,9 +446,6 @@
   text-decoration: underline;
 }
 
-/* =========================================================================
-   SUB-NAVIGATION SWITCHER (Base)
-   ========================================================================= */
 .subnavRow {
   display: none;
 }
@@ -465,9 +454,7 @@
   display: none;
 }
 
-/* =========================================================================
-   MODALS (Quick Assign exact style)
-   ========================================================================= */
+/* Modals */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -516,6 +503,56 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+/* View Ticket Details Modal - Vertically spacious */
+.detailModalCard {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  min-height: 400px;
+  background: linear-gradient(146.47deg, rgba(14, 15, 19, 0.58) 1.32%, rgba(89, 96, 121, 0.58) 100%),
+    linear-gradient(234.47deg, rgba(0, 0, 0, 0) -0.9%, rgba(0, 0, 0, 0.04) 86.88%);
+  backdrop-filter: blur(80px);
+  -webkit-backdrop-filter: blur(80px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 26px 28px 22px;
+  box-sizing: border-box;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+  animation: modalSlideUp 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.detailModalTop {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.detailMetaBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 4px 0;
+}
+
+.detailDescriptionBox {
+  flex: 1;
+  min-height: 140px;
+  background: #12141C;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  padding: 16px 18px;
+  color: #F1F0FF;
+  font-size: 13.5px;
+  line-height: 1.6;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .modalHeader {
@@ -720,11 +757,7 @@
   border-color: rgba(255, 255, 255, 0.4);
 }
 
-/* =========================================================================
-   MEDIA QUERIES (Exact 3 Breakpoints: Laptop 1024px, Tablet 768px, Mobile 425px)
-   ========================================================================= */
-
-/* Laptop View (max-width: 1024px) */
+/* Laptop */
 @media (max-width: 1024px) {
   .tableHeader,
   .tableRow {
@@ -734,7 +767,7 @@
   }
 }
 
-/* Tablet View (max-width: 768px) */
+/* Tablet */
 @media (max-width: 768px) {
   .ticketsContainer {
     padding: 16px;
@@ -897,7 +930,7 @@
   }
 }
 
-/* Mobile View (max-width: 425px) - Exact match to user screenshots */
+/* Mobile */
 @media (max-width: 425px) {
   .ticketsContainer {
     padding: 16px;
@@ -948,7 +981,7 @@
     height: 13px !important;
   }
 
-  /* Subheader Switcher Row (Request Approvals / Support Ticket) */
+  /* Subnav */
   .subnavRow {
     display: flex;
     align-items: center;
@@ -987,7 +1020,6 @@
     cursor: default;
   }
 
-  /* Stat cards on mobile: 2 on top row, 1 on second row (matching image) */
   .statsGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1171,6 +1203,19 @@
     padding: 18px 16px;
     border-radius: 12px;
     gap: 12px;
+  }
+
+  .detailModalCard {
+    max-width: 100%;
+    min-height: 360px;
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .detailDescriptionBox {
+    min-height: 110px;
+    padding: 14px 12px;
+    font-size: 12.5px;
   }
 
   .modalTitle {

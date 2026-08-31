@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   LayoutGrid,
@@ -15,6 +15,31 @@ import styles from "../css/ManagerSidebar.module.css";
 function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [sidebarName, setSidebarName] = useState("Sarah Wilson");
+  const [sidebarRole, setSidebarRole] = useState("HR Manager");
+
+  useEffect(() => {
+    const handleProfileUpdate = (e) => {
+      if (e.detail) {
+        if (e.detail.name) setSidebarName(e.detail.name);
+        if (e.detail.role) setSidebarRole(e.detail.role);
+      }
+    };
+
+    window.addEventListener("managerProfileUpdated", handleProfileUpdate);
+    return () => {
+      window.removeEventListener("managerProfileUpdated", handleProfileUpdate);
+    };
+  }, []);
+
+  const sidebarInitials = sidebarName
+    .split(" ")
+    .filter(Boolean)
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2) || "SW";
 
   const isTeamActive =
     location.pathname.startsWith("/manager/team") ||
@@ -148,11 +173,18 @@ function ManagerSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
         </div>
 
         <div className={styles.sidebarBottom}>
-          <div className={styles.profileBox} title="Om Vashishtha">
-            <div className={styles.profileAvatar}>OV</div>
+          <div
+            className={`${styles.profileBox} ${
+              location.pathname.startsWith("/manager/profile") ? styles.activeProfileBox : ""
+            }`}
+            title={`${sidebarName} - My Account`}
+            onClick={() => navigate("/manager/profile")}
+            style={{ cursor: "pointer" }}
+          >
+            <div className={styles.profileAvatar}>{sidebarInitials}</div>
             <div className={styles.profileDetails}>
-              <span className={styles.profileName}>Om Vashishtha</span>
-              <span className={styles.profileRole}>Manager</span>
+              <span className={styles.profileName}>{sidebarName}</span>
+              <span className={styles.profileRole}>{sidebarRole}</span>
             </div>
           </div>
 

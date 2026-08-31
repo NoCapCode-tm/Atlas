@@ -267,9 +267,7 @@
   width: 100%;
 }
 
-/* ==========================================================================
-   MODAL STYLING (Exact same CSS, responsive behavior & blur as Quick Assign Box)
-   ========================================================================== */
+/* Modal */
 .modalOverlay {
   position: fixed;
   inset: 0;

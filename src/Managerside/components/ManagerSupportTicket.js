@@ -530,43 +530,38 @@ function ManagerSupportTicket({ isMobile }) {
           onClick={() => setSelectedTicket(null)}
         >
           <div
-            className={styles.modalCard}
+            className={styles.detailModalCard}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={styles.modalHeader}>
-              <div>
-                <span style={{ fontSize: "11.5px", color: "#94a3b8" }}>{selectedTicket.id}</span>
-                <h2 className={styles.modalTitle}>{selectedTicket.title}</h2>
-              </div>
-              <button
-                onClick={() => setSelectedTicket(null)}
-                style={{ background: "transparent", border: "none", color: "#94a3b8", cursor: "pointer" }}
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12.5px", color: "#C6C5D0" }}>
-                <span>Status: <strong style={{ color: "#ffffff" }}>{selectedTicket.status}</strong></span>
-                <span>Priority: <span className={getPriorityClass(selectedTicket.priority)}>{selectedTicket.priority}</span></span>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "#94a3b8" }}>
-                <span>Assigned: <strong style={{ color: "#ffffff" }}>{selectedTicket.assignedTo}</strong></span>
-                <span>Created by: <strong style={{ color: "#ffffff" }}>{selectedTicket.createdBy}</strong></span>
+            <div className={styles.detailModalTop}>
+              <div className={styles.modalHeader}>
+                <div>
+                  <span style={{ fontSize: "12px", color: "#94a3b8", fontWeight: "500" }}>{selectedTicket.id}</span>
+                  <h2 className={styles.modalTitle} style={{ marginTop: "4px", fontSize: "17px" }}>
+                    {selectedTicket.title}
+                  </h2>
+                </div>
+                <button
+                  onClick={() => setSelectedTicket(null)}
+                  style={{ background: "transparent", border: "none", color: "#94a3b8", cursor: "pointer", padding: "4px" }}
+                  title="Close"
+                >
+                  <X size={18} />
+                </button>
               </div>
 
-              <div
-                style={{
-                  background: "#12141C",
-                  border: "1.5px solid rgba(255, 255, 255, 0.22)",
-                  borderRadius: "8px",
-                  padding: "14px",
-                  color: "#F1F0FF",
-                  fontSize: "13.5px",
-                  lineHeight: "1.5"
-                }}
-              >
+              <div className={styles.detailMetaBlock}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "13px", color: "#C6C5D0" }}>
+                  <span>Status: <strong style={{ color: "#ffffff" }}>{selectedTicket.status}</strong></span>
+                  <span>Priority: <span className={getPriorityClass(selectedTicket.priority)}>{selectedTicket.priority}</span></span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12.5px", color: "#94a3b8" }}>
+                  <span>Assigned: <strong style={{ color: "#ffffff" }}>{selectedTicket.assignedTo}</strong></span>
+                  <span>Created by: <strong style={{ color: "#ffffff" }}>{selectedTicket.createdBy}</strong></span>
+                </div>
+              </div>
+
+              <div className={styles.detailDescriptionBox}>
                 {selectedTicket.description}
               </div>
             </div>
@@ -575,7 +570,7 @@ function ManagerSupportTicket({ isMobile }) {
               <button
                 type="button"
                 className={styles.submitBtn}
-                style={{ flex: "none", padding: "9px 24px" }}
+                style={{ flex: "none", padding: "10px 28px", minWidth: "96px" }}
                 onClick={() => setSelectedTicket(null)}
               >
                 Close

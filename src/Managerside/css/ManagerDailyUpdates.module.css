@@ -90,29 +90,6 @@
   background: #064bb8;
 }
 
-.tabletBellBtn {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 1px solid rgb(255 255 255 / 57%);
-  border-radius: 6px;
-  color: #fff;
-  cursor: pointer;
-  padding: 6px;
-  position: relative;
-}
-
-.bellDot {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 5px;
-  height: 5px;
-  background: #FF1F32;
-  border-radius: 50%;
-}
-
 /* Top Summary Cards */
 .topCardsRow {
   display: grid;
@@ -886,11 +863,7 @@
   background: #1d4ed8;
 }
 
-/* ==========================================================================
-   MEDIA QUERIES (EXACT SAME AS MANAGERWORK.MODULE.CSS)
-   ========================================================================== */
-
-/* Tablet View (max-width: 768px) */
+/* Tablet */
 @media (max-width: 768px) {
   .dailyContainer {
     padding: 16px;
@@ -927,10 +900,6 @@
   .assignBtn svg {
     width: 9px !important;
     height: 9px !important;
-  }
-
-  .tabletBellBtn {
-    display: none !important;
   }
 
   .topCardsRow {
@@ -1189,10 +1158,6 @@
   .assignBtn svg {
     width: 8px !important;
     height: 8px !important;
-  }
-
-  .tabletBellBtn {
-    display: none !important;
   }
 
   .topCardsRow {

@@ -18,9 +18,7 @@
   --primary-dark: #17268F;
 }
 
-/* =========================================================================
-   HEADER ROW
-   ========================================================================= */
+/* Header */
 .headerRow {
   display: flex;
   justify-content: space-between;
@@ -80,13 +78,7 @@
   box-sizing: border-box;
 }
 
-.supportBtn {
-  display: inline-flex;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #F1F0FF;
-}
-
+.supportBtn,
 .statusBtn {
   display: inline-flex;
   background: rgba(255, 255, 255, 0.03);
@@ -116,9 +108,7 @@
   transform: translateY(-1px);
 }
 
-/* =========================================================================
-   STAT CARDS SECTION
-   ========================================================================= */
+/* Stat cards */
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -189,9 +179,7 @@
   white-space: nowrap;
 }
 
-/* =========================================================================
-   REQUESTS BOX & FILTERS
-   ========================================================================= */
+/* Requests table & filters */
 .requestsBox {
   width: 100%;
   background: #000000;
@@ -253,9 +241,7 @@
   color: var(--text-primary);
 }
 
-/* =========================================================================
-   DESKTOP / TABLET TABLE
-   ========================================================================= */
+/* Table */
 .tableContainer {
   width: 100%;
   background: transparent;
@@ -461,9 +447,7 @@
   color: #ffffff;
 }
 
-/* =========================================================================
-   COMMON MODAL OVERLAY & HEADER
-   ========================================================================= */
+/* Modals */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -516,9 +500,7 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* =========================================================================
-   STATUS MODAL (LEAVE / RESOURCE STATUS)
-   ========================================================================= */
+/* Status modal */
 .statusModalCard {
   position: relative;
   width: 100%;
@@ -655,9 +637,7 @@
   margin-top: 4px;
 }
 
-/* =========================================================================
-   CREATE REQUEST MODAL
-   ========================================================================= */
+/* Create request modal */
 .modalCard {
   position: relative;
   width: 100%;
@@ -843,11 +823,7 @@
   }
 }
 
-/* =========================================================================
-   RESPONSIVE MEDIA QUERIES
-   ========================================================================= */
-
-/* Tablet Overrides (max-width: 768px) */
+/* Tablet */
 @media (max-width: 768px) {
   .requestsContainer {
     padding: 14px;
